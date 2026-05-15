@@ -162,8 +162,14 @@
 
 </footer>
 
-{{-- BOTÓN WHATSAPP --}}
-<a href="https://wa.me/51907225732" class="whatsapp-float" target="_blank">
+@php
+    $telefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
+    $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
+@endphp
+
+<a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" 
+   class="whatsapp-float" 
+   target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
 
