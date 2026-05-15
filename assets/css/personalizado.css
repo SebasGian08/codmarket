@@ -4,7 +4,7 @@ body {
 
 @media (max-width: 768px) {
     body {
-        padding-top: 35px;
+       padding-top: 80px;
     }
 }
 
@@ -287,7 +287,7 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: var(--color-primario);
+    background: rgb(31, 31, 31);
     color: var(--color-secundario);
     border: none;
     width: 48px;
@@ -2492,7 +2492,7 @@ body {
     height: 46px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgb(31, 31, 31);
     color: #fff;
     backdrop-filter: blur(8px);
     cursor: pointer;
@@ -2682,4 +2682,24 @@ body {
     .nosotros-hero h1 {
         font-size: 34px;
     }
+}
+
+@media (max-width: 768px) {
+
+    .header_content_wrap {
+        min-height: 70px !important;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .header_content_wrap .brand_logo img {
+        max-width: 70% !important;
+        height: auto !important;
+    }
+
+    .header_content_wrap .mh_action_btns li button i,
+    .header_content_wrap .action_btns_group li button i {
+        font-size: 18px;
+    }
+
 }

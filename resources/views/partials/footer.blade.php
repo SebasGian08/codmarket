@@ -1,8 +1,7 @@
 <footer class="footer_section fashion_minimal_footer clearfix">
 
     {{-- BACK TO TOP --}}
-    <div class="backtotop"
-        data-background="{{ asset('assets/images/shape_01.png') }}"
+    <div class="backtotop" data-background="{{ asset('assets/images/shape_01.png') }}"
         style="background-image: url('{{ asset('assets/images/shape_01.png') }}'); display: block;">
 
         <a href="#" class="scroll">
@@ -23,17 +22,16 @@
                         <div class="brand_logo mb-4">
                             <a href="{{ route('home') }}">
                                 <img src="{{ asset($empresa->logo_footer ?? $empresa->logo_header ?? 'assets/images/logo.png') }}"
-                                    alt="{{ $empresa->nombre ?? 'Logo' }}"
-                                    class="footer-logo">
+                                    alt="{{ $empresa->nombre ?? 'Logo' }}" class="footer-logo">
                             </a>
                         </div>
 
                         <div class="footer_description">
                             {!! $empresa->descripcion ?? '
-                                <p>
-                                    Encuentra productos exclusivos, promociones especiales
-                                    y una experiencia de compra rápida y segura.
-                                </p>' !!}
+                            <p>
+                                Encuentra productos exclusivos, promociones especiales
+                                y una experiencia de compra rápida y segura.
+                            </p>' !!}
                         </div>
 
                         {{-- REDES SOCIALES (IGUAL QUE HEADER) --}}
@@ -41,24 +39,27 @@
                             <ul class="primary_social_links ul_li">
 
                                 @if($empresa && $empresa->facebook)
-                                <li><a href="{{ $empresa->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="{{ $empresa->facebook }}" target="_blank" style="color: #ffffff;"><i
+                                            class="fab fa-facebook-f"></i></a></li>
                                 @endif
 
                                 @if($empresa && $empresa->instagram)
-                                <li><a href="{{ $empresa->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="{{ $empresa->instagram }}" target="_blank" style="color: #ffffff;"><i
+                                            class="fab fa-instagram"></i></a></li>
                                 @endif
 
                                 @if($empresa && $empresa->tiktok)
-                                <li><a href="{{ $empresa->tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a></li>
+                                <li><a href="{{ $empresa->tiktok }}" target="_blank" style="color: #ffffff;"><i
+                                            class="fab fa-tiktok"></i></a></li>
                                 @endif
 
                             </ul>
                         </div>
 
-                        <div class="payment_methods mt-4">
+                        <!--  <div class="payment_methods mt-4">
                             <img src="{{ asset('assets/images/payment_methods_01.png') }}" alt="Métodos de pago">
                         </div>
-
+ -->
                     </div>
 
                 </div>

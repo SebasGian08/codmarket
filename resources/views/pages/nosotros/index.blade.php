@@ -5,12 +5,11 @@
 @section('content')
 
 <!-- HERO -->
-<section class="nosotros-hero"
-    style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+<section class="nosotros-hero" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
     url('{{ asset($empresa->portada_empresarial ?? '') }}') center/cover no-repeat;">
 
-    <div style="padding:120px 20px; text-align:center; color:#fff;">
-        <h1>Nosotros</h1>
+    <div style="text-align:center; color:#fff;">
+        <h1 style="color: white;">Nosotros</h1>
         <p>Conoce nuestra historia, propósito y lo que nos impulsa cada día</p>
     </div>
 
@@ -31,9 +30,7 @@
         </div>
 
         <div>
-            <img src="{{ asset($empresa->imagen_empresarial) }}"
-                 alt="Nosotros"
-                 style="width:100%; border-radius:15px;">
+            <img src="{{ asset($empresa->imagen_empresarial) }}" alt="Nosotros" style="width:100%; border-radius:15px;">
         </div>
 
     </div>

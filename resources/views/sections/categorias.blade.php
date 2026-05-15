@@ -33,8 +33,27 @@
 
         <div class="supermarket_deals_carousel position-relative clearfix">
 
-            <div class="slideshow5_slider row clearfix" data-slick='{"dots": false}'>
-
+            <div class="slideshow5_slider row clearfix" data-slick='{
+                "dots": false,
+                "arrows": true,
+                "infinite": false,
+                "slidesToShow": 5,
+                "slidesToScroll": 1,
+                "responsive": [
+                    {
+                        "breakpoint": 992,
+                        "settings": {
+                            "slidesToShow": 3
+                        }
+                    },
+                    {
+                        "breakpoint": 576,
+                        "settings": {
+                            "slidesToShow": 2
+                        }
+                    }
+                ]
+            }'>
                 @foreach($categorias as $cat)
 
                 @php
@@ -48,8 +67,7 @@
                     <div class="category_card text-center">
 
                         <a href="#!" class="category_image">
-                            <img src="{{ $imagenCategoria }}"
-                                 alt="{{ $cat->nombre }}">
+                            <img src="{{ $imagenCategoria }}" alt="{{ $cat->nombre }}">
                         </a>
 
                         <div class="category_content">

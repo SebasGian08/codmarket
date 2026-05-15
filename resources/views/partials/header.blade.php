@@ -64,12 +64,12 @@
                                     </button>
                                 </li>
 
-                                <li>
+                               <!--  <li>
                                     <button type="button" class="cart_btn">
                                         <i class="fal fa-shopping-cart"></i>
                                         <span class="btn_badge">0</span>
                                     </button>
-                                </li>
+                                </li> -->
 
                                 <li>
                                     <button type="button" class="mobile_menu_btn">
@@ -107,7 +107,7 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                               <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+                                <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
                                 <li><a href="{{ route('blog.index') }}"
                                         class="{{ request()->routeIs('blog.index') ? 'active-menu' : '' }}">Blog</a>
                                 </li>
@@ -229,6 +229,7 @@
                 </div>
             </div>
         </div>
+
         <div id="search_body_collapse" class="search_body_collapse collapse search_overlay">
             <div class="search_body">
                 <div class="container-fluid prl_90">
