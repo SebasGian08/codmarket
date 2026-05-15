@@ -246,7 +246,7 @@
                     </div>
 
                     <div class="product_description_body">
-                        {!! $producto->descripcion_corta ?? 'Sin descripción' !!}
+                        {!! $producto->descripcion ?? 'Sin descripción' !!}
                     </div>
 
                 </div>
