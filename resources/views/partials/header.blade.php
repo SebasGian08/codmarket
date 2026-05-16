@@ -54,7 +54,7 @@
                         <div class="brand_logo">
                             <a class="brand_link" href="{{ route('home') }}">
                                 <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
-                                    style="max-width: 30%;">
+                                    style="height: 60px; width: auto; object-fit: contain;">
                             </a>
                             <ul class="mh_action_btns ul_li clearfix">
                                 <li>
@@ -64,7 +64,7 @@
                                     </button>
                                 </li>
 
-                               <!--  <li>
+                                <!--  <li>
                                     <button type="button" class="cart_btn">
                                         <i class="fal fa-shopping-cart"></i>
                                         <span class="btn_badge">0</span>
