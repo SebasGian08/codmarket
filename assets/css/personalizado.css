@@ -2898,3 +2898,14 @@ body {
     }
 
 }
+
+.product_link_card{
+    display: block;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.product_link_card:hover{
+    color: inherit !important;
+    text-decoration: none !important;
+}

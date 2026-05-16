@@ -25,58 +25,60 @@
                         @endphp
 
                         <div class="item">
-                            <div class="medical_product_item">
+                            <a href="{{ route('producto.show', $producto->slug) }}" class="product_link_card">
+                                <div class="medical_product_item">
 
-                                <!-- Marca -->
-                                <span class="brand_badge">
-                                    {{ $producto->marca->nombre ?? 'Sin marca' }}
-                                </span>
+                                    <!-- Marca -->
+                                    <span class="brand_badge">
+                                        {{ $producto->marca->nombre ?? 'Sin marca' }}
+                                    </span>
 
-                                <!-- Imagen -->
-                                <div class="item_image">
-                                    <img src="{{ $imagen }}" alt="{{ $producto->nombre }}">
-                                </div>
-
-                                <div class="item_content">
-
-                                    <!-- Título -->
-                                    <h3 class="item_title">
-                                        <a href="{{ route('producto.show', $producto->slug) }}">
-                                            {{ $producto->nombre }}
-                                        </a>
-                                    </h3>
-
-                                    <div class="category_text">
-                                        {{ $categorias->first()->nombre ?? 'Falta categoría' }}
+                                    <!-- Imagen -->
+                                    <div class="item_image">
+                                        <img src="{{ $imagen }}" alt="{{ $producto->nombre }}">
                                     </div>
 
-                                    <!-- Precio -->
-                                    <div class="price_box">
+                                    <div class="item_content">
 
-                                        @if($variante)
+                                        <!-- Título -->
+                                        <h3 class="item_title">
+                                            <a href="{{ route('producto.show', $producto->slug) }}">
+                                                {{ $producto->nombre }}
+                                            </a>
+                                        </h3>
 
-                                        @if($variante->precio_oferta)
-                                        <span class="old_price">
-                                            S/. {{ number_format($variante->precio, 2) }}
-                                        </span>
+                                        <div class="category_text">
+                                            {{ $categorias->first()->nombre ?? 'Falta categoría' }}
+                                        </div>
 
-                                        <span class="price_text">
-                                            S/. {{ number_format($variante->precio_oferta, 2) }}
-                                        </span>
-                                        @else
-                                        <span class="price_text">
-                                            S/. {{ number_format($variante->precio, 2) }}
-                                        </span>
-                                        @endif
+                                        <!-- Precio -->
+                                        <div class="price_box">
 
-                                        @else
-                                        <span class="price_text">Sin precio</span>
-                                        @endif
+                                            @if($variante)
+
+                                            @if($variante->precio_oferta)
+                                            <span class="old_price">
+                                                S/. {{ number_format($variante->precio, 2) }}
+                                            </span>
+
+                                            <span class="price_text">
+                                                S/. {{ number_format($variante->precio_oferta, 2) }}
+                                            </span>
+                                            @else
+                                            <span class="price_text">
+                                                S/. {{ number_format($variante->precio, 2) }}
+                                            </span>
+                                            @endif
+
+                                            @else
+                                            <span class="price_text">Sin precio</span>
+                                            @endif
+
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div>
+                            </a>
                         </div>
 
                         @endforeach
@@ -101,17 +103,16 @@
 
                 @if($promociones->count() > 0)
 
-                    <div class="fm_offer_item has_border">
-                        <a href="{{ $promociones[0]->enlace ?? '#' }}">
+                <div class="fm_offer_item has_border">
+                    <a href="{{ $promociones[0]->enlace ?? '#' }}">
 
-                            <img src="{{ !empty($promociones[0]->imagen)
+                        <img src="{{ !empty($promociones[0]->imagen)
                                 ? asset($promociones[0]->imagen)
                                 : asset('assets/images/tienda_virtual/default.png') }}"
+                            alt="{{ $promociones[0]->titulo ?? 'Promoción' }}">
 
-                                 alt="{{ $promociones[0]->titulo ?? 'Promoción' }}">
-
-                        </a>
-                    </div>
+                    </a>
+                </div>
 
                 @endif
 
@@ -122,26 +123,26 @@
 
                 {{-- ITEM 2 --}}
                 @if($promociones->count() > 1)
-                    <div class="fm_offer_item mb-3">
-                        <a href="{{ $promociones[1]->enlace ?? '#' }}">
-                            <img src="{{ !empty($promociones[1]->imagen)
+                <div class="fm_offer_item mb-3">
+                    <a href="{{ $promociones[1]->enlace ?? '#' }}">
+                        <img src="{{ !empty($promociones[1]->imagen)
                                 ? asset($promociones[1]->imagen)
                                 : asset('assets/images/tienda_virtual/default.png') }}"
-                                 alt="{{ $promociones[1]->titulo ?? 'Promoción' }}">
-                        </a>
-                    </div>
+                            alt="{{ $promociones[1]->titulo ?? 'Promoción' }}">
+                    </a>
+                </div>
                 @endif
 
                 {{-- ITEM 3 --}}
                 @if($promociones->count() > 2)
-                    <div class="fm_offer_item">
-                        <a href="{{ $promociones[2]->enlace ?? '#' }}">
-                            <img src="{{ !empty($promociones[2]->imagen)
+                <div class="fm_offer_item">
+                    <a href="{{ $promociones[2]->enlace ?? '#' }}">
+                        <img src="{{ !empty($promociones[2]->imagen)
                                 ? asset($promociones[2]->imagen)
                                 : asset('assets/images/tienda_virtual/default.png') }}"
-                                 alt="{{ $promociones[2]->titulo ?? 'Promoción' }}">
-                        </a>
-                    </div>
+                            alt="{{ $promociones[2]->titulo ?? 'Promoción' }}">
+                    </a>
+                </div>
                 @endif
 
             </div>
@@ -215,10 +216,10 @@
                     @endphp
 
                     <li>
-
-                        <div class="supermarket_product_listlayout">
-                            {{-- BADGES --}}
-                            <!-- @if($producto->nuevo || $producto->destacado)
+                        <a href="{{ route('producto.show', $producto->slug) }}" class="product_link_card">
+                            <div class="supermarket_product_listlayout">
+                                {{-- BADGES --}}
+                                <!-- @if($producto->nuevo || $producto->destacado)
 
                             <ul class="product_label ul_li clearfix">
 
@@ -240,83 +241,84 @@
 
                             @endif -->
 
-                            <!-- IMÁGENES -->
-                            <div class="slideshow1_slider item_image" data-slick='{"arrows": false}'>
+                                <!-- IMÁGENES -->
+                                <div class="slideshow1_slider item_image" data-slick='{"arrows": false}'>
 
-                                @if($imagenes->count())
+                                    @if($imagenes->count())
 
-                                @foreach($imagenes as $img)
-                                <div class="item">
-                                    <img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}">
-                                </div>
-                                @endforeach
-
-                                @else
-
-                                <div class="item">
-                                    <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                        alt="{{ $producto->nombre }}">
-                                </div>
-
-                                @endif
-
-                            </div>
-
-                            <!-- CONTENIDO -->
-                            <div class="item_content">
-
-                                <!-- MARCA -->
-                                <span class="item_type text-uppercase" style="color: black;">
-                                    {{ $producto->marca->nombre ?? 'Sin marca' }}
-                                </span>
-
-                                <!-- NOMBRE -->
-                                <h3 class="item_title">
-                                    <a href="{{ route('producto.show', $producto->slug) }}">
-                                        {{ $producto->nombre }}
-                                    </a>
-                                </h3>
-
-                                <!-- CATEGORÍA -->
-                                <div class="category_text mb-2">
-                                    {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
-                                </div>
-
-                                <!-- PRECIO -->
-                                <div class="price_box mb-3">
-
-                                    @if($variante)
-
-                                    @if($variante->precio_oferta)
-
-                                    <span class="old_price">
-                                        S/. {{ number_format($variante->precio, 2) }}
-                                    </span>
-
-                                    <span class="price_text">
-                                        S/. {{ number_format($variante->precio_oferta, 2) }}
-                                    </span>
+                                    @foreach($imagenes as $img)
+                                    <div class="item">
+                                        <img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}">
+                                    </div>
+                                    @endforeach
 
                                     @else
 
-                                    <span class="price_text">
-                                        S/. {{ number_format($variante->precio, 2) }}
-                                    </span>
-
-                                    @endif
-
-                                    @else
-
-                                    <span class="price_text">
-                                        Sin precio
-                                    </span>
+                                    <div class="item">
+                                        <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                            alt="{{ $producto->nombre }}">
+                                    </div>
 
                                     @endif
 
                                 </div>
 
+                                <!-- CONTENIDO -->
+                                <div class="item_content">
+
+                                    <!-- MARCA -->
+                                    <span class="item_type text-uppercase" style="color: black;">
+                                        {{ $producto->marca->nombre ?? 'Sin marca' }}
+                                    </span>
+
+                                    <!-- NOMBRE -->
+                                    <h3 class="item_title">
+                                        <a href="{{ route('producto.show', $producto->slug) }}">
+                                            {{ $producto->nombre }}
+                                        </a>
+                                    </h3>
+
+                                    <!-- CATEGORÍA -->
+                                    <div class="category_text mb-2">
+                                        {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
+                                    </div>
+
+                                    <!-- PRECIO -->
+                                    <div class="price_box mb-3">
+
+                                        @if($variante)
+
+                                        @if($variante->precio_oferta)
+
+                                        <span class="old_price">
+                                            S/. {{ number_format($variante->precio, 2) }}
+                                        </span>
+
+                                        <span class="price_text">
+                                            S/. {{ number_format($variante->precio_oferta, 2) }}
+                                        </span>
+
+                                        @else
+
+                                        <span class="price_text">
+                                            S/. {{ number_format($variante->precio, 2) }}
+                                        </span>
+
+                                        @endif
+
+                                        @else
+
+                                        <span class="price_text">
+                                            Sin precio
+                                        </span>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
+                        </a>
                     </li>
 
                     @endforeach
