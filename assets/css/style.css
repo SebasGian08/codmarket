@@ -17142,8 +17142,8 @@ blockquote .blockquote_title {
   color: #ce0b2b;
 }
 .shop_details_content p {
-  font-size: 20px;
-  color: #2e2e2e;
+  font-size: 16px;
+  color: #6c757d;
 }
 .shop_details_content .item_color_list li:not(:last-child) {
   margin-right: 15px;
@@ -21413,9 +21413,10 @@ blockquote .blockquote_title {
 
   /* compare - end */
   /* shop details - start */
-  .shop_details_content p {
-    font-size: 16px;
-  }
+ .shop_details_content p {
+  font-size: 16px !important;
+  color: #6c757d !important;
+}
 
   .ce_offer_fullimage .item_title {
     font-size: 32px;

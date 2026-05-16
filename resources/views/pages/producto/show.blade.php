@@ -168,18 +168,29 @@
                             </a>
                         </li> -->
 
+                        @php
+                        $telefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
+
+                        $mensaje = urlencode(
+                        "Hola, quiero este producto:\n" .
+                        "• Producto: {$producto->nombre}\n" .
+                        "• Precio: S/" . number_format($precioPromo, 2) . "\n" .
+                        "• Cantidad: "
+                        );
+                        @endphp
+
                         <li>
                             <a class="btn-whatsapp" target="_blank" onclick="
-                                let input = document.getElementById('cantidad');
-                                let cantidad = input ? input.value : 1;
+                                        let input = document.getElementById('cantidad');
+                                        let cantidad = input ? input.value : 1;
 
-                                let mensaje = `Hola, quiero este producto:
-                                - Producto: {{ $producto->nombre }}
-                                - Precio: S/{{ number_format($precioPromo,2) }}
-                                - Cantidad: ${cantidad}`;
+                                        let base = `Hola, quiero este producto:
+                            • Producto: {{ $producto->nombre }}
+                            • Precio: S/{{ number_format($precioPromo,2) }}
+                            • Cantidad: ${cantidad}`;
 
-                                this.href = 'https://wa.me/51999999999?text=' + encodeURIComponent(mensaje);
-                            ">
+                                        this.href = 'https://wa.me/{{ $telefono }}?text=' + encodeURIComponent(base);
+                                ">
                                 <i class="fab fa-whatsapp mr-2"></i> Pedir directo
                             </a>
                         </li>
