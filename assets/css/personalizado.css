@@ -1512,10 +1512,6 @@ body {
         text-align: center;
     }
 
-    /* categorías también centradas */
-    .product-categories {
-        justify-content: center;
-    }
 
 }
 
