@@ -2364,12 +2364,12 @@ body {
 }
 
 /* WRAPPER */
-.hero_banner_full .slider_wrapper_full {
+/* .hero_banner_full .slider_wrapper_full {
     position: relative;
     width: 100%;
     height: 85vh;
 }
-
+ */
 /* SLIDES */
 /* .hero_banner_full .slider_item {
     position: absolute;
