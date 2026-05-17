@@ -189,12 +189,12 @@ body {
    SOLO IMAGEN
 ========================= */
 
-.banner_full_img {
+/* .banner_full_img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-}
+} */
 
 /* =========================
    CON CONTENIDO
@@ -2393,13 +2393,13 @@ body {
 }
 
 /* SOLO IMAGEN */
-.banner_full_img {
+/* .banner_full_img {
     width: 100%;
     height: auto;
     display: block;
     object-fit: contain;
 }
-
+ */
 /* BACKGROUND CON CONTENIDO */
 .hero_banner_full .con-contenido {
     width: 100%;
