@@ -2510,14 +2510,14 @@ body {
 
 @media (max-width: 992px) {
 
-    .hero_banner_full,
+    /* .hero_banner_full,
     .hero_banner_full .slider_wrapper_full,
     .hero_banner_full .slider_item,
     .hero_banner_full .banner_full_img,
     .hero_banner_full .con-contenido {
         height: 85vh !important;
     }
-
+ */
     .hero_banner_full {
         height: auto;
         overflow: visible;
@@ -2543,14 +2543,14 @@ body {
 
 @media (max-width: 576px) {
 
-    .hero_banner_full,
+    /* .hero_banner_full,
     .hero_banner_full .slider_wrapper_full,
     .hero_banner_full .slider_item,
     .hero_banner_full .banner_full_img,
     .hero_banner_full .con-contenido {
         height: 65vh;
     }
-
+ */
     .hero_banner_full .title {
         font-size: 24px;
     }
