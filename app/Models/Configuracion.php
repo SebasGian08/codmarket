@@ -9,7 +9,15 @@ class Configuracion extends Model
     protected $table = 'configuraciones';
     protected $primaryKey = 'id_configuracion';
 
-    protected $fillable = ['clave', 'valor'];
+    protected $fillable = [
+        'categoria',
+        'clave',
+        'valor',
+        'descripcion',
+        'tipo',
+        'opciones',
+        'orden'
+    ];
 
     public $timestamps = false;
 }

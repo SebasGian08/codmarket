@@ -338,7 +338,7 @@
 
                     <li><a href="{{ route('home') }}">Inicio</a></li>
 
-                    <li><a href="{{ route('productos.index') }}">Tienda</a></li>
+                    <li><a href="{{ route('productos.index') }}">Productos</a></li>
 
                     <li><a href="{{ route('blog.index') }}">Blog</a></li>
 

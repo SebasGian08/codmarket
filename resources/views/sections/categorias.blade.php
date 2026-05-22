@@ -34,26 +34,27 @@
         <div class="supermarket_deals_carousel position-relative clearfix">
 
             <div class="slideshow5_slider row clearfix" data-slick='{
-                "dots": false,
-                "arrows": true,
-                "infinite": false,
-                "slidesToShow": 5,
-                "slidesToScroll": 1,
-                "responsive": [
-                    {
-                        "breakpoint": 992,
-                        "settings": {
-                            "slidesToShow": 3
+                    "dots": false,
+                    "arrows": true,
+                    "infinite": true,
+                    "autoplay": false,
+                    "slidesToShow": 5,
+                    "slidesToScroll": 1,
+                    "responsive": [
+                        {
+                            "breakpoint": 992,
+                            "settings": {
+                                "slidesToShow": 3
+                            }
+                        },
+                        {
+                            "breakpoint": 576,
+                            "settings": {
+                                "slidesToShow": 2
+                            }
                         }
-                    },
-                    {
-                        "breakpoint": 576,
-                        "settings": {
-                            "slidesToShow": 2
-                        }
-                    }
-                ]
-            }'>
+                    ]
+                }'>
                 @foreach($categorias as $cat)
 
                 @php
@@ -63,17 +64,14 @@
                 @endphp
 
                 <div class="item col">
-
                     <div class="category_card text-center">
-
-                        <a href="#!" class="category_image">
+                        <a href="{{ route('productos.categoria', $cat->slug) }}" class="category_image">
                             <img src="{{ $imagenCategoria }}" alt="{{ $cat->nombre }}">
                         </a>
-
                         <div class="category_content">
 
                             <h3 class="category_title">
-                                <a href="#!">
+                                <a href="{{ route('productos.categoria', $cat->slug) }}">
                                     {{ $cat->nombre }}
                                 </a>
                             </h3>
@@ -84,16 +82,10 @@
                             </span> -->
 
                         </div>
-
                     </div>
-
                 </div>
-
                 @endforeach
-
             </div>
-
         </div>
-
     </div>
 </section>

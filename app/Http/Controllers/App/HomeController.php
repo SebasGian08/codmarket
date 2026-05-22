@@ -11,6 +11,7 @@ use App\Models\Categoria;
 use App\Models\Producto;
 use App\Models\Promocion;
 use App\Models\Empresa;
+use App\Models\Marca;
 
 class HomeController extends Controller
 {
@@ -80,6 +81,10 @@ class HomeController extends Controller
             })
             ->orderBy('orden', 'asc')
             ->get();
+
+        $marcas = Marca::where('estado', 1)
+            ->orderBy('orden', 'asc')
+            ->get();
                 
         return view('pages.home', compact(
             'services',
@@ -88,7 +93,8 @@ class HomeController extends Controller
             'categorias',
             'productos',
             'categoriasProductos',
-            'promociones'
+            'promociones',
+            'marcas'
         ));
     }
 

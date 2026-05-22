@@ -105,3 +105,11 @@ body {
 #topbar-text.show {
     opacity: 1;
 }
+
+.title_line {
+    width: 60px;
+    height: 4px;
+    background: var(--color-secundario);
+    margin: 10px auto 0;
+    border-radius: 10px;
+}
