@@ -1,6 +1,6 @@
 <section class="deals_section sec_ptb_50 clearfix">
     <div class="container maxw_1460">
-        
+
         <div class="section_title text-center mb-4">
             <h4>Categorías</h4>
             <div class="title_line"></div>
@@ -9,7 +9,12 @@
         <div class="row align-items-center">
 
 
+            <div class="col-lg-10">
+                <div class="carousel_nav align_right">
 
+                    <!--  -->
+                </div>
+            </div>
             <div class="col-lg-2">
                 <div class="carousel_nav align_right">
 
