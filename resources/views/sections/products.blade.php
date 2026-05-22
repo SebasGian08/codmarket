@@ -1,13 +1,10 @@
 <section class="product_section sec_ptb_50 clearfix">
     <div class="container">
 
-        <div class="row mb_30 align-items-center justify-content-lg-between">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="medical_section_title">
-                    <h2 class="title_text mb-0">Nuevos Productos</h2>
-                </div>
+        <div class="section_title text-center mb-4">
+                <h4>Nuevos Productos</h4>
+                <div class="title_line"></div>
             </div>
-        </div>
 
         <div class="tab-content has_multy_carousel">
             <div id="painkiller_tab" class="tab-pane active">
