@@ -45,7 +45,10 @@
 
 <!-- Estilos -->
 <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+<!-- <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}"> -->
+
+<link rel="stylesheet" href="{{ asset('assets/css/principal.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/banner.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/personalizado.css') }}">
 
 <!-- Fonts -->

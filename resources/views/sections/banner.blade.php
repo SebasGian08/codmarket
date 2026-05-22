@@ -29,7 +29,7 @@
             @else
 
             <div class="slider_item con-contenido {{ $key == 0 ? 'active' : '' }}"
-                style="background-image: url('{{ url($banner->imagen) }}');">
+                style="background-image: url('{{ url($banner->imagen) }}'); border-radius:20px;">
 
                 <div class="row align-items-center hero_card flex-column flex-lg-row">
 
@@ -125,7 +125,7 @@
                     @endif
 
                     @if($banner->titulo)
-                    <h1 class="title">{!! nl2br(e($banner->titulo)) !!}</h1>
+                    <h1 class="title" color>{!! nl2br(e($banner->titulo)) !!}</h1>
                     @endif
 
                     @if($banner->descripcion)
@@ -170,17 +170,27 @@
 </section>
 @endif
 <script>
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-    let slides = document.querySelectorAll(".slider_item");
+    const sliderSection = document.querySelector(".hero_banner_slider, .hero_banner_full");
+
+    if (!sliderSection) return;
+
+    const slides = sliderSection.querySelectorAll(".slider_item");
+    const nextBtn = sliderSection.querySelector(".next");
+    const prevBtn = sliderSection.querySelector(".prev");
 
     if (slides.length === 0) return;
 
     let index = 0;
     const total = slides.length;
+    let autoSlide;
 
     function showSlide(i) {
-        slides.forEach(s => s.classList.remove("active"));
+        slides.forEach(slide => {
+            slide.classList.remove("active");
+        });
+
         slides[i].classList.add("active");
     }
 
@@ -194,18 +204,27 @@ document.addEventListener("DOMContentLoaded", function() {
         showSlide(index);
     }
 
-    document.querySelector(".next").addEventListener("click", nextSlide);
-    document.querySelector(".prev").addEventListener("click", prevSlide);
+    if (nextBtn) {
+        nextBtn.addEventListener("click", nextSlide);
+    }
 
-    let autoSlide = setInterval(nextSlide, 10000);
+    if (prevBtn) {
+        prevBtn.addEventListener("click", prevSlide);
+    }
 
-    const container = document.querySelector(".hero_container");
-
-    container.addEventListener("mouseenter", () => clearInterval(autoSlide));
-
-    container.addEventListener("mouseleave", () => {
+    function startAutoSlide() {
         autoSlide = setInterval(nextSlide, 10000);
-    });
+    }
+
+    function stopAutoSlide() {
+        clearInterval(autoSlide);
+    }
+
+    startAutoSlide();
+
+    sliderSection.addEventListener("mouseenter", stopAutoSlide);
+
+    sliderSection.addEventListener("mouseleave", startAutoSlide);
 
 });
 </script>
