@@ -1,10 +1,10 @@
 body {
-    padding-top: 115px;
+    padding-top: 130px;
 }
 
 @media (max-width: 768px) {
     body {
-       padding-top: 70px;
+        padding-top: 70px;
     }
 }
 
@@ -517,6 +517,23 @@ body {
     overflow: hidden;
 }
 
+
+.hero_banner_slider .solo-banner img.banner_full_img,
+.hero_banner_slider .solo-banner picture img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: cover !important; /* cambia fill → cover */
+    display: block !important;
+}
+
+.hero_banner_slider .hero_img {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 420px !important;
+    object-fit: contain !important;
+}
+
 .item_image img {
     width: 100%;
     height: 100%;
@@ -979,7 +996,6 @@ body {
 
     .slider_wrapper {
         height: 380px;
-        /* 🔥 clave */
     }
 
     .solo-banner,
@@ -990,6 +1006,13 @@ body {
     .title {
         font-size: 28px;
         text-align: center;
+    }
+
+    .hero_banner_slider .solo-banner img.banner_full_img,
+    .hero_banner_slider .solo-banner picture img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
     }
 
     .subtitle {
@@ -1746,13 +1769,13 @@ body {
     background: #333;
 }
 
-.item_image img {
+/* .item_image img {
     width: 100%;
     height: 220px;
     object-fit: contain;
     display: block;
 }
-
+ */
 .product_grid_bg {
     background: #f7f7f7 !important;
     padding: 20px;
@@ -1862,12 +1885,12 @@ body {
 }
 
 
-.item_image img {
+/* .item_image img {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
 }
-
+ */
 .item_content {
     display: flex;
     flex-direction: column;
@@ -2385,13 +2408,31 @@ body {
     pointer-events: auto;
     z-index: 2;
 } */
-
-.solo-banner picture,
-.solo-banner img {
+/* SOLO IMAGEN - opcion_1 */
+.hero_banner_slider .solo-banner picture,
+.hero_banner_slider .solo-banner img {
     width: 100%;
     display: block;
 }
 
+/* SOLO IMAGEN - opcion_2 */
+.hero_banner_full .solo-banner picture,
+.hero_banner_full .solo-banner img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.hero_banner_full .solo-banner img {
+    object-fit: cover;
+}
+
+/* .solo-banner picture,
+.solo-banner img {
+    width: 100%;
+    display: block;
+}
+ */
 /* SOLO IMAGEN */
 /* .banner_full_img {
     width: 100%;
@@ -2890,13 +2931,13 @@ body {
 
 }
 
-.product_link_card{
+.product_link_card {
     display: block;
     text-decoration: none !important;
     color: inherit !important;
 }
 
-.product_link_card:hover{
+.product_link_card:hover {
     color: inherit !important;
     text-decoration: none !important;
 }

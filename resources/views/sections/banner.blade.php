@@ -21,7 +21,7 @@
                     <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
                     @endif
 
-                    <img src="{{ url($banner->imagen) }}" class="w-100 banner_full_img">
+                    <img src="{{ url($banner->imagen) }}" class="banner_full_img">
                 </picture>
 
             </div>
