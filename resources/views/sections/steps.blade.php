@@ -14,7 +14,7 @@
         <div class="row justify-content-center g-4">
 
             <!-- ITEM -->
-            <div class="col-lg-4 col-md-6 col-sm-10">
+            <div class="col-lg-4 col-md-6 col-sm-10 mt-3">
                 <div class="feature_card">
 
                     <div class="feature_icon shipping">
@@ -35,7 +35,7 @@
             </div>
 
             <!-- ITEM -->
-            <div class="col-lg-4 col-md-6 col-sm-10">
+            <div class="col-lg-4 col-md-6 col-sm-10 mt-3">
                 <div class="feature_card">
 
                     <div class="feature_icon secure">
@@ -55,7 +55,7 @@
             </div>
 
             <!-- ITEM -->
-            <div class="col-lg-4 col-md-6 col-sm-10">
+            <div class="col-lg-4 col-md-6 col-sm-10 mt-3">
                 <div class="feature_card">
 
                     <div class="feature_icon support">
