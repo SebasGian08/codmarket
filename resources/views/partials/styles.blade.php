@@ -50,6 +50,8 @@
 <link rel="stylesheet" href="{{ asset('assets/css/principal.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/banner.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/personalizado.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/services.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/preguntas-frecuentes.css') }}">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

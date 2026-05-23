@@ -8,12 +8,16 @@
     $mostrarCategorias = $config['home_mostrar_categorias'] ?? 1;
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
     $mostrarMarcas = $config['home_mostrar_marcas'] ?? 1;
+    $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
+    $mostrarPreguntas = $config['home_mostrar_preguntas'] ?? 1;
+    $mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
+    $mostrarSteps = $config['home_mostrar_steps'] ?? 1;
+    $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
+    $mostrarBanner = $config['home_mostrar_banner'] ?? 1;
 @endphp
 
 
-{{-- Hero / Banner --}}
 @include('sections.banner')
-
 
 @if($mostrarCategorias == 1)
     @include('sections.categorias')
@@ -23,14 +27,25 @@
     @include('sections.marcas')
 @endif
 
-{{-- Productos --}}
-@include('sections.products ')
+@if($mostrarProductos == 1)
+    @include('sections.products')
+@endif
 
+@if($mostrarServicios == 1)
+    @include('sections.services')
+@endif
 
-@include('sections.steps')
+@if($mostrarSteps == 1)
+    @include('sections.steps')
+@endif
 
-{{-- Suscripcion --}}
-@include('sections.suscripcion')
+@if($mostrarSuscripcion == 1)
+    @include('sections.suscripcion')
+@endif
+
+@if($mostrarPreguntas == 1)
+    @include('sections.preguntas-frecuentes')
+@endif
 
 @if($mostrarBlogs == 1)
     @include('sections.blog')

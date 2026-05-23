@@ -2,9 +2,9 @@
     <div class="container">
 
         <div class="section_title text-center mb-4">
-                <h4>Nuevos Productos</h4>
-                <div class="title_line"></div>
-            </div>
+            <h4>Nuevos Productos</h4>
+            <div class="title_line"></div>
+        </div>
 
         <div class="tab-content has_multy_carousel">
             <div id="painkiller_tab" class="tab-pane active">
@@ -91,6 +91,11 @@
     </div>
 </section>
 
+@php
+$mostrarPromociones = $config['home_mostrar_promociones'] ?? 1;
+@endphp
+
+@if($mostrarPromociones)
 <section class="offer_section clearfix">
     <div class="container-fluid prl_100">
         <div class="row mt__30">
@@ -147,6 +152,7 @@
         </div>
     </div>
 </section>
+@endif
 
 <section class="bestseller_section sec_ptb_50 pb-0 clearfix">
     <div class="container maxw_1460">

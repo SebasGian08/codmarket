@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -23,10 +22,7 @@ class ServiceController extends Controller
 
     private function uploadImage($file, $folder = 'services')
     {
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $destinationPath = base_path('uploads/' . $folder);
-        $file->move($destinationPath, $fileName);
-        return 'uploads/' . $folder . '/' . $fileName;
+        return uploadImageOptimized($file, $folder);
     }
 
     public function store(Request $request)
@@ -65,11 +61,9 @@ class ServiceController extends Controller
                 'descripcion_portada' => $request->descripcion_portada,
                 'descripcion_breve_portada' => $request->descripcion_breve_portada,
                 'content' => $request->content,
-
                 'portada' => $portada,
                 'imagen_portada' => $imagenPortada,
                 'imagen_referencial' => $imagenReferencial,
-
                 'estado' => 1,
             ]);
 
@@ -86,17 +80,16 @@ class ServiceController extends Controller
             if ($request->has('planes')) {
                 foreach ($request->planes as $p) {
                     if (!empty($p['nombre'])) {
-
                         $plan = $service->plans()->create([
                             'nombre' => $p['nombre'],
                             'precio' => $p['precio'] ?? 0,
-                            'descripcion' => $p['descripcion'],
+                            'descripcion' => $p['descripcion'] ?? null,
                             'destacado' => isset($p['destacado']) ? 1 : 0,
                         ]);
 
                         if (!empty($p['features'])) {
                             foreach ($p['features'] as $f) {
-                                if ($f) {
+                                if (!empty($f)) {
                                     $plan->features()->create([
                                         'descripcion' => $f
                                     ]);
@@ -120,6 +113,7 @@ class ServiceController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'required|string',
@@ -156,14 +150,14 @@ class ServiceController extends Controller
                 'descripcion_portada' => $request->descripcion_portada,
                 'descripcion_breve_portada' => $request->descripcion_breve_portada,
                 'content' => $request->content,
-
                 'portada' => $portada,
                 'imagen_portada' => $imagenPortada,
                 'imagen_referencial' => $imagenReferencial,
             ]);
 
-            // BENEFICIOS
-            $service->benefits()->delete();
+            // BENEFICIOS: Usamos forceDelete para limpiar la tabla antes de recrear los datos
+            $service->benefits()->forceDelete();
+            
             if ($request->has('beneficios')) {
                 foreach ($request->beneficios as $b) {
                     if (!empty($b['titulo'])) {
@@ -172,22 +166,26 @@ class ServiceController extends Controller
                 }
             }
 
-            // PLANES
-            $service->plans()->delete();
+            // PLANES: Primero eliminamos las características hijas para evitar huérfanos
+            foreach ($service->plans as $plan) {
+                $plan->features()->forceDelete();
+            }
+            // Ahora eliminamos los planes por completo
+            $service->plans()->forceDelete();
+
             if ($request->has('planes')) {
                 foreach ($request->planes as $p) {
                     if (!empty($p['nombre'])) {
-
                         $plan = $service->plans()->create([
                             'nombre' => $p['nombre'],
                             'precio' => $p['precio'] ?? 0,
-                            'descripcion' => $p['descripcion'],
+                            'descripcion' => $p['descripcion'] ?? null,
                             'destacado' => isset($p['destacado']) ? 1 : 0,
                         ]);
 
                         if (!empty($p['features'])) {
                             foreach ($p['features'] as $f) {
-                                if ($f) {
+                                if (!empty($f)) {
                                     $plan->features()->create([
                                         'descripcion' => $f
                                     ]);

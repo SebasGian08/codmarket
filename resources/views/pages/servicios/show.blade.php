@@ -1,6 +1,6 @@
 @extends('layouts.appweb')
 
-@section('title', '{{ $service->nombre }} - $empresa->nombre ?? 'Mi Empresa')
+@section('title', $service->nombre . ' - ' . ($empresa->nombre ?? 'Mi Empresa'))
 
 @section('content')
 
@@ -238,8 +238,455 @@
     </div>
 </section>
 
-@endif
 
+
+@endif
+<style>
+    /* =========================================================
+   HERO BANNER PREMIUM
+========================================================= */
+
+.hero-slide{
+    position: relative;
+    min-height: 95vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-slide::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0,0,0,0.82) 0%,
+        rgba(0,0,0,0.70) 40%,
+        rgba(0,0,0,0.25) 100%
+    );
+    z-index: -1;
+}
+
+.hero-container{
+    width: 100%;
+    max-width: 1380px;
+    margin: auto;
+    padding: 120px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.hero-text{
+    width: 55%;
+    color: #fff;
+    animation: fadeUp 1s ease;
+}
+
+.hero-text h1{
+    font-size: 64px;
+    line-height: 1.1;
+    font-weight: 900;
+    margin-bottom: 25px;
+    color: #fff;
+}
+
+.hero-text p{
+    font-size: 19px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 35px;
+    max-width: 650px;
+}
+
+.hero-btns{
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.hero-btn-primary{
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    color: #fff;
+    padding: 16px 34px;
+    border-radius: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .35s ease;
+    box-shadow: 0 10px 30px rgba(0,114,255,.35);
+}
+
+.hero-btn-primary:hover{
+    transform: translateY(-4px);
+    color: #fff;
+}
+
+.hero-btn-outline{
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 16px 34px;
+    border-radius: 14px;
+    color: #fff;
+    text-decoration: none;
+    transition: .35s ease;
+    backdrop-filter: blur(8px);
+}
+
+.hero-btn-outline:hover{
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.hero-image{
+    width: 45%;
+    text-align: center;
+    position: relative;
+    animation: floatY 4s ease-in-out infinite;
+}
+
+.hero-image img{
+    width: 100%;
+    max-width: 520px;
+    object-fit: contain;
+    filter: drop-shadow(0 25px 50px rgba(0,0,0,.45));
+}
+
+/* EFECTOS */
+@keyframes fadeUp{
+    from{
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatY{
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-14px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
+}
+
+/* SWIPER */
+.bannerSwiper{
+    position: relative;
+}
+
+.bannerSwiper .swiper-pagination{
+    bottom: 35px !important;
+}
+
+.bannerSwiper .swiper-pagination-bullet{
+    width: 12px;
+    height: 12px;
+    background: rgba(255,255,255,.45);
+    opacity: 1;
+}
+
+.bannerSwiper .swiper-pagination-bullet-active{
+    width: 35px;
+    border-radius: 50px;
+    background: #00c6ff;
+}
+
+/* =========================================================
+   SECTION SERVICIO
+========================================================= */
+
+.testimonial-three{
+    padding: 120px 0;
+    background: #f8fafc;
+}
+
+.testimonial-three_image{
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.08);
+}
+
+.testimonial-three_image img{
+    width: 100%;
+    border-radius: 24px;
+    transition: .5s ease;
+}
+
+.testimonial-three_image:hover img{
+    transform: scale(1.05);
+}
+
+.sec-title_heading{
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.2;
+}
+
+.sec-title_heading span{
+    color: #00c6ff;
+}
+
+.sec-title_text{
+    font-size: 17px;
+    line-height: 1.9;
+    color: #64748b;
+}
+
+/* =========================================================
+   BENEFICIOS
+========================================================= */
+
+.incluido-section{
+    padding: 120px 0;
+    background: #fff;
+}
+
+.section-wrapper{
+    width: 100%;
+    max-width: 1320px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.incluido-grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+}
+
+.incluido-item{
+    background: #fff;
+    border-radius: 22px;
+    padding: 35px;
+    transition: .35s ease;
+    border: 1px solid #eef2f7;
+    box-shadow: 0 10px 30px rgba(0,0,0,.04);
+}
+
+.incluido-item:hover{
+    transform: translateY(-10px);
+    box-shadow: 0 18px 40px rgba(0,0,0,.08);
+}
+
+.incluido-icon{
+    width: 75px;
+    height: 75px;
+    border-radius: 20px;
+    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.incluido-icon i{
+    color: #fff;
+    font-size: 28px;
+}
+
+.incluido-text h4{
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+
+.incluido-text p{
+    color: #64748b;
+    line-height: 1.8;
+}
+
+/* =========================================================
+   PLANES
+========================================================= */
+
+.price-block .inner-box{
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    transition: .35s ease;
+    background: #fff;
+    box-shadow: 0 10px 35px rgba(0,0,0,.05);
+}
+
+.price-block .inner-box:hover{
+    transform: translateY(-10px);
+}
+
+.price{
+    font-size: 52px;
+    font-weight: 900;
+    color: #0072ff;
+    padding: 20px 0;
+}
+
+.price-list li{
+    padding: 14px 0;
+    border-bottom: 1px solid #eef2f7;
+    color: #64748b;
+}
+
+/* =========================================================
+   PORTAFOLIO
+========================================================= */
+
+.idx-proy-section{
+    background: #0f172a;
+    padding: 120px 0;
+}
+
+.idx-wrap{
+    max-width: 1350px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.idx-proy-grid{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+    margin-top: 60px;
+}
+
+.idx-proy-card{
+    background: #111c34;
+    border-radius: 24px;
+    overflow: hidden;
+    text-decoration: none;
+    transition: .4s ease;
+    border: 1px solid rgba(255,255,255,.05);
+}
+
+.idx-proy-card:hover{
+    transform: translateY(-12px);
+    border-color: rgba(0,198,255,.45);
+}
+
+.idx-proy-img{
+    height: 260px;
+    overflow: hidden;
+}
+
+.idx-proy-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s ease;
+}
+
+.idx-proy-card:hover img{
+    transform: scale(1.08);
+}
+
+.idx-proy-body{
+    padding: 28px;
+}
+
+.idx-proy-cat{
+    display: inline-block;
+    padding: 8px 15px;
+    border-radius: 50px;
+    background: rgba(0,198,255,.12);
+    color: #00c6ff;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.idx-proy-title{
+    color: #fff;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.idx-proy-client,
+.idx-proy-desc{
+    color: rgba(255,255,255,.7);
+}
+
+.idx-proy-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    color: #00c6ff;
+    font-weight: 700;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:991px){
+
+    .hero-container{
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text,
+    .hero-image{
+        width: 100%;
+    }
+
+    .hero-text h1{
+        font-size: 46px;
+    }
+
+    .hero-text p{
+        margin: auto auto 30px;
+    }
+
+    .hero-btns{
+        justify-content: center;
+    }
+
+    .incluido-grid,
+    .idx-proy-grid{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media(max-width:768px){
+
+    .hero-slide{
+        min-height: auto;
+        padding: 90px 0;
+    }
+
+    .hero-container{
+        padding: 50px 20px;
+    }
+
+    .hero-text h1{
+        font-size: 34px;
+    }
+
+    .hero-text p{
+        font-size: 16px;
+    }
+
+    .sec-title_heading{
+        font-size: 34px;
+    }
+
+    .incluido-grid,
+    .idx-proy-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .price{
+        font-size: 42px;
+    }
+}
+</style>
 @include('sections.contact')
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">

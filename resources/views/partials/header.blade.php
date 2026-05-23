@@ -1,4 +1,10 @@
 <body class="home_furniture">
+
+    @php
+    $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
+    @endphp
+
+
     <header class="header_section fashion_minimal_header sticky_header clearfix"
         style="background-color: {{ $config['tema_color_fondo'] }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
 
@@ -85,10 +91,11 @@
 
                                 <li><a href="{{ route('home') }}"
                                         class="{{ request()->routeIs('home') ? 'active-menu' : '' }}">Inicio</a></li>
+                                <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
                                 <li>
                                     <a href="{{ route('productos.index') }}"
                                         class="{{ request()->routeIs('productos.index') ? 'active-menu' : '' }}">
-                                        Tienda
+                                        Productos
                                     </a>
                                 </li>
                                 <li class="menu_item_has_child">
@@ -107,10 +114,13 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                                <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+
+                                @if($mostrarBlogs == 1)
                                 <li><a href="{{ route('blog.index') }}"
                                         class="{{ request()->routeIs('blog.index') ? 'active-menu' : '' }}">Blog</a>
                                 </li>
+                                @endif
+
                                 <li><a href="{{ route('contact.index') }}"
                                         class="{{ request()->routeIs('contact.index') ? 'active-menu' : '' }}">Contacto</a>
                                 </li>
@@ -140,22 +150,23 @@
 
                                         <div class="profile_info clearfix">
                                             <div class="user_thumbnail">
-                                                <img src="{{ asset('assets/images/meta/img_01.png') }}" alt="user">
+                                                <i class="fas fa-user"></i>
                                             </div>
 
+
                                             <div class="user_content">
-                                                <h4 class="user_name">{{ Auth::user()->name }}</h4>
+                                                <h4 class="user_name">{{ Auth::user()->nombres }}</h4>
                                                 <span class="user_title">{{ Auth::user()->email }}</span>
                                             </div>
                                         </div>
 
                                         <ul class="settings_options ul_li_block clearfix">
 
-                                            <li>
+                                            <!-- <li>
                                                 <a href="{{ route('profile') }}">
                                                     <i class="fal fa-user-cog"></i> Mi perfil
                                                 </a>
-                                            </li>
+                                            </li> -->
 
                                             <li>
                                                 <a href="#"
@@ -191,7 +202,7 @@
 
                                         <div class="profile_info clearfix">
                                             <div class="user_thumbnail">
-                                                <img src="{{ asset('assets/images/meta/img_01.png') }}" alt="guest">
+                                                <i class="fas fa-user"></i>
                                             </div>
 
                                             <div class="user_content">
@@ -238,7 +249,7 @@
 
                         <div class="search_inline">
 
-                            <input type="search" name="search" placeholder="¿Qué producto estás buscando?"
+                            <input type="search" name="search" placeholder="¿Qué estás buscando?"
                                 value="{{ request('search') }}" required>
 
                             <button type="submit">
@@ -337,10 +348,13 @@
                 <ul class="ul_li_block clearfix">
 
                     <li><a href="{{ route('home') }}">Inicio</a></li>
-
+                    <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
                     <li><a href="{{ route('productos.index') }}">Productos</a></li>
 
+
+                    @if($mostrarBlogs == 1)
                     <li><a href="{{ route('blog.index') }}">Blog</a></li>
+                    @endif
 
                     <li><a href="{{ route('contact.index') }}">Contacto</a></li>
 
@@ -371,21 +385,21 @@
                 @auth
                 <div class="profile_info clearfix">
                     <div class="user_thumbnail">
-                        <img src="{{ asset('assets/images/meta/img_01.png') }}" alt="user">
+                        <i class="fas fa-user"></i>
                     </div>
                     <div class="user_content">
-                        <h4 class="user_name">{{ Auth::user()->name }}</h4>
+                        <h4 class="user_name">{{ Auth::user()->nombres }}</h4>
                         <span class="user_title">{{ Auth::user()->email }}</span>
                     </div>
                 </div>
 
                 <ul class="settings_options ul_li_block clearfix">
-                    <li>
+                    <!-- <li>
                         <a href="{{ route('profile') }}">
                             <i class="fal fa-user-circle"></i> Perfil
                         </a>
                     </li>
-
+ -->
                     <li>
                         <a href="#"
                             onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
@@ -401,8 +415,9 @@
                 @else
                 <div class="profile_info clearfix">
                     <div class="user_thumbnail">
-                        <img src="{{ asset('assets/images/meta/img_01.png') }}" alt="guest">
+                        <i class="fas fa-user"></i>
                     </div>
+
                     <div class="user_content">
                         <h4 class="user_name">Bienvenido</h4>
                         <span class="user_title">Accede a tu cuenta</span>
