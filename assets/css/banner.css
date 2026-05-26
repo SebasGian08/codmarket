@@ -62,7 +62,7 @@
     line-height: 1;
     font-size: 14px !important;
     font-weight: 500 !important;
-    color: rgb(46, 46, 46);
+    color: var(--header_color);
     transition: all 0.3s ease;
 }
 
