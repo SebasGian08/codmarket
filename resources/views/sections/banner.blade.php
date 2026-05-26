@@ -64,11 +64,8 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                             <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
                             @endif
 
-                            {{-- DESKTOP --}}
                             @if($banner->imagen_referencial)
                             <img src="{{ url($banner->imagen_referencial) }}" class="img-fluid hero_img">
-                            @else
-                            <img src="{{ url($banner->imagen) }}" class="img-fluid hero_img">
                             @endif
 
                         </picture>
