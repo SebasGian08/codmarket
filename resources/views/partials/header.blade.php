@@ -51,8 +51,12 @@
             </div>
         </div>
 
+        @php
+        $colorFondo = $config['header_color_fondo'] ?? $empresa->header_color_fondo ?? '#ffffff';
+        @endphp
+
         <div class="header_content_wrap d-flex align-items-center clearfix"
-            style="background-color: {{ $config['tema.color_fondo'] ?? '#ffffff' }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 70px;">
+            style="background-color: {{ $colorFondo }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 70px;">
             <div class="container-fluid prl_90">
                 <div class="row align-items-center">
 
