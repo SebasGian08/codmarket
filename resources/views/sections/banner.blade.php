@@ -1,5 +1,5 @@
 @php
-    $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
+$bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 @endphp
 
 @if($bannerTipo === 'opcion_1')
@@ -148,10 +148,8 @@
                         <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
                         @endif
 
-                        @if($banner->imagen_referencial)
+                        @if(!empty($banner->imagen_referencial))
                         <img src="{{ url($banner->imagen_referencial) }}" class="hero_img">
-                        @else
-                        <img src="{{ url($banner->imagen) }}" class="hero_img">
                         @endif
                     </picture>
 
@@ -170,7 +168,7 @@
 </section>
 @endif
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 
     const sliderSection = document.querySelector(".hero_banner_slider, .hero_banner_full");
 
