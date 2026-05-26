@@ -85,6 +85,14 @@
     width: 100%;
 }
 
+.fashion_minimal_header .action_btns_group button{
+    color: var(--header_color) !important;
+}
+
+.fashion_minimal_header .action_btns_group button:hover{
+    color: var(--color-secundario) !important;
+}
+
 /* =========================================================
    SOLO IMAGEN
 ========================================================= */
