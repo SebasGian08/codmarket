@@ -66,6 +66,7 @@
     --color-primario: {{ $config['tema_color_primario'] ?? '#21c36c' }};
     --color-secundario: {{ $config['tema_color_secundario'] ?? '#0ea5e9' }};
     --color-texto: {{ $config['tema_color_texto'] ?? '#333333' }};
+    --header_color: {{ $config['header_color'] ?? '#2e2e2e' }};
 }
 </style>
 <script>
