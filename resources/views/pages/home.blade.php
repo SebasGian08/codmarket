@@ -38,7 +38,7 @@
 @endif
 
 @if($mostrarProductosDestacados == 1)
-    @include('sections.productos-destacados')
+    @include('sections.products_destacados')
 @endif
 
 @if($mostrarServicios == 1)
