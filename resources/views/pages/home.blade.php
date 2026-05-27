@@ -14,6 +14,8 @@
     $mostrarSteps = $config['home_mostrar_steps'] ?? 1;
     $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
     $mostrarBanner = $config['home_mostrar_banner'] ?? 1;
+    $mostrarPromociones = $config['home_mostrar_promociones'] ?? 1;
+    $mostrarProductosDestacados = $config['home_mostrar_productos_destacados'] ?? 1;
 @endphp
 
 
@@ -29,6 +31,14 @@
 
 @if($mostrarProductos == 1)
     @include('sections.products')
+@endif
+
+@if($mostrarPromociones == 1)
+    @include('sections.promociones')
+@endif
+
+@if($mostrarProductosDestacados == 1)
+    @include('sections.productos-destacados')
 @endif
 
 @if($mostrarServicios == 1)

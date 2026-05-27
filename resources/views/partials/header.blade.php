@@ -53,6 +53,7 @@
 
         @php
         $colorFondo = $config['header_color_fondo'] ?? $empresa->header_color_fondo ?? '#ffffff';
+        $height = $config['header_height'] ?? '70px';
         @endphp
 
         <div class="header_content_wrap d-flex align-items-center clearfix"
@@ -64,7 +65,7 @@
                         <div class="brand_logo">
                             <a class="brand_link" href="{{ route('home') }}">
                                 <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
-                                    style="height: 60px; width: auto; object-fit: contain;">
+                                    style="height: {{ $height }}; width: auto; object-fit: contain;">
                             </a>
                             <ul class="mh_action_btns ul_li clearfix">
                                 <li>
