@@ -160,7 +160,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 45px 40px;
+    padding: 95px 100px;
 }
 
 .hero_card .row {
@@ -441,7 +441,7 @@
     }
 
     .hero_card {
-        padding: 25px;
+        padding: 55px;
         text-align: center;
     }
 
