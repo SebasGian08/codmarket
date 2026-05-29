@@ -84,7 +84,7 @@ window.addEventListener("load", function() {
 <div id="preloader">
     <div class="loader-wrapper">
         <div class="loader-logo">
-            <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="Cargando...">
+            <img src="{{ asset($empresa->logo_loading ?? $empresa->logo ?? 'assets/images/logo.png') }}" alt="Cargando...">
         </div>
 
         <div class="loader-bar">
