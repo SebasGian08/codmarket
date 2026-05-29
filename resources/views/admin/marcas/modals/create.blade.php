@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="col-md-6 mt-2">
-                        <label>Logo</label>
+                        <label>Logo <small class="text-muted">(Se recomienda 800px x 400px)</small></label>
                         <input type="file" name="logo" class="form-control">
                     </div>
 
