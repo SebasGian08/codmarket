@@ -8,37 +8,23 @@
         </div>
 
         <div class="row">
-
             @foreach($services as $item)
             <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
-                
+
                 <div class="service_card text-center">
 
                     <div class="service_image">
-                        <img 
-                            src="{{ asset('storage/' . $item->imagen) }}" 
-                            alt="{{ $item->titulo }}"
-                        >
+                        <img src="{{ asset($item->portada) }}" alt="{{ $item->nombre }}">
                     </div>
 
                     <div class="service_content">
-
-                        <small>
-                            {{ $item->subtitulo ?? 'Servicio Profesional' }}
-                        </small>
-
                         <h3>
-                            {{ $item->titulo }}
+                            {{ $item->nombre }}
                         </h3>
-
                         <p>
                             {{ Str::limit(strip_tags($item->descripcion), 100) }}
                         </p>
-
-                        <a 
-                            href="{{ route('services.show', $item->slug) }}" 
-                            class="service_btn"
-                        >
+                        <a href="{{ route('services.show', $item->slug) }}" class="service_btn">
                             Ver más
                         </a>
 
