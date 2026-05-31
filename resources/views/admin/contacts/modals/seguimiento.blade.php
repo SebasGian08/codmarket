@@ -27,7 +27,7 @@
 
                         <div class="col-md-8">
                             <label class="form-label">Comentario</label>
-                            <textarea name="comentario" class="form-control" rows="2" required></textarea>
+                            <textarea name="comentario" class="form-control editor" rows="2" required></textarea>
                         </div>
 
                     </div>

@@ -35,11 +35,11 @@
                                 placeholder="Ingrese nombre del servicio">
 
                             <label>Descripción</label>
-                            <textarea name="descripcion" class="form-control mb-2"
+                            <textarea name="descripcion" class="form-control mb-2 editor" rows="3"
                                 placeholder="Ingrese descripción del servicio"></textarea>
 
                             <label>Contenido</label>
-                            <textarea name="content" id="editor" class="form-control mb-2"></textarea>
+                            <textarea name="content" id="editor" class="form-control mb-2 editor"></textarea>
 
                             <!-- PORTADA -->
                             <label>Portada (Imagen)</label>
@@ -115,8 +115,8 @@
                                         </div>
                                     </div>
 
-                                    <label class="small">Descripción</label>
-                                    <textarea name="planes[0][descripcion]" class="form-control mb-2" rows="2"
+                                    <label class="small">Descripción Corta</label>
+                                    <textarea name="planes[0][descripcion]" class="form-control mb-2 editor" rows="2"
                                         placeholder="Resumen del plan"></textarea>
 
                                     <div class="bg-light p-2 rounded">

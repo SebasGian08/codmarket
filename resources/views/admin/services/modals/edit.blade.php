@@ -40,7 +40,7 @@
 
                                     <label>Descripción</label>
                                     <textarea name="descripcion"
-                                        class="form-control mb-2">{{ $service->descripcion }}</textarea>
+                                        class="form-control mb-2 editor">{{ $service->descripcion }}</textarea>
 
                                     <label>Descripción Portada</label>
                                     <input type="text" name="descripcion_portada"
@@ -94,7 +94,7 @@
                             <!-- CONTENIDO FULL WIDTH -->
                             <div class="mt-3">
                                 <label>Contenido</label>
-                                <textarea name="content" id="editor" class="form-control">{{ $service->content }}</textarea>
+                                <textarea name="content" class="form-control editor">{{ $service->content }}</textarea>
                             </div>
 
                         </div>
@@ -152,7 +152,7 @@
                                     </div>
 
                                     <label class="small">Descripción Corta</label>
-                                    <textarea name="planes[{{ $pIdx }}][descripcion]" class="form-control mb-2"
+                                    <textarea name="planes[{{ $pIdx }}][descripcion]" class="form-control mb-2 editor"
                                         rows="2">{{ $plan->descripcion }}</textarea>
 
                                     <div class="bg-light p-2 rounded">

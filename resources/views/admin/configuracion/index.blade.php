@@ -100,7 +100,7 @@
                                         {{-- TEXTAREA --}}
                                         @elseif($config->tipo == 'textarea')
 
-                                        <textarea name="{{ $config->clave }}" class="form-control rounded-3"
+                                        <textarea name="{{ $config->clave }}" class="form-control rounded-3 editor"
                                             rows="3">{{ $config->valor }}</textarea>
 
                                         {{-- BOOLEAN --}}

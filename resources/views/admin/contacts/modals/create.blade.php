@@ -60,7 +60,7 @@
 
                     <div class="form-group">
                         <label>Mensaje</label>
-                        <textarea name="mensaje" class="form-control" rows="3"></textarea>
+                        <textarea name="mensaje" class="form-control editor" rows="3"></textarea>
                     </div>
 
                 </div>

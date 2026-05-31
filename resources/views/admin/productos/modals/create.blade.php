@@ -128,14 +128,14 @@
                                         <label class="form-label small">
                                             Descripción corta
                                         </label>
-                                        <textarea name="descripcion_corta" class="form-control" rows="2" id="editor"></textarea>
+                                        <textarea name="descripcion_corta" class="form-control editor" rows="2"></textarea>
                                     </div>
 
                                     <div class="mb-0">
                                         <label class="form-label small">
                                             Descripción
                                         </label>
-                                        <textarea name="descripcion" class="form-control" rows="4" id="editor"></textarea>
+                                            <textarea name="descripcion" class="form-control editor" rows="4"></textarea>
                                     </div>
 
                                 </div>

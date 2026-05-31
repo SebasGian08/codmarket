@@ -69,13 +69,13 @@
                                 <div class="form-group">
                                     <label>Dirección</label>
                                     <textarea name="direccion"
-                                        class="form-control">{{ $empresa->direccion ?? '' }}</textarea>
+                                        class="form-control editor">{{ $empresa->direccion ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Descripción General</label>
                                     <textarea name="descripcion"
-                                        class="form-control">{{ $empresa->descripcion ?? '' }}</textarea>
+                                        class="form-control editor">{{ $empresa->descripcion ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
@@ -102,10 +102,6 @@
 
                         <hr>
 
-                        {{-- ========================= --}}
-                        {{-- 🔥 NUEVA SECCIÓN NOSOTROS --}}
-                        {{-- ========================= --}}
-
                         <h5 class="mb-3">Información Empresarial (Nosotros)</h5>
 
                         <div class="row">
@@ -114,13 +110,13 @@
 
                                 <div class="form-group">
                                     <label>Descripción Empresarial</label>
-                                    <textarea name="descripcion_empresarial" class="form-control"
+                                    <textarea name="descripcion_empresarial" class="form-control editor"
                                         rows="4">{{ $empresa->descripcion_empresarial ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Misión</label>
-                                    <textarea name="mision_empresarial" class="form-control"
+                                    <textarea name="mision_empresarial" class="form-control editor"
                                         rows="3">{{ $empresa->mision_empresarial ?? '' }}</textarea>
                                 </div>
 
@@ -130,13 +126,13 @@
 
                                 <div class="form-group">
                                     <label>Visión</label>
-                                    <textarea name="vision_empresarial" class="form-control"
+                                    <textarea name="vision_empresarial" class="form-control editor"
                                         rows="3">{{ $empresa->vision_empresarial ?? '' }}</textarea>
                                 </div>
 
                                 <div class="form-group">
                                     <label>Valores</label>
-                                    <textarea name="valores_empresariales" class="form-control"
+                                    <textarea name="valores_empresariales" class="form-control editor"
                                         rows="3">{{ $empresa->valores_empresariales ?? '' }}</textarea>
                                 </div>
 

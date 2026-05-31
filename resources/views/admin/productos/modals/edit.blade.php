@@ -142,14 +142,14 @@
                                         <label class="form-label small">
                                             Descripción corta
                                         </label>
-                                        <textarea name="descripcion_corta" class="form-control" rows="2"  id="editor">{{ $p->descripcion_corta }}</textarea>
+                                        <textarea name="descripcion_corta" class="form-control editor" rows="2">{{ $p->descripcion_corta }}</textarea>
                                     </div>
 
                                     <div class="mb-0">
                                         <label class="form-label small">
                                             Descripción
                                         </label>
-                                        <textarea name="descripcion" id="editor" class="form-control" rows="4">{!! $p->descripcion !!}</textarea>
+                                        <textarea name="descripcion" class="form-control editor" rows="4">{!! $p->descripcion !!}</textarea>
                                     </div>
 
                                 </div>

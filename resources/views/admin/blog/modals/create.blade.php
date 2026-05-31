@@ -25,7 +25,7 @@
                             <input type="text" name="title" class="form-control" required>
 
                             <label class="form-label mt-2">Resumen</label>
-                            <textarea name="excerpt" class="form-control" rows="3"></textarea>
+                            <textarea name="excerpt" class="form-control editor" rows="3"></textarea>
                             
                             <label class="form-label mt-2">Categoría</label>
                             <select name="category_id" class="form-select">
@@ -63,7 +63,7 @@
                         <!-- CONTENIDO -->
                         <div class="col-md-12">
                             <label class="form-label mt-3">Contenido</label>
-                            <textarea name="content" id="editor" class="form-control" rows="6"></textarea>
+                            <textarea name="content" class="form-control editor" rows="6"></textarea>
                         </div>
 
                     </div>

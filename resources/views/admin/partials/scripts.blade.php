@@ -26,28 +26,19 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="{{ asset('admin/assets/js/tinymce/tinymce.min.js') }}"></script>
-<script src="https://cdn.tiny.cloud/1/902qb0ly22vsnct9auwo61awn2teqgicbkw5zkdyn378tclh/tinymce/6/tinymce.min.js">
-</script>
 
 <script>
-/* tinymce.init({
-    selector: '#editor',
-    height: 400,
-    plugins: 'code image link media table lists',
-    toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | bullist numlist | code | image media table',
-    menubar: false
-}); */
 tinymce.init({
-    selector: '#editor',
+    selector: '.editor',
     width: "100%",
-    height: 600,    
-    statubar: true,
+    height: 300,
+    statusbar: true,
     plugins: [
         "advlist autolink link image lists charmap print preview hr anchor pagebreak",
         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
         "save table contextmenu directionality emoticons template paste textcolor"
     ],
-    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons",
+    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons"
 });
 </script>
 <script>

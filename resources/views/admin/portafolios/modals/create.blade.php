@@ -33,7 +33,7 @@
                     <input type="text" name="tipo" class="form-control mb-2">
 
                     <label>Descripción</label>
-                    <textarea name="descripcion" class="form-control mb-2"></textarea>
+                    <textarea name="descripcion" class="form-control mb-2 editor"></textarea>
 
                     <label>URL Demo</label>
                     <input type="text" name="url_demo" class="form-control mb-2">

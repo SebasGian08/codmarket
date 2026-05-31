@@ -139,7 +139,7 @@ $(document).ready(function() {
                 </div>
             </div>
             <label class="small">Descripción Corta</label>
-            <textarea name="planes[${p}][descripcion]" class="form-control mb-2" rows="2" placeholder="Resumen del plan..."></textarea>
+            <textarea name="planes[${p}][descripcion]" class="form-control mb-2 editor" rows="2" placeholder="Resumen del plan..."></textarea>
             <div class="bg-light p-2 rounded mb-2">
                 <div id="features-container-${p}" class="mb-2">
                     <div class="input-group mb-1">
@@ -231,7 +231,7 @@ $(document).ready(function() {
             <div class="bg-light p-2 rounded">
                 <div id="features-container-edit-${id_service}-${uniquePlanIdx}">
                     <div class="input-group mb-1">
-                        <input type="text" name="planes[${uniquePlanIdx}][features][]" class="form-control form-control-sm" placeholder="Característica">
+                        <input type="text" name="planes[${uniquePlanIdx}][features][]" class="form-control form-control-sm editor" placeholder="Característica">
                         <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">×</button>
                     </div>
                 </div>
@@ -259,7 +259,7 @@ $(document).ready(function() {
     window.addFeatureEdit = function(id_service, planIdx) {
         let html = `
         <div class="input-group mb-1 animated fadeIn">
-            <input type="text" name="features_nuevas[${planIdx}][]" class="form-control form-control-sm" placeholder="Nueva característica">
+            <input type="text" name="features_nuevas[${planIdx}][]" class="form-control form-control-sm editor" placeholder="Nueva característica">
             <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">×</button>
         </div>`;
 

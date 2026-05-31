@@ -27,7 +27,7 @@
 
                     <div class="col-md-12 mt-2">
                         <label>Descripción</label>
-                        <textarea name="descripcion" class="form-control">{{ $p->descripcion }}</textarea>
+                        <textarea name="descripcion" class="form-control editor">{{ $p->descripcion }}</textarea>
                     </div>
 
                     <div class="col-md-6 mt-2">

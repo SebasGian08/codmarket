@@ -36,7 +36,7 @@
                     <input type="text" name="tipo" value="{{ $p->tipo }}" class="form-control mb-2">
 
                     <label>Descripción</label>
-                    <textarea name="descripcion" class="form-control mb-2">{{ $p->descripcion }}</textarea>
+                    <textarea name="descripcion" class="form-control mb-2 editor">{{ $p->descripcion }}</textarea>
 
                     <label>URL Demo</label>
                     <input type="text" name="url_demo" value="{{ $p->url_demo }}" class="form-control mb-2">

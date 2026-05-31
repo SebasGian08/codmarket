@@ -17,7 +17,7 @@
                     <input type="hidden" name="id_status" value="5">
 
                     <label>Motivo</label>
-                    <textarea name="motivo" class="form-control" required></textarea>
+                    <textarea name="motivo" class="form-control editor" required></textarea>
 
                 </div>
 
