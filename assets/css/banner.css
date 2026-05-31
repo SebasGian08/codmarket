@@ -297,7 +297,7 @@
 /* BACKGROUND */
 .hero_banner_full .con-contenido {
     width: 100%;
-    min-height: 720px;
+    /* min-height: 720px; */
     background-size: cover;
     background-position: center;
     position: relative;
@@ -312,7 +312,7 @@
     position: relative;
     z-index: 2;
 
-    min-height: 720px;
+    /* min-height: 720px; */
 
     display: flex;
     align-items: center;
