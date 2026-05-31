@@ -311,9 +311,8 @@
 .hero_banner_full .hero_full_content {
     position: relative;
     z-index: 2;
-
+    min-height: 80vh;
     /* min-height: 720px; */
-
     display: flex;
     align-items: center;
     justify-content: space-between;
