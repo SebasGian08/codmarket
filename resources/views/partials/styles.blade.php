@@ -52,6 +52,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/personalizado.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/services.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/preguntas-frecuentes.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/categorias.css') }}">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
