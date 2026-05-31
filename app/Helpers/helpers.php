@@ -4,25 +4,26 @@ use Intervention\Image\Facades\Image;
 
 if (!function_exists('uploadImageOptimized')) {
 
-    function uploadImageOptimized($file, $folder = 'general', $width = 1200)
-    {
-        $fileName = time() . '_' . uniqid() . '.webp';
-        $destinationPath = public_path('uploads/' . $folder);
+    function uploadImageOptimized($file, $folder = 'general', $width = null)
+{
+    $fileName = time() . '_' . uniqid() . '.webp';
+    $destinationPath = public_path('uploads/' . $folder);
 
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);
-        }
+    if (!file_exists($destinationPath)) {
+        mkdir($destinationPath, 0777, true);
+    }
 
-        $img = Image::make($file);
+    $img = Image::make($file);
 
+    if ($width) {
         $img->resize($width, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
-
-        $img->encode('webp', 80)
-            ->save($destinationPath . '/' . $fileName);
-
-        return 'uploads/' . $folder . '/' . $fileName;
     }
+
+    $img->encode('webp', 90)->save($destinationPath . '/' . $fileName);
+
+    return 'uploads/' . $folder . '/' . $fileName;
+}
 }

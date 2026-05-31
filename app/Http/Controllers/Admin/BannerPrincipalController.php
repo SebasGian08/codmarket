@@ -21,7 +21,7 @@ class BannerPrincipalController extends Controller
         $request->validate([
             'titulo' => $request->solo_imagen == 0 ? 'required|string|max:150' : 'nullable',
             'subtitulo' => 'nullable|string|max:150',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
             'imagen_mobile' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
@@ -32,7 +32,11 @@ class BannerPrincipalController extends Controller
             $imagenMobile = null;
 
             if ($request->hasFile('imagen')) {
-                $imagen = uploadImageOptimized($request->file('imagen'));
+                $imagen = uploadImageOptimized(
+                    $request->file('imagen'),
+                    'banners',
+                    1920
+                );
             }
 
             if ($request->hasFile('imagen_mobile')) {
@@ -91,7 +95,12 @@ class BannerPrincipalController extends Controller
 
             if ($request->hasFile('imagen')) {
                 $this->deleteImage($banner->imagen);
-                $imagen = uploadImageOptimized($request->file('imagen'));
+
+                $imagen = uploadImageOptimized(
+                    $request->file('imagen'),
+                    'banners',
+                    1920
+                );
             }
 
             if ($request->hasFile('imagen_mobile')) {
