@@ -363,8 +363,14 @@
         </div>
     </div>
 </section>
-{{-- Suscripcion --}}
-@include('sections.suscripcion')
+
+@php
+    $mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
+@endphp
+
+@if($mostrarSuscripcion == 1)
+    @include('sections.suscripcion')
+@endif
 
 <script>
 document.querySelectorAll('.zoom-container').forEach(container => {
