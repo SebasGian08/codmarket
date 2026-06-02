@@ -120,7 +120,7 @@
 
                     <a data-bs-toggle="collapse" href="#tiendaVirtual">
                         <i class="fas fa-store"></i>
-                        <p>Tienda Virtual</p>
+                        <p>Web</p>
                         <span class="caret"></span>
                     </a>
 
@@ -166,6 +166,12 @@
                             <li class="{{ Request::is('admin/promociones*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.promociones.index') }}">
                                     <span class="sub-item">Promociones</span>
+                                </a>
+                            </li>
+
+                            <li class="{{ Request::is('admin/trabajos-realizados*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.trabajos.index') }}">
+                                    <span class="sub-item">Trabajos Realizados</span>
                                 </a>
                             </li>
 

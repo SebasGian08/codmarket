@@ -53,6 +53,8 @@
     @include('sections.suscripcion')
 @endif
 
+@include('sections.testimonios')
+
 @if($mostrarPreguntas == 1)
     @include('sections.preguntas-frecuentes')
 @endif

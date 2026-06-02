@@ -53,6 +53,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/services.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/preguntas-frecuentes.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/categorias.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/sobre-nosotros.css') }}">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

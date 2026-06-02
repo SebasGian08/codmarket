@@ -33,6 +33,7 @@ use App\Http\Controllers\Admin\AtributoController;
 use App\Http\Controllers\Admin\AtributoValorController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
+use App\Http\Controllers\Admin\TrabajoRealizadoController;
 
 App::setLocale('es');
 
@@ -217,5 +218,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [AdminPromocionController::class, 'store'])->name('admin.promociones.store');
         Route::put('/{id}/actualizar', [AdminPromocionController::class, 'update'])->name('admin.promociones.update');
         Route::delete('/{id}/eliminar', [AdminPromocionController::class, 'destroy'])->name('admin.promociones.destroy');
+    });
+
+    Route::prefix('trabajos-realizados')->group(function () {
+        Route::get('/', [TrabajoRealizadoController::class, 'index'])->name('admin.trabajos.index');
+        Route::post('/guardar', [TrabajoRealizadoController::class, 'store'])->name('admin.trabajos.store');
+       /*  Route::put('/{id}/actualizar', [TrabajoRealizadoController::class, 'update'])->name('admin.trabajos.update'); */
+        Route::delete('/{id}/eliminar', [TrabajoRealizadoController::class, 'destroy'])->name('admin.trabajos.destroy');
     });
 });
