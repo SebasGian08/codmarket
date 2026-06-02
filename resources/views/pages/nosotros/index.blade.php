@@ -22,8 +22,7 @@
             <span class="section-subtitle">Conócenos</span>
             <h2>Sobre Nosotros</h2>
             <p>
-                {!! $empresa->descripcion_empresarial !! ?? 'Somos una empresa apasionada por ofrecer productos de calidad y un servicio excepcional. Fundada en [año], hemos crecido gracias a la confianza de nuestros clientes y nuestro compromiso con la excelencia. Nuestra misión es conectar a las personas con productos excepcionales a través de una plataforma ágil, segura y un servicio humano inigualable. Con un equipo dedicado y una visión clara, trabajamos cada día para ser el ecosistema de comercio electrónico más confiable y preferido, expandiendo fronteras tecnológicas.' !!}
-            </p>
+                {!! $empresa->descripcion_empresarial ?? '<p>Somos una empresa apasionada por ofrecer productos de calidad...</p>' !!}
         </div>
 
         <div class="about-image-container">
