@@ -22,7 +22,7 @@
             <span class="section-subtitle">Conócenos</span>
             <h2>Sobre Nosotros</h2>
             <p>
-                {{ $empresa->descripcion_empresarial ?? 'En nuestra tienda virtual nos apasiona ofrecer soluciones que transformen tu día a día. Nos enfocamos en la curación de productos con los más altos estándares de calidad y una experiencia de compra fluida, segura y garantizada de extremo a extremo.' }}
+                {!! $empresa->descripcion_empresarial !! ?? 'Somos una empresa apasionada por ofrecer productos de calidad y un servicio excepcional. Fundada en [año], hemos crecido gracias a la confianza de nuestros clientes y nuestro compromiso con la excelencia. Nuestra misión es conectar a las personas con productos excepcionales a través de una plataforma ágil, segura y un servicio humano inigualable. Con un equipo dedicado y una visión clara, trabajamos cada día para ser el ecosistema de comercio electrónico más confiable y preferido, expandiendo fronteras tecnológicas.' !!}
             </p>
         </div>
 
@@ -49,7 +49,7 @@
         </div>
         <div class="stat-item">
             <h3>100%</h3>
-            <p>Envíos Garantizados</p>
+            <p>Confianza garantizada en cada producto</p>
         </div>
     </section>
 
@@ -66,7 +66,7 @@
                     <i class="bi bi-bullseye"></i>
                 </div>
                 <h3>Misión</h3>
-                <p>{{ $empresa->mision_empresarial ?? 'Conectar a las personas con productos excepcionales a través de una plataforma ágil, segura y un servicio humano inigualable.' }}
+                <p>{!! $empresa->mision_empresarial ?? 'Conectar a las personas con productos excepcionales a través de una plataforma ágil, segura y un servicio humano inigualable.' !!}
                 </p>
             </div>
 
@@ -75,7 +75,7 @@
                     <i class="bi bi-rocket-takeoff"></i>
                 </div>
                 <h3>Visión</h3>
-                <p>{{ $empresa->vision_empresarial ?? 'Consolidarnos como el ecosistema de comercio electrónico más confiable y preferido, expandiendo fronteras tecnológicas.' }}
+                <p>{!! $empresa->vision_empresarial ?? 'Consolidarnos como el ecosistema de comercio electrónico más confiable y preferido, expandiendo fronteras tecnológicas.' !!}
                 </p>
             </div>
 
@@ -84,7 +84,7 @@
                     <i class="bi bi-shield-check"></i>
                 </div>
                 <h3>Valores</h3>
-                <p>{{ $empresa->valores_empresariales ?? 'Transparencia absoluta, innovación constante, puntualidad impecable y una obsesión genuina por el cliente.' }}
+                <p>{!! $empresa->valores_empresariales ?? 'Transparencia absoluta, innovación constante, puntualidad impecable y una obsesión genuina por el cliente.' !!}
                 </p>
             </div>
 
