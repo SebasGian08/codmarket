@@ -190,7 +190,7 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
 .light_footer {
     background: #ffffff;
     color: #222 !important;
-    border-top: 8px solid #e5e5e5 !important;
+    border-top: 1px solid #e5e5e5 !important;
 }
 
 /* títulos */
