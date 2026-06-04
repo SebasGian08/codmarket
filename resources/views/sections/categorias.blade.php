@@ -1,4 +1,4 @@
-<section class="deals_section clearfix">
+<section class="deals_section sec_ptb_50 clearfix">
     <div class="container maxw_1460">
 
         <div class="section_title text-center mb-4">
