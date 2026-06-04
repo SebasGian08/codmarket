@@ -13,7 +13,7 @@
 
             @foreach($rubros as $rubro)
 
-            <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="col-lg-3 col-md-4 col-6 mt-2">
 
                 <a href="" class="rubro_card_premium">
 
