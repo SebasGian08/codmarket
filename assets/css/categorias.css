@@ -82,7 +82,7 @@
 .category_grid_content{
     padding:20px;
     text-align:center;
-    background: #222222;
+    background: var(--color-secundario);
 }
 
 .category_grid_content h5{
