@@ -97,4 +97,12 @@
         font-size: 11px;
         bottom: 45px;
     }
+
+     .rubro_badge {
+        bottom: 10px;
+        left: 10px;
+        padding: 4px 10px;
+        font-size: 11px;
+        border-radius: 14px;
+    }
 }
