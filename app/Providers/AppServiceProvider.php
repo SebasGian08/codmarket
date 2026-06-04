@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             $config = Configuracion::pluck('valor', 'clave')->toArray();
-
+             $view->with('services', Service::where('estado', 1)->get());
             $view->with('servicesMenu', Service::where('estado', 1)->get());
             $view->with('empresa', Empresa::first());
             $view->with('config', $config);
