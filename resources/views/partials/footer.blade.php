@@ -238,7 +238,7 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
     color: #fff !important;
 }
 
-.footer_description {
+.light_footer .footer_description {
     margin-bottom: 0;
     color: #000000 !important;
 }
