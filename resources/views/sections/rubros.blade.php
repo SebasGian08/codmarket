@@ -1,6 +1,6 @@
 @if(isset($rubros) && $rubros->count())
 
-<div class="rubros_section sec_ptb_100 clearfix">
+<div class="rubros_section clearfix">
     <div class="container maxw_1430">
 
         <div class="section_title text-center mb-5">
