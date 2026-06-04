@@ -13,6 +13,7 @@ use App\Models\Promocion;
 use App\Models\Empresa;
 use App\Models\Marca;
 use App\Models\TrabajoRealizado;
+use App\Models\Rubro;
 
 class HomeController extends Controller
 {
@@ -90,6 +91,10 @@ class HomeController extends Controller
         $trabajosRealizados = TrabajoRealizado::where('estado', 1)
             ->orderBy('orden', 'asc')
             ->get();
+
+        $rubros = Rubro::where('estado', 1)
+            ->orderBy('orden', 'asc')
+            ->get();
                 
         return view('pages.home', compact(
             'services',
@@ -100,7 +105,8 @@ class HomeController extends Controller
             'categoriasProductos',
             'promociones',
             'marcas',
-            'trabajosRealizados'
+            'trabajosRealizados',
+            'rubros'
         ));
     }
 

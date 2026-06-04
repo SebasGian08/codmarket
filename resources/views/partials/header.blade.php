@@ -2,6 +2,7 @@
 
     @php
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
+    $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
     @endphp
 
 
@@ -103,6 +104,7 @@
                                         Productos
                                     </a>
                                 </li>
+
                                 <li class="menu_item_has_child">
                                     <a href="#!">
                                         Categorías
@@ -119,6 +121,25 @@
                                         @endforeach
                                     </ul>
                                 </li>
+
+                                @if($mostrarServicios == 1)
+                                <li class="menu_item_has_child">
+                                    <a href="#!">
+                                        Servicios
+                                        <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
+                                    </a>
+
+                                    <ul class="submenu">
+                                        @foreach($services as $service)
+                                        <li>
+                                            <a href="{{ route('services.show', $service->slug) }}">
+                                                {{ $service->nombre }}
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                                @endif
 
                                 @if($mostrarBlogs == 1)
                                 <li><a href="{{ route('blog.index') }}"
@@ -376,6 +397,25 @@
                             @endforeach
                         </ul>
                     </li>
+
+                    @if($mostrarServicios == 1)
+                    <li class="menu_item_has_child">
+                        <a href="#!">
+                            Servicios
+                            <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
+                        </a>
+
+                        <ul class="submenu">
+                            @foreach($services as $service)
+                            <li>
+                                <a href="{{ route('services.show', $service->slug) }}">
+                                    {{ $service->nombre }}
+                                </a>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    @endif
 
                 </ul>
             </div>

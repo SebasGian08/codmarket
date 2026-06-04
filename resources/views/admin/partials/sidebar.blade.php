@@ -175,6 +175,13 @@
                                 </a>
                             </li>
 
+                            <li class="{{ Request::is('admin/rubros*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.rubros.index') }}">
+                                    <span class="sub-item">Rubros</span>
+                                </a>
+                            </li>
+
+
                         </ul>
                     </div>
                 </li>

@@ -16,10 +16,15 @@
     $mostrarBanner = $config['home_mostrar_banner'] ?? 1;
     $mostrarPromociones = $config['home_mostrar_promociones'] ?? 1;
     $mostrarProductosDestacados = $config['home_mostrar_productos_destacados'] ?? 1;
+    $mostrarRubros = $config['home_mostrar_rubros'] ?? 1;
 @endphp
 
 
 @include('sections.banner')
+
+@if($mostrarRubros == 1)
+    @include('sections.rubros')
+@endif
 
 @if($mostrarCategorias == 1)
     @include('sections.categorias')

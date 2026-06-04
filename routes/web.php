@@ -34,6 +34,7 @@ use App\Http\Controllers\Admin\AtributoValorController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
+use App\Http\Controllers\Admin\RubroController;
 
 App::setLocale('es');
 
@@ -225,5 +226,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [TrabajoRealizadoController::class, 'store'])->name('admin.trabajos.store');
        /*  Route::put('/{id}/actualizar', [TrabajoRealizadoController::class, 'update'])->name('admin.trabajos.update'); */
         Route::delete('/{id}/eliminar', [TrabajoRealizadoController::class, 'destroy'])->name('admin.trabajos.destroy');
+    });
+
+    Route::prefix('rubros')->group(function () {
+        Route::get('/', [RubroController::class, 'index'])->name('admin.rubros.index');
+        Route::post('/guardar', [RubroController::class, 'store'])->name('admin.rubros.store');
+        Route::put('/{id}/actualizar', [RubroController::class, 'update'])->name('admin.rubros.update');
+        Route::delete('/{id}/eliminar', [RubroController::class, 'destroy'])->name('admin.rubros.destroy');
     });
 });

@@ -109,10 +109,10 @@
 
                         <ul class="footer_links">
                             <li><a href="{{ route('home') }}">Inicio</a></li>
-                            <li><a href="{{ route('productos.index') }}">Tienda</a></li>
+                            <li><a href="{{ route('productos.index') }}">Productos</a></li>
                             <!-- <li><a href="#!">Categorías</a></li> -->
-                            <li><a href="#!">Nosotros</a></li>
-                            <li><a href="{{ route('blog.index') }}">Blog</a></li>
+                            <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+                            <!-- <li><a href="{{ route('blog.index') }}">Blog</a></li> -->
                             <li><a href="{{ route('contact.index') }}">Contacto</a></li>
                         </ul>
 
