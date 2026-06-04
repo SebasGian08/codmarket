@@ -1,4 +1,14 @@
-<footer class="footer_section fashion_minimal_footer clearfix">
+@php
+    $footerTheme = $config['footer_theme'] ?? 'dark';
+
+    $footerClass = match($footerTheme) {
+        'light' => 'light_footer',
+        'dark' => '',
+        default => ''
+    };
+@endphp
+
+<footer class="footer_section fashion_minimal_footer clearfix {{ $footerClass }}">
 
     {{-- BACK TO TOP --}}
     <div class="backtotop" data-background="{{ asset('assets/images/shape_01.png') }}"
@@ -163,13 +173,68 @@
 </footer>
 
 @php
-    $telefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
-    $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
+$telefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
+$mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
 @endphp
 
-<a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" 
-   class="whatsapp-float" 
-   target="_blank">
+<a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" class="whatsapp-float" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
 
+<style>
+.light_footer {
+    background: #ffffff;
+    color: #222 !important;
+    border-top: 8px solid #e5e5e5 !important;
+}
+
+/* títulos */
+.light_footer .footer_widget_title {
+    color: #111 !important;
+    font-weight: 600;
+}
+
+/* textos generales */
+.light_footer p,
+.light_footer li,
+.light_footer span {
+    color: #444 !important;
+}
+
+/* links */
+.light_footer a {
+    color: #333 !important;
+    transition: 0.3s;
+}
+
+.light_footer a:hover {
+    color: #000 !important;
+}
+
+/* widgets */
+.light_footer .footer_widget {
+    border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+
+/* redes sociales */
+.light_footer .footer_social i {
+    color: #111 !important;
+}
+
+/* back to top */
+.light_footer .backtotop {
+    filter: none;
+}
+
+/* whatsapp flotante (si quieres mantenerlo limpio) */
+.whatsapp-float {
+    background: #25d366;
+    color: #fff !important;
+}
+
+.footer_description {
+    margin-bottom: 0;
+    color: #000000 !important;
+}
+</style>
