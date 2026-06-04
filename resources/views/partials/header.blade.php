@@ -97,7 +97,8 @@
 
                                 <li><a href="{{ route('home') }}"
                                         class="{{ request()->routeIs('home') ? 'active-menu' : '' }}">Inicio</a></li>
-                                <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+                                <li><a href="{{ route('nosotros') }}"
+                                        class="{{ request()->routeIs('nosotros') ? 'active-menu' : '' }}">Nosotros</a></li>
                                 <li>
                                     <a href="{{ route('productos.index') }}"
                                         class="{{ request()->routeIs('productos.index') ? 'active-menu' : '' }}">
@@ -106,7 +107,7 @@
                                 </li>
 
                                 <li class="menu_item_has_child">
-                                    <a href="#!">
+                                    <a href="#!" class="{{ request()->routeIs('productos.categoria*') ? 'active-menu' : '' }}">
                                         Categorías
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
@@ -124,7 +125,7 @@
 
                                 @if($mostrarServicios == 1)
                                 <li class="menu_item_has_child">
-                                    <a href="#!">
+                                    <a href="#!" class="{{ request()->routeIs('services*') ? 'active-menu' : '' }}">
                                         Servicios
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
