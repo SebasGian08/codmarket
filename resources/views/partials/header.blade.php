@@ -32,10 +32,10 @@
                             <li><a href="{{ $empresa->tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a></li>
                             @endif
                         </ul>
-                        <span style="color: #e1e1e1">|</span>
+                        <!-- <span style="color: #e1e1e1">|</span>
                         <span class="topbar_text" id="topbar-text">
                             ¡Ahora paga con Yape y Plin!
-                        </span>
+                        </span> -->
 
                     </div>
 
