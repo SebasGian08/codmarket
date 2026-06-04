@@ -115,7 +115,7 @@
                                     <ul class="submenu">
                                         @foreach($categorias as $categoria)
                                         <li>
-                                            <a href="{{ route('productos.categoria', $categoria->slug) }}" class="{{ request()->routeIs('productos.categoria', $categoria->slug) ? 'active-menu' : '' }}">
+                                            <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                                 {{ $categoria->nombre }}
                                             </a>
                                         </li>
@@ -125,7 +125,7 @@
 
                                 @if($mostrarServicios == 1)
                                 <li class="menu_item_has_child">
-                                    <a href="#!" class="{{ request()->routeIs('services*') ? 'active-menu' : '' }}" class="{{ request()->routeIs('services*') ? 'active-menu' : '' }}">
+                                    <a href="#!" class="{{ request()->routeIs('services*') ? 'active-menu' : '' }}">
                                         Servicios
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
