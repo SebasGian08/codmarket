@@ -1,11 +1,16 @@
 @php
     $footerTheme = $config['footer_theme'] ?? 'dark';
 
-    $footerClass = match($footerTheme) {
-        'light' => 'light_footer',
-        'dark' => '',
-        default => ''
-    };
+    switch ($footerTheme) {
+        case 'light':
+            $footerClass = 'light_footer';
+            break;
+
+        case 'dark':
+        default:
+            $footerClass = '';
+            break;
+    }
 @endphp
 
 <footer class="footer_section fashion_minimal_footer clearfix {{ $footerClass }}">
