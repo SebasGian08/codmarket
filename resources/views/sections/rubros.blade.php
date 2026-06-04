@@ -9,7 +9,7 @@
             <div class="title_line"></div>
         </div>
 
-        <div class="row">
+        <div class="row g-4 justify-content-center">
 
             @foreach($rubros as $rubro)
 
@@ -19,23 +19,24 @@
                     : asset('assets/images/default.png');
             @endphp
 
-            <div class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="col-lg-3 col-md-4 col-6 mt-2">
 
-                <a href="#" class="category_grid_card">
+                <a href="" class="rubro_card_premium">
 
-                    <div class="category_grid_image">
+                    <div class="rubro_img">
 
-                        <img src="{{ $imagenRubro }}" alt="{{ $rubro->nombre }}">
+                         <img src="{{ $imagenRubro }}" alt="{{ $rubro->nombre }}">
 
-                    </div>
+                        <div class="rubro_gradient"></div>
 
-                    <div class="category_grid_content text-center">
+                        <div class="rubro_badge">
+                            {{ $rubro->nombre }}
+                        </div>
 
-                        <h5>{{ $rubro->nombre }}</h5>
-
-                        <p class="small text-muted mb-0">
-                            {{ \Illuminate\Support\Str::limit($rubro->descripcion ?? 'Explora esta categoría', 60) }}
-                        </p>
+                        {{-- DESCRIPCIÓN PEQUEÑA --}}
+                        <div class="rubro_desc">
+                            {{ Str::limit($rubro->descripcion ?? 'Explora nuestros productos en esta categoría', 70) }}
+                        </div>
 
                     </div>
 
