@@ -87,3 +87,14 @@
 .rubro_card_premium:hover .rubro_footer i {
     transform: translateX(5px);
 }
+
+@media (max-width: 576px) {
+    .rubro_img {
+        height: 180px;
+    }
+
+    .rubro_desc {
+        font-size: 11px;
+        bottom: 45px;
+    }
+}
