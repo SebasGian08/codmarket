@@ -10,6 +10,8 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Exports\PlantillaProductosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
 {
@@ -145,5 +147,167 @@ class ProductoController extends Controller
         $producto->delete();
 
         return back()->with('delete', 'Producto eliminado');
+    }
+
+    public function plantilla()
+    {
+        return Excel::download(new PlantillaProductosExport(), 'Plantilla_Productos.xlsx');
+    }
+
+    public function importar(Request $request)
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls'
+        ]);
+
+        try {
+
+            DB::beginTransaction();
+
+            $rows = Excel::toArray([], $request->file('archivo'));
+
+            if (empty($rows) || empty($rows[0])) {
+                throw new \Exception('El archivo no contiene datos.');
+            }
+
+            $datos = $rows[0];
+
+            unset($datos[0]); // eliminar cabecera
+
+            $importados = 0;
+
+            foreach ($datos as $fila) {
+
+                if (empty($fila[0])) {
+                    continue;
+                }
+
+                $nombre = trim($fila[0] ?? '');
+                $descripcion = trim($fila[1] ?? '');
+                $descripcionCorta = trim($fila[2] ?? '');
+                $marcaNombre = trim($fila[3] ?? '');
+                $proveedorNombre = trim($fila[4] ?? '');
+                $categoriasTexto = trim($fila[5] ?? '');
+                $peso = $fila[6] ?? null;
+                $dimensiones = $fila[7] ?? null;
+                $sku = trim($fila[8] ?? '');
+                $codigoBarras = trim($fila[9] ?? '');
+                $precio = $fila[10] ?? 0;
+                $precioOferta = $fila[11] ?? null;
+                $costo = $fila[12] ?? null;
+                $stock = $fila[13] ?? 0;
+                $destacado = $fila[14] ?? 0;
+                $nuevo = $fila[15] ?? 0;
+                $estado = $fila[16] ?? 1;
+
+                // SKU automático si viene fórmula
+                if (!$sku || str_contains($sku, '=')) {
+                    $sku = rand(10000000, 99999999);
+                }
+
+                // Código de barras automático si viene fórmula
+                if (!$codigoBarras || str_contains($codigoBarras, '=')) {
+                    $codigoBarras = rand(10000000, 99999999);
+                }
+
+                // Marca
+                $marca = null;
+
+                if ($marcaNombre) {
+                    $marca = Marca::firstOrCreate(
+                        ['nombre' => $marcaNombre],
+                        [
+                            'slug' => Str::slug($marcaNombre),
+                            'estado' => 1
+                        ]
+                    );
+                }
+
+                // Proveedor
+                $proveedor = null;
+
+                if ($proveedorNombre) {
+                    $proveedor = Proveedor::firstOrCreate(
+                        ['nombre' => $proveedorNombre],
+                        [
+                            'estado' => 1
+                        ]
+                    );
+                }
+
+                // Producto
+                $producto = Producto::create([
+                    'nombre' => $nombre,
+                    'slug' => Str::slug($nombre . '-' . uniqid()),
+                    'descripcion' => $descripcion,
+                    'descripcion_corta' => $descripcionCorta,
+                    'id_marca' => $marca ? $marca->id_marca : null,
+                    'id_proveedor' => $proveedor ? $proveedor->id_proveedor : null,
+                    'peso' => $peso,
+                    'dimensiones' => $dimensiones,
+                    'destacado' => $destacado,
+                    'nuevo' => $nuevo,
+                    'estado' => $estado,
+                ]);
+
+                // Categorías
+                if ($categoriasTexto) {
+
+                    $categoriasIds = [];
+
+                    foreach (explode(',', $categoriasTexto) as $catNombre) {
+
+                        $catNombre = trim($catNombre);
+
+                        if (!$catNombre) {
+                            continue;
+                        }
+
+                        $categoria = Categoria::firstOrCreate(
+                            ['nombre' => $catNombre],
+                            [
+                                'slug' => Str::slug($catNombre),
+                                'estado' => 1
+                            ]
+                        );
+
+                        $categoriasIds[] = $categoria->id_categoria;
+                    }
+
+                    if (!empty($categoriasIds)) {
+                        $producto->categorias()->sync($categoriasIds);
+                    }
+                }
+
+                // Variante principal
+                $producto->variantes()->create([
+                    'sku' => $sku,
+                    'codigo_barras' => $codigoBarras,
+                    'precio' => $precio,
+                    'precio_oferta' => $precioOferta,
+                    'costo' => $costo,
+                    'stock' => $stock,
+                    'estado' => 1
+                ]);
+
+                $importados++;
+            }
+
+            DB::commit();
+
+            return back()->with(
+                'success',
+                "Productos importados correctamente. Total: {$importados}"
+            );
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            return back()->with(
+                'error',
+                $e->getMessage()
+            );
+        }
     }
 }

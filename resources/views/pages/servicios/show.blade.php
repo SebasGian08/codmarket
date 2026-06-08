@@ -15,14 +15,10 @@
                     </h1>
                     <p>
                         {{ $service->descripcion_breve_portada }}
-                    </p>
-                    <!-- <button class="theme-btn btn-style-seven">
-                        Saber más
-                    </button> -->
+                    </p>             
                 </div>
                 <div class="hero-image">
                     @if($service->imagen_portada)
-                    {{-- Eliminado 'storage/' --}}
                     <img src="{{ asset($service->imagen_portada) }}" alt="{{ $service->nombre }}">
                     @endif
                 </div>
@@ -32,30 +28,63 @@
 </div>
 
 
-<section class="testimonial-three">
+<section class="testimonial-three" style="padding: 80px 0; background: #f8fafc;">
     <div class="auto-container">
-        <div class="row clearfix">
+        <div class="row align-items-center clearfix" style="gap: 30px;">
 
-            <div class="testimonial-three_carousel-column col-lg-6 col-md-12 col-sm-12">
-                <div class="testimonial-three_carousel-inner">
+            <!-- TEXTO -->
+            <div class="col-lg-6 col-md-12">
+                <div style="padding: 20px 10px;">
+
                     <div class="sec-title">
-                        <div class="sec-title_title">Calidad y confianza garantizada</div>
-                        <h2 class="sec-title_heading">
-                            Nuestro <span>Servicio</span>
+                        <div style="font-size: 13px; letter-spacing: 2px; color: #2563eb; font-weight: 600; text-transform: uppercase;">
+                            Calidad y confianza garantizada
+                        </div>
+
+                        <h2 style="font-size: 38px; font-weight: 800; margin-top: 10px; line-height: 1.2;">
+                            Nuestro <span style="color:#2563eb;">Servicio</span>
                         </h2>
-                        <div class="sec-title_text">
-                            {!! strip_tags($service->content, '<p><strong><br>
-                                    <ul>
-                                        <li>') !!}
+
+                        <div style="margin-top: 20px; font-size: 16px; line-height: 1.8; color: #475569;">
+                            <div style="background: #ffffff; padding: 25px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+                                {!! strip_tags($service->content, '<p><strong><br><ul><li>') !!}
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
-            <div class="testimonial-three_image-column col-lg-6 col-md-12 col-sm-12">
-                <div class="testimonial-three_image-inner">
-                    <div class="testimonial-three_image">
-                        <img src="{{ asset($service->imagen_referencial) }}" alt="image" />
+
+            <!-- IMAGEN -->
+            <div class="col-lg-6 col-md-12">
+                <div style="position: relative; text-align: center;">
+
+                    <div style="
+                        border-radius: 20px;
+                        overflow: hidden;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+                        transform: translateY(0);
+                        transition: 0.4s;
+                    " onmouseover="this.style.transform='translateY(-8px)'"
+                       onmouseout="this.style.transform='translateY(0)'">
+
+                        <img src="{{ asset($service->imagen_referencial) }}"
+                             alt="Servicio"
+                             style="width: 100%; height: 450px; object-fit: cover;">
                     </div>
+
+                    <!-- decorativo -->
+                    <div style="
+                        position: absolute;
+                        width: 120px;
+                        height: 120px;
+                        background: #2563eb;
+                        opacity: 0.08;
+                        border-radius: 50%;
+                        top: -20px;
+                        right: -20px;
+                    "></div>
+
                 </div>
             </div>
 
@@ -70,10 +99,10 @@
 
         <div class="sec-title_three text-center" style="margin-bottom: 50px;">
             <div class="sec-title_three-title"
-                style="color: #0dcaf0; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">
+                style="color: var(--color-secundario);; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">
                 Descubre lo que obtienes</div>
             <h2 class="sec-title_three-heading" style="font-size: 36px; color: #1a202c; font-weight: 800;">
-                Una experiencia completa lista para <span style="color: #0dcaf0;">impulsar tu proyecto</span>
+                Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
             </h2>
         </div>
 

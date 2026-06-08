@@ -181,6 +181,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [AdminProductoController::class, 'store'])->name('admin.productos.store');
         Route::put('/{id}/actualizar', [AdminProductoController::class, 'update'])->name('admin.productos.update');
         Route::delete('/{id}/eliminar', [AdminProductoController::class, 'destroy'])->name('admin.productos.destroy');
+        Route::get('/plantilla', [AdminProductoController::class, 'plantilla'])->name('admin.productos.plantilla');
+        Route::post('/importar', [AdminProductoController::class, 'importar'])->name('admin.productos.importar');
     });
 
     // VARIANTES DE PRODUCTO

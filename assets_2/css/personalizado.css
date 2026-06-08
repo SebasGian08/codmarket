@@ -568,7 +568,7 @@
                 .incluido-icon {
                     width: 50px;
                     height: 50px;
-                    background: linear-gradient(135deg, #0dcaf0, #4fa0d9);
+                    background: var(--color-secundario);;
                     color: #fff;
                     border-radius: 14px;
                     display: flex;

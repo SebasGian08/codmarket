@@ -22,9 +22,17 @@
             </ul>
         </div>
 
-        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
-            <i class="fa fa-plus"></i> Nuevo Producto
-        </button>
+        <div class="d-flex gap-2">
+
+            <button class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#modalImportar">
+                <i class="fa fa-file-excel"></i> Importar Excel
+            </button>
+
+            <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
+                <i class="fa fa-plus"></i> Nuevo Producto
+            </button>
+
+        </div>
 
     </div>
 
@@ -107,5 +115,6 @@
 </div>
 
 @include('admin.productos.modals.create')
+@include('admin.productos.modals.importar')
 
 @endsection
