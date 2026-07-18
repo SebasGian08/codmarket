@@ -6,6 +6,11 @@
 
 @section('content')
 
+@php
+$mostrarPrecio = $config['producto_mostrar_precio'] ?? 1;
+$mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
+@endphp
+
 <div class="container breadcrumb-wrap">
     <div class="f2_breadcrumb_nav_wrap sec_ptb_30" style="margin-top: 40px;">
         <ul class="ce_breadcrumb_nav ul_li clearfix">
@@ -71,9 +76,11 @@
                     <!-- MARCA + SKU -->
                     <div class="d-flex justify-content-between align-items-center mb-2">
 
+                        @if($mostrarMarca)
                         <span class="text-muted" style="font-size: 14px; letter-spacing: 1px;">
                             {{ $producto->marca->nombre ?? 'Sin marca' }}
                         </span>
+                        @endif
 
                         <span style="font-size: 14px;">
                             SKU: {{ $varianteActiva->sku }}
@@ -99,7 +106,8 @@
 
                     <hr>
 
-                    <!-- PRECIOS -->
+                    @if($mostrarPrecio)
+
                     @php
                     $precioRegular = $varianteActiva->precio;
                     $precioPromo = $varianteActiva->precio_oferta ?? $varianteActiva->precio;
@@ -120,15 +128,21 @@
                             <span class="label">Precio promocional</span>
 
                             <div class="d-flex align-items-center gap-2">
-                                <span class="new-price">S/ {{ number_format($precioPromo, 2) }}</span>
+                                <span class="new-price">
+                                    S/ {{ number_format($precioPromo, 2) }}
+                                </span>
 
                                 @if($descuento > 0)
-                                <div class="badge-discount-black">-{{ $descuento }}%</div>
+                                <div class="badge-discount-black">
+                                    -{{ $descuento }}%
+                                </div>
                                 @endif
                             </div>
                         </div>
 
                     </div>
+
+                    @endif
 
                     <p>{!! $producto->descripcion_corta ?? 'Sin descripción' !!}</p>
 
@@ -365,11 +379,11 @@
 </section>
 
 @php
-    $mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
+$mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
 @endphp
 
 @if($mostrarSuscripcion == 1)
-    @include('sections.suscripcion')
+@include('sections.suscripcion')
 @endif
 
 <script>

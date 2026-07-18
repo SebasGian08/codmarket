@@ -77,31 +77,19 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                     {{-- PAGINADOR ARRIBA --}}
                     <li>
-
                         <p class="result_text mb-0 d-flex align-items-center">
-
                             <span class="active_page">
                                 {{ $productos->currentPage() }}
                             </span>
-
                             de
-
                             {{ $productos->lastPage() }}
-
                             @if($productos->hasMorePages())
-
                             <a class="next_btn" href="{{ $productos->nextPageUrl() }}">
-
                                 <i class="fal fa-long-arrow-right"></i>
-
                             </a>
-
                             @endif
-
                         </p>
-
                     </li>
-
                 </ul>
 
                 {{-- TABS --}}
@@ -128,7 +116,6 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                             <li>
                                 <div class="medical_product_item">
-
                                     {{-- Marca --}}
                                     @if($mostrarMarca)
                                     <span class="brand_badge">
@@ -148,29 +135,24 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                                         {{-- TITULO --}}
                                         <h3 class="item_title">
-
                                             <a href="{{ route('producto.show', $producto->slug) }}">
-
                                                 {{ $producto->nombre }}
-
                                             </a>
-
                                         </h3>
 
                                         {{-- CATEGORIA --}}
                                         <div class="category_text">
-
                                             {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
-
                                         </div>
 
-                                        {{-- PRECIO --}}
+                                        @if($mostrarPrecio)
                                         <div class="price_box">
                                             @if($variante)
                                             @if($variante->precio_oferta)
                                             <span class="old_price">
                                                 S/. {{ number_format($variante->precio, 2) }}
                                             </span>
+
                                             <span class="price_text">
                                                 S/. {{ number_format($variante->precio_oferta, 2) }}
                                             </span>
@@ -185,6 +167,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                             </span>
                                             @endif
                                         </div>
+                                        @endif
                                     </div>
                                 </div>
                             </li>
@@ -318,15 +301,12 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         </h3>
 
                         <div class="custom_category_sidebar">
-
                             @foreach($categorias as $categoria)
-
                             <div
                                 class="category_sidebar_item {{ request('categoria') == $categoria->slug ? 'active' : '' }}">
 
-                                <a href="{{ route('productos.index', array_merge(request()->all(), [
-                                    'categoria' => $categoria->slug
-                                ])) }}">
+                                <a
+                                    href="{{ route('productos.index', array_merge(request()->all(), ['categoria' => $categoria->slug])) }}">
                                     <span>{{ $categoria->nombre }}</span>
                                     <!-- <small>({{ $categoria->productos_count }})</small> -->
                                 </a>
@@ -358,15 +338,10 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                             <input type="hidden" name="marca" value="{{ request('marca') }}">
 
                             <div class="price_filter_box">
-
                                 <div class="price_inputs">
-
                                     <input type="number" name="min" placeholder="Mín" value="{{ request('min') }}">
-
                                     <span>-</span>
-
                                     <input type="number" name="max" placeholder="Máx" value="{{ request('max') }}">
-
                                 </div>
 
                                 <button type="submit" class="price_filter_btn">
