@@ -116,3 +116,26 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
         </div>
     </div>
 </section>
+<style>
+    /* Imagen más grande */
+.medical_product_item .slideshow_producto{
+    height: 320px;          /* antes probablemente 250-280px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* La imagen ocupa casi todo el espacio */
+.medical_product_item .img_producto{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: .35s ease;
+}
+
+/* Reduce un poco el espacio del contenido */
+.medical_product_item .item_content{
+    padding: 14px 16px 18px;
+}
+</style>
