@@ -10,6 +10,7 @@ use App\Models\Empresa;
 use App\Models\Configuracion;
 use App\Models\Categoria;
 //use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
             $view->with('empresa', Empresa::first());
             $view->with('config', $config);
             $view->with('categorias', Categoria::where('estado', 1)->get());
+        });
+
+        Blade::if('permiso', function($codigo){
+            return \App\Helpers\PermisoHelper::tiene($codigo);
         });
 
     }

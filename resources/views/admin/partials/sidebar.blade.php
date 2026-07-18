@@ -59,11 +59,15 @@
                                     <span class="sub-item">Proveedores</span>
                                 </a>
                             </li>
-                            <li class="{{ Request::is('admin/productos*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.productos.index') }}">
-                                    <span class="sub-item">Productos</span>
+                            @permiso('productos.ver')
+                            <li>
+                                <a href="{{route('admin.productos.index')}}">
+                                    <span class="sub-item">
+                                        Productos
+                                    </span>
                                 </a>
                             </li>
+                            @endpermiso
                             <li class="{{ Request::is('admin/atributos*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.atributos.index') }}">
                                     <span class="sub-item">Atributos</span>
@@ -91,17 +95,26 @@
                                 </a>
                             </li>
 
-                            <li class="{{ Request::is('admin/usuarios*') ? 'active' : '' }}">
+                            @permiso('usuarios.ver')
+                            <li class="{{ Request::is('admin/usuarios*') ? 'active':'' }}">
                                 <a href="{{ route('admin.users.index') }}">
-                                    <span class="sub-item">Usuarios</span>
+                                    <span class="sub-item">
+                                        Usuarios
+                                    </span>
                                 </a>
                             </li>
+                            @endpermiso
 
-                            <li class="{{ Request::is('admin/roles*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.roles.index') }}">
-                                    <span class="sub-item">Roles</span>
+                            @permiso('roles.ver')
+                            <li>
+                                <a href="{{route('admin.roles.index')}}">
+                                    <span class="sub-item">
+                                        Roles
+                                    </span>
                                 </a>
                             </li>
+                            @endpermiso
+                            
                             <li class="{{ Request::is('admin/configuracion*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.configuracion.index') }}">
                                     <span class="sub-item">Configuración</span>
