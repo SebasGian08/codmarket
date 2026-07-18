@@ -2,112 +2,142 @@
 /* OPCION 1 - CARRUSEL ECOMMERCE */
 /* ========================================= */
 
-.category_carousel_card{
-    display:block;
-    text-align:center;
-    text-decoration:none;
+.category_carousel_card {
+    display: block;
+    text-align: center;
+    text-decoration: none;
 }
 
-.category_circle{
-    width:180px;
-    height:180px;
-    margin:auto;
-    padding:8px;
-    background:#fff;
-    border:3px solid #f4b400;
-    border-radius:50%;
-    overflow:hidden;
-    box-sizing:border-box;
-    transition:.35s ease;
+.category_circle {
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    padding: 8px;
+    background: #fff;
+    border: 3px solid #f4b400;
+    border-radius: 50%;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: .35s ease;
 }
 
-.category_circle img{
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    object-fit:cover;
-    transition:.4s ease;
+.category_circle img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: .4s ease;
 }
 
-.category_carousel_card:hover .category_circle{
-    box-shadow:0 10px 25px rgba(0,0,0,.12);
+.category_carousel_card:hover .category_circle {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .12);
 }
 
-.category_carousel_card:hover .category_circle img{
-    transform:scale(1.08);
+.category_carousel_card:hover .category_circle img {
+    transform: scale(1.08);
 }
 
-.category_carousel_card h5{
-    margin-top:16px;
-    font-size:16px;
-    font-weight:500;
-    color:#222;
+.category_carousel_card h5 {
+    margin-top: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #222;
 }
 
 /* ========================================= */
 /* OPCION 2 - GRID CORPORATIVO */
 /* ========================================= */
 
-.category_grid_card{
-    display:block;
+.category_grid_card {
+    display: block;
     background: #222222;
-    border-radius:18px;
-    overflow:hidden;
-    text-decoration:none;
-    border:1px solid #eee;
-    transition:.3s;
-    height:100%;
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    border: 1px solid #eee;
+    transition: .3s;
+    height: 100%;
 }
 
-.category_grid_card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 20px 40px rgba(0,0,0,.08);
+.category_grid_card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, .08);
 }
 
-.category_grid_image{
-    width:100%;
-    height:260px;
-    overflow:hidden;
+.category_grid_image {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
 }
 
-.category_grid_image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s;
+.category_grid_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: .5s;
 }
 
-.category_grid_card:hover img{
-    transform:scale(1.08);
+.category_grid_card:hover img {
+    transform: scale(1.08);
 }
 
-.category_grid_content{
-    padding:20px;
-    text-align:center;
+.category_grid_content {
+    padding: 20px;
+    text-align: center;
     background: var(--color-secundario);
 }
 
-.category_grid_content h5{
-    margin:0;
-    font-size:18px;
-    font-weight:700;
+.category_grid_content h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
     color: #fff;
 }
 
-@media(max-width:768px){
+.heading_line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
 
-    .category_circle{
-        width:130px;
-        height:130px;
-        padding:6px;
+.heading_line span {
+    width: 110px;
+    height: 1px;
+    background: #d9d9d9;
+}
+
+.heading_line small {
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    font-size: 34px;
+    font-weight: 300;
+    color: #222;
+}
+
+.category_heading p {
+    max-width: 720px;
+    margin: auto;
+    color: #666;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+@media(max-width:768px) {
+
+    .category_circle {
+        width: 130px;
+        height: 130px;
+        padding: 6px;
     }
 
-    .category_grid_image{
-        height:180px;
+    .category_grid_image {
+        height: 180px;
     }
 
-    .category_grid_content h5{
-        font-size:16px;
+    .category_grid_content h5 {
+        font-size: 16px;
     }
 
 }

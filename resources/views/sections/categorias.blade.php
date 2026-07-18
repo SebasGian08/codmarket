@@ -1,11 +1,20 @@
 <section class="deals_section sec_ptb_50 clearfix">
     <div class="container maxw_1460">
 
-        <div class="section_title text-center mb-4">
-            <h4>Categorías</h4>
-            <div class="title_line"></div>
-        </div>
+        <div class="section_heading text-center mb-5">
 
+            <div class="section_heading_title">
+                <span></span>
+                <small>CATEGORÍAS</small>
+                <span></span>
+            </div>
+
+            <p class="section_heading_description">
+                Descubre nuestras colecciones cuidadosamente organizadas para encontrar el producto ideal con una
+                experiencia de compra rápida y sencilla.
+            </p>
+
+        </div>
         @php
         $categoriasTipo = $config['categorias_tipo'] ?? 'opcion_1';
         @endphp
