@@ -479,7 +479,7 @@
 
 @media (max-width: 576px) {
 
-    .supermarket_product_columns {
+    /* .supermarket_product_columns {
         display: flex !important;
         flex-wrap: wrap !important;
         margin: 0 -7px !important;
@@ -493,7 +493,6 @@
         display: block !important;
     }
 
-    /* CARD */
     .supermarket_product_listlayout {
         position: relative;
         overflow: hidden;
@@ -516,14 +515,13 @@
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
     }
 
-    /* IMAGEN */
     .supermarket_product_listlayout .item_image {
         width: 100% !important;
         height: 180px;
         background: #ffffff;
         overflow: hidden;
         margin-bottom: 0 !important;
-    }
+    } */
 
     .supermarket_product_listlayout .item_image .item {
         height: 100%;
@@ -537,13 +535,13 @@
     }
 
     /* CONTENIDO */
-    .supermarket_product_listlayout .item_content {
+   /*  .supermarket_product_listlayout .item_content {
         width: 100% !important;
         padding: 14px;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-    }
+    } */
 
     /* MARCA */
     .supermarket_product_listlayout .item_type {
@@ -648,15 +646,15 @@
     padding: 8px !important;
     box-sizing: border-box !important;
     display: flex !important;
-}
+} */
 
-.supermarket_product_listlayout {
+/* .supermarket_product_listlayout {
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
-} */
-
-@media (max-width: 576px) {
+}
+ */
+/* @media (max-width: 576px) {
 
     .supermarket_product_columns>li {
         display: flex !important;
@@ -674,7 +672,7 @@
         flex-direction: column;
     }
 
-}
+} */
 
 /* =========================
    COLUMNAS
@@ -737,7 +735,7 @@
 ========================= */
 
 /* SLICK */
-.supermarket_product_listlayout .slick-list {
+/* .supermarket_product_listlayout .slick-list {
     width: 100% !important;
     height: 100% !important;
 }
@@ -758,7 +756,6 @@
     float: none !important;
 }
 
-/* ITEM */
 .supermarket_product_listlayout .item {
     width: 100% !important;
     height: 220px !important;
@@ -766,7 +763,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-}
+} */
 
 /* =========================
    IMAGEN
@@ -802,7 +799,7 @@
    MOBILE
 ========================= */
 
-@media (max-width: 576px) {
+/* @media (max-width: 576px) {
 
     .supermarket_product_listlayout {
         min-height: 360px !important;
@@ -824,7 +821,7 @@
         max-height: 150px !important;
     }
 
-}
+} */
 
 /* SUBSCRIPCION */
 .newsletter_subtitle {
@@ -892,10 +889,10 @@
 }
 
 /* CARD */
-.supermarket_product_listlayout {
+/* .supermarket_product_listlayout {
     position: relative;
     overflow: hidden;
-}
+} */
 
 /* LABELS */
 .product_label {
