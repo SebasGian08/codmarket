@@ -104,10 +104,6 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                     @endif
 
-                    <hr>
-
-                    @if($mostrarPrecio)
-
                     @php
                     $precioRegular = $varianteActiva->precio;
                     $precioPromo = $varianteActiva->precio_oferta ?? $varianteActiva->precio;
@@ -116,6 +112,10 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     ? round((($precioRegular - $precioPromo) / $precioRegular) * 100)
                     : 0;
                     @endphp
+
+                    <hr>
+
+                    @if($mostrarPrecio)
 
                     <div class="product-price-box mb-3">
 
@@ -200,9 +200,10 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                                         let base = `Hola, quiero este producto:
                             • Producto: {{ $producto->nombre }}
+                            @if($mostrarPrecio)
                             • Precio: S/{{ number_format($precioPromo,2) }}
+                            @endif
                             • Cantidad: ${cantidad}`;
-
                                         this.href = 'https://wa.me/{{ $telefono }}?text=' + encodeURIComponent(base);
                                 ">
                                 <i class="fab fa-whatsapp mr-2"></i> Pedir directo
@@ -308,9 +309,11 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     <div class="medical_product_item">
 
                         <!-- Marca -->
+                        @if($mostrarMarca)
                         <span class="brand_badge">
                             {{ $producto->marca->nombre ?? 'Sin marca' }}
                         </span>
+                        @endif
 
                         <!-- Imagen -->
                         <div class="item_image">
@@ -331,9 +334,8 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                 {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
                             </div>
 
-                            <!-- Precio -->
+                            @if($mostrarPrecio)
                             <div class="price_box">
-
                                 @if($variante)
 
                                 @if($variante->precio_oferta)
@@ -355,6 +357,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                 @endif
 
                             </div>
+                            @endif
 
                         </div>
                     </div>
