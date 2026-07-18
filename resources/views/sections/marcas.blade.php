@@ -2,9 +2,19 @@
     <div class="container">
 
         <!-- TEXTO / TÍTULO -->
-        <div class="section_title text-center mb-4">
-            <h4>Marcas que nos acompañan</h4>
-            <div class="title_line"></div>
+        <div class="section_heading text-center mb-5">
+
+            <div class="section_heading_title">
+                <span></span>
+                <small>MARCAS</small>
+                <span></span>
+            </div>
+
+            <p class="section_heading_description">
+                Conoce las marcas que forman parte de nuestro catálogo y descubre productos de calidad respaldados por
+                los mejores fabricantes.
+            </p>
+
         </div>
 
         <div class="barnd_carousel clearfix">
