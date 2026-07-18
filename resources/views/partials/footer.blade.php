@@ -74,7 +74,7 @@
                         <!--  <div class="payment_methods mt-4">
                             <img src="{{ asset('assets/images/payment_methods_01.png') }}" alt="Métodos de pago">
                         </div>
- -->
+                        -->
                     </div>
 
                 </div>

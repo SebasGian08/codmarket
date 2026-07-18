@@ -62,21 +62,23 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                     </div>
 
                                     <div class="item_content">
-                                        <h3 class="item_title">
-                                            {{ $producto->nombre }}
-                                        </h3>
 
-                                        <div class="category_text">
+                                        <div class="category_text mb-2">
                                             {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
                                         </div>
 
+                                        <h3 class="item_title mb-3">
+                                            {{ $producto->nombre }}
+                                        </h3>
+
                                         @if($mostrarPrecio)
-                                        <div class="price_box">
+                                        <div class="price_box mb-3">
                                             @if($variante)
                                             @if($variante->precio_oferta)
                                             <span class="old_price">
                                                 S/. {{ number_format($variante->precio,2) }}
                                             </span>
+
                                             <span class="price_text">
                                                 S/. {{ number_format($variante->precio_oferta,2) }}
                                             </span>
@@ -86,40 +88,94 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                             </span>
                                             @endif
                                             @else
-                                            <span class="price_text">
-                                                Sin precio
-                                            </span>
+                                            <span class="price_text">Sin precio</span>
                                             @endif
                                         </div>
                                         @endif
+
+                                        <div class="product_btn">
+                                            <a href="{{ route('producto.show',$producto->slug) }}"
+                                                class="btn-ver-producto">
+                                                Ver producto
+                                            </a>
+                                        </div>
+
                                     </div>
-
+                                    @endif
                                 </div>
-                            </a>
+
                         </div>
-
-                        @endforeach
-
+                        </a>
                     </div>
 
-                    <div class="carousel_nav">
-                        <button type="button" class="ss4_left_arrow">
-                            <i class="fal fa-angle-left"></i>
-                        </button>
-                        <button type="button" class="ss4_right_arrow">
-                            <i class="fal fa-angle-right"></i>
-                        </button>
-                    </div>
+                    @endforeach
 
                 </div>
+
+                <div class="carousel_nav">
+                    <button type="button" class="ss4_left_arrow">
+                        <i class="fal fa-angle-left"></i>
+                    </button>
+                    <button type="button" class="ss4_right_arrow">
+                        <i class="fal fa-angle-right"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
+    </div>
 </section>
 <style>
-    /* Imagen más grande */
-.medical_product_item .slideshow_producto{
-    height: 320px;          /* antes probablemente 250-280px */
+    .item_content{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.item_title{
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: 52px;
+}
+
+.category_text{
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.price_box{
+    margin-top: auto;
+}
+
+.product_btn{
+    margin-top: 18px;
+}
+
+.btn-ver-producto{
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background: var(--color-primario);
+    color: #fff;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.btn-ver-producto:hover{
+    opacity: .9;
+    color: #fff;
+}
+/* Imagen más grande */
+.medical_product_item .slideshow_producto {
+    height: 320px;
+    /* antes probablemente 250-280px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,7 +183,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 }
 
 /* La imagen ocupa casi todo el espacio */
-.medical_product_item .img_producto{
+.medical_product_item .img_producto {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -135,7 +191,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 }
 
 /* Reduce un poco el espacio del contenido */
-.medical_product_item .item_content{
+.medical_product_item .item_content {
     padding: 14px 16px 18px;
 }
 </style>

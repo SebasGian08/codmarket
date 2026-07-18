@@ -65,7 +65,7 @@
                     <div class="col-lg-3">
                         <div class="brand_logo">
                             <a class="brand_link" href="{{ route('home') }}">
-                                <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
+                                <img src="{{ asset($config['empresa_logo'] ?? 'assets/images/logo.png') }}" alt="logo"
                                     style="height: {{ $height }}; width: auto; object-fit: contain;">
                             </a>
                             <ul class="mh_action_btns ul_li clearfix">
@@ -98,7 +98,8 @@
                                 <li><a href="{{ route('home') }}"
                                         class="{{ request()->routeIs('home') ? 'active-menu' : '' }}">Inicio</a></li>
                                 <li><a href="{{ route('nosotros') }}"
-                                        class="{{ request()->routeIs('nosotros') ? 'active-menu' : '' }}">Nosotros</a></li>
+                                        class="{{ request()->routeIs('nosotros') ? 'active-menu' : '' }}">Nosotros</a>
+                                </li>
                                 <li>
                                     <a href="{{ route('productos.index') }}"
                                         class="{{ request()->routeIs('productos.index') ? 'active-menu' : '' }}">
@@ -107,7 +108,8 @@
                                 </li>
 
                                 <li class="menu_item_has_child">
-                                    <a href="#!" class="{{ request()->routeIs('productos.categoria*') ? 'active-menu' : '' }}">
+                                    <a href="#!"
+                                        class="{{ request()->routeIs('productos.categoria*') ? 'active-menu' : '' }}">
                                         Categorías
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
@@ -361,7 +363,7 @@
             <!-- LOGO -->
             <div class="msb_widget brand_logo text-center" style="padding-bottom: 0px !important;">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
+                    <img src="{{ asset($config['empresa_logo'] ?? 'assets/images/logo.png') }}" alt="logo"
                         style="max-width: 50%; margin: 0 auto;">
                 </a>
             </div>
