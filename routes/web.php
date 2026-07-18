@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
 use App\Http\Controllers\Admin\RubroController;
+use App\Http\Controllers\Admin\PermisoController;
 
 App::setLocale('es');
 
@@ -102,6 +103,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [RolController::class, 'store'])->name('admin.roles.store');
         Route::put('/{id}/actualizar', [RolController::class, 'update'])->name('admin.roles.update');
         Route::delete('/{id}/eliminar', [RolController::class, 'destroy'])->name('admin.roles.destroy');
+        Route::get('/{id}/permisos', [RolController::class, 'permisos'])->name('admin.roles.permisos');
+        Route::post('/{id}/permisos/guardar', [RolController::class, 'guardarPermisos'])->name('admin.roles.permisos.guardar');
     });
     
     // MÓDULO: BLOG
@@ -235,5 +238,13 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [RubroController::class, 'store'])->name('admin.rubros.store');
         Route::put('/{id}/actualizar', [RubroController::class, 'update'])->name('admin.rubros.update');
         Route::delete('/{id}/eliminar', [RubroController::class, 'destroy'])->name('admin.rubros.destroy');
+    });
+
+    Route::prefix('permisos')->group(function () {
+        Route::get('/', [PermisoController::class, 'index'])->name('admin.permisos.index');
+        Route::post('/guardar', [PermisoController::class, 'store'])->name('admin.permisos.store');
+        Route::put('/{id}/actualizar', [PermisoController::class, 'update'])->name('admin.permisos.update');
+        Route::delete('/{id}/eliminar', [PermisoController::class, 'destroy'])->name('admin.permisos.destroy');
+        Route::get('/{id}/estado', [PermisoController::class, 'cambiarEstado'])->name('admin.permisos.estado');
     });
 });

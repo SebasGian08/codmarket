@@ -105,6 +105,14 @@
                             </li>
                             @endpermiso
 
+                            <li class="{{ Request::is('admin/permisos*') ? 'active':'' }}">
+                                <a href="{{ route('admin.permisos.index') }}">
+                                    <span class="sub-item">
+                                        Permisos
+                                    </span>
+                                </a>
+                            </li>
+
                             @permiso('roles.ver')
                             <li>
                                 <a href="{{route('admin.roles.index')}}">
@@ -114,7 +122,7 @@
                                 </a>
                             </li>
                             @endpermiso
-                            
+
                             <li class="{{ Request::is('admin/configuracion*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.configuracion.index') }}">
                                     <span class="sub-item">Configuración</span>

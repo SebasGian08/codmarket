@@ -12,12 +12,12 @@ class Permiso extends Model
     protected $primaryKey = 'id_permiso';
 
 
-    protected $fillable=[
+    protected $fillable = [
         'nombre',
         'codigo',
+        'descripcion',
         'estado'
     ];
-
 
     public function roles()
     {
