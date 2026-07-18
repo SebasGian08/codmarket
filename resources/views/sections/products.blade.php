@@ -1,9 +1,12 @@
 <section class="product_section sec_ptb_50 clearfix">
     <div class="container">
 
-        <div class="section_title text-center mb-4">
-            <h4>Nuestros Productos</h4>
-            <div class="title_line"></div>
+        <div class="section_heading text-center mb-5">
+            <div class="section_heading_title">
+                <span></span>
+                <small>NUESTROS PRODUCTOS</small>
+                <span></span>
+            </div>
         </div>
 
         <div class="tab-content has_multy_carousel">

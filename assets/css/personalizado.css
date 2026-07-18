@@ -1,4 +1,3 @@
-
 /* =========================
    BOTÓN PRINCIPAL (FIX)
 ========================= */
@@ -636,7 +635,7 @@
    PRODUCTOS UNIFORMES FIX
 ========================= */
 
-.supermarket_product_columns {
+/* .supermarket_product_columns {
     display: flex !important;
     flex-wrap: wrap !important;
     margin: 0 -8px !important;
@@ -655,7 +654,7 @@
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
-}
+} */
 
 @media (max-width: 576px) {
 
@@ -2235,59 +2234,59 @@
 /* TITULOS DE SECCIONES */
 /* ========================================= */
 
-.section_heading{
-    margin-bottom:50px;
+.section_heading {
+    margin-bottom: 50px;
 }
 
-.section_heading_title{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:20px;
-    margin-bottom:20px;
+.section_heading_title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
 }
 
-.section_heading_title span{
-    width:110px;
-    height:1px;
-    background:#d9d9d9;
+.section_heading_title span {
+    width: 110px;
+    height: 1px;
+    background: #d9d9d9;
 }
 
-.section_heading_title small{
-    font-size:34px;
-    font-weight:300;
-    letter-spacing:6px;
-    text-transform:uppercase;
-    color:#222;
-    line-height:1;
+.section_heading_title small {
+    font-size: 34px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: #222;
+    line-height: 1;
 }
 
-.section_heading_description{
-    max-width:720px;
-    margin:0 auto;
-    font-size:18px;
-    line-height:1.8;
-    color:#666;
+.section_heading_description {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #666;
 }
 
-@media (max-width:768px){
+@media (max-width:768px) {
 
-    .section_heading_title{
-        gap:12px;
+    .section_heading_title {
+        gap: 12px;
     }
 
-    .section_heading_title span{
-        width:45px;
+    .section_heading_title span {
+        width: 45px;
     }
 
-    .section_heading_title small{
-        font-size:24px;
-        letter-spacing:3px;
+    .section_heading_title small {
+        font-size: 24px;
+        letter-spacing: 3px;
     }
 
-    .section_heading_description{
-        font-size:15px;
-        padding:0 15px;
+    .section_heading_description {
+        font-size: 15px;
+        padding: 0 15px;
     }
 
 }
