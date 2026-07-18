@@ -1,18 +1,33 @@
+@php
+$mostrarPrecio = $config['producto_mostrar_precio'] ?? 1;
+$mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
+@endphp
+
 <section class="bestseller_section sec_ptb_50 pb-0 clearfix">
     <div class="container maxw_1460">
-
         <div class="row mb_50 align-items-center justify-content-between">
 
             <!-- TÍTULO -->
             <div class="col-lg-4 col-md-12 mb-3 mb-lg-0">
 
-                <div class="medical_section_title">
-                    <h2 class="title_text mb-0">
-                        Más vendidos
-                    </h2>
+                <div class="section_heading mb-0">
+
+                    <div class="section_heading_title justify-content-start">
+
+                        <span></span>
+
+                        <small>
+                            Más vendidos
+                        </small>
+
+                        <span></span>
+
+                    </div>
+
                 </div>
 
             </div>
+
 
             <!-- CATEGORÍAS -->
             <div class="col-lg-8">
@@ -40,7 +55,6 @@
             </div>
 
         </div>
-
         <div class="tab-content">
 
             <!-- TODOS -->
@@ -90,17 +104,24 @@
                                         {{ $producto->categorias->first()->nombre ?? 'General' }}
                                     </div>
 
+                                    @if($mostrarPrecio)
                                     <div class="product_price">
                                         @if($variante)
                                         @if($variante->precio_oferta)
-                                        <span class="current_price">S/.
-                                            {{ number_format($variante->precio_oferta,2) }}</span>
-                                        <span class="old_price">S/. {{ number_format($variante->precio,2) }}</span>
+                                        <span class="current_price">
+                                            S/. {{ number_format($variante->precio_oferta,2) }}
+                                        </span>
+                                        <span class="old_price">
+                                            S/. {{ number_format($variante->precio,2) }}
+                                        </span>
                                         @else
-                                        <span class="current_price">S/. {{ number_format($variante->precio,2) }}</span>
+                                        <span class="current_price">
+                                            S/. {{ number_format($variante->precio,2) }}
+                                        </span>
                                         @endif
                                         @endif
                                     </div>
+                                    @endif
                                 </div>
                             </a>
                         </div>
@@ -154,17 +175,24 @@
                                         {{ $producto->categorias->first()->nombre ?? 'General' }}
                                     </div>
 
+                                    @if($mostrarPrecio)
                                     <div class="product_price">
                                         @if($variante)
                                         @if($variante->precio_oferta)
-                                        <span class="current_price">S/.
-                                            {{ number_format($variante->precio_oferta,2) }}</span>
-                                        <span class="old_price">S/. {{ number_format($variante->precio,2) }}</span>
+                                        <span class="current_price">
+                                            S/. {{ number_format($variante->precio_oferta,2) }}
+                                        </span>
+                                        <span class="old_price">
+                                            S/. {{ number_format($variante->precio,2) }}
+                                        </span>
                                         @else
-                                        <span class="current_price">S/. {{ number_format($variante->precio,2) }}</span>
+                                        <span class="current_price">
+                                            S/. {{ number_format($variante->precio,2) }}
+                                        </span>
                                         @endif
                                         @endif
                                     </div>
+                                    @endif
                                 </div>
                             </a>
                         </div>
@@ -179,152 +207,3 @@
         </div>
     </div>
 </section>
-
-<style>
-/*=========================================
-CARD PREMIUM MINIMALISTA (Estilo Boutique)
-=========================================*/
-
-.product_card_wrapper {
-    padding: 10px;
-    /* Separación sutil entre tarjetas */
-}
-
-.product_card {
-    display: block;
-    background: #fff;
-    text-decoration: none !important;
-    color: #111;
-    transition: transform 0.3s ease;
-}
-
-.product_image {
-    position: relative;
-    overflow: hidden;
-    background: #f7f7f7;
-}
-
-.product_image img {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    /* Proporción vertical como la imagen */
-    object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.15, 1, 0.3, 1);
-}
-
-.product_card:hover img {
-    transform: scale(1.03);
-    /* Zoom sutil premium */
-}
-
-/* BOTÓN FAVORITO TRANSPARENTE EN LA ESQUINA */
-.product_favorite {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    z-index: 5;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.7);
-    color: #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.product_favorite:hover {
-    background: #111;
-    color: #fff;
-}
-
-/* BADGE ESTRECHO OSCURO (Top Izquierda) */
-.product_badge {
-    position: absolute;
-    left: 0;
-    top: 12px;
-    background: #111;
-    color: #fff;
-    padding: 3px 8px;
-    font-size: 9px;
-    letter-spacing: 1px;
-    font-weight: 600;
-    z-index: 5;
-    text-transform: uppercase;
-}
-
-/* CUERPO DEL TEXTO ALINEADO A LA IZQUIERDA */
-.product_body {
-    padding: 12px 0;
-    text-align: left;
-}
-
-/* RATING INLINE MINIMALISTA */
-.product_rating_inline {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    color: #222;
-    margin-bottom: 6px;
-    border: 1px solid #ddd;
-    display: inline-flex;
-    padding: 2px 6px;
-    border-radius: 3px;
-}
-
-.product_rating_inline i {
-    font-size: 9px;
-    color: #f39c12;
-}
-
-.product_rating_inline .rating_count {
-    color: #888;
-}
-
-/* TÍTULO DEL PRODUCTO FINO */
-.product_title {
-    font-size: 13px;
-    line-height: 1.4;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-    color: #333;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-}
-
-/* ETIQUETA DE CATEGORÍA DELGADA */
-.product_category_badge {
-    display: inline-block;
-    border: 1px solid #e5e5e5;
-    padding: 3px 8px;
-    font-size: 10px;
-    color: #777;
-    text-transform: capitalize;
-    margin-bottom: 8px;
-    border-radius: 2px;
-}
-
-/* PRECIOS */
-.product_price {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.current_price {
-    font-size: 14px;
-    font-weight: 600;
-    color: #111;
-}
-
-.old_price {
-    font-size: 12px;
-    color: #999;
-    text-decoration: line-through;
-}
-</style>

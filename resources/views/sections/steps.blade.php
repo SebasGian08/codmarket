@@ -2,13 +2,29 @@
     <div class="container">
 
         <!-- TITLE -->
-        <div class="section_title text-center mb-5">
-            <span class="small_title">¿Por qué elegirnos?</span>
-            <h2 class="mb-3">Experiencia premium en cada compra</h2>
-            <p>
+        <div class="section_heading text-center mb-5">
+
+            <div class="section_heading_title">
+
+                <span></span>
+
+                <small>
+                    ¿Por qué elegirnos?
+                </small>
+
+                <span></span>
+
+            </div>
+
+            <h2 class="mb-3">
+                Experiencia premium en cada compra
+            </h2>
+
+            <p class="section_heading_description">
                 Diseñamos una experiencia moderna, rápida y segura
                 para que compres con total confianza.
             </p>
+
         </div>
 
         <div class="row justify-content-center g-4">
@@ -155,7 +171,7 @@ FEATURE SECTION
 .feature_icon.secure,
 .feature_icon.support {
     background: var(--color-secundario);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
 .feature_icon.shipping i,

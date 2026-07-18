@@ -535,7 +535,7 @@
     }
 
     /* CONTENIDO */
-   /*  .supermarket_product_listlayout .item_content {
+    /*  .supermarket_product_listlayout .item_content {
         width: 100% !important;
         padding: 14px;
         display: flex;
@@ -627,53 +627,6 @@
     transition: opacity .5s ease;
 }
 
-
-
-/* =========================
-   PRODUCTOS UNIFORMES FIX
-========================= */
-
-/* .supermarket_product_columns {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    margin: 0 -8px !important;
-    padding: 0 !important;
-    list-style: none !important;
-    align-items: stretch !important;
-}
-
-.supermarket_product_columns>li {
-    padding: 8px !important;
-    box-sizing: border-box !important;
-    display: flex !important;
-} */
-
-/* .supermarket_product_listlayout {
-    display: flex !important;
-    flex-direction: column !important;
-    height: 100% !important;
-}
- */
-/* @media (max-width: 576px) {
-
-    .supermarket_product_columns>li {
-        display: flex !important;
-    }
-
-    .supermarket_product_listlayout {
-        height: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    .item_content {
-        flex: 1 !important;
-        display: flex;
-        flex-direction: column;
-    }
-
-} */
-
 /* =========================
    COLUMNAS
 ========================= */
@@ -731,41 +684,6 @@
 }
 
 /* =========================
-   CONTENEDOR IMAGEN
-========================= */
-
-/* SLICK */
-/* .supermarket_product_listlayout .slick-list {
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.supermarket_product_listlayout .slick-track {
-    height: 100% !important;
-    display: flex !important;
-    align-items: center !important;
-}
-
-.supermarket_product_listlayout .slick-slide {
-    height: 220px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    float: none !important;
-}
-
-.supermarket_product_listlayout .item {
-    width: 100% !important;
-    height: 220px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-} */
-
-/* =========================
    IMAGEN
 ========================= */
 
@@ -792,36 +710,6 @@
 .supermarket_product_listlayout:hover .item_image img {
     transform: scale(1.04) !important;
 }
-
-
-
-/* =========================
-   MOBILE
-========================= */
-
-/* @media (max-width: 576px) {
-
-    .supermarket_product_listlayout {
-        min-height: 360px !important;
-    }
-
-    .supermarket_product_listlayout .item_image {
-        height: 170px !important;
-    }
-
-    .supermarket_product_listlayout .slick-slide {
-        height: 170px !important;
-    }
-
-    .supermarket_product_listlayout .item {
-        height: 170px !important;
-    }
-
-    .supermarket_product_listlayout .item_image img {
-        max-height: 150px !important;
-    }
-
-} */
 
 /* SUBSCRIPCION */
 .newsletter_subtitle {
@@ -887,12 +775,6 @@
     display: flex;
     justify-content: center;
 }
-
-/* CARD */
-/* .supermarket_product_listlayout {
-    position: relative;
-    overflow: hidden;
-} */
 
 /* LABELS */
 .product_label {
@@ -1475,7 +1357,6 @@
 }
 
 .category_sidebar_item.active span {
-    /* background: var(--color-secundario); */
     color: var(--color-secundario) !important;
     font-weight: 600;
 }
@@ -1500,7 +1381,6 @@
     font-weight: 600;
 }
 
-/* línea inferior tipo highlight */
 .main_menu ul li a.active-menu::after {
     content: "";
     position: absolute;
@@ -2266,6 +2146,21 @@
     color: #666;
 }
 
+.section_heading_title.justify-content-start {
+    justify-content: flex-start;
+}
+
+.section_heading_title.justify-content-start span {
+    width: 50px;
+}
+
+.section_heading h2 {
+    font-size: 42px;
+    font-weight: 500;
+    color: #222;
+    margin-top: 25px;
+}
+
 @media (max-width:768px) {
 
     .section_heading_title {
@@ -2286,4 +2181,7 @@
         padding: 0 15px;
     }
 
+    .section_heading h2 {
+        font-size: 28px;
+    }
 }
