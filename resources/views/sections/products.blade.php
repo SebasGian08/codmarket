@@ -1,3 +1,8 @@
+@php
+$mostrarPrecio = $config['producto_mostrar_precio'] ?? 1;
+$mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
+@endphp
+
 <section class="product_section sec_ptb_50 clearfix">
     <div class="container">
 
@@ -27,9 +32,11 @@
                             <a href="{{ route('producto.show',$producto->slug) }}" class="product_link_card">
                                 <div class="medical_product_item">
 
+                                    @if($mostrarMarca)
                                     <span class="brand_badge">
                                         {{ $producto->marca->nombre ?? 'Sin marca' }}
                                     </span>
+                                    @endif
 
                                     <div class="slideshow_producto">
                                         @if($imagenes->count())
@@ -63,6 +70,7 @@
                                             {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
                                         </div>
 
+                                        @if($mostrarPrecio)
                                         <div class="price_box">
                                             @if($variante)
                                             @if($variante->precio_oferta)
@@ -83,6 +91,7 @@
                                             </span>
                                             @endif
                                         </div>
+                                        @endif
                                     </div>
 
                                 </div>

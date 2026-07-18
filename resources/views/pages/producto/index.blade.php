@@ -10,6 +10,11 @@ Catálogo de Productos
 
 @section('content')
 
+@php
+$mostrarPrecio = $config['producto_mostrar_precio'] ?? 1;
+$mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
+@endphp
+
 <section class="product_section sec_ptb_50 clearfix">
     <div class="container maxw_1600">
         <div class="row justify-content-lg-between">
@@ -125,9 +130,11 @@ Catálogo de Productos
                                 <div class="medical_product_item">
 
                                     {{-- Marca --}}
+                                    @if($mostrarMarca)
                                     <span class="brand_badge">
                                         {{ optional($producto->marca)->nombre ?? 'Sin marca' }}
                                     </span>
+                                    @endif
 
                                     {{-- Imagen --}}
                                     <div class="item_image">
@@ -159,39 +166,26 @@ Catálogo de Productos
 
                                         {{-- PRECIO --}}
                                         <div class="price_box">
-
                                             @if($variante)
-
                                             @if($variante->precio_oferta)
-
                                             <span class="old_price">
                                                 S/. {{ number_format($variante->precio, 2) }}
                                             </span>
-
                                             <span class="price_text">
                                                 S/. {{ number_format($variante->precio_oferta, 2) }}
                                             </span>
-
                                             @else
-
                                             <span class="price_text">
                                                 S/. {{ number_format($variante->precio, 2) }}
                                             </span>
-
                                             @endif
-
                                             @else
-
                                             <span class="price_text">
                                                 Sin precio
                                             </span>
-
                                             @endif
-
                                         </div>
-
                                     </div>
-
                                 </div>
                             </li>
 
