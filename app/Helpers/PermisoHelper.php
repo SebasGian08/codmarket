@@ -2,9 +2,7 @@
 
 namespace App\Helpers;
 
-
 use Illuminate\Support\Facades\Auth;
-
 
 class PermisoHelper
 {
@@ -20,11 +18,16 @@ class PermisoHelper
         $usuario = Auth::user();
 
 
+        if(!$usuario->rol){
+            return false;
+        }
+
+
         return $usuario
             ->rol
-            ->permisos
+            ->permisos()
             ->where('codigo',$permiso)
-            ->count() > 0;
+            ->exists();
 
     }
 
