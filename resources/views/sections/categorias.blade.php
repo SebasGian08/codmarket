@@ -7,7 +7,7 @@
         </div>
 
         @php
-            $categoriasTipo = $config['categorias_tipo'] ?? 'opcion_1';
+        $categoriasTipo = $config['categorias_tipo'] ?? 'opcion_1';
         @endphp
 
         @if($categoriasTipo === 'opcion_1')
@@ -38,8 +38,7 @@
 
         </div>
 
-        <div class="slideshow5_slider row clearfix"
-            data-slick='{
+        <div class="slideshow5_slider row clearfix" data-slick='{
                 "dots": false,
                 "arrows": true,
                 "infinite": true,
@@ -67,20 +66,18 @@
             @foreach($categorias as $cat)
 
             @php
-                $imagenCategoria = !empty($cat->imagen)
-                    ? asset($cat->imagen)
-                    : asset('assets/images/tienda_virtual/default.png');
+            $imagenCategoria = !empty($cat->imagen)
+            ? asset($cat->imagen)
+            : asset('assets/images/tienda_virtual/default.png');
             @endphp
 
             <div class="item px-2">
 
-                <a href="{{ route('productos.categoria', $cat->slug) }}"
-                    class="category_carousel_card">
+                <a href="{{ route('productos.categoria', $cat->slug) }}" class="category_carousel_card">
 
                     <div class="category_circle">
 
-                        <img src="{{ $imagenCategoria }}"
-                            alt="{{ $cat->nombre }}">
+                        <img src="{{ $imagenCategoria }}" alt="{{ $cat->nombre }}">
 
                     </div>
 
@@ -105,20 +102,18 @@
             @foreach($categorias as $cat)
 
             @php
-                $imagenCategoria = !empty($cat->imagen)
-                    ? asset($cat->imagen)
-                    : asset('assets/images/tienda_virtual/default.png');
+            $imagenCategoria = !empty($cat->imagen)
+            ? asset($cat->imagen)
+            : asset('assets/images/tienda_virtual/default.png');
             @endphp
 
             <div class="col-lg-3 col-md-6 col-6 mb-4">
 
-                <a href="{{ route('productos.categoria', $cat->slug) }}"
-                    class="category_grid_card">
+                <a href="{{ route('productos.categoria', $cat->slug) }}" class="category_grid_card">
 
                     <div class="category_grid_image">
 
-                        <img src="{{ $imagenCategoria }}"
-                            alt="{{ $cat->nombre }}">
+                        <img src="{{ $imagenCategoria }}" alt="{{ $cat->nombre }}">
 
                     </div>
 
