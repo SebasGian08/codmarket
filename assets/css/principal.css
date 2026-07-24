@@ -130,7 +130,7 @@ body {
 }
 
 .brand_ticker {
-    width: 100vw;
+    /* width: 100vw; */
     margin-left: calc(50% - 50vw);
     height: 38px;
     display: flex;
