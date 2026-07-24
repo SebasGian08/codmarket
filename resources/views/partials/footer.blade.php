@@ -175,7 +175,7 @@ break;
 
                 <p class="copyright_text">
                     © {{ date('Y') }}
-                    <strong>{{ $empresa->nombre ?? 'Neoncart' }}</strong>.
+                    <strong>{{ $empresa->nombre ?? 'falta-nombre' }}</strong>.
                     Todos los derechos reservados.
                 </p>
 

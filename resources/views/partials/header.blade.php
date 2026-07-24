@@ -5,10 +5,17 @@
     $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
     @endphp
 
-
     <header class="header_section fashion_minimal_header sticky_header clearfix"
         style="background-color: {{ $config['tema_color_fondo'] }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-
+        <div class="brand_ticker">
+            <div class="brand_ticker_track">
+                @for($i = 0; $i < 20; $i++) <span>
+                    {{ strtoupper($empresa->nombre ?? 'FALTA-NOMBRE') }}
+                    <i class="fas fa-circle"></i>
+                    </span>
+                    @endfor
+            </div>
+        </div>
         <div class="header_top clearfix topbar_main">
             <div class="container-fluid prl_100">
 
