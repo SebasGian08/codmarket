@@ -1,16 +1,16 @@
 @php
-    $footerTheme = $config['footer_theme'] ?? 'dark';
+$footerTheme = $config['footer_theme'] ?? 'dark';
 
-    switch ($footerTheme) {
-        case 'light':
-            $footerClass = 'light_footer';
-            break;
+switch ($footerTheme) {
+case 'light':
+$footerClass = 'light_footer';
+break;
 
-        case 'dark':
-        default:
-            $footerClass = '';
-            break;
-    }
+case 'dark':
+default:
+$footerClass = '';
+break;
+}
 @endphp
 
 <footer class="footer_section fashion_minimal_footer clearfix {{ $footerClass }}">
@@ -53,19 +53,28 @@
                         <div class="footer_social mt-3">
                             <ul class="primary_social_links ul_li">
 
-                                @if($empresa && $empresa->facebook)
-                                <li><a href="{{ $empresa->facebook }}" target="_blank" style="color: #ffffff;"><i
-                                            class="fab fa-facebook-f"></i></a></li>
+                                @if($config['facebook_url'] ?? false)
+                                <li>
+                                    <a href="{{ $config['facebook_url'] }}" target="_blank" style="color: #ffffff;">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
                                 @endif
 
-                                @if($empresa && $empresa->instagram)
-                                <li><a href="{{ $empresa->instagram }}" target="_blank" style="color: #ffffff;"><i
-                                            class="fab fa-instagram"></i></a></li>
+                                @if($config['instagram_url'] ?? false)
+                                <li>
+                                    <a href="{{ $config['instagram_url'] }}" target="_blank" style="color: #ffffff;">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                </li>
                                 @endif
 
-                                @if($empresa && $empresa->tiktok)
-                                <li><a href="{{ $empresa->tiktok }}" target="_blank" style="color: #ffffff;"><i
-                                            class="fab fa-tiktok"></i></a></li>
+                                @if($config['tiktok_url'] ?? false)
+                                <li>
+                                    <a href="{{ $config['tiktok_url'] }}" target="_blank" style="color: #ffffff;">
+                                        <i class="fab fa-tiktok"></i>
+                                    </a>
+                                </li>
                                 @endif
 
                             </ul>
