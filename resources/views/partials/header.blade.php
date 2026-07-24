@@ -18,18 +18,28 @@
                     <div class="topbar_left">
 
                         <ul class="primary_social_links ul_li">
-                            @if($empresa && $empresa->facebook)
-                            <li><a href="{{ $empresa->facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            @if($config['facebook_url'] ?? false)
+                            <li>
+                                <a href="{{ $config['facebook_url'] }}" target="_blank">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
                             </li>
                             @endif
 
-                            @if($empresa && $empresa->instagram)
-                            <li><a href="{{ $empresa->instagram }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                            @if($config['instagram_url'] ?? false)
+                            <li>
+                                <a href="{{ $config['instagram_url'] }}" target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
                             </li>
                             @endif
 
-                            @if($empresa && $empresa->tiktok)
-                            <li><a href="{{ $empresa->tiktok }}" target="_blank"><i class="fab fa-tiktok"></i></a></li>
+                            @if($config['tiktok_url'] ?? false)
+                            <li>
+                                <a href="{{ $config['tiktok_url'] }}" target="_blank">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                            </li>
                             @endif
                         </ul>
                         <!-- <span style="color: #e1e1e1">|</span>
@@ -68,46 +78,26 @@
                                 <img src="{{ asset($config['empresa_logo'] ?? 'assets/images/logo.png') }}" alt="logo"
                                     style="height: {{ $height }}; width: auto; object-fit: contain;">
                             </a>
-                            <ul class="primary_social_links ul_li">
-                                @if($config['facebook_url'] ?? false)
+                            <ul class="mh_action_btns ul_li clearfix">
                                 <li>
-                                    <a href="{{ $config['facebook_url'] }}" target="_blank">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
+                                    <button type="button" class="search_btn" data-toggle="collapse"
+                                        data-target="#search_body_collapse">
+                                        <i class="fal fa-search"></i>
+                                    </button>
                                 </li>
-                                @endif
 
-                                @if($config['instagram_url'] ?? false)
-                                <li>
-                                    <a href="{{ $config['instagram_url'] }}" target="_blank">
-                                        <i class="fab fa-instagram"></i>
-                                    </a>
-                                </li>
-                                @endif
+                                <!--  <li>
+                                    <button type="button" class="cart_btn">
+                                        <i class="fal fa-shopping-cart"></i>
+                                        <span class="btn_badge">0</span>
+                                    </button>
+                                </li> -->
 
-                                @if($config['tiktok_url'] ?? false)
                                 <li>
-                                    <a href="{{ $config['tiktok_url'] }}" target="_blank">
-                                        <i class="fab fa-tiktok"></i>
-                                    </a>
+                                    <button type="button" class="mobile_menu_btn">
+                                        <i class="far fa-bars"></i>
+                                    </button>
                                 </li>
-                                @endif
-
-                                @if($config['youtube_url'] ?? false)
-                                <li>
-                                    <a href="{{ $config['youtube_url'] }}" target="_blank">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                </li>
-                                @endif
-
-                                @if($config['linkedin_url'] ?? false)
-                                <li>
-                                    <a href="{{ $config['linkedin_url'] }}" target="_blank">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                </li>
-                                @endif
                             </ul>
                         </div>
                     </div>
