@@ -36,7 +36,7 @@
 
                         <!-- DROPZONE -->
                         <label class="upload-box w-100 text-center p-4 mb-3">
-                            <input type="file" name="imagen" id="inputImagen" hidden required>
+                            <input type="file" name="imagen" id="inputImagen" hidden required accept="image/*">
 
                             <div id="uploadContent">
                                 <i class="fa fa-cloud-upload fa-2x mb-2 text-muted"></i>

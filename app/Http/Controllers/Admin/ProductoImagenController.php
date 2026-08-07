@@ -28,7 +28,7 @@ class ProductoImagenController extends Controller
     {
         $request->validate([
             'id_producto' => 'required|exists:productos,id_producto',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'imagen' => 'required|image',
         ]);
 
         try {
@@ -63,6 +63,10 @@ class ProductoImagenController extends Controller
     {
         try {
             DB::beginTransaction();
+
+            $request->validate([
+                'imagen' => 'nullable|image',
+            ]);
 
             $img = ProductoImagen::findOrFail($id);
 
