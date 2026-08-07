@@ -132,7 +132,7 @@ body {
 .brand_ticker {
     /* width: 100vw; */
     margin-left: calc(50% - 50vw);
-    height: 38px;
+    height: 20px;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -185,7 +185,7 @@ body {
     flex-shrink: 0;
     /* color: var(--color-primario); */
     color : white;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 400;
     text-transform: uppercase;
     padding-right: 50px;
