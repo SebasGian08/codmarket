@@ -3,32 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Marca;
+use App\Services\MarcaServiceInterface;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
 
 class MarcaController extends Controller
 {
-    public function index()
+    protected $service;
+
+    public function __construct(MarcaServiceInterface $service)
     {
-        $marcas = Marca::orderBy('orden', 'asc')->get();
-        return view('admin.marcas.index', compact('marcas'));
+        $this->service = $service;
     }
 
-    private function uploadImage($file, $folder = 'marcas')
+    public function index()
     {
-        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $marcas = $this->service->getAll();
 
-        $path = public_path("uploads/$folder");
-
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
-        }
-
-        $file->move($path, $fileName);
-
-        return "uploads/$folder/$fileName";
+        return view('admin.marcas.index', compact('marcas'));
     }
 
     public function store(Request $request)
@@ -39,85 +30,53 @@ class MarcaController extends Controller
             'banner' => 'nullable|image'
         ]);
 
-        DB::beginTransaction();
-
         try {
-
-            $logo = $request->hasFile('logo')
-                ? $this->uploadImage($request->file('logo'))
-                : null;
-
-            $banner = $request->hasFile('banner')
-                ? $this->uploadImage($request->file('banner'))
-                : null;
-
-            Marca::create([
-                'nombre' => $request->nombre,
-                'slug' => Str::slug($request->nombre),
-                'descripcion' => $request->descripcion,
-                'logo' => $logo,
-                'banner' => $banner,
-                'sitio_web' => $request->sitio_web,
-                'orden' => $request->orden ?? 0,
-                'estado' => 1
-            ]);
-
-            DB::commit();
+            $this->service->create($this->data($request));
 
             return redirect()->route('admin.marcas.index')
                 ->with('success', 'Marca creada correctamente');
 
         } catch (\Exception $e) {
-            DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
     }
 
     public function update(Request $request, $id)
     {
-        $marca = Marca::findOrFail($id);
-
-        DB::beginTransaction();
+        $request->validate([
+            'nombre' => 'required|max:150',
+            'logo' => 'nullable|image',
+            'banner' => 'nullable|image'
+        ]);
 
         try {
-
-            $logo = $marca->logo;
-            $banner = $marca->banner;
-
-            if ($request->hasFile('logo')) {
-                $logo = $this->uploadImage($request->file('logo'));
-            }
-
-            if ($request->hasFile('banner')) {
-                $banner = $this->uploadImage($request->file('banner'));
-            }
-
-            $marca->update([
-                'nombre' => $request->nombre,
-                'slug' => Str::slug($request->nombre),
-                'descripcion' => $request->descripcion,
-                'logo' => $logo,
-                'banner' => $banner,
-                'sitio_web' => $request->sitio_web,
-                'orden' => $request->orden ?? 0,
-                'estado' => $request->estado ?? 1
-            ]);
-
-            DB::commit();
+            $this->service->update($id, $this->data($request));
 
             return redirect()->route('admin.marcas.index')
                 ->with('success', 'Marca actualizada correctamente');
 
         } catch (\Exception $e) {
-            DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
     }
 
     public function destroy($id)
     {
-        Marca::findOrFail($id)->delete();
+        $this->service->delete($id);
 
         return back()->with('delete', 'Marca eliminada correctamente');
+    }
+
+    private function data(Request $request)
+    {
+        return [
+            'nombre' => $request->input('nombre'),
+            'descripcion' => $request->input('descripcion'),
+            'logo' => $request->file('logo'),
+            'banner' => $request->file('banner'),
+            'sitio_web' => $request->input('sitio_web'),
+            'orden' => $request->input('orden', 0),
+            'estado' => $request->input('estado', 1),
+        ];
     }
 }

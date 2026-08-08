@@ -11,6 +11,10 @@ use App\Models\Configuracion;
 use App\Models\Categoria;
 //use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use App\Repositories\MarcaRepository;
+use App\Repositories\MarcaRepositoryInterface;
+use App\Services\MarcaService;
+use App\Services\MarcaServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('path.public', function() {
             return base_path();
         });
+
+        $this->app->bind(MarcaRepositoryInterface::class, MarcaRepository::class);
+        $this->app->bind(MarcaServiceInterface::class, MarcaService::class);
     }
 
     public function boot()
