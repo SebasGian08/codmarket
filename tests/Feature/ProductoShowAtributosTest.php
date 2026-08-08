@@ -16,19 +16,25 @@ class ProductoShowAtributosTest extends TestCase
 
         $token = time();
 
-        $variantes = [];
+        $nuevas = [];
 
         foreach ([1 => 'L', 4 => 'S', 5 => 'M'] as $idValor => $valor) {
-            $variantes[] = ProductoVariante::create([
+            $nuevas[] = ProductoVariante::create([
                 'id_producto' => $producto->id_producto,
                 'sku' => "TALLA-{$token}-{$valor}",
                 'precio' => 10,
                 'stock' => 1,
                 'estado' => 1,
-            ])->atributos()->sync([$idValor]);
+            ]);
         }
 
-        $variantes = ProductoVariante::where('sku', 'like', "TALLA-{$token}-%")->get();
+        $nuevas[0]->atributos()->sync([1]); // L
+        $nuevas[1]->atributos()->sync([4]); // S
+        $nuevas[2]->atributos()->sync([5]); // M
+
+        $varianteActiva = $producto->variantes->first();
+
+        $varianteActiva->atributos()->sync([1]); // la variante activa es talla L
 
         try {
             $response = $this->get(route('producto.show', $producto->slug));
@@ -46,10 +52,12 @@ class ProductoShowAtributosTest extends TestCase
             }
 
         } finally {
-            foreach ($variantes as $var) {
+            foreach ($nuevas as $var) {
                 $var->atributos()->detach();
                 $var->delete();
             }
+
+            $varianteActiva->atributos()->detach();
         }
     }
 }

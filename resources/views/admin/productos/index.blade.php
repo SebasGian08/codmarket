@@ -24,6 +24,11 @@
 
         <div class="d-flex gap-2">
 
+            <a href="{{ route('admin.productos.exportar') }}"
+                class="btn btn-info btn-round">
+                <i class="fa fa-file-excel"></i> Exportar Excel
+            </a>
+
             <button class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#modalImportar">
                 <i class="fa fa-file-excel"></i> Importar Excel
             </button>

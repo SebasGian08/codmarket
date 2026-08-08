@@ -11,10 +11,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Exports\PlantillaProductosExport;
+use App\Exports\ProductosExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoController extends Controller
 {
+    public function exportar()
+    {
+        return Excel::download(new ProductosExport(), 'Productos.xlsx');
+    }
+
     public function index()
     {
         $productos = Producto::with(['marca', 'proveedor'])->get();

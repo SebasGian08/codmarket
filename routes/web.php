@@ -186,6 +186,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::delete('/{id}/eliminar', [AdminProductoController::class, 'destroy'])->name('admin.productos.destroy');
         Route::get('/plantilla', [AdminProductoController::class, 'plantilla'])->name('admin.productos.plantilla');
         Route::post('/importar', [AdminProductoController::class, 'importar'])->name('admin.productos.importar');
+        Route::get('/exportar', [AdminProductoController::class, 'exportar'])->name('admin.productos.exportar');
     });
 
     // VARIANTES DE PRODUCTO
