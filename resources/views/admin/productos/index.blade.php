@@ -28,6 +28,10 @@
                 <i class="fa fa-file-excel"></i> Importar Excel
             </button>
 
+            <button class="btn btn-secondary btn-round" data-bs-toggle="modal" data-bs-target="#modalImportarVariantes">
+                <i class="fa fa-cubes"></i> Importar Variantes
+            </button>
+
             <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
                 <i class="fa fa-plus"></i> Nuevo Producto
             </button>
@@ -116,5 +120,6 @@
 
 @include('admin.productos.modals.create')
 @include('admin.productos.modals.importar')
+@include('admin.productos.modals.importar_variantes')
 
 @endsection

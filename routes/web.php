@@ -190,6 +190,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     // VARIANTES DE PRODUCTO
     Route::prefix('variantes')->group(function () {
+        Route::get('/plantilla', [ProductoVarianteController::class, 'plantilla'])->name('admin.variantes.plantilla');
+        Route::post('/importar', [ProductoVarianteController::class, 'importar'])->name('admin.variantes.importar');
         Route::get('/{producto}', [ProductoVarianteController::class, 'index'])->name('admin.variantes.index');
         Route::post('/guardar', [ProductoVarianteController::class, 'store'])->name('admin.variantes.store');
         Route::put('/{id}/actualizar', [ProductoVarianteController::class, 'update'])->name('admin.variantes.update');
