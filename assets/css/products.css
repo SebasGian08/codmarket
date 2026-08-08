@@ -117,3 +117,27 @@
         height: 300px;
     }
 }
+
+/* DETALLE PRODUCTO */
+.attribute-chip {
+    border: 1px solid #d1d5db;
+    margin: 2px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.attribute-chip:hover {
+    border-color: #198754;
+    color: #198754;
+}
+
+.attribute-chip-selected {
+    border-color: #198754;
+    background: rgba(25, 135, 84, .08);
+    color: #198754;
+    font-weight: 600;
+}

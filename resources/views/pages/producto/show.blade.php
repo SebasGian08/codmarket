@@ -432,31 +432,6 @@ $mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
 @include('sections.suscripcion')
 @endif
 
-<style>
-.attribute-chip {
-    border: 1px solid #d1d5db;
-    background: #fff;
-    border-radius: 8px;
-    padding: 6px 14px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.attribute-chip:hover {
-    border-color: #198754;
-    color: #198754;
-}
-
-.attribute-chip-selected {
-    border-color: #198754;
-    background: rgba(25, 135, 84, .08);
-    color: #198754;
-    font-weight: 600;
-}
-
-</style>
-
 <script>
 document.querySelectorAll('.zoom-container').forEach(container => {
     const img = container.querySelector('img');
