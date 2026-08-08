@@ -42,7 +42,6 @@ class ProductoVarianteController extends Controller
 
             $creadas = 0;
             $actualizadas = 0;
-            $sinSku = 0;
             $sinProducto = 0;
 
             foreach ($datos as $fila) {
@@ -50,9 +49,8 @@ class ProductoVarianteController extends Controller
                 $productoSku = trim($fila[0] ?? '');
                 $sku = trim($fila[1] ?? '');
 
-                if (!$sku) {
-                    $sinSku++;
-                    continue;
+                if (!$sku || str_contains($sku, '=')) {
+                    $sku = rand(10000000, 99999999);
                 }
 
                 $producto = $this->buscarProducto($productoSku);
@@ -95,7 +93,7 @@ class ProductoVarianteController extends Controller
 
             return back()->with(
                 'success',
-                "Importación de variantes completada: {$creadas} creadas, {$actualizadas} actualizadas, {$sinProducto} sin producto, {$sinSku} sin sku."
+                "Importación de variantes completada: {$creadas} creadas, {$actualizadas} actualizadas, {$sinProducto} sin producto."
             );
 
         } catch (\Exception $e) {

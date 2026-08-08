@@ -23,7 +23,8 @@
                         Descargue la plantilla Excel y complete las variantes
                         de sus productos ya creados. En la columna
                         <b>producto_sku</b> indique el SKU del producto
-                        (el de su variante principal).
+                        (el de su variante principal). Si deja la columna
+                        <b>sku</b> vacía, se generará uno automáticamente.
 
                     </div>
 

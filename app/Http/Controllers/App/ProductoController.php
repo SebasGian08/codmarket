@@ -15,6 +15,7 @@ class ProductoController extends Controller
         $producto = Producto::with([
             'marca',
             'variantes.imagenes',
+            'variantes.atributos.atributo',
             'imagenes',
             'categorias'
         ])->where('slug', $slug)->firstOrFail();

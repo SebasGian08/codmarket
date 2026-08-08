@@ -44,6 +44,7 @@ class ImportarVariantesTest extends TestCase
                     ['producto_sku', 'sku', 'codigo_barras', 'precio', 'precio_oferta', 'costo', 'stock', 'estado', 'atributos'],
                     [$this->sku, "TEST-{$this->token}-A", '111111', '25.50', '', '10', '7', '1', 'Color: Azul'],
                     [$this->sku, "TEST-{$this->token}-B", '222222', '30', '20', '12', '3', '1', ''],
+                    [$this->sku, '', '333333', '40', '', '18', '2', '1', ''],
                 ];
             }
         }, $archivo, 'local');
@@ -82,12 +83,23 @@ class ImportarVariantesTest extends TestCase
 
         $this->assertTrue($varianteB->atributos->isEmpty());
 
+        $varianteAuto = ProductoVariante::where('codigo_barras', '333333')->first();
+
+        $this->assertNotNull($varianteAuto);
+
+        $this->assertRegExp('/^\d{8}$/', $varianteAuto->sku);
+
         foreach (["TEST-{$token}-A", "TEST-{$token}-B"] as $s) {
             $v = ProductoVariante::where('sku', $s)->first();
             if ($v) {
                 $v->atributos()->detach();
                 $v->delete();
             }
+        }
+
+        if ($varianteAuto) {
+            $varianteAuto->atributos()->detach();
+            $varianteAuto->delete();
         }
 
         @unlink(storage_path("app/{$archivo}"));

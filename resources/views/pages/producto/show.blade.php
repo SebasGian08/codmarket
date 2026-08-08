@@ -165,6 +165,49 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     @endif
                     @endforeach
 
+                    <!-- ATRIBUTOS -->
+                    @php
+                    $atributosProducto = [];
+
+                    foreach ($producto->variantes as $var) {
+                    foreach ($var->atributos as $atVal) {
+                    $nombre = $atVal->atributo->nombre ?? 'Atributo';
+                    $atributosProducto[$nombre][$atVal->id_valor] = [
+                    'valor' => $atVal->valor,
+                    'variante_id' => $var->id_variante,
+                    ];
+                    }
+                    }
+                    @endphp
+
+                    @if($atributosProducto)
+                    <div class="product-attributes mb-3">
+
+                        @foreach($atributosProducto as $nombre => $valores)
+
+                        <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
+
+                            <span class="fw-semibold" style="min-width: 70px;">
+                                {{ $nombre }}:
+                            </span>
+
+                            <div class="d-flex flex-wrap gap-2">
+                                @foreach($valores as $idValor => $info)
+                                <button type="button"
+                                    class="attribute-chip {{ $varianteActiva->atributos->contains('id_valor', $idValor) ? 'attribute-chip-selected' : '' }}"
+                                    onclick="cambiarVariante({{ $info['variante_id'] }})">
+                                    {{ $info['valor'] }}
+                                </button>
+                                @endforeach
+                            </div>
+
+                        </div>
+
+                        @endforeach
+
+                    </div>
+                    @endif
+
                     <!-- CANTIDAD -->
                     <ul class="btns_group_1 ul_li mb_30 clearfix product-actions">
 
@@ -388,6 +431,31 @@ $mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
 @if($mostrarSuscripcion == 1)
 @include('sections.suscripcion')
 @endif
+
+<style>
+.attribute-chip {
+    border: 1px solid #d1d5db;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.attribute-chip:hover {
+    border-color: #198754;
+    color: #198754;
+}
+
+.attribute-chip-selected {
+    border-color: #198754;
+    background: rgba(25, 135, 84, .08);
+    color: #198754;
+    font-weight: 600;
+}
+
+</style>
 
 <script>
 document.querySelectorAll('.zoom-container').forEach(container => {
