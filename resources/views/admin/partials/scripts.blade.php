@@ -43,8 +43,7 @@ tinymce.init({
 </script>
 <script>
 $(document).ready(function() {
-    $('#basic-datatables').DataTable({
-        "pageLength": 10,
+    $('#basic-datatables').DataTable({        "pageLength": 10,
         "language": {
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",
@@ -116,6 +115,37 @@ $(document).on('click', '.btn-delete, .btn-delete-img', function(e) {
         }
 
     });
+});
+</script>
+
+<!-- Modo oscuro / claro -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('themeToggle');
+    var icon = btn ? btn.querySelector('i') : null;
+
+    function aplicarTema(tema) {
+        var oscuro = tema === 'dark';
+
+        document.documentElement.setAttribute('data-theme', oscuro ? 'dark' : 'light');
+
+        // sidebar y logo-header (dark / white)
+        $('.sidebar').attr('data-background-color', oscuro ? 'dark' : 'white');
+        $('.logo-header').attr('data-background-color', oscuro ? 'dark' : 'white');
+
+        if (icon) { icon.className = oscuro ? 'fa fa-sun' : 'fa fa-moon'; }
+    }
+
+    aplicarTema(localStorage.getItem('admin-theme') === 'dark' ? 'dark' : 'light');
+
+    if (btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var oscuro = document.documentElement.getAttribute('data-theme') === 'dark';
+            localStorage.setItem('admin-theme', oscuro ? 'light' : 'dark');
+            aplicarTema(oscuro ? 'light' : 'dark');
+        });
+    }
 });
 </script>
 

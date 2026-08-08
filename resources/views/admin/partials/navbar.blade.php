@@ -49,6 +49,13 @@
                     </ul>
                 </li>
 
+                <li class="nav-item topbar-icon hidden-caret">
+                    <a class="nav-link" href="#" id="themeToggle" role="button" aria-haspopup="true"
+                        aria-expanded="false" title="Cambiar tema">
+                        <i class="fa fa-moon"></i>
+                    </a>
+                </li>
+
                 <li class="nav-item topbar-icon dropdown hidden-caret">
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

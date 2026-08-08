@@ -20,6 +20,19 @@
 <!-- Estilo principal (el más importante) -->
 <link rel="stylesheet" href="{{ asset('admin/assets/css/kaiadmin.min.css') }}">
 
+<!-- Modo oscuro -->
+<link rel="stylesheet" href="{{ asset('admin/assets/css/dark-mode.css') }}">
+
 <!-- Favicon -->
 <link rel="icon" href="{{ asset('assets/images/favicon.png') }}">
+
+<script>
+    (function() {
+        try {
+            if (localStorage.getItem('admin-theme') === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        } catch (e) {}
+    })();
+</script>
 
