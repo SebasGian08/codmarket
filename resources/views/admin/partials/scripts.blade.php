@@ -44,6 +44,7 @@ tinymce.init({
 <script>
 $(document).ready(function() {
     $('#basic-datatables').DataTable({        "pageLength": 10,
+        "autoWidth": false,
         "language": {
             "sProcessing": "Procesando...",
             "sLengthMenu": "Mostrar _MENU_ registros",

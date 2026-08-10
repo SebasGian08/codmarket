@@ -182,6 +182,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::prefix('productos')->group(function () {
         Route::get('/', [AdminProductoController::class, 'index'])->name('admin.productos.index');
         Route::post('/guardar', [AdminProductoController::class, 'store'])->name('admin.productos.store');
+        Route::get('/{id}/editar', [AdminProductoController::class, 'edit'])->name('admin.productos.edit');
         Route::put('/{id}/actualizar', [AdminProductoController::class, 'update'])->name('admin.productos.update');
         Route::delete('/{id}/eliminar', [AdminProductoController::class, 'destroy'])->name('admin.productos.destroy');
         Route::get('/plantilla', [AdminProductoController::class, 'plantilla'])->name('admin.productos.plantilla');

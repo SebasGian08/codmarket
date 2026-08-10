@@ -92,6 +92,21 @@ class ProductoController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $p = Producto::with(['marca', 'proveedor', 'categorias', 'variantes'])->findOrFail($id);
+        $marcas = Marca::where('estado', 1)->get();
+        $proveedores = Proveedor::where('estado', 1)->get();
+        $categorias = Categoria::where('estado', 1)->get();
+
+        return view('admin.productos.modals.edit', compact(
+            'p',
+            'marcas',
+            'proveedores',
+            'categorias'
+        ));
+    }
+
     public function update(Request $request, $id)
     {
         $request->validate([

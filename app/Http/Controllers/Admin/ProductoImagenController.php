@@ -61,6 +61,8 @@ class ProductoImagenController extends Controller
                         'url' => asset($img->url),
                         'sku' => $img->variante->sku ?? 'Sin SKU',
                         'principal' => (int) $img->principal,
+                        'orden' => (int) $img->orden,
+                        'variante' => $img->id_variante,
                         'delete_url' => route('admin.producto_imagen.destroy', [
                             'producto' => $img->id_producto,
                             'id' => $img->id_imagen,
@@ -85,7 +87,7 @@ class ProductoImagenController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $producto, $id)
     {
         try {
             DB::beginTransaction();
