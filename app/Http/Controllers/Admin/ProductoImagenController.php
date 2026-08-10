@@ -41,7 +41,7 @@ class ProductoImagenController extends Controller
                     ->update(['principal' => 0]);
             }
 
-            ProductoImagen::create([
+            $img = ProductoImagen::create([
                 'id_producto' => $request->id_producto,
                 'id_variante' => $request->id_variante,
                 'url' => $imagen,
@@ -51,10 +51,36 @@ class ProductoImagenController extends Controller
 
             DB::commit();
 
+            if ($request->wantsJson()) {
+                $img->load('variante');
+
+                return response()->json([
+                    'success' => true,
+                    'image' => [
+                        'id' => $img->id_imagen,
+                        'url' => asset($img->url),
+                        'sku' => $img->variante->sku ?? 'Sin SKU',
+                        'principal' => (int) $img->principal,
+                        'delete_url' => route('admin.producto_imagen.destroy', [
+                            'producto' => $img->id_producto,
+                            'id' => $img->id_imagen,
+                        ]),
+                    ],
+                ]);
+            }
+
             return back()->with('success', 'Imagen subida correctamente');
 
         } catch (\Exception $e) {
             DB::rollBack();
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ], 500);
+            }
+
             return back()->with('error', $e->getMessage());
         }
     }

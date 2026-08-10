@@ -36,20 +36,23 @@
 
                         <!-- DROPZONE -->
                         <label class="upload-box w-100 text-center p-4 mb-3">
-                            <input type="file" name="imagen" id="inputImagen" hidden required accept="image/*">
+                            <input type="file" name="imagen" id="inputImagen" hidden multiple accept="image/*">
 
                             <div id="uploadContent">
                                 <i class="fa fa-cloud-upload fa-2x mb-2 text-muted"></i>
-                                <p class="mb-0 text-muted">Haz clic o arrastra una imagen</p>
+                                <p class="mb-0 text-muted">Haz clic o arrastra imágenes</p>
                             </div>
-
-                            <img id="preview" class="img-fluid d-none rounded" style="max-height:180px;">
                         </label>
+
+                        <small class="text-muted d-block mb-3">
+                            Puedes seleccionar varias imágenes a la vez: se suben automáticamente con la
+                            variante / principal / orden elegidos.
+                        </small>
 
                         <!-- VARIANTE -->
                         <div class="mb-2">
                             <label class="form-label small">Variante</label>
-                            <select name="id_variante" class="form-select">
+                            <select name="id_variante" id="id_variante" class="form-select">
                                 <!-- <option value="">General</option> -->
                                 @foreach($producto->variantes as $v)
                                 <option value="{{ $v->id_variante }}">
@@ -63,7 +66,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <label class="form-label small">Principal</label>
-                                <select name="principal" class="form-select">
+                                <select name="principal" id="principal" class="form-select">
                                     <option value="0">No</option>
                                     <option value="1">Sí</option>
                                 </select>
@@ -71,14 +74,20 @@
 
                             <div class="col-6">
                                 <label class="form-label small">Orden</label>
-                                <input type="number" name="orden" class="form-control" value="0">
+                                <input type="number" name="orden" id="orden" class="form-control" value="0">
                             </div>
                         </div>
 
-                        <!-- BOTÓN -->
-                        <button class="btn btn-primary w-100 mt-3">
-                            Subir imagen
-                        </button>
+                        <!-- PROGRESO -->
+                        <div id="uploadStatus" class="d-none mt-3">
+                            <div class="d-flex justify-content-between small mb-1">
+                                <span id="statusText">Subiendo...</span>
+                                <span id="statusCount">0 / 0</span>
+                            </div>
+                            <div class="progress" style="height:6px;">
+                                <div id="statusBar" class="progress-bar" style="width:0%"></div>
+                            </div>
+                        </div>
 
                     </form>
 
@@ -95,17 +104,18 @@
 
                     <div class="d-flex justify-content-between mb-3">
                         <h6 class="fw-semibold mb-0">Galería</h6>
-                        <small class="text-muted">{{ $imagenes->count() }} imágenes</small>
+                        <small class="text-muted" id="contadorImagenes"
+                            data-total="{{ $imagenes->count() }}">{{ $imagenes->count() }} imágenes</small>
                     </div>
 
-                    @if($imagenes->isEmpty())
-                    <div class="text-center py-5 text-muted">
-                        <i class="fa fa-image fa-2x mb-2"></i>
-                        <p>No hay imágenes</p>
-                    </div>
-                    @else
+                    <div class="row g-3" id="galeria">
 
-                    <div class="row g-3">
+                        @if($imagenes->isEmpty())
+                        <div class="text-center py-5 text-muted w-100" id="sinImagenes">
+                            <i class="fa fa-image fa-2x mb-2"></i>
+                            <p>No hay imágenes</p>
+                        </div>
+                        @else
 
                         @foreach($imagenes as $img)
                         <div class="col-md-4">
@@ -153,9 +163,9 @@
                         </div>
                         @endforeach
 
-                    </div>
+                        @endif
 
-                    @endif
+                    </div>
 
                 </div>
             </div>
@@ -270,20 +280,180 @@
     border-radius: 30px;
     font-weight: 600;
 }
+
+/* OVERLAY DE SUBIDA */
+.uploading-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(0, 0, 0, .4);
+    z-index: 2;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.image-card.upload-error {
+    box-shadow: 0 0 0 2px #dc3545;
+}
+
+.upload-error .uploading-overlay {
+    background: rgba(220, 53, 69, .55);
+}
 </style>
 
 <script>
 const input = document.getElementById('inputImagen');
-const preview = document.getElementById('preview');
 const uploadContent = document.getElementById('uploadContent');
+const galeria = document.getElementById('galeria');
+const sinImagenes = document.getElementById('sinImagenes');
+const contador = document.getElementById('contadorImagenes');
 
-input.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (file) {
-        preview.src = URL.createObjectURL(file);
-        preview.classList.remove('d-none');
-        uploadContent.classList.add('d-none');
+const statusBox = document.getElementById('uploadStatus');
+const statusText = document.getElementById('statusText');
+const statusCount = document.getElementById('statusCount');
+const statusBar = document.getElementById('statusBar');
+
+const token = document.querySelector('input[name="_token"]').value;
+const url = "{{ route('admin.producto_imagen.store', $producto->id_producto) }}";
+const productoId = {{ $producto->id_producto }};
+
+function esc(t) {
+    const d = document.createElement('div');
+    d.textContent = t == null ? '' : String(t);
+    return d.innerHTML;
+}
+
+function setStatus(texto, i, total) {
+    statusText.textContent = texto;
+    statusCount.textContent = i + ' / ' + total;
+}
+
+// Crea la tarjeta con la vista previa local mientras se sube
+function appendTempCard(file) {
+    const col = document.createElement('div');
+    col.className = 'col-md-4';
+
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+
+    const card = document.createElement('div');
+    card.className = 'image-card';
+
+    const overlay = document.createElement('div');
+    overlay.className = 'uploading-overlay';
+    overlay.innerHTML = '<div class="spinner-border spinner-border-sm"></div><span>Subiendo...</span>';
+
+    const footer = document.createElement('div');
+    footer.className = 'image-footer';
+    footer.innerHTML = '<div class="sku-text">Subiendo...</div>';
+
+    card.append(img, overlay, footer);
+    col.append(card);
+    galeria.append(col);
+
+    if (sinImagenes) { sinImagenes.remove(); }
+
+    return col;
+}
+
+// Confirma la subida: reemplaza la vista previa por la imagen final
+function markUploaded(col, data) {
+    const card = col.querySelector('.image-card');
+    card.querySelector('.uploading-overlay').remove();
+
+    const img = card.querySelector('img');
+    URL.revokeObjectURL(img.src);
+    img.src = data.url;
+
+    card.querySelector('.image-footer').innerHTML = `
+        <div class="sku-text" title="${esc(data.sku)}">Sku : ${esc(data.sku)}</div>
+        ${data.principal ? '<span class="main-badge">Principal</span>' : ''}`;
+
+    const actions = document.createElement('div');
+    actions.className = 'overlay';
+    actions.innerHTML = `
+        <div class="actions">
+            <button type="button" class="btn btn-danger btn-delete-img"
+                data-url="${esc(data.delete_url)}">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>`;
+
+    card.append(actions);
+}
+
+// Marca error en la tarjeta
+function markError(col, msg) {
+    const card = col.querySelector('.image-card');
+    card.classList.add('upload-error');
+    card.querySelector('.uploading-overlay').innerHTML =
+        '<i class="fa fa-exclamation-triangle"></i><span>Error</span>';
+    card.querySelector('.image-footer').innerHTML =
+        '<div class="sku-text text-danger">' + esc(msg || 'No se pudo subir') + '</div>';
+}
+
+input.addEventListener('change', async () => {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
+
+    const variante = document.getElementById('id_variante').value;
+    const principal = document.getElementById('principal').value;
+    const orden = document.getElementById('orden').value;
+
+    statusBox.classList.remove('d-none');
+    let ok = 0;
+
+    for (let i = 0; i < files.length; i++) {
+        setStatus('Subiendo...', i, files.length);
+        statusBar.style.width = Math.round((i / files.length) * 100) + '%';
+
+        const col = appendTempCard(files[i]);
+
+        const fd = new FormData();
+        fd.append('imagen', files[i]);
+        fd.append('id_producto', productoId);
+        fd.append('id_variante', variante);
+        fd.append('principal', principal);
+        fd.append('orden', orden);
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': token },
+                body: fd
+            });
+            const data = await res.json();
+            if (res.ok && data.success) {
+                ok++;
+                markUploaded(col, data.image);
+            } else {
+                markError(col, (data && data.message) || 'No se pudo subir');
+            }
+        } catch (err) {
+            markError(col, 'Error de red');
+        }
     }
+
+    statusBar.style.width = '100%';
+    setStatus(
+        ok === files.length ? '¡Listo! Imágenes subidas.' : 'Terminado con ' + (files.length - ok) + ' error(es).',
+        ok,
+        files.length
+    );
+    setTimeout(() => statusBox.classList.add('d-none'), 3500);
+
+    if (contador) {
+        const total = parseInt(contador.dataset.total || 0, 10) + ok;
+        contador.dataset.total = total;
+        contador.textContent = total + ' imágenes';
+    }
+
+    input.value = '';
 });
 </script>
 
