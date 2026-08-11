@@ -89,11 +89,13 @@
                         id="mantenimiento">
                         <ul class="nav nav-collapse">
 
+                            @permiso('empresa.ver')
                             <li class="{{ Request::is('admin/empresa*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.empresa.index') }}">
                                     <span class="sub-item">Empresa</span>
                                 </a>
                             </li>
+                            @endpermiso
 
                             @permiso('usuarios.ver')
                             <li class="{{ Request::is('admin/usuarios*') ? 'active':'' }}">
@@ -105,6 +107,7 @@
                             </li>
                             @endpermiso
 
+                            @permiso('permisos.ver')
                             <li class="{{ Request::is('admin/permisos*') ? 'active':'' }}">
                                 <a href="{{ route('admin.permisos.index') }}">
                                     <span class="sub-item">
@@ -112,6 +115,7 @@
                                     </span>
                                 </a>
                             </li>
+                            @endpermiso
 
                             @permiso('roles.ver')
                             <li>
@@ -123,11 +127,13 @@
                             </li>
                             @endpermiso
 
+                            @permiso('configuracion.ver')
                             <li class="{{ Request::is('admin/configuracion*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.configuracion.index') }}">
                                     <span class="sub-item">Configuración</span>
                                 </a>
                             </li>
+                            @endpermiso
                         </ul>
                     </div>
                 </li>
