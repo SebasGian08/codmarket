@@ -154,53 +154,69 @@
 
                         <ul class="nav nav-collapse">
 
+                            @permiso('blogs.ver')
                             <li class="{{ Request::is('admin/blogs*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.blogs.index') }}">
                                     <span class="sub-item">Blog</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('servicios.ver')
                             <li class="{{ Request::is('admin/servicios*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.servicios.index') }}">
                                     <span class="sub-item">Servicios</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('portafolios.ver')
                             <li class="{{ Request::is('admin/portafolios*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.portafolios.index') }}">
                                     <span class="sub-item">Portafolio</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('contacts.ver')
                             <li class="{{ Request::is('admin/contacts*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.contacts.index') }}">
                                     <span class="sub-item">Contactos</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('banners.ver')
                             <li class="{{ Request::is('admin/banners-principales*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.banners.index') }}">
                                     <span class="sub-item">Banners</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('promociones.ver')
                             <li class="{{ Request::is('admin/promociones*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.promociones.index') }}">
                                     <span class="sub-item">Promociones</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('trabajos.ver')
                             <li class="{{ Request::is('admin/trabajos-realizados*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.trabajos.index') }}">
                                     <span class="sub-item">Trabajos Realizados</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('rubros.ver')
                             <li class="{{ Request::is('admin/rubros*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.rubros.index') }}">
                                     <span class="sub-item">Rubros</span>
                                 </a>
                             </li>
+                            @endpermiso
 
 
                         </ul>
