@@ -244,6 +244,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                             <a class="btn-whatsapp" id="btnWhatsapp" target="_blank"
                                 data-telefono="{{ $telefono }}"
                                 data-producto="{{ $producto->nombre }}"
+                                data-empresa="{{ $empresa->nombre ?? '' }}"
                                 data-mostrar-precio="{{ $mostrarPrecio ? 1 : 0 }}"
                                 onclick="enviarWhatsApp(this)">
                                 <i class="fab fa-whatsapp mr-2"></i> Pedir directo
@@ -543,15 +544,29 @@ function enviarWhatsApp(btn) {
     const input = document.getElementById('cantidad');
     const cantidad = input ? input.value : 1;
 
-    let base = "Hola, quiero este producto:\n" +
-        "• Producto: " + btn.getAttribute('data-producto') + "\n";
+    const producto = btn.getAttribute('data-producto');
+    const empresa = btn.getAttribute('data-empresa');
+
+    let base = "Hola, " + (empresa ? "soy de " + empresa + ", quiero este producto:\n" : "quiero este producto:\n");
+
+    base += "• Producto: " + producto + "\n";
+
+    const skuEl = document.getElementById('skuActivo');
+    const sku = skuEl ? skuEl.textContent.replace('SKU:', '').trim() : '';
+    if (sku) base += "• SKU: " + sku + "\n";
+
+    const atributos = Array.from(document.querySelectorAll('.attribute-chip-selected'))
+        .map(chip => chip.textContent.trim())
+        .filter(Boolean);
+    if (atributos.length) base += "• Variante: " + atributos.join(', ') + "\n";
 
     if (btn.getAttribute('data-mostrar-precio') === '1') {
         const precio = document.getElementById('precioPromo');
         base += "• Precio: S/" + (precio ? precio.textContent.trim() : '') + "\n";
     }
 
-    base += "• Cantidad: " + cantidad;
+    base += "• Cantidad: " + cantidad + "\n";
+    base += "• Ver producto: " + window.location.href;
 
     btn.href = 'https://wa.me/' + btn.getAttribute('data-telefono') + '?text=' + encodeURIComponent(base);
 }
