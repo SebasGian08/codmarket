@@ -36,7 +36,7 @@ class ProductoController extends Controller
             ->orderBy('orden')
             ->get();
 
-        $relacionados = Producto::with(['imagenes', 'marca'])
+        $relacionados = Producto::with(['marca', 'categorias', 'variantes.imagenes'])
             ->where('id_producto', '!=', $producto->id_producto)
             ->where(function ($q) use ($categorias, $producto) {
                 $q->whereHas('categorias', function ($q2) use ($categorias) {
