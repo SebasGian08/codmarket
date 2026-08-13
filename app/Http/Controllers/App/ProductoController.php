@@ -57,6 +57,54 @@ class ProductoController extends Controller
         ));
     }
 
+    public function variante($slug, $varianteId)
+    {
+        $producto = Producto::with([
+            'variantes.imagenes',
+            'variantes.atributos.atributo',
+        ])->where('slug', $slug)->firstOrFail();
+
+        $variante = $producto->variantes->firstWhere('id_variante', $varianteId);
+
+        if (!$variante) {
+            return response()->json(['error' => 'Variante no encontrada'], 404);
+        }
+
+        $precioRegular = (float) $variante->precio;
+        $precioPromo = $variante->precio_oferta !== null ? (float) $variante->precio_oferta : $precioRegular;
+
+        $descuento = $precioRegular > 0
+            ? round((($precioRegular - $precioPromo) / $precioRegular) * 100)
+            : 0;
+
+        $imagenes = $variante->imagenes()
+            ->orderBy('orden')
+            ->get()
+            ->map(function ($img) {
+                return [
+                    'id' => $img->id_imagen,
+                    'url' => asset($img->url),
+                    'principal' => (int) $img->principal,
+                ];
+            })->values();
+
+        return response()->json([
+            'id' => (int) $variante->id_variante,
+            'sku' => $variante->sku,
+            'precio' => $precioRegular,
+            'precio_oferta' => $variante->precio_oferta !== null ? $precioPromo : null,
+            'descuento' => $descuento,
+            'imagenes' => $imagenes,
+            'valores_ids' => $variante->atributos
+                ->pluck('id_valor')
+                ->map(function ($v) {
+                    return (int) $v;
+                })
+                ->all(),
+            'url' => route('producto.show', $slug) . '?variante=' . $variante->id_variante,
+        ]);
+    }
+
     public function index(Request $request)
     {
         $query = Producto::with([

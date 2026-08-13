@@ -464,7 +464,7 @@ hr {
   padding: 0px;
   opacity: 0.3;
   border-radius: 100%;
-  background: #ed1d24;
+  background: var(--primary-color);
 }
 .slick-dots li:hover button, .slick-dots li.slick-active button {
   opacity: 1;

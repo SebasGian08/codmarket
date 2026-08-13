@@ -35,7 +35,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
             <div class="col-lg-5 col-md-5">
                 <div class="shop_details_image" style="border: 1px solid #eee; padding: 10px;">
 
-                    <div class="tab-content">
+                    <div class="tab-content" id="galeriaTabContent">
                         @forelse($imagenes as $key => $img)
                         <div id="tab_{{ $key + 1 }}" class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}">
                             <div class="zoom-container">
@@ -49,7 +49,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         @endforelse
                     </div>
 
-                    <ul class="nav ul_li clearfix" role="tablist">
+                    <ul class="nav ul_li clearfix" role="tablist" id="galeriaTabList">
                         @forelse($imagenes as $key => $img)
                         <li>
                             <a class="{{ $key == 0 ? 'active' : '' }}" data-toggle="tab" href="#tab_{{ $key + 1 }}">
@@ -82,7 +82,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         </span>
                         @endif
 
-                        <span style="font-size: 14px;">
+                        <span style="font-size: 14px;" id="skuActivo">
                             SKU: {{ $varianteActiva->sku }}
                         </span>
 
@@ -121,21 +121,23 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                         <div class="price-row">
                             <span class="label">Precio regular</span>
-                            <span class="old-price">S/ {{ number_format($precioRegular, 2) }}</span>
+                            <span class="old-price" id="precioRegular">S/ {{ number_format($precioRegular, 2) }}</span>
                         </div>
 
                         <div class="price-row">
                             <span class="label">Precio promocional</span>
 
                             <div class="d-flex align-items-center gap-2">
-                                <span class="new-price">
+                                <span class="new-price" id="precioPromo">
                                     S/ {{ number_format($precioPromo, 2) }}
                                 </span>
 
                                 @if($descuento > 0)
-                                <div class="badge-discount-black">
+                                <div class="badge-discount-black" id="badgeDescuento">
                                     -{{ $descuento }}%
                                 </div>
+                                @else
+                                <div class="badge-discount-black" id="badgeDescuento" style="display:none;"></div>
                                 @endif
                             </div>
                         </div>
@@ -158,6 +160,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     @if($imgVar)
                     <button type="button"
                         class="mb-4 thumbnail-border {{ $varianteActiva->id_variante == $var->id_variante ? 'thumbnail-border-selected' : '' }}"
+                        data-variante="{{ $var->id_variante }}"
                         onclick="cambiarVariante({{ $var->id_variante }})">
 
                         <img src="{{ asset($imgVar->url) }}" width="52" height="52">
@@ -195,6 +198,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                 @foreach($valores as $idValor => $info)
                                 <button type="button"
                                     class="attribute-chip {{ $varianteActiva->atributos->contains('id_valor', $idValor) ? 'attribute-chip-selected' : '' }}"
+                                    data-valor-id="{{ $idValor }}"
                                     onclick="cambiarVariante({{ $info['variante_id'] }})">
                                     {{ $info['valor'] }}
                                 </button>
@@ -237,18 +241,11 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         @endphp
 
                         <li>
-                            <a class="btn-whatsapp" target="_blank" onclick="
-                                        let input = document.getElementById('cantidad');
-                                        let cantidad = input ? input.value : 1;
-
-                                        let base = `Hola, quiero este producto:
-                            • Producto: {{ $producto->nombre }}
-                            @if($mostrarPrecio)
-                            • Precio: S/{{ number_format($precioPromo,2) }}
-                            @endif
-                            • Cantidad: ${cantidad}`;
-                                        this.href = 'https://wa.me/{{ $telefono }}?text=' + encodeURIComponent(base);
-                                ">
+                            <a class="btn-whatsapp" id="btnWhatsapp" target="_blank"
+                                data-telefono="{{ $telefono }}"
+                                data-producto="{{ $producto->nombre }}"
+                                data-mostrar-precio="{{ $mostrarPrecio ? 1 : 0 }}"
+                                onclick="enviarWhatsApp(this)">
                                 <i class="fab fa-whatsapp mr-2"></i> Pedir directo
                             </a>
                         </li>
@@ -433,29 +430,131 @@ $mostrarSuscripcion = $config['home_mostrar_suscripcion'] ?? 1;
 @endif
 
 <script>
-document.querySelectorAll('.zoom-container').forEach(container => {
-    const img = container.querySelector('img');
+const DEFAULT_IMG = "{{ asset('assets/images/tienda_virtual/default.png') }}";
 
-    container.addEventListener('mousemove', (e) => {
-        const rect = container.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
+function initZoom() {
+    document.querySelectorAll('.zoom-container').forEach(container => {
+        const img = container.querySelector('img');
+        if (!img) return;
 
-        img.style.transformOrigin = `${x}% ${y}%`;
-        img.style.transform = "scale(2)";
+        container.addEventListener('mousemove', (e) => {
+            const rect = container.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+            img.style.transformOrigin = `${x}% ${y}%`;
+            img.style.transform = "scale(2)";
+        });
+
+        container.addEventListener('mouseleave', () => {
+            img.style.transform = "scale(1)";
+            img.style.transformOrigin = "center";
+        });
     });
+}
 
-    container.addEventListener('mouseleave', () => {
-        img.style.transform = "scale(1)";
-        img.style.transformOrigin = "center";
-    });
-});
+function updateGaleria(imagenes) {
+    const tabContent = document.getElementById('galeriaTabContent');
+    const tabList = document.getElementById('galeriaTabList');
+    if (!tabContent || !tabList) return;
+
+    const lista = imagenes && imagenes.length ? imagenes : [{ url: DEFAULT_IMG }];
+
+    tabContent.innerHTML = lista.map((img, i) => `
+        <div id="tabv_${i}" class="tab-pane fade ${i === 0 ? 'show active' : ''}">
+            <div class="zoom-container">
+                <img src="${escAttr(img.url)}" alt="">
+            </div>
+        </div>
+    `).join('');
+
+    tabList.innerHTML = lista.map((img, i) => `
+        <li>
+            <a class="${i === 0 ? 'active' : ''}" data-toggle="tab" href="#tabv_${i}">
+                <img src="${escAttr(img.url)}" style="width:100px;height:100px;object-fit:cover;border:1px solid #eee;padding:2px;">
+            </a>
+        </li>
+    `).join('');
+
+    initZoom();
+}
+
+function escAttr(t) {
+    return String(t == null ? '' : t).replace(/"/g, '&quot;');
+}
+
+function formatearPrecio(n) {
+    return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function enviarWhatsApp(btn) {
+    const input = document.getElementById('cantidad');
+    const cantidad = input ? input.value : 1;
+
+    let base = "Hola, quiero este producto:\n" +
+        "• Producto: " + btn.getAttribute('data-producto') + "\n";
+
+    if (btn.getAttribute('data-mostrar-precio') === '1') {
+        const precio = document.getElementById('precioPromo');
+        base += "• Precio: S/" + (precio ? precio.textContent.trim() : '') + "\n";
+    }
+
+    base += "• Cantidad: " + cantidad;
+
+    btn.href = 'https://wa.me/' + btn.getAttribute('data-telefono') + '?text=' + encodeURIComponent(base);
+}
 
 function cambiarVariante(id) {
+    id = parseInt(id, 10);
+    if (isNaN(id) || id === window.currentVariantId) return;
+
     const url = new URL(window.location.href);
     url.searchParams.set('variante', id);
-    window.location.href = url.toString();
+
+    fetch(url.pathname + '/variante/' + id, { headers: { 'Accept': 'application/json' } })
+        .then(r => r.json())
+        .then(data => {
+            if (!data || data.error) return;
+
+            window.currentVariantId = data.id;
+            history.replaceState(null, '', url.toString());
+
+            const skuEl = document.getElementById('skuActivo');
+            if (skuEl) skuEl.textContent = 'SKU: ' + data.sku;
+
+            const precioRegular = document.getElementById('precioRegular');
+            const precioPromo = document.getElementById('precioPromo');
+            const badge = document.getElementById('badgeDescuento');
+
+            if (precioRegular) precioRegular.textContent = 'S/ ' + formatearPrecio(data.precio);
+            if (precioPromo) precioPromo.textContent = 'S/ ' + formatearPrecio(data.precio_oferta != null ? data.precio_oferta : data.precio);
+
+            if (badge) {
+                if (data.descuento > 0) {
+                    badge.textContent = '-' + data.descuento + '%';
+                    badge.style.display = '';
+                } else {
+                    badge.style.display = 'none';
+                }
+            }
+
+            updateGaleria(data.imagenes);
+
+            document.querySelectorAll('.attribute-chip').forEach(function(chip) {
+                const idValor = parseInt(chip.getAttribute('data-valor-id'), 10);
+                chip.classList.toggle('attribute-chip-selected', data.valores_ids.indexOf(idValor) !== -1);
+            });
+
+            document.querySelectorAll('.thumbnail-border').forEach(function(t) {
+                const vid = parseInt(t.getAttribute('data-variante'), 10);
+                t.classList.toggle('thumbnail-border-selected', vid === data.id);
+            });
+        })
+        .catch(function() { });
 }
+
+window.currentVariantId = {{ $varianteActiva->id_variante }};
+initZoom();
 </script>
 
 @endsection

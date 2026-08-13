@@ -56,6 +56,7 @@ Route::get('/mantenimiento', function () {return view('pages.errors.mantenimient
 Route::get('/portafolio', [PortafolioController::class, 'index'])->name('portafolio.index');
 Route::get('/productos-shop', [ProductoController::class, 'index'])->name('productos.index');
 Route::get('/producto/{slug}', [ProductoController::class, 'show']) ->name('producto.show');
+Route::get('/producto/{slug}/variante/{variante}', [ProductoController::class, 'variante'])->name('producto.variante');
 Route::get('/buscar-productos', [ProductoController::class, 'buscar'])->name('productos.buscar');
 Route::get('/productos/categoria/{slug}', [ProductoController::class, 'categoria'])->name('productos.categoria');
 Route::get('/nosotros', function () {return view('pages.nosotros.index');})->name('nosotros');
