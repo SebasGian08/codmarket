@@ -11,7 +11,7 @@
 
                 <div class="modal-header">
                     <h5>Editar Permiso</h5>
-                    <button class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
                 <div class="modal-body row">

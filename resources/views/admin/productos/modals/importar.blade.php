@@ -10,7 +10,7 @@
                 <div class="modal-header">
                     <h5>Importar Productos</h5>
 
-                    <button class="btn-close" data-bs-dismiss="modal">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
                     </button>
                 </div>
 

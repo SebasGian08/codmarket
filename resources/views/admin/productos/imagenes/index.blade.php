@@ -63,8 +63,16 @@
                             <label class="form-label small fw-semibold">Variante</label>
                             <select name="id_variante" id="id_variante" class="form-select">
                                 @foreach($producto->variantes as $v)
+                                @php
+                                    $atributos = $v->atributos
+                                        ->map(function ($a) {
+                                            return ($a->atributo->nombre ?? '') . ': ' . $a->valor;
+                                        })
+                                        ->implode(', ');
+                                @endphp
                                 <option value="{{ $v->id_variante }}">
                                     {{ $v->sku ?? 'Variante #' . $v->id_variante }}
+                                    @if($atributos) — {{ $atributos }} @endif
                                 </option>
                                 @endforeach
                             </select>

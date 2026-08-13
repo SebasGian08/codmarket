@@ -12,7 +12,7 @@ class ProductoImagenController extends Controller
 {
     public function index($productoId)
     {
-        $producto = Producto::findOrFail($productoId);
+        $producto = Producto::with('variantes.atributos.atributo')->findOrFail($productoId);
 
         $imagenes = ProductoImagen::where('id_producto', $productoId)
             ->orderBy('orden', 'asc')
