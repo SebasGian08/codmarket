@@ -17,7 +17,7 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tiendas` (
+CREATE TABLE IF NOT EXISTS `tiendas` (
   `id_tienda` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `codigo` varchar(10) NOT NULL,
   `nombre` varchar(150) NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE `tiendas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `clientes` (
+CREATE TABLE IF NOT EXISTS `clientes` (
   `id_cliente` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(150) NOT NULL,
   `id_tipo_documento` bigint(20) DEFAULT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `clientes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `cajas` (
+CREATE TABLE IF NOT EXISTS `cajas` (
   `id_caja` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_tienda` bigint(20) unsigned NOT NULL,
   `id_usuario` bigint(20) unsigned NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE `cajas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `vendedores` (
+CREATE TABLE IF NOT EXISTS `vendedores` (
   `id_vendedor` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_usuario` bigint(20) unsigned DEFAULT NULL,
   `nombre` varchar(150) NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE `vendedores` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `metodos_pagos` (
+CREATE TABLE IF NOT EXISTS `metodos_pagos` (
   `id_metodo_pago` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `codigo` varchar(30) DEFAULT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE `metodos_pagos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ventas` (
+CREATE TABLE IF NOT EXISTS `ventas` (
   `id_venta` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `numero` varchar(30) NOT NULL,
   `correlativo` int(10) unsigned NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE `ventas` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ventas_detalle` (
+CREATE TABLE IF NOT EXISTS `ventas_detalle` (
   `id_venta_detalle` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_venta` bigint(20) unsigned NOT NULL,
   `id_variante` bigint(20) NOT NULL,
@@ -157,7 +157,7 @@ CREATE TABLE `ventas_detalle` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ingresos` (
+CREATE TABLE IF NOT EXISTS `ingresos` (
   `id_ingreso` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `numero` varchar(30) NOT NULL,
   `correlativo` int(10) unsigned NOT NULL,
@@ -182,7 +182,7 @@ CREATE TABLE `ingresos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ingresos_detalle` (
+CREATE TABLE IF NOT EXISTS `ingresos_detalle` (
   `id_ingreso_detalle` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_ingreso` bigint(20) unsigned NOT NULL,
   `id_variante` bigint(20) NOT NULL,
@@ -199,7 +199,7 @@ CREATE TABLE `ingresos_detalle` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transferencias` (
+CREATE TABLE IF NOT EXISTS `transferencias` (
   `id_transferencia` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `numero` varchar(30) NOT NULL,
   `correlativo` int(10) unsigned NOT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE `transferencias` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `transferencias_detalle` (
+CREATE TABLE IF NOT EXISTS `transferencias_detalle` (
   `id_transferencia_detalle` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_transferencia` bigint(20) unsigned NOT NULL,
   `id_variante` bigint(20) NOT NULL,
@@ -239,7 +239,7 @@ CREATE TABLE `transferencias_detalle` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `inventarios` (
+CREATE TABLE IF NOT EXISTS `inventarios` (
   `id_inventario` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_variante` bigint(20) NOT NULL,
   `id_tienda` bigint(20) unsigned NOT NULL,
@@ -255,7 +255,7 @@ CREATE TABLE `inventarios` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movimientos` (
+CREATE TABLE IF NOT EXISTS `movimientos` (
   `id_movimiento` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_variante` bigint(20) NOT NULL,
   `id_tienda` bigint(20) unsigned NOT NULL,
@@ -304,3 +304,53 @@ INSERT IGNORE INTO tiendas (id_tienda, codigo, nombre, direccion, telefono, es_p
 -- Cliente generico "Clientes Varios" (id 1 por defecto)
 INSERT IGNORE INTO clientes (id_cliente, nombre, numero_documento, telefono, correo, direccion, estado, es_varios, created_at, updated_at) VALUES
 (1, 'CLIENTES VARIOS', NULL, NULL, NULL, NULL, 1, 1, NOW(), NOW());
+
+-- ============================================================
+-- PERMISOS NUEVOS (modulos POS creados)
+-- codigo tiene indice UNIQUE -> INSERT IGNORE no duplica.
+-- ============================================================
+
+INSERT IGNORE INTO permisos (nombre, codigo, estado, created_at, updated_at) VALUES
+-- Punto de Venta
+('Ver Punto de Venta', 'ventas.ver', 1, NOW(), NOW()),
+('Registrar Ventas', 'ventas.crear', 1, NOW(), NOW()),
+('Anular Ventas', 'ventas.anular', 1, NOW(), NOW()),
+('Ver Historial de Ventas', 'ventas.historial', 1, NOW(), NOW()),
+
+-- Cajas
+('Ver Cajas', 'cajas.ver', 1, NOW(), NOW()),
+('Abrir Cajas', 'cajas.abrir', 1, NOW(), NOW()),
+('Cerrar Cajas', 'cajas.cerrar', 1, NOW(), NOW()),
+
+-- Ingresos de stock
+('Ver Ingresos', 'ingresos.ver', 1, NOW(), NOW()),
+('Crear Ingresos', 'ingresos.crear', 1, NOW(), NOW()),
+('Anular Ingresos', 'ingresos.anular', 1, NOW(), NOW()),
+
+-- Transferencias entre tiendas
+('Ver Transferencias', 'transferencias.ver', 1, NOW(), NOW()),
+('Crear Transferencias', 'transferencias.crear', 1, NOW(), NOW()),
+('Enviar Transferencias', 'transferencias.enviar', 1, NOW(), NOW()),
+('Recibir Transferencias', 'transferencias.recibir', 1, NOW(), NOW()),
+('Anular Transferencias', 'transferencias.anular', 1, NOW(), NOW()),
+
+-- Inventario (stock por tienda)
+('Ver Inventario', 'inventario.ver', 1, NOW(), NOW()),
+
+-- Tiendas
+('Ver Tiendas', 'tiendas.ver', 1, NOW(), NOW()),
+('Crear Tiendas', 'tiendas.crear', 1, NOW(), NOW()),
+('Editar Tiendas', 'tiendas.editar', 1, NOW(), NOW()),
+('Eliminar Tiendas', 'tiendas.eliminar', 1, NOW(), NOW()),
+
+-- Clientes
+('Ver Clientes', 'clientes.ver', 1, NOW(), NOW()),
+('Crear Clientes', 'clientes.crear', 1, NOW(), NOW()),
+('Editar Clientes', 'clientes.editar', 1, NOW(), NOW()),
+('Eliminar Clientes', 'clientes.eliminar', 1, NOW(), NOW()),
+
+-- Vendedores
+('Ver Vendedores', 'vendedores.ver', 1, NOW(), NOW()),
+('Crear Vendedores', 'vendedores.crear', 1, NOW(), NOW()),
+('Editar Vendedores', 'vendedores.editar', 1, NOW(), NOW()),
+('Eliminar Vendedores', 'vendedores.eliminar', 1, NOW(), NOW());

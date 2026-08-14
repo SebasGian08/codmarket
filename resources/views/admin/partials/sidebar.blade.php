@@ -32,13 +32,17 @@
                     </a>
                 </li>
 
+                @permiso('ventas.ver')
                 <li class="nav-item {{ Request::is('admin/ventas') ? 'active' : '' }}">
                     <a href="{{ route('admin.ventas.index') }}">
                         <i class="fas fa-cart-plus"></i>
                         <p>Punto de Venta</p>
                     </a>
                 </li>
+                @endpermiso
 
+                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver'))
+                @if($puedeInventario)
                 <li
                     class="nav-item {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#inventario">
@@ -50,34 +54,45 @@
                     <div class="collapse {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}"
                         id="inventario">
                         <ul class="nav nav-collapse">
+                            @permiso('ventas.historial')
                             <li class="{{ Request::is('admin/ventas/historial') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ventas.historial') }}">
                                     <span class="sub-item">Historial de Ventas</span>
                                 </a>
                             </li>
+                            @endpermiso
+                            @permiso('cajas.ver')
                             <li class="{{ Request::is('admin/cajas*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.cajas.index') }}">
                                     <span class="sub-item">Cajas</span>
                                 </a>
                             </li>
+                            @endpermiso
+                            @permiso('ingresos.ver')
                             <li class="{{ Request::is('admin/ingresos*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ingresos.index') }}">
                                     <span class="sub-item">Ingresos</span>
                                 </a>
                             </li>
+                            @endpermiso
+                            @permiso('transferencias.ver')
                             <li class="{{ Request::is('admin/transferencias*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.transferencias.index') }}">
                                     <span class="sub-item">Transferencias</span>
                                 </a>
                             </li>
+                            @endpermiso
+                            @permiso('inventario.ver')
                             <li class="{{ Request::is('admin/inventario*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.inventario.index') }}">
                                     <span class="sub-item">Stock por Tienda</span>
                                 </a>
                             </li>
+                            @endpermiso
                         </ul>
                     </div>
                 </li>
+                @endif
 
                 <li
                     class="nav-item  {{ Request::is('admin/marcas*') || Request::is('admin/proveedores*') ? 'active' : '' }}">
@@ -144,23 +159,29 @@
                             </li>
                             @endpermiso
 
+                            @permiso('tiendas.ver')
                             <li class="{{ Request::is('admin/tiendas*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.tiendas.index') }}">
                                     <span class="sub-item">Tiendas</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('clientes.ver')
                             <li class="{{ Request::is('admin/clientes*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.clientes.index') }}">
                                     <span class="sub-item">Clientes</span>
                                 </a>
                             </li>
+                            @endpermiso
 
+                            @permiso('vendedores.ver')
                             <li class="{{ Request::is('admin/vendedores*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.vendedores.index') }}">
                                     <span class="sub-item">Vendedores</span>
                                 </a>
                             </li>
+                            @endpermiso
 
                             @permiso('usuarios.ver')
                             <li class="{{ Request::is('admin/usuarios*') ? 'active':'' }}">
