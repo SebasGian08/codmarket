@@ -148,6 +148,8 @@ function cargarEdicion(id) {
     const wrap = document.getElementById('modalEditWrap');
     const url = '{{ route('admin.productos.index') }}/' + id + '/editar';
 
+    if (window.adminLoader) adminLoader.show('Cargando producto...');
+
     fetch(url, { headers: { 'Accept': 'text/html' } })
         .then(function(r) {
             if (!r.ok) throw new Error();
@@ -179,8 +181,12 @@ function cargarEdicion(id) {
                     toolbar: 'undo redo | bold italic | bullist numlist | link'
                 });
             }
+
+            if (window.adminLoader) adminLoader.hide();
         })
         .catch(function() {
+            if (window.adminLoader) adminLoader.hide();
+
             if (typeof Swal !== 'undefined') {
                 Swal.fire('Error', 'No se pudo cargar el producto', 'error');
             }
