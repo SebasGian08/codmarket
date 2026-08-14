@@ -32,6 +32,13 @@ use App\Http\Controllers\Admin\ProductoImagenController;
 use App\Http\Controllers\Admin\AtributoController;
 use App\Http\Controllers\Admin\AtributoValorController;
 use App\Http\Controllers\Admin\VentaController;
+use App\Http\Controllers\Admin\TiendaController;
+use App\Http\Controllers\Admin\ClienteController;
+use App\Http\Controllers\Admin\VendedorController;
+use App\Http\Controllers\Admin\CajaController;
+use App\Http\Controllers\Admin\IngresoController;
+use App\Http\Controllers\Admin\TransferenciaController;
+use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
@@ -92,6 +99,65 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // MÓDULO: VENTA (punto de venta)
     Route::prefix('ventas')->group(function () {
         Route::get('/', [VentaController::class, 'index'])->name('admin.ventas.index');
+        Route::post('/guardar', [VentaController::class, 'guardar'])->name('admin.ventas.guardar');
+        Route::get('/historial', [VentaController::class, 'historial'])->name('admin.ventas.historial');
+        Route::get('/{id}/detalle', [VentaController::class, 'detalle'])->name('admin.ventas.detalle');
+        Route::post('/{id}/anular', [VentaController::class, 'anular'])->name('admin.ventas.anular');
+    });
+
+    // MÓDULO: TIENDAS (sucursales)
+    Route::prefix('tiendas')->group(function () {
+        Route::get('/', [TiendaController::class, 'index'])->name('admin.tiendas.index');
+        Route::post('/guardar', [TiendaController::class, 'store'])->name('admin.tiendas.store');
+        Route::put('/{id}/actualizar', [TiendaController::class, 'update'])->name('admin.tiendas.update');
+        Route::delete('/{id}/eliminar', [TiendaController::class, 'destroy'])->name('admin.tiendas.destroy');
+    });
+
+    // MÓDULO: CLIENTES
+    Route::prefix('clientes')->group(function () {
+        Route::get('/', [ClienteController::class, 'index'])->name('admin.clientes.index');
+        Route::post('/guardar', [ClienteController::class, 'store'])->name('admin.clientes.store');
+        Route::put('/{id}/actualizar', [ClienteController::class, 'update'])->name('admin.clientes.update');
+        Route::delete('/{id}/eliminar', [ClienteController::class, 'destroy'])->name('admin.clientes.destroy');
+    });
+
+    // MÓDULO: VENDEDORES
+    Route::prefix('vendedores')->group(function () {
+        Route::get('/', [VendedorController::class, 'index'])->name('admin.vendedores.index');
+        Route::post('/guardar', [VendedorController::class, 'store'])->name('admin.vendedores.store');
+        Route::put('/{id}/actualizar', [VendedorController::class, 'update'])->name('admin.vendedores.update');
+        Route::delete('/{id}/eliminar', [VendedorController::class, 'destroy'])->name('admin.vendedores.destroy');
+    });
+
+    // MÓDULO: CAJAS (caja por tienda)
+    Route::prefix('cajas')->group(function () {
+        Route::get('/', [CajaController::class, 'index'])->name('admin.cajas.index');
+        Route::post('/abrir', [CajaController::class, 'abrir'])->name('admin.cajas.abrir');
+        Route::post('/{id}/cerrar', [CajaController::class, 'cerrar'])->name('admin.cajas.cerrar');
+        Route::delete('/{id}/eliminar', [CajaController::class, 'destroy'])->name('admin.cajas.destroy');
+    });
+
+    // MÓDULO: INGRESOS DE STOCK
+    Route::prefix('ingresos')->group(function () {
+        Route::get('/', [IngresoController::class, 'index'])->name('admin.ingresos.index');
+        Route::post('/guardar', [IngresoController::class, 'store'])->name('admin.ingresos.store');
+        Route::post('/{id}/anular', [IngresoController::class, 'anular'])->name('admin.ingresos.anular');
+        Route::get('/{id}/detalle', [IngresoController::class, 'detalle'])->name('admin.ingresos.detalle');
+    });
+
+    // MÓDULO: TRANSFERENCIAS ENTRE TIENDAS
+    Route::prefix('transferencias')->group(function () {
+        Route::get('/', [TransferenciaController::class, 'index'])->name('admin.transferencias.index');
+        Route::post('/guardar', [TransferenciaController::class, 'store'])->name('admin.transferencias.store');
+        Route::post('/{id}/enviar', [TransferenciaController::class, 'enviar'])->name('admin.transferencias.enviar');
+        Route::post('/{id}/recibir', [TransferenciaController::class, 'recibir'])->name('admin.transferencias.recibir');
+        Route::post('/{id}/anular', [TransferenciaController::class, 'anular'])->name('admin.transferencias.anular');
+        Route::get('/{id}/detalle', [TransferenciaController::class, 'detalle'])->name('admin.transferencias.detalle');
+    });
+
+    // MÓDULO: INVENTARIO
+    Route::prefix('inventario')->group(function () {
+        Route::get('/', [InventarioController::class, 'index'])->name('admin.inventario.index');
     });
 
     // MÓDULO: USUARIOS (Sintaxis compatible)

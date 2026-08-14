@@ -6,22 +6,10 @@
 
 <div class="page-inner">
 
-    @include('admin.partials.table_responsive')
-
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex flex-wrap align-items-center gap-2">
             <h4 class="page-title">Productos</h4>
-
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-                <li class="separator"><i class="icon-arrow-right"></i></li>
-                <li class="nav-item">Listado</li>
-            </ul>
         </div>
 
         <div class="d-grid d-sm-flex gap-2 flex-sm-wrap">
@@ -52,7 +40,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-striped table-hover table-cards" id="basic-datatables">
+                <table class="table table-striped table-hover" id="basic-datatables">
 
                     <thead>
                         <tr>
@@ -68,18 +56,18 @@
                     <tbody>
                         @foreach($productos as $p)
                         <tr>
-                            <td data-label="ID">{{ $p->id_producto }}</td>
-                            <td data-label="Nombre">{{ $p->nombre }}</td>
-                            <td data-label="Marca">{{ $p->marca->nombre ?? '-' }}</td>
-                            <td data-label="Proveedor">{{ $p->proveedor->nombre ?? '-' }}</td>
+                            <td>{{ $p->id_producto }}</td>
+                            <td>{{ $p->nombre }}</td>
+                            <td>{{ $p->marca->nombre ?? '-' }}</td>
+                            <td>{{ $p->proveedor->nombre ?? '-' }}</td>
 
-                            <td data-label="Estado">
+                            <td>
                                 <span class="badge {{ $p->estado ? 'bg-success' : 'bg-danger' }}">
                                     {{ $p->estado ? 'Activo' : 'Inactivo' }}
                                 </span>
                             </td>
 
-                            <td class="table-card-actions">
+                            <td>
                                 <div class="d-flex flex-wrap gap-1">
 
                                     <button class="btn btn-sm btn-primary btn-border btn-round btn-edit-producto"

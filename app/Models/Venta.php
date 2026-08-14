@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Venta extends Model
+{
+    protected $table = 'ventas';
+    protected $primaryKey = 'id_venta';
+
+    protected $fillable = [
+        'numero',
+        'correlativo',
+        'id_caja',
+        'id_tienda',
+        'id_usuario',
+        'id_cliente',
+        'nombre_cliente',
+        'id_metodo_pago',
+        'id_vendedor',
+        'subtotal',
+        'total',
+        'estado'
+    ];
+
+    public function caja()
+    {
+        return $this->belongsTo(Caja::class, 'id_caja');
+    }
+
+    public function tienda()
+    {
+        return $this->belongsTo(Tienda::class, 'id_tienda');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
+    public function cliente()
+    {
+        return $this->belongsTo(Cliente::class, 'id_cliente');
+    }
+
+    public function metodoPago()
+    {
+        return $this->belongsTo(MetodoPago::class, 'id_metodo_pago');
+    }
+
+    public function vendedor()
+    {
+        return $this->belongsTo(Vendedor::class, 'id_vendedor');
+    }
+
+    public function detalle()
+    {
+        return $this->hasMany(VentaDetalle::class, 'id_venta');
+    }
+}

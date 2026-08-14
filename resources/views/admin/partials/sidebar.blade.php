@@ -32,11 +32,51 @@
                     </a>
                 </li>
 
-                <li class="nav-item {{ Request::is('admin/ventas*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/ventas') ? 'active' : '' }}">
                     <a href="{{ route('admin.ventas.index') }}">
                         <i class="fas fa-cart-plus"></i>
-                        <p>Venta</p>
+                        <p>Punto de Venta</p>
                     </a>
+                </li>
+
+                <li
+                    class="nav-item {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#inventario">
+                        <i class="fas fa-boxes"></i>
+                        <p>Inventario</p>
+                        <span class="caret"></span>
+                    </a>
+
+                    <div class="collapse {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}"
+                        id="inventario">
+                        <ul class="nav nav-collapse">
+                            <li class="{{ Request::is('admin/ventas/historial') ? 'active' : '' }}">
+                                <a href="{{ route('admin.ventas.historial') }}">
+                                    <span class="sub-item">Historial de Ventas</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('admin/cajas*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.cajas.index') }}">
+                                    <span class="sub-item">Cajas</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('admin/ingresos*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.ingresos.index') }}">
+                                    <span class="sub-item">Ingresos</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('admin/transferencias*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.transferencias.index') }}">
+                                    <span class="sub-item">Transferencias</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('admin/inventario*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.inventario.index') }}">
+                                    <span class="sub-item">Stock por Tienda</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
 
                 <li
@@ -85,14 +125,14 @@
                 </li>
 
                 <li
-                    class="nav-item {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') ? 'active' : '' }}">
+                    class="nav-item {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#mantenimiento">
                         <i class="fas fa-cogs"></i>
                         <p>Configuración</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') ? 'show' : '' }}"
+                    <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') ? 'show' : '' }}"
                         id="mantenimiento">
                         <ul class="nav nav-collapse">
 
@@ -103,6 +143,24 @@
                                 </a>
                             </li>
                             @endpermiso
+
+                            <li class="{{ Request::is('admin/tiendas*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.tiendas.index') }}">
+                                    <span class="sub-item">Tiendas</span>
+                                </a>
+                            </li>
+
+                            <li class="{{ Request::is('admin/clientes*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.clientes.index') }}">
+                                    <span class="sub-item">Clientes</span>
+                                </a>
+                            </li>
+
+                            <li class="{{ Request::is('admin/vendedores*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.vendedores.index') }}">
+                                    <span class="sub-item">Vendedores</span>
+                                </a>
+                            </li>
 
                             @permiso('usuarios.ver')
                             <li class="{{ Request::is('admin/usuarios*') ? 'active':'' }}">

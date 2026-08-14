@@ -98,7 +98,7 @@
         }
     </style>
 
-    <div class="wrapper">
+    <div class="wrapper sidebar_minimize">
         @include('admin.partials.sidebar')
         
         <div class="main-panel">

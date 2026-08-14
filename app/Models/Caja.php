@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Caja extends Model
+{
+    protected $table = 'cajas';
+    protected $primaryKey = 'id_caja';
+
+    protected $fillable = [
+        'id_tienda',
+        'id_usuario',
+        'id_vendedor',
+        'nombre',
+        'monto_apertura',
+        'monto_cierre',
+        'fecha_apertura',
+        'fecha_cierre',
+        'estado'
+    ];
+
+    protected $dates = ['fecha_apertura', 'fecha_cierre'];
+
+    public function tienda()
+    {
+        return $this->belongsTo(Tienda::class, 'id_tienda');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario');
+    }
+
+    public function vendedor()
+    {
+        return $this->belongsTo(Vendedor::class, 'id_vendedor');
+    }
+
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class, 'id_caja');
+    }
+
+    public function getTotalVentasAttribute()
+    {
+        return $this->ventas()->where('estado', 1)->sum('total');
+    }
+}

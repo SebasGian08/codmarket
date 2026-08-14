@@ -1,0 +1,64 @@
+/* ============================================================
+   ESTILOS PERSONALIZADOS DEL PANEL ADMIN
+   ============================================================ */
+
+/* ---------- MODALES: título y cabecera ---------- */
+.modal-header {
+    background-color: #f4f5f7; /* plomo casi blanco */
+    border-bottom: 1px solid #e6e8eb;
+}
+
+.modal-header .modal-title,
+.modal-header h1,
+.modal-header h2,
+.modal-header h3,
+.modal-header h4,
+.modal-header h5,
+.modal-header h6 {
+    font-weight: 700;
+    color: #262b33;
+}
+
+html[data-theme="dark"] .modal-header {
+    background-color: var(--ka-surface-2);
+    border-bottom-color: var(--ka-border);
+}
+
+html[data-theme="dark"] .modal-header .modal-title,
+html[data-theme="dark"] .modal-header h1,
+html[data-theme="dark"] .modal-header h2,
+html[data-theme="dark"] .modal-header h3,
+html[data-theme="dark"] .modal-header h4,
+html[data-theme="dark"] .modal-header h5,
+html[data-theme="dark"] .modal-header h6 {
+    color: var(--ka-text);
+}
+
+/* ---------- CABECERAS DE TABLAS ---------- */
+.table thead th {
+    background-color: #eef1f4; /* plomo claro */
+    color: #3b424c;
+    font-weight: 600;
+    border-bottom: 1px solid #e2e6ea;
+}
+
+/* ---------- PAGE HEADER RESPONSIVE ---------- */
+@media (max-width: 767.98px) {
+    .page-header {
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: stretch !important;
+        gap: .5rem;
+    }
+
+    .page-header > div {
+        margin-left: 0 !important;
+        width: 100%;
+    }
+
+    .page-header .btn {
+        flex: 1 1 0%;
+        width: auto;
+    }
+}
+

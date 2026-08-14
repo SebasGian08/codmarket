@@ -197,14 +197,6 @@
                                         <input type="number" step="0.01" name="costo_inicial" class="form-control">
                                     </div>
 
-                                    <div class="mb-0">
-                                        <label class="form-label small">
-                                            Stock
-                                        </label>
-
-                                        <input type="number" name="stock_inicial" class="form-control" value="0">
-                                    </div>
-
                                 </div>
 
                             </div>

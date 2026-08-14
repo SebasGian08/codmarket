@@ -7,16 +7,6 @@
 <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
     <div class="d-flex flex-wrap align-items-center gap-2">
         <h4 class="page-title">Dashboard de Control</h4>
-
-        <ul class="breadcrumbs">
-            <li class="nav-home">
-                <a href="{{ route('admin.dashboard') }}">
-                    <i class="icon-home"></i>
-                </a>
-            </li>
-            <li class="separator"><i class="icon-arrow-right"></i></li>
-            <li class="nav-item">Productos</li>
-        </ul>
     </div>
 
     <a href="{{ route('admin.productos.index') }}" class="btn btn-primary btn-round">

@@ -1,6 +1,28 @@
 <?php
 
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
+
+if (!function_exists('generarNumeroDocumento')) {
+
+    /**
+     * Genera la numeración correlativa por tienda.
+     * Formato: {PREFIJO}-{CODIGO_TIENDA}-{correlativo de 5 dígitos}
+     * Ej: VTA-T01-00012, ING-T02-00001, TRF-T01-00003
+     */
+    function generarNumeroDocumento($prefijo, $tabla, $idTienda, $campoTienda = 'id_tienda')
+    {
+        $correlativo = (int) DB::table($tabla)->where($campoTienda, $idTienda)->max('correlativo');
+        $correlativo++;
+
+        $codigoTienda = DB::table('tiendas')->where('id_tienda', $idTienda)->value('codigo') ?: '00';
+
+        return [
+            'numero'      => $prefijo . '-' . $codigoTienda . '-' . str_pad($correlativo, 5, '0', STR_PAD_LEFT),
+            'correlativo' => $correlativo,
+        ];
+    }
+}
 
 if (!function_exists('uploadImageOptimized')) {
 

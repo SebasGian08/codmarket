@@ -225,17 +225,6 @@
 
                                     </div>
 
-                                    <div class="mb-0">
-
-                                        <label class="form-label small">
-                                            Stock
-                                        </label>
-
-                                        <input type="number" name="stock_principal" class="form-control"
-                                            value="{{ $primeraVariante->stock ?? 0 }}">
-
-                                    </div>
-
                                 </div>
 
                             </div>

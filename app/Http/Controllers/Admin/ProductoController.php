@@ -76,7 +76,7 @@ class ProductoController extends Controller
                 'precio' => $request->precio_inicial,
                 'precio_oferta' => $request->precio_oferta_inicial,
                 'costo' => $request->costo_inicial,
-                'stock' => $request->stock_inicial ?? 0,
+                'stock' => 0,
                 'estado' => 1,
             ]);
 
@@ -146,7 +146,6 @@ class ProductoController extends Controller
                     'precio' => $request->precio_principal,
                     'precio_oferta' => $request->precio_oferta_principal,
                     'costo' => $request->costo_principal,
-                    'stock' => $request->stock_principal ?? 0,
                 ]);
             }
 

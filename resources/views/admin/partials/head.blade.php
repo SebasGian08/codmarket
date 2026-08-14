@@ -23,6 +23,9 @@
 <!-- Modo oscuro -->
 <link rel="stylesheet" href="{{ asset('admin/assets/css/dark-mode.css') }}">
 
+<!-- Estilos personalizados -->
+<link rel="stylesheet" href="{{ asset('admin/assets/css/admin-custom.css') }}">
+
 <!-- Favicon -->
 <link rel="icon" href="{{ asset('assets/images/favicon.png') }}">
 

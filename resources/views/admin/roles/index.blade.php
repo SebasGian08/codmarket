@@ -10,24 +10,6 @@
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <h4 class="page-title">Gestión de Roles</h4>
-
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-
-                <li class="separator"><i class="icon-arrow-right"></i></li>
-
-                <li class="nav-item">
-                    <a href="{{ route('admin.roles.index') }}">Roles</a>
-                </li>
-
-                <li class="separator"><i class="icon-arrow-right"></i></li>
-
-                <li class="nav-item">Listado</li>
-            </ul>
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

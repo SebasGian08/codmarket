@@ -8,27 +8,7 @@
 
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Servicios</h4>
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.servicios.index') }}">Servicios</a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a>Listado</a>
-                </li>
-            </ul>
-        </div>
+            <h4 class="page-title">Gestión de Servicios</h4>        </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
             <i class="fa fa-plus"></i> Nuevo Servicio

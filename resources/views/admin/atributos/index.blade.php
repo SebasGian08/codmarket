@@ -26,16 +26,6 @@
 
         <div class="d-flex align-items-center">
             <h4 class="page-title">Gestión de Atributos</h4>
-
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-                <li class="separator"><i class="icon-arrow-right"></i></li>
-                <li class="nav-item">Mantenimiento</li>
-            </ul>
         </div>
 
          <form action="{{ route('admin.atributos.store') }}" method="POST" class="d-flex gap-2">

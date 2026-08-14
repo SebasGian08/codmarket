@@ -11,28 +11,75 @@
 
         <div class="d-flex flex-wrap align-items-center gap-2">
             <h4 class="page-title">Venta</h4>
-
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-                <li class="separator"><i class="icon-arrow-right"></i></li>
-                <li class="nav-item">Nueva Venta</li>
-            </ul>
         </div>
 
-        <button class="btn btn-light border btn-round" id="btnLimpiarVenta">
-            <i class="fa fa-rotate-left"></i> Nueva Venta
-        </button>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ route('admin.ventas.historial') }}" class="btn btn-light border btn-round">
+                <i class="fa fa-history"></i> Historial
+            </a>
+
+            <button class="btn btn-light border btn-round" id="btnLimpiarVenta">
+                <i class="fa fa-rotate-left"></i> Nueva Venta
+            </button>
+        </div>
 
     </div>
+
+    @if($cajasAbiertas->isEmpty())
+    <div class="alert alert-warning d-flex align-items-center gap-2">
+        <i class="fa fa-exclamation-triangle"></i>
+        <span>No hay ninguna caja abierta. Debes abrir una caja para poder registrar ventas.</span>
+        <a href="{{ route('admin.cajas.index') }}" class="btn btn-sm btn-warning ms-auto">
+            <i class="fa fa-folder-open"></i> Ir a cajas
+        </a>
+    </div>
+    @endif
 
     <div class="row">
 
         <!-- ================= COLUMNA PRINCIPAL ================= -->
         <div class="col-lg-8">
+
+            <!-- CAJA ACTIVA -->
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body py-3">
+
+                    <div class="row g-3 align-items-center">
+
+                        <div class="col-md-7">
+                            <label class="form-label small fw-semibold text-uppercase text-muted mb-2">
+                                <i class="fa fa-folder-open me-1"></i> Caja activa
+                            </label>
+
+                            @if($cajasAbiertas->isNotEmpty())
+                            <select id="cajaSelect" class="form-select">
+                                <option value="">Selecciona una caja</option>
+                                @foreach($cajasAbiertas as $caja)
+                                <option value="{{ $caja->id_caja }}" data-tienda="{{ $caja->id_tienda }}"
+                                    data-vendedor="{{ $caja->vendedor->nombre ?? '' }}">
+                                    {{ $caja->tienda->codigo }} - {{ $caja->tienda->nombre }} · {{ $caja->nombre }}
+                                    (S/ {{ number_format($caja->monto_apertura, 2) }})
+                                </option>
+                                @endforeach
+                            </select>
+                            @else
+                            <select class="form-select" disabled>
+                                <option>Sin cajas abiertas</option>
+                            </select>
+                            @endif
+                        </div>
+
+                        <div class="col-md-5">
+                            <div id="cajaInfo" class="text-muted small">
+                                <i class="fa fa-info-circle me-1"></i>
+                                Selecciona una caja para iniciar la venta
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
 
             <!-- CLIENTE -->
             <div class="card border-0 shadow-sm mb-3">
@@ -44,20 +91,50 @@
 
                     <div class="row g-3">
                         <div class="col-md-8">
-                            <input type="text" id="clienteInput" class="form-control" list="clientesList"
-                                value="CLIENTES VARIOS" autocomplete="off" placeholder="Buscar cliente...">
+                            <div class="position-relative" id="clienteCombobox">
+                                <div class="input-group">
+                                    <input type="text" id="clienteInput" class="form-control"
+                                        value="{{ $clienteVarios->nombre ?? 'CLIENTES VARIOS' }}" autocomplete="off"
+                                        placeholder="Buscar cliente...">
 
-                            <datalist id="clientesList">
-                                @foreach($clientes as $cl)
-                                <option value="{{ $cl['nombre'] }}"></option>
-                                @endforeach
-                            </datalist>
+                                    <button class="btn btn-outline-secondary" type="button" id="btnClienteToggle"
+                                        title="Mostrar clientes">
+                                        <i class="fa fa-chevron-down"></i>
+                                    </button>
+
+                                    <button class="btn btn-primary" type="button" id="btnClienteNuevo"
+                                        title="Añadir cliente nuevo">
+                                        <i class="fa fa-user-plus"></i>
+                                    </button>
+                                </div>
+
+                                <ul class="dropdown-menu shadow" id="clientesDropdown"
+                                    style="position:absolute;top:100%;left:0;right:0;width:100%;margin-top:4px;z-index:1050;max-height:260px;overflow-y:auto;">
+                                    @foreach($clientes as $cl)
+                                    <li>
+                                        <a class="dropdown-item cliente-item" href="#" tabindex="-1"
+                                            data-id="{{ $cl->id_cliente }}" data-nombre="{{ $cl->nombre }}">
+                                            <i class="fa fa-user text-muted me-1"></i> {{ $cl->nombre }}
+                                            @if($cl->id_cliente == ($clienteVarios->id_cliente ?? null))
+                                            <span class="badge bg-info ms-1">por defecto</span>
+                                            @endif
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                    <li id="clienteDropdownVacio" class="px-3 py-2 small text-muted"
+                                        style="display:none;">
+                                        Sin resultados: el nombre se guardará tal cual.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <input type="hidden" id="clienteId" value="{{ $clienteVarios->id_cliente ?? '' }}">
                         </div>
 
                         <div class="col-md-4 d-flex align-items-center">
                             <span class="text-muted small">
                                 <i class="fa fa-check-circle text-success me-1"></i>
-                                Cliente seleccionado
+                                <span id="clienteEstado">Cliente seleccionado</span>
                             </span>
                         </div>
                     </div>
@@ -213,12 +290,28 @@
 
                     <div class="d-flex justify-content-between mb-1">
                         <span class="text-muted">Cliente</span>
-                        <span class="fw-semibold text-truncate" id="resumenCliente">CLIENTES VARIOS</span>
+                        <span class="fw-semibold text-truncate" id="resumenCliente">{{ $clienteVarios->nombre ?? 'CLIENTES VARIOS' }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted">Tienda</span>
+                        <span class="fw-semibold text-truncate" id="resumenTienda">—</span>
                     </div>
 
                     <div class="d-flex justify-content-between mb-1">
                         <span class="text-muted">Items</span>
                         <span class="fw-semibold" id="resumenItems">0</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted mb-1">Método de pago</label>
+                        <select id="tipoPago" class="form-select">
+                            @foreach($metodosPagos as $metodo)
+                            <option value="{{ $metodo->id_metodo_pago }}" {{ $loop->first ? 'selected' : '' }}>
+                                {{ $metodo->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <hr>
@@ -243,6 +336,49 @@
 
     </div>
 
+</div>
+
+<div class="modal fade" id="modalClienteRapido" tabindex="-1">
+    <div class="modal-dialog">
+        <form id="formClienteRapido">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5><i class="fa fa-user-plus me-1"></i> Nuevo Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Nombre</label>
+                        <input type="text" id="nuevoClienteNombre" class="form-control" required maxlength="150"
+                            placeholder="Nombre del cliente">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted">Teléfono</label>
+                        <input type="text" id="nuevoClienteTelefono" class="form-control" maxlength="30"
+                            placeholder="Opcional">
+                    </div>
+
+                    <div id="clienteRapidoError" class="alert alert-danger d-none mb-0"></div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+                        <i class="fa fa-times"></i> Cerrar
+                    </button>
+
+                    <button type="submit" class="btn btn-success" id="btnGuardarClienteRapido">
+                        <i class="fa fa-save"></i> Guardar y seleccionar
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
 </div>
 
 <style>
@@ -312,428 +448,734 @@
 </style>
 
 <script>
-var PRODUCTOS = @json($productos);
+    var PRODUCTOS = @json($productos);
+    var CLIENTES = @json($clientes);
+    var STOCK_POR_TIENDA = @json($stockPorTienda);
+    var CLIENTES_VARIOS = {
+        id: {{ $clienteVarios->id_cliente ?? 'null' }},
+        nombre: @json($clienteVarios->nombre ?? 'CLIENTES VARIOS')
+    };
 
-var carrito = [];
-var productoActual = null;
-var varianteActual = null;
+    var carrito = [];
+    var productoActual = null;
+    var varianteActual = null;
+    var cajaActual = null;
 
-function escapeHtml(s) {
-    return String(s == null ? '' : s)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
-function moneda(n) {
-    return 'S/ ' + parseFloat(n || 0).toFixed(2);
-}
-
-function precioVariante(v) {
-    return (v.precio_oferta != null && v.precio_oferta < v.precio) ? v.precio_oferta : v.precio;
-}
-
-/* ============ PRODUCTO: BUSCADOR ============ */
-function renderProductos(termino) {
-    var lista = document.getElementById('productoResultados');
-    var t = (termino || '').trim().toLowerCase();
-
-    if (!t) {
-        lista.classList.add('d-none');
-        lista.innerHTML = '';
-        return;
+    function escapeHtml(s) {
+        return String(s == null ? '' : s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
-    var matches = PRODUCTOS.filter(function(p) {
-        var nombre = (p.nombre || '').toLowerCase();
-        var skus = (p.variantes || []).map(function(v) { return v.sku || ''; }).join(' ');
-        return nombre.indexOf(t) > -1 || skus.toLowerCase().indexOf(t) > -1;
-    });
-
-    if (!matches.length) {
-        lista.innerHTML = '<div class="venta-resultado py-2 text-muted">Sin resultados</div>';
-        lista.classList.remove('d-none');
-        return;
+    function moneda(n) {
+        return 'S/ ' + parseFloat(n || 0).toFixed(2);
     }
 
-    var html = matches.slice(0, 12).map(function(p) {
-        var v = p.variantes[0];
-        var info = v ? moneda(precioVariante(v)) : 'sin variantes';
-        var extra = p.variantes.length > 1 ? p.variantes.length + ' variantes' : '1 variante';
-
-        return '<div class="venta-resultado" data-id="' + p.id + '">' +
-            '<div class="fw-semibold">' + escapeHtml(p.nombre) + '</div>' +
-            '<div class="small text-muted">' + extra + ' · ' + info + '</div>' +
-            '</div>';
-    }).join('');
-
-    lista.innerHTML = html;
-    lista.classList.remove('d-none');
-}
-
-document.getElementById('productoInput').addEventListener('input', function(e) {
-    renderProductos(e.target.value);
-});
-
-document.getElementById('productoResultados').addEventListener('mousedown', function(e) {
-    var item = e.target.closest('.venta-resultado');
-    if (!item || !item.dataset.id) return;
-    e.preventDefault();
-    seleccionarProducto(parseInt(item.dataset.id));
-});
-
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.venta-buscador')) {
-        document.getElementById('productoResultados').classList.add('d-none');
-    }
-});
-
-/* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
-function seleccionarProducto(id) {
-    productoActual = PRODUCTOS.find(function(p) { return p.id === id; });
-    if (!productoActual) return;
-
-    document.getElementById('productoInput').value = productoActual.nombre;
-    document.getElementById('productoId').value = productoActual.id;
-    document.getElementById('productoResultados').classList.add('d-none');
-
-    var sel = document.getElementById('varianteSelect');
-
-    if (!productoActual.variantes.length) {
-        sel.innerHTML = '<option value="">Sin variantes disponibles</option>';
-        sel.disabled = true;
-        varianteActual = null;
-        limpiarDatosVariante();
-        return;
+    function precioVariante(v) {
+        return (v.precio_oferta != null && v.precio_oferta < v.precio) ? v.precio_oferta : v.precio;
     }
 
-    sel.innerHTML = productoActual.variantes.map(function(v) {
-        return '<option value="' + v.id + '">' +
-            escapeHtml(v.sku || 'SKU ' + v.id) + ' · ' + moneda(precioVariante(v)) + ' · Stock: ' + v.stock +
-            '</option>';
-    }).join('');
+    function stockVariante(idVariante) {
+        if (!cajaActual) return 0;
 
-    sel.disabled = false;
-    seleccionarVariante(productoActual.variantes[0].id);
-}
-
-function seleccionarVariante(id) {
-    if (!productoActual) return;
-
-    varianteActual = productoActual.variantes.find(function(v) { return v.id === id; }) || null;
-    document.getElementById('varianteSelect').value = id;
-
-    if (!varianteActual) {
-        limpiarDatosVariante();
-        return;
+        var m = STOCK_POR_TIENDA[idVariante];
+        return m ? (parseInt(m[cajaActual.id_tienda]) || 0) : 0;
     }
 
-    var wrap = document.getElementById('atributosWrap');
+    /* ============ CAJA ACTIVA ============ */
+    function renderCaja() {
+        var el = document.getElementById('cajaInfo');
 
-    if (varianteActual.atributos && varianteActual.atributos.length) {
-        wrap.innerHTML = varianteActual.atributos.map(function(a) {
-            return '<span class="badge bg-light text-dark border me-1">' +
-                escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
-        }).join('');
-    } else {
-        wrap.innerHTML = '<span class="text-muted small">Sin atributos</span>';
-    }
-
-    var pre = varianteActual.precio;
-    var oferta = varianteActual.precio_oferta;
-
-    if (oferta != null && oferta < pre) {
-        document.getElementById('precioDisplay').innerHTML =
-            '<span class="text-decoration-line-through text-muted me-1">' + moneda(pre) + '</span>' +
-            '<span class="fw-bold text-success">' + moneda(oferta) + '</span>';
-    } else {
-        document.getElementById('precioDisplay').innerHTML = '<span class="fw-bold">' + moneda(pre) + '</span>';
-    }
-
-    var st = varianteActual.stock;
-    var stEl = document.getElementById('stockDisplay');
-    stEl.textContent = st;
-    stEl.className = 'fw-bold ' + (st <= 5 ? 'text-danger' : 'text-muted');
-
-    document.getElementById('cantidadInput').value = 1;
-    actualizarSubtotal();
-}
-
-function limpiarDatosVariante() {
-    document.getElementById('precioDisplay').innerHTML = '<span class="text-muted">—</span>';
-    document.getElementById('stockDisplay').textContent = '—';
-    document.getElementById('stockDisplay').className = 'fw-bold text-muted';
-    document.getElementById('atributosWrap').innerHTML = '<span class="text-muted small">Selecciona una variante</span>';
-    document.getElementById('subtotalDisplay').textContent = 'S/ 0.00';
-}
-
-document.getElementById('varianteSelect').addEventListener('change', function() {
-    if (this.value) seleccionarVariante(parseInt(this.value));
-});
-
-/* ============ CANTIDAD Y SUBTOTAL ============ */
-function actualizarSubtotal() {
-    if (!varianteActual) {
-        document.getElementById('subtotalDisplay').textContent = 'S/ 0.00';
-        return;
-    }
-
-    var cant = parseInt(document.getElementById('cantidadInput').value) || 1;
-    document.getElementById('subtotalDisplay').textContent = moneda(precioVariante(varianteActual) * cant);
-}
-
-document.getElementById('btnMenos').addEventListener('click', function() {
-    var c = document.getElementById('cantidadInput');
-    if (parseInt(c.value) > 1) c.value = parseInt(c.value) - 1;
-    actualizarSubtotal();
-});
-
-document.getElementById('btnMas').addEventListener('click', function() {
-    var c = document.getElementById('cantidadInput');
-    c.value = parseInt(c.value) + 1;
-    actualizarSubtotal();
-});
-
-document.getElementById('cantidadInput').addEventListener('input', function() {
-    var c = parseInt(this.value);
-    if (!c || c < 1) this.value = 1;
-    actualizarSubtotal();
-});
-
-/* ============ AGREGAR AL CARRITO ============ */
-document.getElementById('btnAgregar').addEventListener('click', agregarAlCarrito);
-
-function agregarAlCarrito() {
-    if (!productoActual || !varianteActual) {
-        Swal.fire('Atención', 'Selecciona un producto y una variante', 'warning');
-        return;
-    }
-
-    var cant = parseInt(document.getElementById('cantidadInput').value) || 1;
-
-    if (varianteActual.stock > 0 && cant > varianteActual.stock) {
-        Swal.fire('Stock insuficiente', 'Stock disponible: ' + varianteActual.stock, 'warning');
-        return;
-    }
-
-    var existente = carrito.find(function(i) { return i.id_variante === varianteActual.id; });
-
-    if (existente) {
-        var nueva = existente.cantidad + cant;
-
-        if (varianteActual.stock > 0 && nueva > varianteActual.stock) {
-            Swal.fire('Stock insuficiente', 'Stock disponible: ' + varianteActual.stock, 'warning');
+        if (!cajaActual) {
+            el.innerHTML = '<i class="fa fa-info-circle me-1"></i> Selecciona una caja para iniciar la venta';
+            el.className = 'text-muted small';
+            document.getElementById('resumenTienda').textContent = '—';
             return;
         }
 
-        existente.cantidad = nueva;
-    } else {
-        carrito.push({
-            id_variante: varianteActual.id,
-            producto: productoActual.nombre,
-            variante: varianteActual.sku || ('SKU ' + varianteActual.id),
-            atributos: varianteActual.atributos || [],
-            precio: precioVariante(varianteActual),
-            cantidad: cant,
-            stock: varianteActual.stock
+        el.innerHTML =
+            '<i class="fa fa-check-circle text-success me-1"></i> ' +
+            '<b>' + escapeHtml(cajaActual.tienda.nombre) + '</b> · ' +
+            escapeHtml(cajaActual.nombre) +
+            '<br><span class="text-muted">Apertura: ' + moneda(cajaActual.monto_apertura) +
+            (cajaActual.vendedor ? ' · Vendedor: <b>' + escapeHtml(cajaActual.vendedor) + '</b>' : '') +
+            '</span>';
+        el.className = 'small';
+
+        document.getElementById('resumenTienda').textContent = cajaActual.tienda.nombre;
+
+        revalidarCarrito();
+    }
+
+    var cajaSelect = document.getElementById('cajaSelect');
+
+    if (cajaSelect && cajaSelect.options.length > 1) {
+        cajaSelect.addEventListener('change', function() {
+            var opt = this.options[this.selectedIndex];
+
+            if (!this.value) {
+                cajaActual = null;
+                renderCaja();
+                return;
+            }
+
+            cajaActual = {
+                id_caja: parseInt(this.value),
+                id_tienda: parseInt(opt.dataset.tienda)
+            };
+
+            // Busca la tienda en las opciones para mostrar su nombre
+            @foreach($cajasAbiertas as $caja)
+            if ({{ $caja->id_caja }} === cajaActual.id_caja) {
+                cajaActual.tienda = { nombre: @json($caja->tienda->nombre), codigo: @json($caja->tienda->codigo) };
+                cajaActual.nombre = @json($caja->nombre);
+                cajaActual.monto_apertura = {{ $caja->monto_apertura }};
+                cajaActual.vendedor = @json($caja->vendedor->nombre ?? '');
+            }
+            @endforeach
+
+            renderCaja();
         });
     }
 
-    renderCarrito();
+    /* ============ PRODUCTO: BUSCADOR ============ */
+    function renderProductos(termino) {
+        var lista = document.getElementById('productoResultados');
+        var t = (termino || '').trim().toLowerCase();
 
-    Swal.fire({
-        icon: 'success',
-        title: 'Agregado',
-        text: productoActual.nombre,
-        timer: 900,
-        showConfirmButton: false,
-        toast: true,
-        position: 'top-end'
-    });
-}
-
-/* ============ CARRITO ============ */
-function renderCarrito() {
-    var body = document.getElementById('cartBody');
-    var vacio = document.getElementById('cartVacio');
-
-    if (!carrito.length) {
-        body.innerHTML = '';
-        vacio.style.display = 'block';
-    } else {
-        vacio.style.display = 'none';
-
-        body.innerHTML = carrito.map(function(item, idx) {
-            var attrs = item.atributos.length
-                ? item.atributos.map(function(a) {
-                    return '<span class="badge bg-light text-dark border me-1">' +
-                        escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
-                }).join(' ')
-                : '<span class="text-muted">—</span>';
-
-            return '<tr>' +
-                '<td data-label="Producto">' + escapeHtml(item.producto) + '</td>' +
-                '<td data-label="Variante">' + escapeHtml(item.variante) + '</td>' +
-                '<td data-label="Atributos">' + attrs + '</td>' +
-                '<td data-label="Cantidad" class="text-center">' +
-                    '<div class="input-group input-group-sm d-inline-flex" style="width:110px">' +
-                        '<button class="btn btn-light border btn-cant-menos" data-idx="' + idx + '" type="button">−</button>' +
-                        '<input type="number" class="form-control text-center carrito-cant" data-idx="' + idx + '" value="' + item.cantidad + '" min="1">' +
-                        '<button class="btn btn-light border btn-cant-mas" data-idx="' + idx + '" type="button">+</button>' +
-                    '</div>' +
-                '</td>' +
-                '<td data-label="Precio" class="text-end">' + moneda(item.precio) + '</td>' +
-                '<td data-label="Subtotal" class="text-end fw-bold">' + moneda(item.precio * item.cantidad) + '</td>' +
-                '<td class="table-card-actions text-end">' +
-                    '<button class="btn btn-sm btn-danger btn-border btn-round btn-quitar-item" data-idx="' + idx + '" type="button" title="Quitar"><i class="fa fa-trash"></i></button>' +
-                '</td>' +
-            '</tr>';
-        }).join('');
-    }
-
-    actualizarResumen();
-}
-
-document.getElementById('cartBody').addEventListener('click', function(e) {
-    var btn = e.target.closest('.btn-quitar-item');
-    if (btn) {
-        carrito.splice(parseInt(btn.dataset.idx), 1);
-        renderCarrito();
-        return;
-    }
-
-    var menos = e.target.closest('.btn-cant-menos');
-    if (menos) {
-        var i = parseInt(menos.dataset.idx);
-        if (carrito[i].cantidad > 1) carrito[i].cantidad--;
-        renderCarrito();
-        return;
-    }
-
-    var mas = e.target.closest('.btn-cant-mas');
-    if (mas) {
-        var i2 = parseInt(mas.dataset.idx);
-        var stock = carrito[i2].stock;
-        if (stock > 0 && carrito[i2].cantidad >= stock) {
-            Swal.fire('Stock insuficiente', 'Stock disponible: ' + stock, 'warning');
+        if (!t) {
+            lista.classList.add('d-none');
+            lista.innerHTML = '';
             return;
         }
-        carrito[i2].cantidad++;
+
+        var matches = PRODUCTOS.filter(function(p) {
+            var nombre = (p.nombre || '').toLowerCase();
+            var skus = (p.variantes || []).map(function(v) { return v.sku || ''; }).join(' ');
+            return nombre.indexOf(t) > -1 || skus.toLowerCase().indexOf(t) > -1;
+        });
+
+        if (!matches.length) {
+            lista.innerHTML = '<div class="venta-resultado py-2 text-muted">Sin resultados</div>';
+            lista.classList.remove('d-none');
+            return;
+        }
+
+        var html = matches.slice(0, 12).map(function(p) {
+            var v = p.variantes[0];
+            var info = v ? moneda(precioVariante(v)) : 'sin variantes';
+            var extra = p.variantes.length > 1 ? p.variantes.length + ' variantes' : '1 variante';
+
+            return '<div class="venta-resultado" data-id="' + p.id + '">' +
+                '<div class="fw-semibold">' + escapeHtml(p.nombre) + '</div>' +
+                '<div class="small text-muted">' + extra + ' · ' + info + '</div>' +
+                '</div>';
+        }).join('');
+
+        lista.innerHTML = html;
+        lista.classList.remove('d-none');
+    }
+
+    document.getElementById('productoInput').addEventListener('input', function(e) {
+        renderProductos(e.target.value);
+    });
+
+    document.getElementById('productoResultados').addEventListener('mousedown', function(e) {
+        var item = e.target.closest('.venta-resultado');
+        if (!item || !item.dataset.id) return;
+        e.preventDefault();
+        seleccionarProducto(parseInt(item.dataset.id));
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.venta-buscador')) {
+            document.getElementById('productoResultados').classList.add('d-none');
+        }
+    });
+
+    /* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
+    function seleccionarProducto(id) {
+        productoActual = PRODUCTOS.find(function(p) { return p.id === id; });
+        if (!productoActual) return;
+
+        document.getElementById('productoInput').value = productoActual.nombre;
+        document.getElementById('productoId').value = productoActual.id;
+        document.getElementById('productoResultados').classList.add('d-none');
+
+        var sel = document.getElementById('varianteSelect');
+
+        if (!productoActual.variantes.length) {
+            sel.innerHTML = '<option value="">Sin variantes disponibles</option>';
+            sel.disabled = true;
+            varianteActual = null;
+            limpiarDatosVariante();
+            return;
+        }
+
+        sel.innerHTML = productoActual.variantes.map(function(v) {
+            var attrs = (v.atributos || []).map(function(a) {
+                return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
+            }).join(', ');
+
+            var label = escapeHtml(v.sku || 'SKU ' + v.id) + ' · ' + moneda(precioVariante(v));
+
+            if (attrs) {
+                label += ' · ' + attrs;
+            }
+
+            return '<option value="' + v.id + '">' + label + '</option>';
+        }).join('');
+
+        sel.disabled = false;
+        seleccionarVariante(productoActual.variantes[0].id);
+    }
+
+    function seleccionarVariante(id) {
+        if (!productoActual) return;
+
+        varianteActual = productoActual.variantes.find(function(v) { return v.id === id; }) || null;
+        document.getElementById('varianteSelect').value = id;
+
+        if (!varianteActual) {
+            limpiarDatosVariante();
+            return;
+        }
+
+        var wrap = document.getElementById('atributosWrap');
+
+        if (varianteActual.atributos && varianteActual.atributos.length) {
+            wrap.innerHTML = varianteActual.atributos.map(function(a) {
+                return '<span class="badge bg-light text-dark border me-1">' +
+                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+            }).join('');
+        } else {
+            wrap.innerHTML = '<span class="text-muted small">Sin atributos</span>';
+        }
+
+        var pre = varianteActual.precio;
+        var oferta = varianteActual.precio_oferta;
+
+        if (oferta != null && oferta < pre) {
+            document.getElementById('precioDisplay').innerHTML =
+                '<span class="text-decoration-line-through text-muted me-1">' + moneda(pre) + '</span>' +
+                '<span class="fw-bold text-success">' + moneda(oferta) + '</span>';
+        } else {
+            document.getElementById('precioDisplay').innerHTML = '<span class="fw-bold">' + moneda(pre) + '</span>';
+        }
+
+        var st = stockVariante(varianteActual.id);
+        var stEl = document.getElementById('stockDisplay');
+        stEl.textContent = st;
+        stEl.className = 'fw-bold ' + (st <= 5 ? 'text-danger' : 'text-muted');
+
+        document.getElementById('cantidadInput').value = 1;
+        actualizarSubtotal();
+    }
+
+    function limpiarDatosVariante() {
+        document.getElementById('precioDisplay').innerHTML = '<span class="text-muted">—</span>';
+        document.getElementById('stockDisplay').textContent = '—';
+        document.getElementById('stockDisplay').className = 'fw-bold text-muted';
+        document.getElementById('atributosWrap').innerHTML = '<span class="text-muted small">Selecciona una variante</span>';
+        document.getElementById('subtotalDisplay').textContent = 'S/ 0.00';
+    }
+
+    document.getElementById('varianteSelect').addEventListener('change', function() {
+        if (this.value) seleccionarVariante(parseInt(this.value));
+    });
+
+    /* ============ CANTIDAD Y SUBTOTAL ============ */
+    function actualizarSubtotal() {
+        if (!varianteActual) {
+            document.getElementById('subtotalDisplay').textContent = 'S/ 0.00';
+            return;
+        }
+
+        var cant = parseInt(document.getElementById('cantidadInput').value) || 1;
+        document.getElementById('subtotalDisplay').textContent = moneda(precioVariante(varianteActual) * cant);
+    }
+
+    document.getElementById('btnMenos').addEventListener('click', function() {
+        var c = document.getElementById('cantidadInput');
+        if (parseInt(c.value) > 1) c.value = parseInt(c.value) - 1;
+        actualizarSubtotal();
+    });
+
+    document.getElementById('btnMas').addEventListener('click', function() {
+        var c = document.getElementById('cantidadInput');
+        c.value = parseInt(c.value) + 1;
+        actualizarSubtotal();
+    });
+
+    document.getElementById('cantidadInput').addEventListener('input', function() {
+        var c = parseInt(this.value);
+        if (!c || c < 1) this.value = 1;
+        actualizarSubtotal();
+    });
+
+    /* ============ AGREGAR AL CARRITO ============ */
+    document.getElementById('btnAgregar').addEventListener('click', agregarAlCarrito);
+
+    function agregarAlCarrito() {
+        if (!cajaActual) {
+            Swal.fire('Atención', 'Selecciona una caja activa primero', 'warning');
+            return;
+        }
+
+        if (!productoActual || !varianteActual) {
+            Swal.fire('Atención', 'Selecciona un producto y una variante', 'warning');
+            return;
+        }
+
+        var cant = parseInt(document.getElementById('cantidadInput').value) || 1;
+        var stock = stockVariante(varianteActual.id);
+
+        if (stock > 0 && cant > stock) {
+            Swal.fire('Stock insuficiente', 'Stock disponible en tienda: ' + stock, 'warning');
+            return;
+        }
+
+        var existente = carrito.find(function(i) { return i.id_variante === varianteActual.id; });
+
+        if (existente) {
+            var nueva = existente.cantidad + cant;
+
+            if (stock > 0 && nueva > stock) {
+                Swal.fire('Stock insuficiente', 'Stock disponible en tienda: ' + stock, 'warning');
+                return;
+            }
+
+            existente.cantidad = nueva;
+        } else {
+            carrito.push({
+                id_variante: varianteActual.id,
+                producto: productoActual.nombre,
+                variante: varianteActual.sku || ('SKU ' + varianteActual.id),
+                atributos: varianteActual.atributos || [],
+                precio: precioVariante(varianteActual),
+                cantidad: cant,
+                stock: stock
+            });
+        }
+
         renderCarrito();
-    }
-});
 
-document.getElementById('cartBody').addEventListener('input', function(e) {
-    var inp = e.target.closest('.carrito-cant');
-    if (!inp) return;
-
-    var i = parseInt(inp.dataset.idx);
-    var c = parseInt(inp.value);
-
-    if (!c || c < 1) {
-        carrito[i].cantidad = 1;
-    } else if (carrito[i].stock > 0 && c > carrito[i].stock) {
-        carrito[i].cantidad = carrito[i].stock;
-    } else {
-        carrito[i].cantidad = c;
+        Swal.fire({
+            icon: 'success',
+            title: 'Agregado',
+            text: productoActual.nombre,
+            timer: 900,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+        });
     }
 
-    renderCarrito();
-});
+    /* ============ CARRITO ============ */
+    function renderCarrito() {
+        var body = document.getElementById('cartBody');
+        var vacio = document.getElementById('cartVacio');
 
-function actualizarResumen() {
-    var total = 0;
-    var items = 0;
+        if (!carrito.length) {
+            body.innerHTML = '';
+            vacio.style.display = 'block';
+        } else {
+            vacio.style.display = 'none';
 
-    carrito.forEach(function(i) {
-        total += i.precio * i.cantidad;
-        items += i.cantidad;
-    });
+            body.innerHTML = carrito.map(function(item, idx) {
+                var attrs = item.atributos.length
+                    ? item.atributos.map(function(a) {
+                        return '<span class="badge bg-light text-dark border me-1">' +
+                            escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+                    }).join(' ')
+                    : '<span class="text-muted">—</span>';
 
-    document.getElementById('totalDisplay').textContent = moneda(total);
-    document.getElementById('resumenItems').textContent = items;
-    document.getElementById('itemsBadge').textContent = items + (items === 1 ? ' item' : ' items');
-}
+                return '<tr>' +
+                    '<td data-label="Producto">' + escapeHtml(item.producto) + '</td>' +
+                    '<td data-label="Variante">' + escapeHtml(item.variante) + '</td>' +
+                    '<td data-label="Atributos">' + attrs + '</td>' +
+                    '<td data-label="Cantidad" class="text-center">' +
+                    '<div class="input-group input-group-sm d-inline-flex" style="width:110px">' +
+                    '<button class="btn btn-light border btn-cant-menos" data-idx="' + idx + '" type="button">−</button>' +
+                    '<input type="number" class="form-control text-center carrito-cant" data-idx="' + idx + '" value="' + item.cantidad + '" min="1">' +
+                    '<button class="btn btn-light border btn-cant-mas" data-idx="' + idx + '" type="button">+</button>' +
+                    '</div>' +
+                    '</td>' +
+                    '<td data-label="Precio" class="text-end">' + moneda(item.precio) + '</td>' +
+                    '<td data-label="Subtotal" class="text-end fw-bold">' + moneda(item.precio * item.cantidad) + '</td>' +
+                    '<td class="table-card-actions text-end">' +
+                    '<button class="btn btn-sm btn-danger btn-border btn-round btn-quitar-item" data-idx="' + idx + '" type="button" title="Quitar"><i class="fa fa-trash"></i></button>' +
+                    '</td>' +
+                    '</tr>';
+            }).join('');
+        }
 
-/* ============ CLIENTE ============ */
-document.getElementById('clienteInput').addEventListener('input', function() {
-    var v = this.value.trim() || 'CLIENTES VARIOS';
-    document.getElementById('resumenCliente').textContent = v;
-});
-
-/* ============ REGISTRAR / LIMPIAR ============ */
-document.getElementById('btnRegistrarVenta').addEventListener('click', function() {
-    if (!carrito.length) {
-        Swal.fire('Atención', 'Agrega al menos un producto', 'warning');
-        return;
+        actualizarResumen();
     }
 
-    var cliente = document.getElementById('clienteInput').value.trim() || 'CLIENTES VARIOS';
-    var total = 0;
-    var items = 0;
+    document.getElementById('cartBody').addEventListener('click', function(e) {
+        var btn = e.target.closest('.btn-quitar-item');
+        if (btn) {
+            carrito.splice(parseInt(btn.dataset.idx), 1);
+            renderCarrito();
+            return;
+        }
 
-    carrito.forEach(function(i) {
-        total += i.precio * i.cantidad;
-        items += i.cantidad;
-    });
+        var menos = e.target.closest('.btn-cant-menos');
+        if (menos) {
+            var i = parseInt(menos.dataset.idx);
+            if (carrito[i].cantidad > 1) carrito[i].cantidad--;
+            renderCarrito();
+            return;
+        }
 
-    Swal.fire({
-        icon: 'success',
-        title: 'Venta registrada',
-        html: '<div style="text-align:left;">' +
-            '<b>Cliente:</b> ' + escapeHtml(cliente) + '<br>' +
-            '<b>Items:</b> ' + items + '<br>' +
-            '<b>Total:</b> ' + moneda(total) +
-            '</div>',
-        confirmButtonText: 'OK'
-    }).then(function() {
-        limpiarTodo();
-    });
-});
-
-document.getElementById('btnLimpiarCarrito').addEventListener('click', function() {
-    if (!carrito.length) return;
-
-    Swal.fire({
-        title: '¿Limpiar detalle?',
-        text: 'Se eliminarán todos los productos de la venta',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, limpiar',
-        cancelButtonText: 'Cancelar'
-    }).then(function(r) {
-        if (r.isConfirmed) {
-            carrito = [];
+        var mas = e.target.closest('.btn-cant-mas');
+        if (mas) {
+            var i2 = parseInt(mas.dataset.idx);
+            var stock = carrito[i2].stock;
+            if (stock > 0 && carrito[i2].cantidad >= stock) {
+                Swal.fire('Stock insuficiente', 'Stock disponible: ' + stock, 'warning');
+                return;
+            }
+            carrito[i2].cantidad++;
             renderCarrito();
         }
     });
-});
 
-document.getElementById('btnLimpiarVenta').addEventListener('click', limpiarTodo);
+    document.getElementById('cartBody').addEventListener('input', function(e) {
+        var inp = e.target.closest('.carrito-cant');
+        if (!inp) return;
 
-function limpiarTodo() {
-    carrito = [];
-    productoActual = null;
-    varianteActual = null;
+        var i = parseInt(inp.dataset.idx);
+        var c = parseInt(inp.value);
 
-    document.getElementById('productoInput').value = '';
-    document.getElementById('productoId').value = '';
-    document.getElementById('cantidadInput').value = 1;
+        if (!c || c < 1) {
+            carrito[i].cantidad = 1;
+        } else if (carrito[i].stock > 0 && c > carrito[i].stock) {
+            carrito[i].cantidad = carrito[i].stock;
+        } else {
+            carrito[i].cantidad = c;
+        }
 
-    var sel = document.getElementById('varianteSelect');
-    sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
-    sel.disabled = true;
+        renderCarrito();
+    });
 
-    limpiarDatosVariante();
+    function revalidarCarrito() {
+        carrito.forEach(function(item) {
+            var stock = stockVariante(item.id_variante);
+            item.stock = stock;
+
+            if (stock > 0 && item.cantidad > stock) {
+                item.cantidad = stock;
+            }
+        });
+
+        renderCarrito();
+    }
+
+    function actualizarResumen() {
+        var total = 0;
+        var items = 0;
+
+        carrito.forEach(function(i) {
+            total += i.precio * i.cantidad;
+            items += i.cantidad;
+        });
+
+        document.getElementById('totalDisplay').textContent = moneda(total);
+        document.getElementById('resumenItems').textContent = items;
+        document.getElementById('itemsBadge').textContent = items + (items === 1 ? ' item' : ' items');
+    }
+
+    /* ============ CLIENTE ============ */
+    function seleccionarCliente(nombre, id) {
+        document.getElementById('clienteInput').value = nombre;
+        document.getElementById('clienteId').value = id || '';
+        document.getElementById('resumenCliente').textContent = nombre || 'CLIENTES VARIOS';
+    }
+
+    var clienteInput = document.getElementById('clienteInput');
+    var clienteDropdown = document.getElementById('clientesDropdown');
+    var clienteDropdownVacio = document.getElementById('clienteDropdownVacio');
+
+    function clienteFiltrar(q) {
+        q = (q || '').toLowerCase();
+        var visibles = 0;
+        var items = clienteDropdown.querySelectorAll('.cliente-item');
+
+        for (var i = 0; i < items.length; i++) {
+            var a = items[i];
+            var ok = !q || a.getAttribute('data-nombre').toLowerCase().indexOf(q) !== -1;
+            a.parentNode.style.display = ok ? '' : 'none';
+            if (ok) visibles++;
+        }
+
+        clienteDropdownVacio.style.display = visibles ? 'none' : '';
+
+        return visibles;
+    }
+
+    function clienteAbrir() {
+        clienteFiltrar(clienteInput.value.trim());
+        clienteDropdown.classList.add('show');
+    }
+
+    function clienteCerrar() {
+        clienteDropdown.classList.remove('show');
+    }
+
+    document.getElementById('btnClienteToggle').addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (clienteDropdown.classList.contains('show')) {
+            clienteCerrar();
+        } else {
+            clienteAbrir();
+        }
+    });
+
+    clienteInput.addEventListener('focus', function() {
+        clienteAbrir();
+    });
+
+    clienteInput.addEventListener('input', function() {
+        var v = this.value.trim();
+
+        if (clienteDropdown.classList.contains('show')) {
+            clienteFiltrar(v);
+        }
+
+        if (!v) {
+            seleccionarCliente(CLIENTES_VARIOS.nombre, CLIENTES_VARIOS.id);
+            return;
+        }
+
+        var cliente = CLIENTES.find(function(c) { return c.nombre === v; });
+
+        if (cliente) {
+            seleccionarCliente(cliente.nombre, cliente.id_cliente);
+        } else {
+            seleccionarCliente(v, '');
+        }
+    });
+
+    clienteInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            clienteCerrar();
+        }
+    });
+
+    clienteDropdown.addEventListener('click', function(e) {
+        var a = e.target.closest('.cliente-item');
+        if (!a) return;
+        e.preventDefault();
+        seleccionarCliente(a.getAttribute('data-nombre'), a.getAttribute('data-id'));
+        clienteCerrar();
+    });
+
+    document.addEventListener('click', function(e) {
+        var box = document.getElementById('clienteCombobox');
+        if (!box.contains(e.target)) {
+            clienteCerrar();
+        }
+    });
+
+    /* ============ CLIENTE: ALTA RÁPIDA ============ */
+    document.getElementById('btnClienteNuevo').addEventListener('click', function() {
+        document.getElementById('nuevoClienteNombre').value = '';
+        document.getElementById('nuevoClienteTelefono').value = '';
+        document.getElementById('clienteRapidoError').classList.add('d-none');
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('modalClienteRapido')).show();
+        setTimeout(function() { document.getElementById('nuevoClienteNombre').focus(); }, 300);
+    });
+
+    document.getElementById('formClienteRapido').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var nombre = document.getElementById('nuevoClienteNombre').value.trim();
+        if (!nombre) return;
+
+        var telefono = document.getElementById('nuevoClienteTelefono').value.trim();
+        var btn = document.getElementById('btnGuardarClienteRapido');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Guardando...';
+
+        $.ajax({
+            url: '{{ route("admin.clientes.store") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                nombre: nombre,
+                telefono: telefono,
+                estado: 1
+            },
+            dataType: 'json'
+        }).done(function(res) {
+            var nuevo = { id_cliente: res.id_cliente, nombre: res.nombre };
+            CLIENTES.push(nuevo);
+
+            var li = document.createElement('li');
+            var a = document.createElement('a');
+            a.className = 'dropdown-item cliente-item';
+            a.href = '#';
+            a.tabIndex = -1;
+            a.setAttribute('data-id', res.id_cliente);
+            a.setAttribute('data-nombre', res.nombre);
+            a.innerHTML = '<i class="fa fa-user text-muted me-1"></i> ' + escapeHtml(res.nombre);
+            li.appendChild(a);
+            clienteDropdown.insertBefore(li, clienteDropdownVacio);
+
+            seleccionarCliente(res.nombre, res.id_cliente);
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalClienteRapido')).hide();
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Cliente agregado',
+                text: res.nombre,
+                timer: 900,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
+        }).fail(function(xhr) {
+            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo registrar el cliente';
+
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                var errs = Object.values(xhr.responseJSON.errors);
+                msg = errs.map(function(a) {
+                    return Array.isArray(a) ? a.join(', ') : a;
+                }).join('<br>');
+            }
+
+            var el = document.getElementById('clienteRapidoError');
+            el.innerHTML = msg;
+            el.classList.remove('d-none');
+        }).always(function() {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-save"></i> Guardar y seleccionar';
+        });
+    });
+
+    /* ============ REGISTRAR / LIMPIAR ============ */
+    document.getElementById('btnRegistrarVenta').addEventListener('click', function() {
+        if (!cajaActual) {
+            Swal.fire('Atención', 'Selecciona una caja activa primero', 'warning');
+            return;
+        }
+
+        if (!carrito.length) {
+            Swal.fire('Atención', 'Agrega al menos un producto', 'warning');
+            return;
+        }
+
+        var cliente = document.getElementById('clienteInput').value.trim() || 'CLIENTES VARIOS';
+        var idCliente = document.getElementById('clienteId').value || null;
+        var idMetodoPago = document.getElementById('tipoPago').value;
+
+        var items = carrito.map(function(i) {
+            return {
+                id_variante: i.id_variante,
+                cantidad: i.cantidad,
+                precio: i.precio
+            };
+        });
+
+        var btn = document.getElementById('btnRegistrarVenta');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Registrando...';
+
+        $.ajax({
+            url: '{{ route("admin.ventas.guardar") }}',
+            type: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id_caja: cajaActual.id_caja,
+                id_cliente: idCliente,
+                nombre_cliente: cliente,
+                id_metodo_pago: idMetodoPago,
+                items: items
+            },
+            dataType: 'json'
+        }).done(function(res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Venta registrada',
+                html: '<div style="text-align:left;">' +
+                    '<b>N°:</b> ' + escapeHtml(res.numero) + '<br>' +
+                    '<b>Cliente:</b> ' + escapeHtml(res.cliente) + '<br>' +
+                    '<b>Tienda:</b> ' + escapeHtml(res.tienda) + ' · ' + escapeHtml(res.caja) + '<br>' +
+                    (res.vendedor ? '<b>Vendedor:</b> ' + escapeHtml(res.vendedor) + '<br>' : '') +
+                    '<b>Fecha:</b> ' + escapeHtml(res.fecha) + '<br>' +
+                    '<b>Total:</b> ' + moneda(res.total) +
+                    '</div>',
+                confirmButtonText: 'OK'
+            }).then(function() {
+                limpiarTodo();
+            });
+        }).fail(function(xhr) {
+            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo registrar la venta';
+            Swal.fire('Error', msg, 'error');
+        }).always(function() {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-check-circle"></i> Registrar Venta';
+        });
+    });
+
+    document.getElementById('btnLimpiarCarrito').addEventListener('click', function() {
+        if (!carrito.length) return;
+
+        Swal.fire({
+            title: '¿Limpiar detalle?',
+            text: 'Se eliminarán todos los productos de la venta',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, limpiar',
+            cancelButtonText: 'Cancelar'
+        }).then(function(r) {
+            if (r.isConfirmed) {
+                carrito = [];
+                renderCarrito();
+            }
+        });
+    });
+
+    document.getElementById('btnLimpiarVenta').addEventListener('click', limpiarTodo);
+
+    function limpiarTodo() {
+        carrito = [];
+        productoActual = null;
+        varianteActual = null;
+
+        document.getElementById('productoInput').value = '';
+        document.getElementById('productoId').value = '';
+        document.getElementById('cantidadInput').value = 1;
+
+        var sel = document.getElementById('varianteSelect');
+        sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
+        sel.disabled = true;
+
+        seleccionarCliente(CLIENTES_VARIOS.nombre, CLIENTES_VARIOS.id);
+        limpiarDatosVariante();
+        renderCarrito();
+    }
+
+    /* ============ INIT ============ */
     renderCarrito();
-}
 
-/* ============ INIT ============ */
-renderCarrito();
+    // Si solo hay una caja abierta, se selecciona automáticamente
+    @if($cajasAbiertas->count() === 1)
+    (function() {
+        var sel = document.getElementById('cajaSelect');
+        if (sel) {
+            sel.value = '{{ $cajasAbiertas->first()->id_caja }}';
+            sel.dispatchEvent(new Event('change'));
+        }
+    })();
+    @endif
 </script>
 
 @endsection

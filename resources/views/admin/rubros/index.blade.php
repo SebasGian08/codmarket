@@ -10,17 +10,6 @@
 
         <div class="d-flex align-items-center">
             <h4 class="page-title">Rubros</h4>
-
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-
-                <li class="separator"><i class="icon-arrow-right"></i></li>
-                <li class="nav-item">Listado</li>
-            </ul>
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

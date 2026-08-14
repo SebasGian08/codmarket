@@ -6,27 +6,7 @@
 <div class="page-inner">
     <div class="page-header d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Usuarios</h4>
-            <ul class="breadcrumbs">
-                <li class="nav-home">
-                    <a href="{{ route('admin.dashboard') }}">
-                        <i class="icon-home"></i>
-                    </a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.users.index') }}">Usuarios</a>
-                </li>
-                <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                </li>
-                <li class="nav-item">
-                    <a>Listado</a>
-                </li>
-            </ul>
-        </div>
+            <h4 class="page-title">Gestión de Usuarios</h4>        </div>
 
         <div class="ms-md-auto py-2 py-md-0">
             <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
