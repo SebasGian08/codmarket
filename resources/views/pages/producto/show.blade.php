@@ -117,7 +117,9 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                     @if($mostrarPrecio)
 
-                    <div class="product-price-box mb-3">
+                    <div class="product-price-box mb-3" id="precioBox">
+
+                        @if($descuento > 0)
 
                         <div class="price-row">
                             <span class="label">Precio regular</span>
@@ -132,15 +134,22 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                     S/ {{ number_format($precioPromo, 2) }}
                                 </span>
 
-                                @if($descuento > 0)
                                 <div class="badge-discount-black" id="badgeDescuento">
                                     -{{ $descuento }}%
                                 </div>
-                                @else
-                                <div class="badge-discount-black" id="badgeDescuento" style="display:none;"></div>
-                                @endif
                             </div>
                         </div>
+
+                        @else
+
+                        <div class="price-row">
+                            <span class="label">Precio</span>
+                            <span class="new-price" id="precioPromo">
+                                S/ {{ number_format($precioRegular, 2) }}
+                            </span>
+                        </div>
+
+                        @endif
 
                     </div>
 
@@ -540,6 +549,34 @@ function formatearPrecio(n) {
     return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+function actualizarPrecios(data) {
+    const box = document.getElementById('precioBox');
+    if (!box) return;
+
+    const precioPromo = data.precio_oferta != null ? data.precio_oferta : data.precio;
+
+    if (data.descuento > 0) {
+        box.innerHTML = `
+            <div class="price-row">
+                <span class="label">Precio regular</span>
+                <span class="old-price" id="precioRegular">S/ ${formatearPrecio(data.precio)}</span>
+            </div>
+            <div class="price-row">
+                <span class="label">Precio promocional</span>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="new-price" id="precioPromo">S/ ${formatearPrecio(precioPromo)}</span>
+                    <div class="badge-discount-black" id="badgeDescuento">-${data.descuento}%</div>
+                </div>
+            </div>`;
+    } else {
+        box.innerHTML = `
+            <div class="price-row">
+                <span class="label">Precio</span>
+                <span class="new-price" id="precioPromo">S/ ${formatearPrecio(precioPromo)}</span>
+            </div>`;
+    }
+}
+
 function enviarWhatsApp(btn) {
     const input = document.getElementById('cantidad');
     const cantidad = input ? input.value : 1;
@@ -589,21 +626,7 @@ function cambiarVariante(id) {
             const skuEl = document.getElementById('skuActivo');
             if (skuEl) skuEl.textContent = 'SKU: ' + data.sku;
 
-            const precioRegular = document.getElementById('precioRegular');
-            const precioPromo = document.getElementById('precioPromo');
-            const badge = document.getElementById('badgeDescuento');
-
-            if (precioRegular) precioRegular.textContent = 'S/ ' + formatearPrecio(data.precio);
-            if (precioPromo) precioPromo.textContent = 'S/ ' + formatearPrecio(data.precio_oferta != null ? data.precio_oferta : data.precio);
-
-            if (badge) {
-                if (data.descuento > 0) {
-                    badge.textContent = '-' + data.descuento + '%';
-                    badge.style.display = '';
-                } else {
-                    badge.style.display = 'none';
-                }
-            }
+            actualizarPrecios(data);
 
             updateGaleria(data.imagenes);
 
