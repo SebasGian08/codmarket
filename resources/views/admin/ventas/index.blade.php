@@ -40,19 +40,19 @@
         <!-- ================= COLUMNA PRINCIPAL ================= -->
         <div class="col-lg-8">
 
-            <!-- CAJA ACTIVA -->
+            <!-- CAJA ACTIVA + CLIENTE (compacto) -->
             <div class="card border-0 shadow-sm mb-3">
-                <div class="card-body py-3">
+                <div class="card-body py-2">
 
-                    <div class="row g-3 align-items-center">
+                    <div class="row g-2 align-items-center">
 
-                        <div class="col-md-7">
-                            <label class="form-label small fw-semibold text-uppercase text-muted mb-2">
+                        <div class="col-sm-4">
+                            <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                 <i class="fa fa-folder-open me-1"></i> Caja activa
                             </label>
 
                             @if($cajasAbiertas->isNotEmpty())
-                            <select id="cajaSelect" class="form-select">
+                            <select id="cajaSelect" class="form-select form-select-sm">
                                 <option value="">Selecciona una caja</option>
                                 @foreach($cajasAbiertas as $caja)
                                 <option value="{{ $caja->id_caja }}" data-tienda="{{ $caja->id_tienda }}"
@@ -63,36 +63,19 @@
                                 @endforeach
                             </select>
                             @else
-                            <select class="form-select" disabled>
+                            <select class="form-select form-select-sm" disabled>
                                 <option>Sin cajas abiertas</option>
                             </select>
                             @endif
                         </div>
 
-                        <div class="col-md-5">
-                            <div id="cajaInfo" class="text-muted small">
-                                <i class="fa fa-info-circle me-1"></i>
-                                Selecciona una caja para iniciar la venta
-                            </div>
-                        </div>
+                        <div class="col-sm-5">
+                            <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
+                                <i class="fa fa-user me-1"></i> Cliente
+                            </label>
 
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- CLIENTE -->
-            <div class="card border-0 shadow-sm mb-3">
-                <div class="card-body py-3">
-
-                    <label class="form-label small fw-semibold text-uppercase text-muted mb-2">
-                        <i class="fa fa-user me-1"></i> Cliente
-                    </label>
-
-                    <div class="row g-3">
-                        <div class="col-md-8">
                             <div class="position-relative" id="clienteCombobox">
-                                <div class="input-group">
+                                <div class="input-group input-group-sm">
                                     <input type="text" id="clienteInput" class="form-control"
                                         value="{{ $clienteVarios->nombre ?? 'CLIENTES VARIOS' }}" autocomplete="off"
                                         placeholder="Buscar cliente...">
@@ -131,29 +114,27 @@
                             <input type="hidden" id="clienteId" value="{{ $clienteVarios->id_cliente ?? '' }}">
                         </div>
 
-                        <div class="col-md-4 d-flex align-items-center">
-                            <span class="text-muted small">
-                                <i class="fa fa-check-circle text-success me-1"></i>
-                                <span id="clienteEstado">Cliente seleccionado</span>
-                            </span>
+                        <div class="col-sm-3 text-sm-end">
+                            <div id="cajaInfo" class="text-muted small text-sm-end">
+                                <i class="fa fa-info-circle me-1"></i>
+                                Selecciona una caja para iniciar la venta
+                            </div>
                         </div>
+
                     </div>
 
                 </div>
             </div>
 
-            <!-- PRODUCTO -->
+            <!-- BUSCADOR: EL PROTAGONISTA -->
             <div class="card border-0 shadow-sm mb-3">
-                <div class="card-body py-3">
-
-                    <label class="form-label small fw-semibold text-uppercase text-muted mb-2">
-                        <i class="fa fa-box-open me-1"></i> Producto
-                    </label>
+                <div class="card-body py-4">
 
                     <div class="venta-buscador position-relative">
-                        <div class="input-group">
+                        <div class="input-group input-group-lg">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
-                            <input type="text" id="productoInput" class="form-control" autocomplete="off"
+                            <input type="text" id="productoInput" class="form-control form-control-lg"
+                                autocomplete="off" autofocus
                                 placeholder="Buscar producto por nombre o SKU...">
                         </div>
 
@@ -162,27 +143,32 @@
 
                     <input type="hidden" id="productoId">
 
+                    <div class="text-muted small mt-2 text-center">
+                        <i class="fa fa-keyboard me-1"></i>
+                        Escribe el nombre o el SKU y presiona Enter: se agrega al instante
+                    </div>
+
                 </div>
             </div>
 
-            <!-- VARIANTE + ATRIBUTOS -->
-            <div class="card border-0 shadow-sm mb-3">
+            <!-- VARIANTE + ATRIBUTOS (se muestra al elegir producto) -->
+            <div class="card border-0 shadow-sm mb-3 d-none" id="varianteCard">
                 <div class="card-body py-3">
 
-                    <div class="row g-3">
+                    <div class="row g-2 align-items-center">
 
-                        <div class="col-md-7">
-                            <label class="form-label small fw-semibold text-uppercase text-muted">
+                        <div class="col-md-5">
+                            <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                 <i class="fa fa-cubes me-1"></i> Variante
                             </label>
 
-                            <select id="varianteSelect" class="form-select" disabled>
+                            <select id="varianteSelect" class="form-select form-select-sm" disabled>
                                 <option value="">Selecciona un producto primero</option>
                             </select>
                         </div>
 
-                        <div class="col-md-5">
-                            <label class="form-label small fw-semibold text-uppercase text-muted">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                 <i class="fa fa-tags me-1"></i> Atributos
                             </label>
 
@@ -191,48 +177,13 @@
                             </div>
                         </div>
 
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- PRECIO + CANTIDAD + SUBTOTAL + AGREGAR -->
-            <div class="card border-0 shadow-sm mb-3">
-                <div class="card-body py-3">
-
-                    <div class="row g-3 align-items-end">
-
-                        <div class="col-6 col-md-3">
-                            <label class="form-label small fw-semibold text-uppercase text-muted">Precio</label>
+                        <div class="col-md-3 text-md-end">
+                            <div class="small text-muted">Stock</div>
+                            <div class="fw-bold text-muted" id="stockDisplay">—</div>
+                            <div class="small text-muted mt-1">Precio</div>
                             <div class="venta-precio" id="precioDisplay">
                                 <span class="text-muted">—</span>
                             </div>
-                        </div>
-
-                        <div class="col-6 col-md-3">
-                            <label class="form-label small fw-semibold text-uppercase text-muted">Stock</label>
-                            <div id="stockDisplay" class="fw-bold text-muted">—</div>
-                        </div>
-
-                        <div class="col-6 col-md-3">
-                            <label class="form-label small fw-semibold text-uppercase text-muted">Cantidad</label>
-                            <div class="input-group">
-                                <button class="btn btn-light border" type="button" id="btnMenos">−</button>
-                                <input type="number" id="cantidadInput" class="form-control text-center" value="1"
-                                    min="1">
-                                <button class="btn btn-light border" type="button" id="btnMas">+</button>
-                            </div>
-                        </div>
-
-                        <div class="col-6 col-md-3 text-md-end">
-                            <label class="form-label small fw-semibold text-uppercase text-muted">Subtotal</label>
-                            <div class="venta-subtotal" id="subtotalDisplay">S/ 0.00</div>
-                        </div>
-
-                        <div class="col-12">
-                            <button class="btn btn-primary btn-round w-100" id="btnAgregar" type="button">
-                                <i class="fa fa-cart-plus"></i> Agregar al detalle
-                            </button>
                         </div>
 
                     </div>
@@ -303,17 +254,6 @@
                         <span class="fw-semibold" id="resumenItems">0</span>
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label small fw-semibold text-muted mb-1">Método de pago</label>
-                        <select id="tipoPago" class="form-select">
-                            @foreach($metodosPagos as $metodo)
-                            <option value="{{ $metodo->id_metodo_pago }}" {{ $loop->first ? 'selected' : '' }}>
-                                {{ $metodo->nombre }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <hr>
 
                     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -321,8 +261,8 @@
                         <span class="venta-total" id="totalDisplay">S/ 0.00</span>
                     </div>
 
-                    <button class="btn btn-success btn-lg w-100 btn-round mb-2" id="btnRegistrarVenta" type="button">
-                        <i class="fa fa-check-circle"></i> Registrar Venta
+                    <button class="btn btn-success btn-lg w-100 btn-round mb-2" id="btnConfirmarVenta" type="button">
+                        <i class="fa fa-check-circle"></i> Confirmar Venta
                     </button>
 
                     <button class="btn btn-light border w-100 btn-round" id="btnLimpiarCarrito" type="button">
@@ -381,6 +321,8 @@
     </div>
 </div>
 
+@include('admin.ventas.modals.confirmar', ['metodosPagos' => $metodosPagos])
+
 <style>
     .venta-resultados {
         position: absolute;
@@ -424,15 +366,13 @@
         background: rgba(255, 255, 255, .06);
     }
 
-    .venta-precio {
-        font-size: 1.15rem;
-        font-weight: 700;
+    #productoInput {
+        font-size: 1.1rem;
     }
 
-    .venta-subtotal {
-        font-size: 1.15rem;
+    .venta-precio {
+        font-size: 1.05rem;
         font-weight: 700;
-        color: var(--bs-primary);
     }
 
     .venta-total {
@@ -444,6 +384,16 @@
     .venta-resumen {
         position: sticky;
         top: 1rem;
+    }
+
+    /* Resaltado del item recién agregado */
+    .venta-item-nuevo {
+        animation: ventaFlash 1.2s ease;
+    }
+
+    @keyframes ventaFlash {
+        0% { background-color: rgba(33, 195, 108, .25); }
+        100% { background-color: transparent; }
     }
 </style>
 
@@ -491,7 +441,7 @@
 
         if (!cajaActual) {
             el.innerHTML = '<i class="fa fa-info-circle me-1"></i> Selecciona una caja para iniciar la venta';
-            el.className = 'text-muted small';
+            el.className = 'text-muted small text-sm-end';
             document.getElementById('resumenTienda').textContent = '—';
             return;
         }
@@ -503,7 +453,7 @@
             '<br><span class="text-muted">Apertura: ' + moneda(cajaActual.monto_apertura) +
             (cajaActual.vendedor ? ' · Vendedor: <b>' + escapeHtml(cajaActual.vendedor) + '</b>' : '') +
             '</span>';
-        el.className = 'small';
+        el.className = 'small text-sm-end';
 
         document.getElementById('resumenTienda').textContent = cajaActual.tienda.nombre;
 
@@ -527,7 +477,6 @@
                 id_tienda: parseInt(opt.dataset.tienda)
             };
 
-            // Busca la tienda en las opciones para mostrar su nombre
             @foreach($cajasAbiertas as $caja)
             if ({{ $caja->id_caja }} === cajaActual.id_caja) {
                 cajaActual.tienda = { nombre: @json($caja->tienda->nombre), codigo: @json($caja->tienda->codigo) };
@@ -580,7 +529,33 @@
     }
 
     document.getElementById('productoInput').addEventListener('input', function(e) {
-        renderProductos(e.target.value);
+        var termino = e.target.value;
+        renderProductos(termino);
+
+        // Coincidencia exacta de SKU: agregar esa variante al instante
+        var t = termino.trim().toLowerCase();
+        if (!t) return;
+
+        for (var i = 0; i < PRODUCTOS.length; i++) {
+            var p = PRODUCTOS[i];
+            var vens = p.variantes || [];
+            for (var j = 0; j < vens.length; j++) {
+                if ((vens[j].sku || '').toLowerCase() === t) {
+                    seleccionarProducto(p.id, vens[j].id);
+                    return;
+                }
+            }
+        }
+    });
+
+    document.getElementById('productoInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            var first = document.getElementById('productoResultados').querySelector('.venta-resultado');
+            if (first && first.dataset.id) {
+                seleccionarProducto(parseInt(first.dataset.id));
+            }
+        }
     });
 
     document.getElementById('productoResultados').addEventListener('mousedown', function(e) {
@@ -597,7 +572,7 @@
     });
 
     /* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
-    function seleccionarProducto(id) {
+    function seleccionarProducto(id, idVariante) {
         productoActual = PRODUCTOS.find(function(p) { return p.id === id; });
         if (!productoActual) return;
 
@@ -606,16 +581,18 @@
         document.getElementById('productoResultados').classList.add('d-none');
 
         var sel = document.getElementById('varianteSelect');
+        var card = document.getElementById('varianteCard');
 
         if (!productoActual.variantes.length) {
             sel.innerHTML = '<option value="">Sin variantes disponibles</option>';
             sel.disabled = true;
             varianteActual = null;
+            card.classList.remove('d-none');
             limpiarDatosVariante();
             return;
         }
 
-        sel.innerHTML = productoActual.variantes.map(function(v) {
+        var htmlOptions = productoActual.variantes.map(function(v) {
             var attrs = (v.atributos || []).map(function(a) {
                 return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
             }).join(', ');
@@ -629,8 +606,70 @@
             return '<option value="' + v.id + '">' + label + '</option>';
         }).join('');
 
+        // SKU exacto buscado: se agrega esa variante directamente
+        if (idVariante) {
+            var vExacta = productoActual.variantes.find(function(x) { return x.id === idVariante; });
+            if (vExacta) {
+                sel.innerHTML = htmlOptions;
+                sel.value = vExacta.id;
+                sel.disabled = false;
+                card.classList.remove('d-none');
+                varianteActual = vExacta;
+                mostrarDatosVariante(vExacta);
+                if (agregarAlCarrito()) finalizarAgregado();
+                return;
+            }
+        }
+
+        // Una sola variante: se agrega al instante
+        if (productoActual.variantes.length === 1) {
+            var unica = productoActual.variantes[0];
+            sel.innerHTML = htmlOptions;
+            sel.value = unica.id;
+            sel.disabled = false;
+            card.classList.remove('d-none');
+            varianteActual = unica;
+            mostrarDatosVariante(unica);
+            if (agregarAlCarrito()) finalizarAgregado();
+            return;
+        }
+
+        // Varias variantes: elige una y se agrega automáticamente al cambiar
+        sel.innerHTML = '<option value="" selected disabled>Selecciona una variante...</option>' + htmlOptions;
+        sel.value = '';
         sel.disabled = false;
-        seleccionarVariante(productoActual.variantes[0].id);
+        card.classList.remove('d-none');
+        varianteActual = null;
+        limpiarDatosVariante();
+    }
+
+    function mostrarDatosVariante(v) {
+        var wrap = document.getElementById('atributosWrap');
+
+        if (v.atributos && v.atributos.length) {
+            wrap.innerHTML = v.atributos.map(function(a) {
+                return '<span class="badge bg-light text-dark border me-1">' +
+                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+            }).join('');
+        } else {
+            wrap.innerHTML = '<span class="text-muted small">Sin atributos</span>';
+        }
+
+        var pre = v.precio;
+        var oferta = v.precio_oferta;
+
+        if (oferta != null && oferta < pre) {
+            document.getElementById('precioDisplay').innerHTML =
+                '<span class="text-decoration-line-through text-muted me-1">' + moneda(pre) + '</span>' +
+                '<span class="fw-bold text-success">' + moneda(oferta) + '</span>';
+        } else {
+            document.getElementById('precioDisplay').innerHTML = '<span class="fw-bold">' + moneda(pre) + '</span>';
+        }
+
+        var st = stockVariante(v.id);
+        var stEl = document.getElementById('stockDisplay');
+        stEl.textContent = st;
+        stEl.className = 'fw-bold ' + (st <= 5 ? 'text-danger' : 'text-muted');
     }
 
     function seleccionarVariante(id) {
@@ -644,35 +683,11 @@
             return;
         }
 
-        var wrap = document.getElementById('atributosWrap');
+        mostrarDatosVariante(varianteActual);
 
-        if (varianteActual.atributos && varianteActual.atributos.length) {
-            wrap.innerHTML = varianteActual.atributos.map(function(a) {
-                return '<span class="badge bg-light text-dark border me-1">' +
-                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
-            }).join('');
-        } else {
-            wrap.innerHTML = '<span class="text-muted small">Sin atributos</span>';
+        if (agregarAlCarrito()) {
+            finalizarAgregado();
         }
-
-        var pre = varianteActual.precio;
-        var oferta = varianteActual.precio_oferta;
-
-        if (oferta != null && oferta < pre) {
-            document.getElementById('precioDisplay').innerHTML =
-                '<span class="text-decoration-line-through text-muted me-1">' + moneda(pre) + '</span>' +
-                '<span class="fw-bold text-success">' + moneda(oferta) + '</span>';
-        } else {
-            document.getElementById('precioDisplay').innerHTML = '<span class="fw-bold">' + moneda(pre) + '</span>';
-        }
-
-        var st = stockVariante(varianteActual.id);
-        var stEl = document.getElementById('stockDisplay');
-        stEl.textContent = st;
-        stEl.className = 'fw-bold ' + (st <= 5 ? 'text-danger' : 'text-muted');
-
-        document.getElementById('cantidadInput').value = 1;
-        actualizarSubtotal();
     }
 
     function limpiarDatosVariante() {
@@ -680,72 +695,41 @@
         document.getElementById('stockDisplay').textContent = '—';
         document.getElementById('stockDisplay').className = 'fw-bold text-muted';
         document.getElementById('atributosWrap').innerHTML = '<span class="text-muted small">Selecciona una variante</span>';
-        document.getElementById('subtotalDisplay').textContent = 'S/ 0.00';
     }
 
     document.getElementById('varianteSelect').addEventListener('change', function() {
         if (this.value) seleccionarVariante(parseInt(this.value));
     });
 
-    /* ============ CANTIDAD Y SUBTOTAL ============ */
-    function actualizarSubtotal() {
-        if (!varianteActual) {
-            document.getElementById('subtotalDisplay').textContent = 'S/ 0.00';
-            return;
-        }
-
-        var cant = parseInt(document.getElementById('cantidadInput').value) || 1;
-        document.getElementById('subtotalDisplay').textContent = moneda(precioVariante(varianteActual) * cant);
-    }
-
-    document.getElementById('btnMenos').addEventListener('click', function() {
-        var c = document.getElementById('cantidadInput');
-        if (parseInt(c.value) > 1) c.value = parseInt(c.value) - 1;
-        actualizarSubtotal();
-    });
-
-    document.getElementById('btnMas').addEventListener('click', function() {
-        var c = document.getElementById('cantidadInput');
-        c.value = parseInt(c.value) + 1;
-        actualizarSubtotal();
-    });
-
-    document.getElementById('cantidadInput').addEventListener('input', function() {
-        var c = parseInt(this.value);
-        if (!c || c < 1) this.value = 1;
-        actualizarSubtotal();
-    });
-
-    /* ============ AGREGAR AL CARRITO ============ */
-    document.getElementById('btnAgregar').addEventListener('click', agregarAlCarrito);
-
+    /* ============ AGREGAR AUTOMÁTICO AL CARRITO ============ */
     function agregarAlCarrito() {
         if (!cajaActual) {
             Swal.fire('Atención', 'Selecciona una caja activa primero', 'warning');
-            return;
+            return false;
         }
 
         if (!productoActual || !varianteActual) {
             Swal.fire('Atención', 'Selecciona un producto y una variante', 'warning');
-            return;
+            return false;
         }
 
-        var cant = parseInt(document.getElementById('cantidadInput').value) || 1;
+        var cant = 1;
         var stock = stockVariante(varianteActual.id);
 
         if (stock > 0 && cant > stock) {
             Swal.fire('Stock insuficiente', 'Stock disponible en tienda: ' + stock, 'warning');
-            return;
+            return false;
         }
 
         var existente = carrito.find(function(i) { return i.id_variante === varianteActual.id; });
+        var esNuevo = !existente;
 
         if (existente) {
             var nueva = existente.cantidad + cant;
 
             if (stock > 0 && nueva > stock) {
                 Swal.fire('Stock insuficiente', 'Stock disponible en tienda: ' + stock, 'warning');
-                return;
+                return false;
             }
 
             existente.cantidad = nueva;
@@ -762,16 +746,35 @@
         }
 
         renderCarrito();
+        resaltarItem(varianteActual.id);
 
         Swal.fire({
             icon: 'success',
-            title: 'Agregado',
+            title: esNuevo ? 'Agregado' : 'Cantidad actualizada',
             text: productoActual.nombre,
-            timer: 900,
+            timer: 700,
             showConfirmButton: false,
             toast: true,
             position: 'top-end'
         });
+
+        return true;
+    }
+
+    function finalizarAgregado() {
+        productoActual = null;
+        varianteActual = null;
+
+        document.getElementById('productoInput').value = '';
+        document.getElementById('productoId').value = '';
+        document.getElementById('varianteCard').classList.add('d-none');
+
+        var sel = document.getElementById('varianteSelect');
+        sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
+        sel.disabled = true;
+
+        limpiarDatosVariante();
+        document.getElementById('productoInput').focus();
     }
 
     /* ============ CARRITO ============ */
@@ -793,7 +796,7 @@
                     }).join(' ')
                     : '<span class="text-muted">—</span>';
 
-                return '<tr>' +
+                return '<tr data-variante="' + item.id_variante + '">' +
                     '<td data-label="Producto">' + escapeHtml(item.producto) + '</td>' +
                     '<td data-label="Variante">' + escapeHtml(item.variante) + '</td>' +
                     '<td data-label="Atributos">' + attrs + '</td>' +
@@ -814,6 +817,21 @@
         }
 
         actualizarResumen();
+    }
+
+    function resaltarItem(idVariante) {
+        var filas = document.querySelectorAll('#cartBody tr');
+
+        for (var i = 0; i < filas.length; i++) {
+            if (parseInt(filas[i].getAttribute('data-variante')) === idVariante) {
+                var tr = filas[i];
+                tr.classList.add('venta-item-nuevo');
+                (function(el) {
+                    setTimeout(function() { el.classList.remove('venta-item-nuevo'); }, 1200);
+                })(tr);
+                break;
+            }
+        }
     }
 
     document.getElementById('cartBody').addEventListener('click', function(e) {
@@ -876,12 +894,21 @@
         renderCarrito();
     }
 
-    function actualizarResumen() {
+    function calcularTotal() {
         var total = 0;
-        var items = 0;
 
         carrito.forEach(function(i) {
             total += i.precio * i.cantidad;
+        });
+
+        return total;
+    }
+
+    function actualizarResumen() {
+        var total = calcularTotal();
+        var items = 0;
+
+        carrito.forEach(function(i) {
             items += i.cantidad;
         });
 
@@ -1058,8 +1085,8 @@
         });
     });
 
-    /* ============ REGISTRAR / LIMPIAR ============ */
-    document.getElementById('btnRegistrarVenta').addEventListener('click', function() {
+    /* ============ CONFIRMAR / LIMPIAR ============ */
+    document.getElementById('btnConfirmarVenta').addEventListener('click', function() {
         if (!cajaActual) {
             Swal.fire('Atención', 'Selecciona una caja activa primero', 'warning');
             return;
@@ -1072,7 +1099,6 @@
 
         var cliente = document.getElementById('clienteInput').value.trim() || 'CLIENTES VARIOS';
         var idCliente = document.getElementById('clienteId').value || null;
-        var idMetodoPago = document.getElementById('tipoPago').value;
 
         var items = carrito.map(function(i) {
             return {
@@ -1082,44 +1108,15 @@
             };
         });
 
-        var btn = document.getElementById('btnRegistrarVenta');
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Registrando...';
-
-        $.ajax({
-            url: '{{ route("admin.ventas.guardar") }}',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id_caja: cajaActual.id_caja,
-                id_cliente: idCliente,
-                nombre_cliente: cliente,
-                id_metodo_pago: idMetodoPago,
-                items: items
-            },
-            dataType: 'json'
-        }).done(function(res) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Venta registrada',
-                html: '<div style="text-align:left;">' +
-                    '<b>N°:</b> ' + escapeHtml(res.numero) + '<br>' +
-                    '<b>Cliente:</b> ' + escapeHtml(res.cliente) + '<br>' +
-                    '<b>Tienda:</b> ' + escapeHtml(res.tienda) + ' · ' + escapeHtml(res.caja) + '<br>' +
-                    (res.vendedor ? '<b>Vendedor:</b> ' + escapeHtml(res.vendedor) + '<br>' : '') +
-                    '<b>Fecha:</b> ' + escapeHtml(res.fecha) + '<br>' +
-                    '<b>Total:</b> ' + moneda(res.total) +
-                    '</div>',
-                confirmButtonText: 'OK'
-            }).then(function() {
+        abrirConfirmarVenta({
+            total: calcularTotal(),
+            items: items,
+            idCaja: cajaActual.id_caja,
+            clienteNombre: cliente,
+            clienteId: idCliente,
+            onRegistrada: function() {
                 limpiarTodo();
-            });
-        }).fail(function(xhr) {
-            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo registrar la venta';
-            Swal.fire('Error', msg, 'error');
-        }).always(function() {
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa fa-check-circle"></i> Registrar Venta';
+            }
         });
     });
 
@@ -1152,7 +1149,7 @@
 
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
-        document.getElementById('cantidadInput').value = 1;
+        document.getElementById('varianteCard').classList.add('d-none');
 
         var sel = document.getElementById('varianteSelect');
         sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
@@ -1161,6 +1158,7 @@
         seleccionarCliente(CLIENTES_VARIOS.nombre, CLIENTES_VARIOS.id);
         limpiarDatosVariante();
         renderCarrito();
+        document.getElementById('productoInput').focus();
     }
 
     /* ============ INIT ============ */
