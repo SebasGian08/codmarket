@@ -112,7 +112,7 @@ class ProductoVarianteController extends Controller
         $producto = Producto::findOrFail($productoId);
 
         $variantes = ProductoVariante::where('id_producto', $productoId)
-            ->with('atributos')
+            ->with('atributos.atributo')
             ->orderBy('id_variante', 'asc')
             ->get();
 

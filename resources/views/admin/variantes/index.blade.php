@@ -35,6 +35,7 @@
                         <tr>
                             <th>ID</th>
                             <th>SKU</th>
+                            <th>Atributos</th>
                             <th>Precio</th>
                             <th>Oferta</th>
                             <th>Costo</th>
@@ -48,6 +49,22 @@
                         <tr>
                             <td>{{ $v->id_variante }}</td>
                             <td>{{ $v->sku }}</td>
+
+                            <td>
+                                @if($v->atributos->count())
+                                <div class="d-flex flex-wrap gap-1">
+                                    @foreach($v->atributos as $atVal)
+                                    <span class="badge bg-light text-dark border"
+                                        title="{{ $atVal->atributo->nombre ?? 'Atributo' }}">
+                                        {{ $atVal->atributo->nombre ?? 'Atributo' }}: {{ $atVal->valor }}
+                                    </span>
+                                    @endforeach
+                                </div>
+                                @else
+                                <span class="text-muted">-</span>
+                                @endif
+                            </td>
+
                             <td>S/ {{ $v->precio }}</td>
                             <td>{{ $v->precio_oferta ?? '-' }}</td>
                             <td>{{ $v->costo ?? '-' }}</td>

@@ -334,11 +334,11 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 <section class="product_section sec_ptb_50 clearfix">
     <div class="container maxw_1600">
 
-        <div class="row mb_30 align-items-center justify-content-lg-between">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="medical_section_title">
-                    <h2 class="title_text mb-0">Productos Relacionados</h2>
-                </div>
+        <div class="section_heading text-center mb-5">
+            <div class="section_heading_title">
+                <span></span>
+                <small>Productos Relacionados</small>
+                <span></span>
             </div>
         </div>
 
