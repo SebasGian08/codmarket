@@ -236,7 +236,7 @@
                 <div class="card-body">
 
                     <h6 class="fw-bold text-uppercase text-muted small mb-3">
-                        <i class="fa fa-calculator me-1"></i> Resumen
+                        <i class="fa fa-check-circle me-1"></i> Confirmar Venta
                     </h6>
 
                     <div class="d-flex justify-content-between mb-1">
@@ -254,12 +254,41 @@
                         <span class="fw-semibold" id="resumenItems">0</span>
                     </div>
 
-                    <hr>
-
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <span class="h6 mb-0">TOTAL</span>
-                        <span class="venta-total" id="totalDisplay">S/ 0.00</span>
+                    <div class="text-center my-4">
+                        <div class="small text-uppercase fw-semibold text-muted mb-1">Total</div>
+                        <div class="venta-total" id="totalDisplay">S/ 0.00</div>
                     </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold text-muted mb-2">Método de pago</label>
+                        <div class="d-flex flex-wrap gap-2" id="metodosPagoWrap">
+                            @foreach($metodosPagos as $metodo)
+                            <button type="button" class="btn btn-outline-primary btn-sm btn-metodo-pago"
+                                data-id="{{ $metodo->id_metodo_pago }}"
+                                data-codigo="{{ $metodo->codigo }}">
+                                {{ $metodo->nombre }}
+                            </button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div id="efectivoBox" class="d-none mb-3">
+                        <div class="venta-efectivo-box p-3 rounded-3">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <label class="form-label small fw-semibold text-muted mb-1">Recibido</label>
+                                    <input type="number" id="recibidoInput" class="form-control"
+                                        min="0" step="0.01" placeholder="0.00" autocomplete="off">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small fw-semibold text-muted mb-1">Vuelto</label>
+                                    <div class="fs-4 fw-bold text-success" id="vueltoDisplay">S/ 0.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ventaError" class="alert alert-danger d-none mb-3"></div>
 
                     <button class="btn btn-success btn-lg w-100 btn-round mb-2" id="btnConfirmarVenta" type="button">
                         <i class="fa fa-check-circle"></i> Confirmar Venta
@@ -321,8 +350,6 @@
     </div>
 </div>
 
-@include('admin.ventas.modals.confirmar', ['metodosPagos' => $metodosPagos])
-
 <style>
     .venta-resultados {
         position: absolute;
@@ -381,6 +408,23 @@
         color: var(--bs-success);
     }
 
+    .venta-efectivo-box {
+        background: #f4f6f9;
+        border: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    html[data-theme="dark"] .venta-efectivo-box {
+        background: var(--ka-surface-2);
+        border-color: var(--ka-border);
+    }
+
+    #metodosPagoWrap .btn-metodo-pago.active {
+        color: #fff;
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+        box-shadow: 0 2px 6px rgba(13, 110, 253, .35);
+    }
+
     .venta-resumen {
         position: sticky;
         top: 1rem;
@@ -401,6 +445,9 @@
     var PRODUCTOS = @json($productos);
     var CLIENTES = @json($clientes);
     var STOCK_POR_TIENDA = @json($stockPorTienda);
+    var METODOS_PAGO = @json($metodosPagos->map(function ($m) {
+        return ['id' => $m->id_metodo_pago, 'nombre' => $m->nombre, 'codigo' => $m->codigo];
+    })->values());
     var CLIENTES_VARIOS = {
         id: {{ $clienteVarios->id_cliente ?? 'null' }},
         nombre: @json($clienteVarios->nombre ?? 'CLIENTES VARIOS')
