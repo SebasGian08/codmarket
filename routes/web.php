@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\ProductoVarianteController;
 use App\Http\Controllers\Admin\ProductoImagenController;
 use App\Http\Controllers\Admin\AtributoController;
 use App\Http\Controllers\Admin\AtributoValorController;
+use App\Http\Controllers\Admin\VentaController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
@@ -87,6 +88,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // MÓDULO: VENTA (punto de venta)
+    Route::prefix('ventas')->group(function () {
+        Route::get('/', [VentaController::class, 'index'])->name('admin.ventas.index');
+    });
 
     // MÓDULO: USUARIOS (Sintaxis compatible)
     Route::prefix('usuarios')->group(function () {

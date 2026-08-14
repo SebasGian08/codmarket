@@ -32,6 +32,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item {{ Request::is('admin/ventas*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.ventas.index') }}">
+                        <i class="fas fa-cart-plus"></i>
+                        <p>Venta</p>
+                    </a>
+                </li>
+
                 <li
                     class="nav-item  {{ Request::is('admin/marcas*') || Request::is('admin/proveedores*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#productos">
