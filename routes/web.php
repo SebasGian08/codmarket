@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\VendedorController;
 use App\Http\Controllers\Admin\CajaController;
 use App\Http\Controllers\Admin\IngresoController;
 use App\Http\Controllers\Admin\TransferenciaController;
+use App\Http\Controllers\Admin\CargaInventarioController;
 use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
@@ -158,6 +159,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // MÓDULO: INVENTARIO
     Route::prefix('inventario')->group(function () {
         Route::get('/', [InventarioController::class, 'index'])->name('admin.inventario.index');
+        Route::get('/carga', [CargaInventarioController::class, 'index'])->name('admin.inventario.carga.index');
+        Route::get('/carga/plantilla', [CargaInventarioController::class, 'plantilla'])->name('admin.inventario.carga.plantilla');
+        Route::post('/carga/importar', [CargaInventarioController::class, 'importar'])->name('admin.inventario.carga.importar');
     });
 
     // MÓDULO: USUARIOS (Sintaxis compatible)

@@ -41,7 +41,7 @@
                 </li>
                 @endpermiso
 
-                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver'))
+                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga'))
                 @if($puedeInventario)
                 <li
                     class="nav-item {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
@@ -86,6 +86,13 @@
                             <li class="{{ Request::is('admin/inventario*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.inventario.index') }}">
                                     <span class="sub-item">Stock por Tienda</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                            @permiso('inventario.carga')
+                            <li class="{{ Request::is('admin/inventario/carga*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.inventario.carga.index') }}">
+                                    <span class="sub-item">Carga Masiva</span>
                                 </a>
                             </li>
                             @endpermiso
