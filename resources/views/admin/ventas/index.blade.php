@@ -1132,6 +1132,66 @@
         });
     });
 
+    /* ============ MÉTODO DE PAGO ============ */
+    var metodoPagoActual = null;
+
+    function esMetodoEfectivo(m) {
+        if (!m) return false;
+        if (m.codigo) return String(m.codigo).toLowerCase() === 'efectivo';
+        return (m.nombre || '').toLowerCase().indexOf('efectivo') !== -1;
+    }
+
+    function seleccionarMetodoPago(id) {
+        metodoPagoActual = METODOS_PAGO.find(function(m) { return m.id === id; }) || null;
+
+        document.querySelectorAll('#metodosPagoWrap .btn-metodo-pago').forEach(function(b) {
+            b.classList.toggle('active', String(b.getAttribute('data-id')) === String(id));
+        });
+
+        var efectivo = esMetodoEfectivo(metodoPagoActual);
+        document.getElementById('efectivoBox').classList.toggle('d-none', !efectivo);
+        document.getElementById('ventaError').classList.add('d-none');
+
+        if (efectivo) {
+            var r = document.getElementById('recibidoInput');
+            r.value = '';
+            calcularVuelto();
+            r.focus();
+        }
+    }
+
+    function calcularVuelto() {
+        var total = calcularTotal();
+        var rec = parseFloat(document.getElementById('recibidoInput').value) || 0;
+        var vuelto = rec - total;
+        var el = document.getElementById('vueltoDisplay');
+
+        el.textContent = moneda(Math.max(0, vuelto));
+        el.classList.toggle('text-danger', rec > 0 && vuelto < 0);
+        document.getElementById('ventaError').classList.add('d-none');
+    }
+
+    document.getElementById('metodosPagoWrap').addEventListener('click', function(e) {
+        var btn = e.target.closest('.btn-metodo-pago');
+        if (btn) seleccionarMetodoPago(parseInt(btn.getAttribute('data-id')));
+    });
+
+    document.getElementById('recibidoInput').addEventListener('input', calcularVuelto);
+
+    document.getElementById('recibidoInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('btnConfirmarVenta').click();
+        }
+    });
+
+    // Método por defecto: efectivo si existe, si no el primero
+    (function() {
+        var efectivo = METODOS_PAGO.filter(esMetodoEfectivo)[0] || null;
+        var def = efectivo ? efectivo.id : (METODOS_PAGO.length ? METODOS_PAGO[0].id : null);
+        if (def) seleccionarMetodoPago(def);
+    })();
+
     /* ============ CONFIRMAR / LIMPIAR ============ */
     document.getElementById('btnConfirmarVenta').addEventListener('click', function() {
         if (!cajaActual) {
@@ -1142,6 +1202,27 @@
         if (!carrito.length) {
             Swal.fire('Atención', 'Agrega al menos un producto', 'warning');
             return;
+        }
+
+        if (!metodoPagoActual) {
+            Swal.fire('Atención', 'Selecciona un método de pago', 'warning');
+            return;
+        }
+
+        var montoRecibido = null;
+
+        if (esMetodoEfectivo(metodoPagoActual)) {
+            var rec = parseFloat(document.getElementById('recibidoInput').value) || 0;
+            var total = calcularTotal();
+
+            if (rec < total) {
+                var err = document.getElementById('ventaError');
+                err.textContent = 'El monto recibido es menor al total de la venta';
+                err.classList.remove('d-none');
+                return;
+            }
+
+            montoRecibido = rec;
         }
 
         var cliente = document.getElementById('clienteInput').value.trim() || 'CLIENTES VARIOS';
@@ -1155,15 +1236,48 @@
             };
         });
 
-        abrirConfirmarVenta({
-            total: calcularTotal(),
-            items: items,
-            idCaja: cajaActual.id_caja,
-            clienteNombre: cliente,
-            clienteId: idCliente,
-            onRegistrada: function() {
+        var btn = document.getElementById('btnConfirmarVenta');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Registrando...';
+
+        var data = {
+            _token: '{{ csrf_token() }}',
+            id_caja: cajaActual.id_caja,
+            id_cliente: idCliente,
+            nombre_cliente: cliente,
+            id_metodo_pago: metodoPagoActual.id,
+            items: items
+        };
+
+        if (montoRecibido != null) data.monto_recibido = montoRecibido;
+
+        $.ajax({
+            url: '{{ route("admin.ventas.guardar") }}',
+            type: 'POST',
+            data: data,
+            dataType: 'json'
+        }).done(function(res) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Venta registrada',
+                html: '<div style="text-align:left;">' +
+                    '<b>N°:</b> ' + escapeHtml(res.numero) + '<br>' +
+                    '<b>Cliente:</b> ' + escapeHtml(res.cliente) + '<br>' +
+                    '<b>Tienda:</b> ' + escapeHtml(res.tienda) + ' · ' + escapeHtml(res.caja) + '<br>' +
+                    (res.vendedor ? '<b>Vendedor:</b> ' + escapeHtml(res.vendedor) + '<br>' : '') +
+                    '<b>Fecha:</b> ' + escapeHtml(res.fecha) + '<br>' +
+                    '<b>Total:</b> ' + moneda(res.total) +
+                    '</div>',
+                confirmButtonText: 'OK'
+            }).then(function() {
                 limpiarTodo();
-            }
+            });
+        }).fail(function(xhr) {
+            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo registrar la venta';
+            Swal.fire('Error', msg, 'error');
+        }).always(function() {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fa fa-check-circle"></i> Confirmar Venta';
         });
     });
 
