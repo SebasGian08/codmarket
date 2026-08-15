@@ -27,7 +27,7 @@ class VentaController extends Controller
 
     public function index()
     {
-        $productos = Producto::with(['variantes.atributos.atributo'])
+        $productos = Producto::with(['variantes.atributos.atributo', 'imagenes'])
             ->where('estado', 1)
             ->orderBy('nombre', 'asc')
             ->get()
@@ -35,6 +35,7 @@ class VentaController extends Controller
                 return [
                     'id' => $p->id_producto,
                     'nombre' => $p->nombre,
+                    'imagen' => $p->imagen_principal_url,
                     'variantes' => $p->variantes
                         ->where('estado', 1)
                         ->values()

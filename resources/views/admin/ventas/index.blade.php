@@ -151,6 +151,36 @@
                 </div>
             </div>
 
+            <!-- CATÁLOGO RÁPIDO: productos sin buscar -->
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-2">
+                    <h6 class="fw-bold mb-0">
+                        <i class="fa fa-th-large me-1"></i> Catálogo de productos
+                    </h6>
+                    <span class="text-muted small">{{ $productos->count() }} productos</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="venta-catalogo" id="catalogoGrid">
+
+                        @foreach($productos as $p)
+                        @php($vP = $p['variantes'][0] ?? null)
+                        @php($precioP = $vP ? (($vP['precio_oferta'] !== null && $vP['precio_oferta'] < $vP['precio']) ? $vP['precio_oferta'] : $vP['precio']) : 0)
+                        <button type="button" class="venta-prod-btn" data-id="{{ $p['id'] }}"
+                            @if(isset($p['variantes']) && count($p['variantes']) === 1) data-variante="{{ $p['variantes'][0]['id'] }}" @endif>
+                            <div class="venta-prod-img">
+                                <img src="{{ $p['imagen'] }}" alt="{{ $p['nombre'] }}" loading="lazy"
+                                    onerror="this.onerror=null;this.src='{{ asset('assets/images/tienda_virtual/default.png') }}'">
+                            </div>
+                            <div class="venta-prod-nombre">{{ $p['nombre'] }}</div>
+                            <div class="venta-prod-precio">{{ $p['variantes'] ? 'S/ ' . number_format($precioP, 2) : '—' }}</div>
+                        </button>
+                        @endforeach
+
+                    </div>
+                </div>
+            </div>
+
             <!-- VARIANTE + ATRIBUTOS (se muestra al elegir producto) -->
             <div class="card border-0 shadow-sm mb-3 d-none" id="varianteCard">
                 <div class="card-body py-3">
@@ -430,6 +460,77 @@
         top: 1rem;
     }
 
+    /* Catálogo rápido de productos */
+    .venta-catalogo {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 4px;
+    }
+
+    .venta-prod-btn {
+        border: 1px solid rgba(0, 0, 0, .1);
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: box-shadow .15s ease, border-color .15s ease, transform .1s ease;
+        overflow: hidden;
+    }
+
+    html[data-theme="dark"] .venta-prod-btn {
+        background: var(--ka-surface-2);
+        border-color: var(--ka-border);
+    }
+
+    .venta-prod-btn:hover {
+        border-color: var(--bs-primary);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, .18);
+        transform: translateY(-1px);
+    }
+
+    .venta-prod-btn:focus-visible {
+        outline: 2px solid var(--bs-primary);
+        outline-offset: 1px;
+    }
+
+    .venta-prod-img {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+    }
+
+    .venta-prod-img img {
+        max-width: 100%;
+        max-height: 70px;
+        object-fit: contain;
+        border-radius: 6px;
+    }
+
+    .venta-prod-nombre {
+        font-size: .75rem;
+        font-weight: 600;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        min-height: 1.8em;
+        color: var(--bs-body-color);
+    }
+
+    .venta-prod-precio {
+        font-size: .8rem;
+        font-weight: 700;
+        color: var(--bs-success);
+        margin-top: 2px;
+    }
+
     /* Resaltado del item recién agregado */
     .venta-item-nuevo {
         animation: ventaFlash 1.2s ease;
@@ -616,6 +717,25 @@
         if (!e.target.closest('.venta-buscador')) {
             document.getElementById('productoResultados').classList.add('d-none');
         }
+    });
+
+    /* ============ CATÁLOGO RÁPIDO ============ */
+    document.getElementById('catalogoGrid').addEventListener('click', function(e) {
+        var btn = e.target.closest('.venta-prod-btn');
+        if (!btn || !btn.dataset.id) return;
+
+        var id = parseInt(btn.dataset.id);
+        var idVariante = btn.dataset.variante ? parseInt(btn.dataset.variante) : undefined;
+        seleccionarProducto(id, idVariante);
+    });
+
+    document.getElementById('productoInput').addEventListener('input', function() {
+        var t = this.value.trim().toLowerCase();
+        var botones = document.querySelectorAll('#catalogoGrid .venta-prod-btn');
+
+        botones.forEach(function(b) {
+            b.style.display = (!t || b.textContent.toLowerCase().indexOf(t) > -1) ? '' : 'none';
+        });
     });
 
     /* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
