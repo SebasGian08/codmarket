@@ -962,6 +962,18 @@
         document.getElementById('totalDisplay').textContent = moneda(total);
         document.getElementById('resumenItems').textContent = items;
         document.getElementById('itemsBadge').textContent = items + (items === 1 ? ' item' : ' items');
+
+        if (metodoPagoActual && esMetodoEfectivo(metodoPagoActual)) {
+            var r = document.getElementById('recibidoInput');
+            var actual = parseFloat(r.value) || 0;
+
+            if (r.value === '' || actual === recibidoAuto) {
+                r.value = total.toFixed(2);
+                recibidoAuto = total;
+            }
+
+            calcularVuelto();
+        }
     }
 
     /* ============ CLIENTE ============ */
@@ -1134,6 +1146,7 @@
 
     /* ============ MÉTODO DE PAGO ============ */
     var metodoPagoActual = null;
+    var recibidoAuto = null;
 
     function esMetodoEfectivo(m) {
         if (!m) return false;
@@ -1154,7 +1167,8 @@
 
         if (efectivo) {
             var r = document.getElementById('recibidoInput');
-            r.value = '';
+            r.value = calcularTotal().toFixed(2);
+            recibidoAuto = calcularTotal();
             calcularVuelto();
             r.focus();
         }
