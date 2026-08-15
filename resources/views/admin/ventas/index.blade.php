@@ -46,13 +46,13 @@
 
                     <div class="row g-2 align-items-center">
 
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                 <i class="fa fa-folder-open me-1"></i> Caja activa
                             </label>
 
                             @if($cajasAbiertas->isNotEmpty())
-                            <select id="cajaSelect" class="form-select">
+                            <select id="cajaSelect" class="form-select form-select-sm">
                                 <option value="">Selecciona una caja</option>
                                 @foreach($cajasAbiertas as $caja)
                                 <option value="{{ $caja->id_caja }}" data-tienda="{{ $caja->id_tienda }}"
@@ -63,24 +63,19 @@
                                 @endforeach
                             </select>
                             @else
-                            <select class="form-select" disabled>
+                            <select class="form-select form-select-sm" disabled>
                                 <option>Sin cajas abiertas</option>
                             </select>
                             @endif
-
-                            <div id="cajaInfo" class="text-muted small mt-1">
-                                <i class="fa fa-info-circle me-1"></i>
-                                Selecciona una caja para iniciar la venta
-                            </div>
                         </div>
 
-                        <div class="col-md-8">
+                        <div class="col-sm-5">
                             <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                 <i class="fa fa-user me-1"></i> Cliente
                             </label>
 
                             <div class="position-relative" id="clienteCombobox">
-                                <div class="input-group">
+                                <div class="input-group input-group-sm">
                                     <input type="text" id="clienteInput" class="form-control"
                                         value="{{ $clienteVarios->nombre ?? 'CLIENTES VARIOS' }}" autocomplete="off"
                                         placeholder="Buscar cliente...">
@@ -117,6 +112,13 @@
                             </div>
 
                             <input type="hidden" id="clienteId" value="{{ $clienteVarios->id_cliente ?? '' }}">
+                        </div>
+
+                        <div class="col-sm-3 text-sm-end">
+                            <div id="cajaInfo" class="text-muted small text-sm-end">
+                                <i class="fa fa-info-circle me-1"></i>
+                                Selecciona una caja para iniciar la venta
+                            </div>
                         </div>
 
                     </div>
@@ -486,7 +488,7 @@
 
         if (!cajaActual) {
             el.innerHTML = '<i class="fa fa-info-circle me-1"></i> Selecciona una caja para iniciar la venta';
-            el.className = 'text-muted small mt-1';
+            el.className = 'text-muted small text-sm-end';
             document.getElementById('resumenTienda').textContent = '—';
             return;
         }
@@ -498,7 +500,7 @@
             '<br><span class="text-muted">Apertura: ' + moneda(cajaActual.monto_apertura) +
             (cajaActual.vendedor ? ' · Vendedor: <b>' + escapeHtml(cajaActual.vendedor) + '</b>' : '') +
             '</span>';
-        el.className = 'small mt-1';
+        el.className = 'small text-sm-end';
 
         document.getElementById('resumenTienda').textContent = cajaActual.tienda.nombre;
 
