@@ -141,8 +141,7 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="{{ asset('admin/assets/img/profile.jpg') }}" alt="image profile"
-                                            class="avatar-img rounded" />
+                                        <i class="fas fa-user"></i>
                                     </div>
                                     <div class="u-text">
                                         @if(Auth::check())
