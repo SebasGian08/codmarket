@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\Atributo;
 use App\Models\AtributoValor;
 use App\Exports\PlantillaVariantesExport;
+use App\Services\InventarioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -15,6 +16,21 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ProductoVarianteController extends Controller
 {
+    protected $inventario;
+
+    public function __construct(InventarioService $inventario)
+    {
+        $this->inventario = $inventario;
+    }
+
+    private function tiendaPorDefecto()
+    {
+        $tienda = \App\Models\Tienda::where('es_principal', 1)->first()
+            ?? \App\Models\Tienda::first();
+
+        return $tienda ? $tienda->id_tienda : null;
+    }
+
     public function plantilla()
     {
         return Excel::download(new PlantillaVariantesExport(), 'Plantilla_Variantes.xlsx');
@@ -138,6 +154,8 @@ class ProductoVarianteController extends Controller
 
             DB::beginTransaction();
 
+            $stock = (int) $request->stock;
+
             $variante = ProductoVariante::create([
                 'id_producto' => $request->id_producto,
                 'sku' => $request->sku,
@@ -145,11 +163,23 @@ class ProductoVarianteController extends Controller
                 'precio' => $request->precio,
                 'precio_oferta' => $request->precio_oferta,
                 'costo' => $request->costo,
-                'stock' => $request->stock,
+                'stock' => 0,
                 'estado' => $request->estado ?? 1,
             ]);
 
             $variante->atributos()->sync($request->valores ?? []);
+
+            if ($stock > 0 && $tiendaId = $this->tiendaPorDefecto()) {
+                $this->inventario->aplicar(
+                    $variante->id_variante,
+                    $tiendaId,
+                    'ingreso',
+                    $stock,
+                    null,
+                    auth()->id(),
+                    'Carga de stock inicial al crear la variante'
+                );
+            }
 
             DB::commit();
 
@@ -177,17 +207,31 @@ class ProductoVarianteController extends Controller
 
             $variante = ProductoVariante::findOrFail($id);
 
+            $stockAnterior = (int) $variante->stock;
+            $stockNuevo = (int) $request->stock;
+
             $variante->update([
                 'sku' => $request->sku,
                 'codigo_barras' => $request->codigo_barras,
                 'precio' => $request->precio,
                 'precio_oferta' => $request->precio_oferta,
                 'costo' => $request->costo,
-                'stock' => $request->stock,
                 'estado' => $request->estado ?? 1,
             ]);
 
             $variante->atributos()->sync($request->valores ?? []);
+
+            if ($stockNuevo !== $stockAnterior && $tiendaId = $this->tiendaPorDefecto()) {
+                $this->inventario->aplicar(
+                    $variante->id_variante,
+                    $tiendaId,
+                    'ajuste',
+                    $stockNuevo - $stockAnterior,
+                    null,
+                    auth()->id(),
+                    'Ajuste de stock desde la variante: ' . $stockAnterior . ' -> ' . $stockNuevo
+                );
+            }
 
             DB::commit();
 

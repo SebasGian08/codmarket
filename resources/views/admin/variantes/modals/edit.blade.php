@@ -98,6 +98,7 @@
                                    value="{{ $v->stock }}"
                                    class="form-control"
                                    required>
+                            <small class="text-muted">Al guardar genera un movimiento interno</small>
                         </div>
 
                     </div>
