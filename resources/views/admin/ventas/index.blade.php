@@ -749,6 +749,28 @@
     });
 
     /* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
+    function iniciarVarianteSelect2() {
+        if (!window.jQuery || !jQuery.fn.select2) return;
+        var $sel = jQuery('#varianteSelect');
+        if ($sel.data('select2')) return;
+
+        $sel.select2({
+            width: '100%',
+            dropdownParent: jQuery('#varianteCard'),
+            placeholder: 'Selecciona una variante...',
+            allowClear: false,
+            minimumResultsForSearch: -1
+        });
+    }
+
+    function destruirVarianteSelect2() {
+        if (!window.jQuery || !jQuery.fn.select2) return;
+        var $sel = jQuery('#varianteSelect');
+        if ($sel.data('select2')) {
+            $sel.select2('destroy');
+        }
+    }
+
     function seleccionarProducto(id, idVariante) {
         productoActual = PRODUCTOS.find(function(p) { return p.id === id; });
         if (!productoActual) return;
@@ -765,6 +787,7 @@
             sel.disabled = true;
             varianteActual = null;
             card.classList.remove('d-none');
+            iniciarVarianteSelect2();
             return;
         }
 
@@ -792,6 +815,8 @@
                 sel.disabled = false;
                 card.classList.remove('d-none');
                 varianteActual = vExacta;
+                iniciarVarianteSelect2();
+                jQuery(sel).val(vExacta.id).trigger('change.select2');
                 if (agregarAlCarrito()) finalizarAgregado();
                 return;
             }
@@ -805,6 +830,8 @@
             sel.disabled = false;
             card.classList.remove('d-none');
             varianteActual = unica;
+            iniciarVarianteSelect2();
+            jQuery(sel).val(unica.id).trigger('change.select2');
             if (agregarAlCarrito()) finalizarAgregado();
             return;
         }
@@ -815,6 +842,8 @@
         sel.disabled = false;
         card.classList.remove('d-none');
         varianteActual = null;
+        iniciarVarianteSelect2();
+        jQuery(sel).val('').trigger('change.select2');
     }
 
     function seleccionarVariante(id) {
@@ -822,6 +851,10 @@
 
         varianteActual = productoActual.variantes.find(function(v) { return v.id === id; }) || null;
         document.getElementById('varianteSelect').value = id;
+
+        if (window.jQuery && jQuery.fn.select2 && jQuery('#varianteSelect').data('select2')) {
+            jQuery('#varianteSelect').trigger('change.select2');
+        }
 
         if (!varianteActual) {
             return;
@@ -903,6 +936,8 @@
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
+
+        destruirVarianteSelect2();
 
         var sel = document.getElementById('varianteSelect');
         sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
@@ -1413,6 +1448,8 @@
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
 
+        destruirVarianteSelect2();
+
         var sel = document.getElementById('varianteSelect');
         sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
         sel.disabled = true;
@@ -1439,3 +1476,7 @@
 </script>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('admin/assets/js/plugin/select2/select2.full.min.js') }}"></script>
+@endpush
