@@ -167,6 +167,7 @@
                         @php($vP = $p['variantes'][0] ?? null)
                         @php($precioP = $vP ? (($vP['precio_oferta'] !== null && $vP['precio_oferta'] < $vP['precio']) ? $vP['precio_oferta'] : $vP['precio']) : 0)
                         <button type="button" class="venta-prod-btn" data-id="{{ $p['id'] }}"
+                            data-variante-principal="{{ $vP['id'] ?? '' }}"
                             @if(isset($p['variantes']) && count($p['variantes']) === 1) data-variante="{{ $p['variantes'][0]['id'] }}" @endif>
                             <div class="venta-prod-img">
                                 <img src="{{ $p['imagen'] }}" alt="{{ $p['nombre'] }}" loading="lazy"
@@ -174,6 +175,7 @@
                             </div>
                             <div class="venta-prod-nombre">{{ $p['nombre'] }}</div>
                             <div class="venta-prod-precio">{{ $p['variantes'] ? 'S/ ' . number_format($precioP, 2) : '—' }}</div>
+                            <div class="venta-prod-stock" data-stock-principal>S/ 0.00</div>
                         </button>
                         @endforeach
 
@@ -531,6 +533,17 @@
         margin-top: 2px;
     }
 
+    .venta-prod-stock {
+        font-size: .7rem;
+        font-weight: 600;
+        color: var(--bs-secondary);
+        margin-top: 2px;
+    }
+
+    .venta-prod-stock.sin-stock {
+        color: var(--bs-danger);
+    }
+
     /* Resaltado del item recién agregado */
     .venta-item-nuevo {
         animation: ventaFlash 1.2s ease;
@@ -606,6 +619,7 @@
         document.getElementById('resumenTienda').textContent = cajaActual.tienda.nombre;
 
         revalidarCarrito();
+        actualizarStockCatalogo();
     }
 
     var cajaSelect = document.getElementById('cajaSelect');
@@ -720,6 +734,26 @@
     });
 
     /* ============ CATÁLOGO RÁPIDO ============ */
+    function actualizarStockCatalogo() {
+        var botones = document.querySelectorAll('#catalogoGrid .venta-prod-btn');
+
+        botones.forEach(function(b) {
+            var stEl = b.querySelector('[data-stock-principal]');
+            if (!stEl) return;
+
+            var idVariante = b.getAttribute('data-variante-principal');
+            var st = 0;
+
+            if (cajaActual && idVariante) {
+                var m = STOCK_POR_TIENDA[idVariante];
+                st = m ? (parseInt(m[cajaActual.id_tienda]) || 0) : 0;
+            }
+
+            stEl.textContent = st + (st === 1 ? ' ud' : ' uds');
+            stEl.classList.toggle('sin-stock', st <= 0);
+        });
+    }
+
     document.getElementById('catalogoGrid').addEventListener('click', function(e) {
         var btn = e.target.closest('.venta-prod-btn');
         if (!btn || !btn.dataset.id) return;
@@ -1458,6 +1492,7 @@
 
     /* ============ INIT ============ */
     renderCarrito();
+    actualizarStockCatalogo();
 
     // Si solo hay una caja abierta, se selecciona automáticamente
     @if($cajasAbiertas->count() === 1)
