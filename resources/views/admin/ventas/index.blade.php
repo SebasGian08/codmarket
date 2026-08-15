@@ -183,13 +183,13 @@
                 </div>
             </div>
 
-            <!-- VARIANTE + ATRIBUTOS (se muestra al elegir producto) -->
+            <!-- VARIANTE (se muestra al elegir producto) -->
             <div class="card border-0 shadow-sm mb-3 d-none" id="varianteCard">
                 <div class="card-body py-3">
 
                     <div class="row g-2 align-items-center">
 
-                        <div class="col-md-5">
+                        <div class="col-12">
                             <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                 <i class="fa fa-cubes me-1"></i> Variante
                             </label>
@@ -197,25 +197,6 @@
                             <select id="varianteSelect" class="form-select" disabled>
                                 <option value="">Selecciona un producto primero</option>
                             </select>
-                        </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
-                                <i class="fa fa-tags me-1"></i> Atributos
-                            </label>
-
-                            <div id="atributosWrap" class="venta-atributos">
-                                <span class="text-muted small">Selecciona una variante</span>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 text-md-end">
-                            <div class="small text-muted">Stock</div>
-                            <div class="fw-bold text-muted" id="stockDisplay">—</div>
-                            <div class="small text-muted mt-1">Precio</div>
-                            <div class="venta-precio" id="precioDisplay">
-                                <span class="text-muted">—</span>
-                            </div>
                         </div>
 
                     </div>
@@ -427,11 +408,6 @@
 
     #productoInput {
         font-size: 1.1rem;
-    }
-
-    .venta-precio {
-        font-size: 1.15rem;
-        font-weight: 700;
     }
 
     .venta-total {
@@ -789,7 +765,6 @@
             sel.disabled = true;
             varianteActual = null;
             card.classList.remove('d-none');
-            limpiarDatosVariante();
             return;
         }
 
@@ -798,7 +773,8 @@
                 return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
             }).join(', ');
 
-            var label = escapeHtml(v.sku || 'SKU ' + v.id) + ' · ' + moneda(precioVariante(v));
+            var st = stockVariante(v.id);
+            var label = escapeHtml(v.sku || 'SKU ' + v.id) + ' · ' + moneda(precioVariante(v)) + ' · Stock: ' + st;
 
             if (attrs) {
                 label += ' · ' + attrs;
@@ -816,7 +792,6 @@
                 sel.disabled = false;
                 card.classList.remove('d-none');
                 varianteActual = vExacta;
-                mostrarDatosVariante(vExacta);
                 if (agregarAlCarrito()) finalizarAgregado();
                 return;
             }
@@ -830,7 +805,6 @@
             sel.disabled = false;
             card.classList.remove('d-none');
             varianteActual = unica;
-            mostrarDatosVariante(unica);
             if (agregarAlCarrito()) finalizarAgregado();
             return;
         }
@@ -841,36 +815,6 @@
         sel.disabled = false;
         card.classList.remove('d-none');
         varianteActual = null;
-        limpiarDatosVariante();
-    }
-
-    function mostrarDatosVariante(v) {
-        var wrap = document.getElementById('atributosWrap');
-
-        if (v.atributos && v.atributos.length) {
-            wrap.innerHTML = v.atributos.map(function(a) {
-                return '<span class="badge bg-light text-dark border me-1">' +
-                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
-            }).join('');
-        } else {
-            wrap.innerHTML = '<span class="text-muted small">Sin atributos</span>';
-        }
-
-        var pre = v.precio;
-        var oferta = v.precio_oferta;
-
-        if (oferta != null && oferta < pre) {
-            document.getElementById('precioDisplay').innerHTML =
-                '<span class="text-decoration-line-through text-muted me-1">' + moneda(pre) + '</span>' +
-                '<span class="fw-bold text-success">' + moneda(oferta) + '</span>';
-        } else {
-            document.getElementById('precioDisplay').innerHTML = '<span class="fw-bold">' + moneda(pre) + '</span>';
-        }
-
-        var st = stockVariante(v.id);
-        var stEl = document.getElementById('stockDisplay');
-        stEl.textContent = st;
-        stEl.className = 'fw-bold ' + (st <= 5 ? 'text-danger' : 'text-muted');
     }
 
     function seleccionarVariante(id) {
@@ -880,22 +824,12 @@
         document.getElementById('varianteSelect').value = id;
 
         if (!varianteActual) {
-            limpiarDatosVariante();
             return;
         }
-
-        mostrarDatosVariante(varianteActual);
 
         if (agregarAlCarrito()) {
             finalizarAgregado();
         }
-    }
-
-    function limpiarDatosVariante() {
-        document.getElementById('precioDisplay').innerHTML = '<span class="text-muted">—</span>';
-        document.getElementById('stockDisplay').textContent = '—';
-        document.getElementById('stockDisplay').className = 'fw-bold text-muted';
-        document.getElementById('atributosWrap').innerHTML = '<span class="text-muted small">Selecciona una variante</span>';
     }
 
     document.getElementById('varianteSelect').addEventListener('change', function() {
@@ -974,7 +908,6 @@
         sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
         sel.disabled = true;
 
-        limpiarDatosVariante();
         document.getElementById('productoInput').focus();
     }
 
@@ -1485,7 +1418,6 @@
         sel.disabled = true;
 
         seleccionarCliente(CLIENTES_VARIOS.nombre, CLIENTES_VARIOS.id);
-        limpiarDatosVariante();
         renderCarrito();
         document.getElementById('productoInput').focus();
     }
