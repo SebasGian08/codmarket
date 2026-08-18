@@ -39,7 +39,7 @@ class VentaController extends Controller
                     'variantes' => $p->variantes
                         ->where('estado', 1)
                         ->values()
-                        ->map(function ($v) {
+                        ->map(function ($v) use ($p) {
                             $img = $v->imagenes->where('principal', 1)->first() ?? $v->imagenes->first();
                             return [
                                 'id' => $v->id_variante,
