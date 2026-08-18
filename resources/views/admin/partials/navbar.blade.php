@@ -140,8 +140,8 @@
                         <div class="dropdown-user-scroll scrollbar-outer">
                             <li>
                                 <div class="user-box">
-                                    <div class="avatar-lg">
-                                        <i class="fas fa-user"></i>
+                                    <div class="avatar-lg d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-user fa-3x"></i>
                                     </div>
                                     <div class="u-text">
                                         @if(Auth::check())

@@ -61,8 +61,20 @@
             </thead>
             <tbody>
                 @foreach($transferencia->detalle as $detalle)
+                @php
+                    $atributos = $detalle->variante->atributos
+                        ->map(function ($a) {
+                            return ($a->atributo->nombre ?? '') . ': ' . $a->valor;
+                        })
+                        ->implode(', ');
+                @endphp
                 <tr>
-                    <td>{{ $detalle->variante->producto->nombre ?? 'Producto' }}</td>
+                    <td>
+                        {{ $detalle->variante->producto->nombre ?? 'Producto' }}
+                        @if($atributos)
+                        <div class="small text-muted">{{ $atributos }}</div>
+                        @endif
+                    </td>
                     <td>{{ $detalle->variante->sku ?? '—' }}</td>
                     <td class="text-center">{{ $detalle->cantidad }}</td>
                 </tr>

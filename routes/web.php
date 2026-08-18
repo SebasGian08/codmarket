@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\BannerPrincipalController;
 use App\Http\Controllers\Admin\CategoriaController as AdminCategoriaController;
 use App\Http\Controllers\Admin\MarcaController as AdminMarcaController;
 use App\Http\Controllers\Admin\ProductoController as AdminProductoController;
+use App\Http\Controllers\Admin\CargaProductosController;
 use App\Http\Controllers\Admin\ProductoVarianteController;
 use App\Http\Controllers\Admin\ProductoImagenController;
 use App\Http\Controllers\Admin\AtributoController;
@@ -265,6 +266,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/plantilla', [AdminProductoController::class, 'plantilla'])->name('admin.productos.plantilla');
         Route::post('/importar', [AdminProductoController::class, 'importar'])->name('admin.productos.importar');
         Route::get('/exportar', [AdminProductoController::class, 'exportar'])->name('admin.productos.exportar');
+
+        Route::get('/carga', [CargaProductosController::class, 'index'])->name('admin.productos.carga.index');
+        Route::get('/carga/plantilla', [CargaProductosController::class, 'plantilla'])->name('admin.productos.carga.plantilla');
+        Route::post('/carga/importar', [CargaProductosController::class, 'importar'])->name('admin.productos.carga.importar');
     });
 
     // VARIANTES DE PRODUCTO

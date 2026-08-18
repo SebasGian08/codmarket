@@ -51,5 +51,11 @@ class AppServiceProvider extends ServiceProvider
             return \App\Helpers\PermisoHelper::tiene($codigo);
         });
 
+        // Fix Laravel 5.8: la regla "image" falla para archivos .jpg porque la lista
+        // interna de validateImage solo contiene "jpeg". Se usa una subclase que acepta jpg.
+        \Illuminate\Support\Facades\Validator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) {
+            return new \App\Validation\Validator($translator, $data, $rules, $messages, $customAttributes);
+        });
+
     }
 }

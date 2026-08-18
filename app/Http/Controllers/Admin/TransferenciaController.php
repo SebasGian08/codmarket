@@ -28,7 +28,7 @@ class TransferenciaController extends Controller
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        $variantes = \App\Models\ProductoVariante::with('producto')
+        $variantes = \App\Models\ProductoVariante::with(['producto', 'atributos.atributo'])
             ->where('estado', 1)
             ->get()
             ->map(function ($v) {
@@ -36,6 +36,14 @@ class TransferenciaController extends Controller
                     'id' => $v->id_variante,
                     'sku' => $v->sku,
                     'producto' => $v->producto->nombre ?? '',
+                    'atributos' => $v->atributos
+                        ->map(function ($av) {
+                            return [
+                                'atributo' => $av->atributo->nombre ?? 'Atributo',
+                                'valor' => $av->valor,
+                            ];
+                        })
+                        ->values(),
                 ];
             })
             ->values();
@@ -215,7 +223,7 @@ class TransferenciaController extends Controller
 
     public function detalle($id)
     {
-        $transferencia = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario', 'detalle.variante.producto'])
+        $transferencia = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario', 'detalle.variante.producto', 'detalle.variante.atributos.atributo'])
             ->findOrFail($id);
 
         return view('admin.transferencias.modals.detalle', compact('transferencia'));

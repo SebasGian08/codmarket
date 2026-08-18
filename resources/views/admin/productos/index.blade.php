@@ -19,13 +19,9 @@
                 <i class="fa fa-file-excel"></i> Exportar Excel
             </a>
 
-            <button class="btn btn-success btn-round" data-bs-toggle="modal" data-bs-target="#modalImportar">
-                <i class="fa fa-file-excel"></i> Importar Excel
-            </button>
-
-            <button class="btn btn-secondary btn-round" data-bs-toggle="modal" data-bs-target="#modalImportarVariantes">
-                <i class="fa fa-cubes"></i> Importar Variantes
-            </button>
+            <a href="{{ route('admin.productos.carga.index') }}" class="btn btn-success btn-round">
+                <i class="fa fa-file-excel"></i> Carga Masiva
+            </a>
 
             <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
                 <i class="fa fa-plus"></i> Nuevo Producto
@@ -119,8 +115,6 @@
 <div id="modalEditWrap"></div>
 
 @include('admin.productos.modals.create')
-@include('admin.productos.modals.importar')
-@include('admin.productos.modals.importar_variantes')
 
 <script>
 // Este script corre antes de que cargue jQuery (el layout lo incluye al final),

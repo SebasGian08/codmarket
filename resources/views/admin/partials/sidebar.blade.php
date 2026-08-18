@@ -136,6 +136,11 @@
                                     </span>
                                 </a>
                             </li>
+                            <li class="{{ Request::is('admin/productos/carga*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.productos.carga.index') }}">
+                                    <span class="sub-item">Carga Masiva</span>
+                                </a>
+                            </li>
                             @endpermiso
                             <li class="{{ Request::is('admin/atributos*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.atributos.index') }}">

@@ -152,9 +152,13 @@
             lista.html('<div class="trf-resultado py-2 text-muted">Sin resultados</div>');
         } else {
             lista.html(matches.slice(0, 12).map(function(v) {
+                var attrs = (v.atributos || []).map(function(a) {
+                    return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
+                }).join(', ');
                 return '<div class="trf-resultado" data-id="' + v.id + '">' +
                     '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
                     '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') +
+                    (attrs ? ' · ' + attrs : '') +
                     ' · Stock en origen: ' + stockEnOrigen(v.id) + '</div>' +
                     '</div>';
             }).join(''));
@@ -192,10 +196,14 @@
             return;
         }
 
+        var attrs = (v.atributos || []).map(function(a) {
+            return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
+        }).join(', ');
+
         var fila = $(`
             <tr data-variante="${v.id}">
                 <td class="fw-semibold">${escapeHtml(v.producto)}<br>
-                    <span class="small text-muted">${escapeHtml(v.sku || 'Sin SKU')}</span>
+                    <span class="small text-muted">${escapeHtml(v.sku || 'Sin SKU')}${attrs ? ' · ' + attrs : ''}</span>
                 </td>
                 <td style="width:140px">
                     <div class="input-group input-group-sm">
