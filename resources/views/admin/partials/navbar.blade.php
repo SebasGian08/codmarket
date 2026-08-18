@@ -124,10 +124,8 @@
 
                 <li class="nav-item topbar-user dropdown hidden-caret">
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
-                        <div class="avatar-sm">
-                            {{-- Puedes usar un placeholder o la imagen del usuario si la tienes --}}
-                            <img src="{{ asset('admin/assets/img/profile.jpg') }}" alt="..."
-                                class="avatar-img rounded-circle" />
+                        <div class="avatar-sm d-flex align-items-center justify-content-center rounded-circle bg-primary">
+                            <i class="fas fa-user text-white"></i>
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hola,</span>
