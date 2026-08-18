@@ -26,6 +26,9 @@
 <!-- Estilos personalizados -->
 <link rel="stylesheet" href="{{ asset('admin/assets/css/admin-custom.css') }}">
 
+<!-- Estilos de vistas admin (ventas, productos, etc.) -->
+<link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
+
 <!-- Favicon -->
 <link rel="icon" href="{{ asset('assets/images/favicon.png') }}">
 

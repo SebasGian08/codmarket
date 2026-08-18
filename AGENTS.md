@@ -115,8 +115,9 @@ Al implementar una pantalla:
 6. Implementar la vista.
 7. Reutilizar CSS existente.
 8. Crear CSS nuevo únicamente cuando sea necesario.
-9. Mantener responsive.
-10. No modificar funcionalidades existentes sin autorización.
+9. **El CSS va en `admin/assets/css/style.css`, NO inline en Blade.**
+10. Mantener responsive.
+11. No modificar funcionalidades existentes sin autorización.
 
 ## 7. Fórmula
 
@@ -136,7 +137,53 @@ Antes de realizar cambios importantes, mostrar:
 
 No realizar cambios destructivos.
 
-## 9. Flujo de trabajo con Figma
+## 9. Organización del CSS en Admin
+
+**El CSS de las vistas admin NO va inline en los archivos Blade.**
+
+### Regla principal
+Todo CSS específico de una vista admin se escribe en:
+```
+admin/assets/css/style.css
+```
+
+Este archivo ya está cargado en el layout admin (después de `admin-custom.css`).
+
+### Estructura del archivo
+```css
+/* =============================================
+   ESTILOS PERSONALIZADOS - ADMIN
+   ============================================= */
+
+/* ============ NOMBRE_DEL_MODULO ============ */
+/* estilos del módulo aquí */
+
+/* ============ FIN NOMBRE_DEL_MODULO ============ */
+```
+
+### Convenciones
+1. **Separar por módulo** con comentarios: `/* ============ VENTAS ============ */`
+2. **Prefijo de clase** por módulo: `venta-*`, `cliente-*`, `producto-*`, `caja-*`, etc.
+3. **No usar `<style>`** en archivos Blade admin. Solo `<script>` si es necesario.
+4. **Soporte dark mode** incluir reglas `html[data-theme="dark"]` cuando aplique.
+5. **Orden de carga** en `head.blade.php`:
+   - `bootstrap.min.css` → `plugins.css` → `fonts.css` → `demo.css` → `kaiadmin.min.css` → `dark-mode.css` → `admin-custom.css` → **`style.css`** (el último, mayor especificidad)
+
+### Ejemplo al agregar un módulo nuevo
+Si se crea una vista para `productos`:
+1. Agregar estilos en `admin/assets/css/style.css` dentro de `/* ============ PRODUCTOS ============ */`
+2. NO agregar `<style>` en el archivo Blade
+3. Usar prefijo `producto-*` para las clases CSS
+
+### Archivos CSS del admin
+| Archivo | Uso |
+|---|---|
+| `admin-custom.css` | Overrides globales del admin (modales, tablas, responsive) |
+| `style.css` | Estilos de vistas admin organizados por módulo |
+| `dark-mode.css` | Variables y reglas para modo oscuro |
+| `kaiadmin.min.css` | Tema principal del template (no modificar) |
+
+## 10. Flujo de trabajo con Figma
 
 Cuando se entregue una URL de Figma:
 
