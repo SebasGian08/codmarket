@@ -1,3 +1,12 @@
+@php
+    $vendedoresTiendas = [];
+    foreach ($vendedores as $v) {
+        $vendedoresTiendas[$v->id_vendedor] = $v->tiendas->map(function ($t) {
+            return ['id' => $t->id_tienda, 'texto' => $t->codigo . ' - ' . $t->nombre];
+        })->values()->toArray();
+    }
+@endphp
+
 <div class="modal fade" id="modalAbrir">
     <div class="modal-dialog">
 
@@ -14,19 +23,9 @@
                 <div class="modal-body">
 
                     <div class="mb-2">
-                        <label>Tienda</label>
-                        <select name="id_tienda" class="form-control" required>
-                            <option value="">Selecciona una tienda</option>
-                            @foreach($tiendas as $tienda)
-                            <option value="{{ $tienda->id_tienda }}">{{ $tienda->codigo }} - {{ $tienda->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="mb-2">
                         <label>Vendedor</label>
                         @if($vendedores->count())
-                        <select name="id_vendedor" class="form-control" required>
+                        <select id="cajaVendedorSelect" name="id_vendedor" class="form-control" required>
                             @foreach($vendedores as $vendedor)
                             <option value="{{ $vendedor->id_vendedor }}" selected>{{ $vendedor->nombre }}</option>
                             @endforeach
@@ -38,6 +37,13 @@
                         </div>
                         <input type="hidden" name="id_vendedor" value="">
                         @endif
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Tienda</label>
+                        <select id="cajaTiendaSelect" name="id_tienda" class="form-control" required>
+                            <option value="">Selecciona una tienda</option>
+                        </select>
                     </div>
 
                     <div class="mb-2">
@@ -72,3 +78,35 @@
 
     </div>
 </div>
+
+<script>
+    var VENDEDORES_TIENDAS = @json($vendedoresTiendas);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var vendedorSel = document.getElementById('cajaVendedorSelect');
+        var tiendaSel = document.getElementById('cajaTiendaSelect');
+
+        function cargarTiendas() {
+            var idVendedor = vendedorSel ? vendedorSel.value : '';
+            var tiendas = VENDEDORES_TIENDAS[idVendedor] || [];
+
+            tiendaSel.innerHTML = '<option value="">Selecciona una tienda</option>';
+
+            tiendas.forEach(function(t) {
+                var opt = document.createElement('option');
+                opt.value = t.id;
+                opt.textContent = t.texto;
+                tiendaSel.appendChild(opt);
+            });
+
+            if (tiendas.length === 1) {
+                tiendaSel.value = tiendas[0].id;
+            }
+        }
+
+        if (vendedorSel) {
+            vendedorSel.addEventListener('change', cargarTiendas);
+            cargarTiendas();
+        }
+    });
+</script>

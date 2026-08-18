@@ -24,7 +24,7 @@ class CajaController extends Controller
             });
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $vendedores = Vendedor::where('estado', 1)
+        $vendedores = Vendedor::with('tiendas')->where('estado', 1)
             ->where('id_usuario', auth()->id())
             ->orderBy('nombre', 'asc')
             ->get();
