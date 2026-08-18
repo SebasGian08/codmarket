@@ -206,6 +206,8 @@
                         <div id="varianteResultados" class="venta-resultados d-none"></div>
                     </div>
 
+                    <div id="atributosFiltros" class="venta-atributos-filtros mb-3 d-none"></div>
+
                     <div class="venta-variantes-grid" id="variantesGrid"></div>
 
                 </div>
@@ -386,6 +388,7 @@
     var productoActual = null;
     var varianteActual = null;
     var cajaActual = null;
+    var atributosActivos = {};
 
     function escapeHtml(s) {
         return String(s == null ? '' : s)
@@ -625,8 +628,20 @@
         if (!productoActual) return;
 
         var t = (term || '').trim().toLowerCase();
+        var claves = Object.keys(atributosActivos);
 
         var filtered = productoActual.variantes.filter(function(v) {
+            // Filtro por atributos activos
+            if (claves.length) {
+                var matchAll = claves.every(function(k) {
+                    return (v.atributos || []).some(function(a) {
+                        return (a.atributo + ':' + a.valor) === k;
+                    });
+                });
+                if (!matchAll) return false;
+            }
+
+            // Filtro por texto de búsqueda
             if (!t) return true;
 
             var sku = (v.sku || '').toLowerCase();
@@ -641,6 +656,75 @@
 
         renderVariantesGrid(filtered);
     }
+
+    function renderAtributosFiltros() {
+        var container = document.getElementById('atributosFiltros');
+        atributosActivos = {};
+
+        if (!productoActual || productoActual.variantes.length <= 1) {
+            container.classList.add('d-none');
+            container.innerHTML = '';
+            return;
+        }
+
+        // Extraer atributos únicos agrupados por nombre
+        var grupos = {};
+        productoActual.variantes.forEach(function(v) {
+            (v.atributos || []).forEach(function(a) {
+                var key = a.atributo;
+                if (!grupos[key]) grupos[key] = {};
+                grupos[key][a.valor] = true;
+            });
+        });
+
+        var grupoKeys = Object.keys(grupos);
+        if (!grupoKeys.length) {
+            container.classList.add('d-none');
+            container.innerHTML = '';
+            return;
+        }
+
+        var html = '';
+        grupoKeys.forEach(function(nombre, idx) {
+            if (idx > 0) {
+                html += '<div class="atributo-separador"></div>';
+            }
+            html += '<div class="atributo-grupo">';
+            html += '<span class="atributo-grupo-label">' + escapeHtml(nombre) + ':</span>';
+            Object.keys(grupos[nombre]).forEach(function(valor) {
+                var key = nombre + ':' + valor;
+                html += '<button type="button" class="btn-filtro-atributo" data-attr="' + escapeHtml(key) + '">' +
+                    escapeHtml(valor) + '</button>';
+            });
+            html += '</div>';
+        });
+
+        container.innerHTML = html;
+        container.classList.remove('d-none');
+    }
+
+    function toggleAtributoFiltro(key) {
+        if (atributosActivos[key]) {
+            delete atributosActivos[key];
+        } else {
+            atributosActivos[key] = true;
+        }
+
+        // Actualizar estado visual de botones
+        document.querySelectorAll('#atributosFiltros .btn-filtro-atributo').forEach(function(btn) {
+            btn.classList.toggle('active', !!atributosActivos[btn.getAttribute('data-attr')]);
+        });
+
+        // Re-filtrar con texto actual + atributos
+        filtrarVariantes(document.getElementById('varianteInput').value);
+    }
+
+    // Click en botones de filtro de atributos
+    document.getElementById('atributosFiltros').addEventListener('click', function(e) {
+        var btn = e.target.closest('.btn-filtro-atributo');
+        if (!btn) return;
+        toggleAtributoFiltro(btn.getAttribute('data-attr'));
+    });
 
     function seleccionarProducto(id, idVariante) {
         productoActual = PRODUCTOS.find(function(p) { return p.id === id; });
@@ -665,6 +749,7 @@
 
         if (!productoActual.variantes.length) {
             grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes disponibles</div>';
+            renderAtributosFiltros();
             card.classList.remove('d-none');
             return;
         }
@@ -673,6 +758,7 @@
         if (idVariante) {
             var vExacta = productoActual.variantes.find(function(x) { return x.id === idVariante; });
             if (vExacta) {
+                renderAtributosFiltros();
                 renderVariantesGrid(productoActual.variantes);
                 varianteActual = vExacta;
                 card.classList.remove('d-none');
@@ -684,6 +770,7 @@
         // Una sola variante: se agrega al instante
         if (productoActual.variantes.length === 1) {
             var unica = productoActual.variantes[0];
+            renderAtributosFiltros();
             renderVariantesGrid(productoActual.variantes);
             varianteActual = unica;
             card.classList.remove('d-none');
@@ -692,6 +779,7 @@
         }
 
         // Varias variantes: mostrar grid para que el usuario elija
+        renderAtributosFiltros();
         renderVariantesGrid(productoActual.variantes);
         varianteActual = null;
         card.classList.remove('d-none');
@@ -738,12 +826,17 @@
     document.getElementById('btnDeseleccionarProducto').addEventListener('click', function() {
         productoActual = null;
         varianteActual = null;
+        atributosActivos = {};
 
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
         document.getElementById('varianteInput').value = '';
         document.getElementById('variantesGrid').innerHTML = '';
+
+        var filtros = document.getElementById('atributosFiltros');
+        filtros.innerHTML = '';
+        filtros.classList.add('d-none');
 
         // Quitar resaltado de catálogo
         document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
@@ -823,12 +916,17 @@
     function finalizarAgregado() {
         productoActual = null;
         varianteActual = null;
+        atributosActivos = {};
 
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
         document.getElementById('varianteInput').value = '';
         document.getElementById('variantesGrid').innerHTML = '';
+
+        var filtros = document.getElementById('atributosFiltros');
+        filtros.innerHTML = '';
+        filtros.classList.add('d-none');
 
         // Quitar resaltado de catálogo
         document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
@@ -1335,12 +1433,17 @@
         carrito = [];
         productoActual = null;
         varianteActual = null;
+        atributosActivos = {};
 
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
         document.getElementById('varianteInput').value = '';
         document.getElementById('variantesGrid').innerHTML = '';
+
+        var filtros = document.getElementById('atributosFiltros');
+        filtros.innerHTML = '';
+        filtros.classList.add('d-none');
 
         // Quitar resaltado de catálogo
         document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {

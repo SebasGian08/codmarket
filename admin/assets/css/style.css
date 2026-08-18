@@ -261,6 +261,70 @@ html[data-theme="dark"] .venta-var-btn {
     color: var(--bs-danger);
 }
 
+/* Filtros de atributos */
+.venta-atributos-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.venta-atributos-filtros .atributo-grupo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+}
+
+.venta-atributos-filtros .atributo-grupo-label {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--bs-secondary);
+    margin-right: 2px;
+    white-space: nowrap;
+}
+
+.venta-atributos-filtros .btn-filtro-atributo {
+    font-size: .7rem;
+    padding: 3px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, .15);
+    background: #fff;
+    color: var(--bs-body-color);
+    cursor: pointer;
+    transition: all .15s ease;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+html[data-theme="dark"] .venta-atributos-filtros .btn-filtro-atributo {
+    background: var(--ka-surface-2);
+    border-color: var(--ka-border);
+}
+
+.venta-atributos-filtros .btn-filtro-atributo:hover {
+    border-color: var(--bs-primary);
+    color: var(--bs-primary);
+}
+
+.venta-atributos-filtros .btn-filtro-atributo.active {
+    background: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: #fff;
+}
+
+.venta-atributos-filtros .atributo-separador {
+    width: 1px;
+    height: 18px;
+    background: rgba(0, 0, 0, .12);
+    margin: 0 4px;
+}
+
+html[data-theme="dark"] .venta-atributos-filtros .atributo-separador {
+    background: var(--ka-border);
+}
+
 /* Resaltado del item recién agregado */
 .venta-item-nuevo {
     animation: ventaFlash 1.2s ease;
