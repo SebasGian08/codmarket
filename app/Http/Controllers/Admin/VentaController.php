@@ -27,7 +27,7 @@ class VentaController extends Controller
 
     public function index()
     {
-        $productos = Producto::with(['variantes.atributos.atributo', 'imagenes'])
+        $productos = Producto::with(['variantes.atributos.atributo', 'variantes.imagenes', 'imagenes'])
             ->where('estado', 1)
             ->orderBy('nombre', 'asc')
             ->get()
@@ -40,12 +40,14 @@ class VentaController extends Controller
                         ->where('estado', 1)
                         ->values()
                         ->map(function ($v) {
+                            $img = $v->imagenes->where('principal', 1)->first() ?? $v->imagenes->first();
                             return [
                                 'id' => $v->id_variante,
                                 'sku' => $v->sku,
                                 'precio' => (float) $v->precio,
                                 'precio_oferta' => $v->precio_oferta !== null ? (float) $v->precio_oferta : null,
                                 'stock' => (int) $v->stock,
+                                'imagen' => $img ? asset($img->url) : $p->imagen_principal_url,
                                 'atributos' => $v->atributos
                                     ->map(function ($av) {
                                         return [

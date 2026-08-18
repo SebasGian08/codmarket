@@ -185,21 +185,28 @@
 
             <!-- VARIANTE (se muestra al elegir producto) -->
             <div class="card border-0 shadow-sm mb-3 d-none" id="varianteCard">
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-2">
+                    <h6 class="fw-bold mb-0">
+                        <i class="fa fa-cubes me-1"></i> Variantes de <span id="varianteProductoNombre"></span>
+                    </h6>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDeseleccionarProducto" title="Volver a productos">
+                        <i class="fa fa-arrow-left"></i> Volver
+                    </button>
+                </div>
+
                 <div class="card-body py-3">
 
-                    <div class="row g-2 align-items-center">
-
-                        <div class="col-12">
-                            <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
-                                <i class="fa fa-cubes me-1"></i> Variante
-                            </label>
-
-                            <select id="varianteSelect" class="form-select" disabled>
-                                <option value="">Selecciona un producto primero</option>
-                            </select>
+                    <div class="venta-variante-buscador position-relative mb-3">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <input type="text" id="varianteInput" class="form-control"
+                                autocomplete="off"
+                                placeholder="Buscar variante por SKU, atributo...">
                         </div>
-
+                        <div id="varianteResultados" class="venta-resultados d-none"></div>
                     </div>
+
+                    <div class="venta-variantes-grid" id="variantesGrid"></div>
 
                 </div>
             </div>
@@ -520,6 +527,105 @@
         color: var(--bs-danger);
     }
 
+    /* Producto seleccionado en catálogo */
+    .venta-prod-btn.seleccionado {
+        border-color: var(--bs-primary);
+        box-shadow: 0 0 0 2px rgba(13, 110, 253, .35);
+        background: rgba(13, 110, 253, .06);
+    }
+
+    /* Catálogo de variantes */
+    .venta-variantes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 4px;
+    }
+
+    .venta-var-btn {
+        border: 1px solid rgba(0, 0, 0, .1);
+        border-radius: 10px;
+        background: #fff;
+        padding: 8px;
+        text-align: center;
+        cursor: pointer;
+        transition: box-shadow .15s ease, border-color .15s ease, transform .1s ease;
+        overflow: hidden;
+    }
+
+    html[data-theme="dark"] .venta-var-btn {
+        background: var(--ka-surface-2);
+        border-color: var(--ka-border);
+    }
+
+    .venta-var-btn:hover {
+        border-color: var(--bs-primary);
+        box-shadow: 0 4px 12px rgba(13, 110, 253, .18);
+        transform: translateY(-1px);
+    }
+
+    .venta-var-btn:focus-visible {
+        outline: 2px solid var(--bs-primary);
+        outline-offset: 1px;
+    }
+
+    .venta-var-img {
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+    }
+
+    .venta-var-img img {
+        max-width: 100%;
+        max-height: 70px;
+        object-fit: contain;
+        border-radius: 6px;
+    }
+
+    .venta-var-atributos {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3px;
+        justify-content: center;
+        margin-bottom: 4px;
+    }
+
+    .venta-var-atributos .badge {
+        font-size: .6rem;
+        padding: 2px 5px;
+    }
+
+    .venta-var-sku {
+        font-size: .7rem;
+        font-weight: 600;
+        color: var(--bs-secondary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .venta-var-precio {
+        font-size: .8rem;
+        font-weight: 700;
+        color: var(--bs-success);
+        margin-top: 2px;
+    }
+
+    .venta-var-stock {
+        font-size: .7rem;
+        font-weight: 600;
+        color: var(--bs-secondary);
+        margin-top: 2px;
+    }
+
+    .venta-var-stock.sin-stock {
+        color: var(--bs-danger);
+    }
+
     /* Resaltado del item recién agregado */
     .venta-item-nuevo {
         animation: ventaFlash 1.2s ease;
@@ -749,6 +855,60 @@
     });
 
     /* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
+    function renderVariantesGrid(variantes) {
+        var grid = document.getElementById('variantesGrid');
+
+        if (!variantes || !variantes.length) {
+            grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes disponibles</div>';
+            return;
+        }
+
+        var defaultImg = '{{ asset("assets/images/tienda_virtual/default.png") }}';
+
+        grid.innerHTML = variantes.map(function(v) {
+            var attrs = (v.atributos || []).map(function(a) {
+                return '<span class="badge bg-light text-dark border">' +
+                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+            }).join('');
+
+            var st = stockVariante(v.id);
+            var stockClass = st <= 0 ? ' sin-stock' : '';
+            var imgSrc = v.imagen || defaultImg;
+
+            return '<button type="button" class="venta-var-btn" data-variante="' + v.id + '">' +
+                '<div class="venta-var-img">' +
+                '<img src="' + escapeHtml(imgSrc) + '" alt="" loading="lazy" ' +
+                'onerror="this.onerror=null;this.src=\'' + defaultImg + '\'">' +
+                '</div>' +
+                (attrs ? '<div class="venta-var-atributos">' + attrs + '</div>' : '') +
+                '<div class="venta-var-sku">' + escapeHtml(v.sku || 'SKU ' + v.id) + '</div>' +
+                '<div class="venta-var-precio">' + moneda(precioVariante(v)) + '</div>' +
+                '<div class="venta-var-stock' + stockClass + '">' + st + (st === 1 ? ' ud' : ' uds') + '</div>' +
+                '</button>';
+        }).join('');
+    }
+
+    function filtrarVariantes(term) {
+        if (!productoActual) return;
+
+        var t = (term || '').trim().toLowerCase();
+
+        var filtered = productoActual.variantes.filter(function(v) {
+            if (!t) return true;
+
+            var sku = (v.sku || '').toLowerCase();
+            if (sku.indexOf(t) > -1) return true;
+
+            var attrs = (v.atributos || []).map(function(a) {
+                return (a.atributo || '') + ' ' + (a.valor || '');
+            }).join(' ').toLowerCase();
+
+            return attrs.indexOf(t) > -1;
+        });
+
+        renderVariantesGrid(filtered);
+    }
+
     function seleccionarProducto(id, idVariante) {
         productoActual = PRODUCTOS.find(function(p) { return p.id === id; });
         if (!productoActual) return;
@@ -757,41 +917,32 @@
         document.getElementById('productoId').value = productoActual.id;
         document.getElementById('productoResultados').classList.add('d-none');
 
-        var sel = document.getElementById('varianteSelect');
+        // Resaltar producto seleccionado en catálogo
+        document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
+            b.classList.toggle('seleccionado', parseInt(b.dataset.id) === productoActual.id);
+        });
+
+        // Mostrar nombre del producto en header de variantes
+        document.getElementById('varianteProductoNombre').textContent = productoActual.nombre;
+
         var card = document.getElementById('varianteCard');
+        var grid = document.getElementById('variantesGrid');
+        var input = document.getElementById('varianteInput');
+        input.value = '';
 
         if (!productoActual.variantes.length) {
-            sel.innerHTML = '<option value="">Sin variantes disponibles</option>';
-            sel.disabled = true;
-            varianteActual = null;
+            grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes disponibles</div>';
             card.classList.remove('d-none');
             return;
         }
-
-        var htmlOptions = productoActual.variantes.map(function(v) {
-            var attrs = (v.atributos || []).map(function(a) {
-                return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
-            }).join(', ');
-
-            var st = stockVariante(v.id);
-            var label = escapeHtml(v.sku || 'SKU ' + v.id) + ' · ' + moneda(precioVariante(v)) + ' · Stock: ' + st;
-
-            if (attrs) {
-                label += ' · ' + attrs;
-            }
-
-            return '<option value="' + v.id + '">' + label + '</option>';
-        }).join('');
 
         // SKU exacto buscado: se agrega esa variante directamente
         if (idVariante) {
             var vExacta = productoActual.variantes.find(function(x) { return x.id === idVariante; });
             if (vExacta) {
-                sel.innerHTML = htmlOptions;
-                sel.value = vExacta.id;
-                sel.disabled = false;
-                card.classList.remove('d-none');
+                renderVariantesGrid(productoActual.variantes);
                 varianteActual = vExacta;
+                card.classList.remove('d-none');
                 if (agregarAlCarrito()) finalizarAgregado();
                 return;
             }
@@ -800,28 +951,24 @@
         // Una sola variante: se agrega al instante
         if (productoActual.variantes.length === 1) {
             var unica = productoActual.variantes[0];
-            sel.innerHTML = htmlOptions;
-            sel.value = unica.id;
-            sel.disabled = false;
-            card.classList.remove('d-none');
+            renderVariantesGrid(productoActual.variantes);
             varianteActual = unica;
+            card.classList.remove('d-none');
             if (agregarAlCarrito()) finalizarAgregado();
             return;
         }
 
-        // Varias variantes: elige una y se agrega automáticamente al cambiar
-        sel.innerHTML = '<option value="" selected disabled>Selecciona una variante...</option>' + htmlOptions;
-        sel.value = '';
-        sel.disabled = false;
-        card.classList.remove('d-none');
+        // Varias variantes: mostrar grid para que el usuario elija
+        renderVariantesGrid(productoActual.variantes);
         varianteActual = null;
+        card.classList.remove('d-none');
+        input.focus();
     }
 
     function seleccionarVariante(id) {
         if (!productoActual) return;
 
         varianteActual = productoActual.variantes.find(function(v) { return v.id === id; }) || null;
-        document.getElementById('varianteSelect').value = id;
 
         if (!varianteActual) {
             return;
@@ -832,8 +979,52 @@
         }
     }
 
-    document.getElementById('varianteSelect').addEventListener('change', function() {
-        if (this.value) seleccionarVariante(parseInt(this.value));
+    // Click en grid de variantes
+    document.getElementById('variantesGrid').addEventListener('click', function(e) {
+        var btn = e.target.closest('.venta-var-btn');
+        if (!btn || !btn.dataset.variante) return;
+        seleccionarVariante(parseInt(btn.dataset.variante));
+    });
+
+    // Buscador de variantes
+    document.getElementById('varianteInput').addEventListener('input', function(e) {
+        filtrarVariantes(e.target.value);
+    });
+
+    document.getElementById('varianteInput').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            var first = document.getElementById('variantesGrid').querySelector('.venta-var-btn');
+            if (first && first.dataset.variante) {
+                seleccionarVariante(parseInt(first.dataset.variante));
+            }
+        }
+    });
+
+    // Botón volver / deseleccionar producto
+    document.getElementById('btnDeseleccionarProducto').addEventListener('click', function() {
+        productoActual = null;
+        varianteActual = null;
+
+        document.getElementById('productoInput').value = '';
+        document.getElementById('productoId').value = '';
+        document.getElementById('varianteCard').classList.add('d-none');
+        document.getElementById('varianteInput').value = '';
+        document.getElementById('variantesGrid').innerHTML = '';
+
+        // Quitar resaltado de catálogo
+        document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
+            b.classList.remove('seleccionado');
+        });
+
+        document.getElementById('productoInput').focus();
+    });
+
+    // Cerrar dropdown de resultados de variante al hacer click fuera
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.venta-variante-buscador')) {
+            document.getElementById('varianteResultados').classList.add('d-none');
+        }
     });
 
     /* ============ AGREGAR AUTOMÁTICO AL CARRITO ============ */
@@ -903,10 +1094,13 @@
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
+        document.getElementById('varianteInput').value = '';
+        document.getElementById('variantesGrid').innerHTML = '';
 
-        var sel = document.getElementById('varianteSelect');
-        sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
-        sel.disabled = true;
+        // Quitar resaltado de catálogo
+        document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
+            b.classList.remove('seleccionado');
+        });
 
         document.getElementById('productoInput').focus();
     }
@@ -1412,10 +1606,13 @@
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');
+        document.getElementById('varianteInput').value = '';
+        document.getElementById('variantesGrid').innerHTML = '';
 
-        var sel = document.getElementById('varianteSelect');
-        sel.innerHTML = '<option value="">Selecciona un producto primero</option>';
-        sel.disabled = true;
+        // Quitar resaltado de catálogo
+        document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
+            b.classList.remove('seleccionado');
+        });
 
         seleccionarCliente(CLIENTES_VARIOS.nombre, CLIENTES_VARIOS.id);
         renderCarrito();
