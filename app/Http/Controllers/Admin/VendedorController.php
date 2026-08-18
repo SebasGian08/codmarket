@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tienda;
 use App\Models\Usuario;
 use App\Models\Vendedor;
 use Illuminate\Http\Request;
@@ -11,10 +12,11 @@ class VendedorController extends Controller
 {
     public function index()
     {
-        $vendedores = Vendedor::with('usuario')->orderBy('nombre', 'asc')->get();
+        $vendedores = Vendedor::with(['usuario', 'tiendas'])->orderBy('nombre', 'asc')->get();
         $usuarios = Usuario::where('estado', 1)->orderBy('nombres', 'asc')->get();
+        $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        return view('admin.vendedores.index', compact('vendedores', 'usuarios'));
+        return view('admin.vendedores.index', compact('vendedores', 'usuarios', 'tiendas'));
     }
 
     public function store(Request $request)
@@ -25,6 +27,8 @@ class VendedorController extends Controller
             'documento' => 'nullable|string|max:20',
             'telefono' => 'nullable|string|max:30',
             'correo' => 'nullable|email|max:150',
+            'tiendas' => 'nullable|array',
+            'tiendas.*' => 'exists:tiendas,id_tienda',
         ]);
 
         try {
@@ -36,6 +40,10 @@ class VendedorController extends Controller
                 'correo' => $request->correo,
                 'estado' => $request->estado ?? 1,
             ]);
+
+            if ($request->tiendas) {
+                $vendedor->tiendas()->sync($request->tiendas);
+            }
 
             if ($request->expectsJson()) {
                 return response()->json([
@@ -67,6 +75,8 @@ class VendedorController extends Controller
             'documento' => 'nullable|string|max:20',
             'telefono' => 'nullable|string|max:30',
             'correo' => 'nullable|email|max:150',
+            'tiendas' => 'nullable|array',
+            'tiendas.*' => 'exists:tiendas,id_tienda',
         ]);
 
         try {
@@ -80,6 +90,8 @@ class VendedorController extends Controller
                 'correo' => $request->correo,
                 'estado' => $request->estado ?? 1,
             ]);
+
+            $vendedor->tiendas()->sync($request->tiendas ?? []);
 
             return redirect()->route('admin.vendedores.index')
                 ->with('success', 'Vendedor actualizado correctamente');

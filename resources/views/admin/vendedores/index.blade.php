@@ -39,6 +39,7 @@
                             <th>Documento</th>
                             <th>Teléfono</th>
                             <th>Correo</th>
+                            <th>Tiendas</th>
                             <th>Usuario</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -53,6 +54,13 @@
                             <td>{{ $vendedor->documento ?? '—' }}</td>
                             <td>{{ $vendedor->telefono ?? '—' }}</td>
                             <td>{{ $vendedor->correo ?? '—' }}</td>
+                            <td>
+                                @forelse($vendedor->tiendas as $tienda)
+                                <span class="badge bg-light text-dark border">{{ $tienda->nombre }}</span>
+                                @empty
+                                <span class="text-muted">—</span>
+                                @endforelse
+                            </td>
                             <td>{{ $vendedor->usuario->nombres ?? '—' }}</td>
                             <td>
                                 <span class="badge {{ $vendedor->estado ? 'bg-success' : 'bg-danger' }}">

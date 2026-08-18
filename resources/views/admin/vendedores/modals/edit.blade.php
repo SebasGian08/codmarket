@@ -51,6 +51,19 @@
                             maxlength="150">
                     </div>
 
+                    <div class="col-md-12 mt-2">
+                        <label>Tiendas asignadas</label>
+                        @php($tiendasIds = $vendedor->tiendas->pluck('id_tienda')->toArray())
+                        <select name="tiendas[]" class="form-control" multiple>
+                            @foreach($tiendas as $tienda)
+                            <option value="{{ $tienda->id_tienda }}" {{ in_array($tienda->id_tienda, $tiendasIds) ? 'selected' : '' }}>
+                                {{ $tienda->codigo }} - {{ $tienda->nombre }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <div class="form-text">Mantén Ctrl (o Cmd) para seleccionar varias</div>
+                    </div>
+
                     <div class="col-md-4 mt-2">
                         <label>Estado</label>
                         <select name="estado" class="form-control">

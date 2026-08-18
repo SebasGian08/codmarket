@@ -32,4 +32,10 @@ class Tienda extends Model
     {
         return $this->cajas()->where('estado', 1)->first();
     }
+
+    public function vendedores()
+    {
+        return $this->belongsToMany(Vendedor::class, 'vendedores_tiendas', 'id_tienda', 'id_vendedor')
+            ->withPivot(['id_vendedor_tienda', 'estado', 'fecha_inicio', 'fecha_fin']);
+    }
 }
