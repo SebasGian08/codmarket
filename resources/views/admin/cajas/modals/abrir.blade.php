@@ -25,12 +25,19 @@
 
                     <div class="mb-2">
                         <label>Vendedor</label>
+                        @if($vendedores->count())
                         <select name="id_vendedor" class="form-control" required>
-                            <option value="">Selecciona un vendedor</option>
                             @foreach($vendedores as $vendedor)
-                            <option value="{{ $vendedor->id_vendedor }}">{{ $vendedor->nombre }}</option>
+                            <option value="{{ $vendedor->id_vendedor }}" selected>{{ $vendedor->nombre }}</option>
                             @endforeach
                         </select>
+                        @else
+                        <div class="alert alert-warning mb-0 py-2 px-3 small">
+                            <i class="fa fa-exclamation-triangle me-1"></i>
+                            No hay un vendedor vinculado a tu usuario. Contacta al administrador.
+                        </div>
+                        <input type="hidden" name="id_vendedor" value="">
+                        @endif
                     </div>
 
                     <div class="mb-2">
@@ -54,7 +61,7 @@
                         <i class="fa fa-times"></i> Cerrar
                     </button>
 
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-success" {{ $vendedores->isEmpty() ? 'disabled' : '' }}>
                         <i class="fa fa-folder-open"></i> Abrir
                     </button>
                 </div>
