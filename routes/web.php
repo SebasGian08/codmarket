@@ -286,6 +286,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/', [ProductoImagenController::class, 'index'])->name('admin.producto_imagen.index');
         Route::post('/guardar', [ProductoImagenController::class, 'store'])->name('admin.producto_imagen.store');
         Route::put('/{id}', [ProductoImagenController::class, 'update'])->name('admin.producto_imagen.update');
+        Route::post('/{id}/rotar', [ProductoImagenController::class, 'rotate'])->name('admin.producto_imagen.rotate');
         Route::delete('/{id}', [ProductoImagenController::class, 'destroy'])->name('admin.producto_imagen.destroy');
     });
 

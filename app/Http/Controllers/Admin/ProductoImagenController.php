@@ -63,6 +63,10 @@ class ProductoImagenController extends Controller
                         'principal' => (int) $img->principal,
                         'orden' => (int) $img->orden,
                         'variante' => $img->id_variante,
+                        'rotate_url' => route('admin.producto_imagen.rotate', [
+                            'producto' => $img->id_producto,
+                            'id' => $img->id_imagen,
+                        ]),
                         'delete_url' => route('admin.producto_imagen.destroy', [
                             'producto' => $img->id_producto,
                             'id' => $img->id_imagen,
@@ -152,6 +156,90 @@ class ProductoImagenController extends Controller
 
         return response()->json([
             'success' => true
+        ]);
+    }
+
+    public function rotate(Request $request, $producto, $id)
+    {
+        $img = ProductoImagen::where('id_imagen', $id)
+            ->where('id_producto', $producto)
+            ->first();
+
+        if (!$img) {
+            return response()->json(['success' => false, 'message' => 'Imagen no encontrada'], 404);
+        }
+
+        $path = public_path($img->url);
+
+        if (!file_exists($path)) {
+            return response()->json(['success' => false, 'message' => 'Archivo no encontrado'], 404);
+        }
+
+        $info = @getimagesize($path);
+
+        if (!$info) {
+            return response()->json(['success' => false, 'message' => 'No se pudo leer la imagen'], 422);
+        }
+
+        $mime = $info['mime'];
+
+        switch ($mime) {
+            case 'image/jpeg':
+                $src = imagecreatefromjpeg($path);
+                break;
+            case 'image/png':
+                $src = imagecreatefrompng($path);
+                break;
+            case 'image/gif':
+                $src = imagecreatefromgif($path);
+                break;
+            case 'image/webp':
+                $src = imagecreatefromwebp($path);
+                break;
+            default:
+                return response()->json(['success' => false, 'message' => 'Formato no soportado: ' . $mime], 422);
+        }
+
+        if (!$src) {
+            return response()->json(['success' => false, 'message' => 'No se pudo procesar la imagen'], 500);
+        }
+
+        $rotated = imagerotate($src, 90, 0);
+
+        if (!$rotated) {
+            imagedestroy($src);
+            return response()->json(['success' => false, 'message' => 'No se pudo girar la imagen'], 500);
+        }
+
+        $saved = false;
+
+        switch ($mime) {
+            case 'image/jpeg':
+                $saved = imagejpeg($rotated, $path, 90);
+                break;
+            case 'image/png':
+                $saved = imagepng($rotated, $path);
+                break;
+            case 'image/gif':
+                $saved = imagegif($rotated, $path);
+                break;
+            case 'image/webp':
+                $saved = imagewebp($rotated, $path, 90);
+                break;
+        }
+
+        imagedestroy($src);
+        imagedestroy($rotated);
+
+        if (!$saved) {
+            return response()->json(['success' => false, 'message' => 'No se pudo guardar la imagen girada'], 500);
+        }
+
+        $cacheBust = '?v=' . time();
+
+        return response()->json([
+            'success' => true,
+            'url' => asset($img->url) . $cacheBust,
         ]);
     }
 }

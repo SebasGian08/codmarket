@@ -156,6 +156,11 @@
                                             data-url="{{ asset($img->url) }}" title="Ver">
                                             <i class="fa fa-eye"></i>
                                         </button>
+                                        <button type="button" class="gc-btn gc-btn-rotate btn-rotar"
+                                            data-url="{{ route('admin.producto_imagen.rotate', ['producto' => $producto->id_producto, 'id' => $img->id_imagen]) }}"
+                                            title="Girar 90°">
+                                            <i class="fa fa-sync-alt"></i>
+                                        </button>
                                         <button type="button"
                                             class="gc-btn gc-star {{ $img->principal ? 'active' : '' }}"
                                             title="Marcar principal">
@@ -203,35 +208,6 @@
         <div class="modal-content bg-transparent border-0 shadow-none">
             <div class="modal-body p-0 text-center">
                 <img id="lightboxImg" src="" class="img-fluid rounded-3 shadow-lg" style="max-height:78vh;">
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL ROTACIÓN -->
-<div class="modal fade" id="rotarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="fw-bold mb-0">
-                    <i class="fa fa-sync-alt me-2 text-primary"></i> Previsualizar imágenes
-                </h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p class="text-muted small mb-3">
-                    Girá las imágenes que lo necesiten antes de subirlas.
-                </p>
-                <div class="row g-3" id="rotarGrid"></div>
-            </div>
-            <div class="modal-footer d-flex justify-content-between align-items-center">
-                <span class="text-muted small" id="rotarInfo">0 imágenes</span>
-                <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnSubirRotadas">
-                        <i class="fa fa-cloud-upload-alt me-1"></i> Subir imágenes
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -389,6 +365,19 @@
     transform: scale(1.1);
 }
 
+.gc-btn-rotate {
+    color: #0d6efd;
+}
+
+.gc-btn-rotate.rotating {
+    pointer-events: none;
+    animation: gc-spin .8s linear infinite;
+}
+
+@keyframes gc-spin {
+    100% { transform: rotate(360deg); }
+}
+
 .gc-btn-danger {
     background: #dc3545;
     color: #fff;
@@ -537,73 +526,6 @@ html[data-theme="dark"] .gc-btn {
     background: var(--ka-surface-2);
     color: var(--ka-text);
 }
-
-/* ================= MODAL ROTACIÓN ================= */
-.rotar-item {
-    border-radius: 14px;
-    overflow: hidden;
-    background: #fff;
-    border: 1px solid #eef1f6;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .06);
-    transition: .2s;
-}
-
-.rotar-item:hover {
-    box-shadow: 0 6px 18px rgba(0, 0, 0, .1);
-}
-
-.rotar-item-img {
-    position: relative;
-    background: #f8f9fb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 180px;
-    overflow: hidden;
-}
-
-.rotar-item-img img {
-    max-width: 100%;
-    max-height: 180px;
-    object-fit: contain;
-    transition: transform .3s ease;
-}
-
-.rotar-item-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 8px;
-    border-top: 1px solid #f1f1f1;
-}
-
-.rotar-item-controls .btn {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 8px;
-}
-
-.rotar-item-deg {
-    font-size: 11px;
-    font-weight: 700;
-    color: #6b7280;
-    min-width: 36px;
-    text-align: center;
-}
-
-html[data-theme="dark"] .rotar-item {
-    background: var(--ka-surface);
-    border-color: var(--ka-border);
-}
-
-html[data-theme="dark"] .rotar-item-img {
-    background: var(--ka-surface-2);
-}
-
-html[data-theme="dark"] .rotar-item-controls {
-    border-color: var(--ka-border);
-}
 </style>
 
 <script>
@@ -623,10 +545,6 @@ const token = document.querySelector('input[name="_token"]').value;
 const url = "{{ route('admin.producto_imagen.store', $producto->id_producto) }}";
 const base = url.replace(/\/guardar$/, '');
 const productoId = {{ $producto->id_producto }};
-
-/* ============ ROTACIÓN ============ */
-let pendingFiles = [];
-let rotaciones = {};
 
 function esc(t) {
     const d = document.createElement('div');
@@ -651,119 +569,9 @@ function setStatus(texto, i, total) {
     statusCount.textContent = i + ' / ' + total;
 }
 
-/* ============ MODAL DE ROTACIÓN ============ */
-function abrirModalRotacion(files) {
-    pendingFiles = Array.from(files);
-    rotaciones = {};
-
-    const grid = document.getElementById('rotarGrid');
-    grid.innerHTML = '';
-
-    pendingFiles.forEach((file, idx) => {
-        rotaciones[idx] = 0;
-        const col = document.createElement('div');
-        col.className = 'col-sm-6 col-lg-4';
-        col.innerHTML = `
-            <div class="rotar-item" data-idx="${idx}">
-                <div class="rotar-item-img">
-                    <img src="${URL.createObjectURL(file)}" alt="${esc(file.name)}">
-                </div>
-                <div class="rotar-item-controls">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="rot-izq" data-idx="${idx}" title="Girar izquierda">
-                        <i class="fa fa-undo"></i>
-                    </button>
-                    <span class="rotar-item-deg" data-deg-idx="${idx}">0°</span>
-                    <button type="button" class="btn btn-outline-secondary btn-sm" data-action="rot-der" data-idx="${idx}" title="Girar derecha">
-                        <i class="fa fa-redo"></i>
-                    </button>
-                </div>
-            </div>`;
-        grid.appendChild(col);
-    });
-
-    document.getElementById('rotarInfo').textContent = pendingFiles.length + ' imagen(es)';
-
-    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('rotarModal'));
-    modal.show();
+function removeEmptyState() {
+    if (sinImagenes) { sinImagenes.remove(); }
 }
-
-function girarImagen(idx, grados) {
-    rotaciones[idx] = ((rotaciones[idx] || 0) + grados + 360) % 360;
-    const degEl = document.querySelector(`[data-deg-idx="${idx}"]`);
-    if (degEl) degEl.textContent = rotaciones[idx] + '°';
-
-    const item = document.querySelector(`.rotar-item[data-idx="${idx}"]`);
-    if (item) {
-        const img = item.querySelector('img');
-        if (img) img.style.transform = 'rotate(' + rotaciones[idx] + 'deg)';
-    }
-}
-
-function rotarCanvas(file, grados) {
-    return new Promise((resolve) => {
-        if (!grados || grados === 0) { resolve(file); return; }
-
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-        img.onload = function() {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            const rad = (grados * Math.PI) / 180;
-            const absCos = Math.abs(Math.cos(rad));
-            const absSin = Math.abs(Math.sin(rad));
-
-            if (grados === 90 || grados === 270) {
-                canvas.width = img.height;
-                canvas.height = img.width;
-            } else {
-                canvas.width = img.width;
-                canvas.height = img.height;
-            }
-
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-            ctx.rotate(rad);
-            ctx.drawImage(img, -img.width / 2, -img.height / 2);
-
-            canvas.toBlob(function(blob) {
-                URL.revokeObjectURL(url);
-                const rotated = new File([blob], file.name, { type: file.type });
-                resolve(rotated);
-            }, file.type, 0.92);
-        };
-        img.src = url;
-    });
-}
-
-document.getElementById('rotarGrid').addEventListener('click', function(e) {
-    const btn = e.target.closest('[data-action]');
-    if (!btn) return;
-    const idx = parseInt(btn.dataset.idx);
-    const action = btn.dataset.action;
-
-    if (action === 'rot-izq') girarImagen(idx, -90);
-    if (action === 'rot-der') girarImagen(idx, 90);
-});
-
-document.getElementById('btnSubirRotadas').addEventListener('click', async function() {
-    const btn = this;
-    btn.disabled = true;
-    btn.innerHTML = '<div class="spinner-border spinner-border-sm me-1"></div> Procesando...';
-
-    const filesFinales = [];
-    for (let i = 0; i < pendingFiles.length; i++) {
-        const rot = rotaciones[i] || 0;
-        const processed = await rotarCanvas(pendingFiles[i], rot);
-        filesFinales.push(processed);
-    }
-
-    bootstrap.Modal.getOrCreateInstance(document.getElementById('rotarModal')).hide();
-
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa fa-cloud-upload-alt me-1"></i> Subir imágenes';
-
-    subirArchivos(filesFinales);
-});
 
 /* ============ SUBIDA ============ */
 function buildCard(data, tempFile) {
@@ -802,6 +610,10 @@ function buildCard(data, tempFile) {
             <button type="button" class="gc-btn gc-btn-view" data-url="${esc(data.url)}" title="Ver">
                 <i class="fa fa-eye"></i>
             </button>
+            <button type="button" class="gc-btn gc-btn-rotate btn-rotar"
+                data-url="${esc(data.rotate_url)}" title="Girar 90°">
+                <i class="fa fa-sync-alt"></i>
+            </button>
             <button type="button" class="gc-btn gc-star${data.principal ? ' active' : ''}" title="Marcar principal">
                 <i class="fa fa-star"></i>
             </button>
@@ -837,11 +649,10 @@ function markError(col, msg) {
     toast(msg || 'No se pudo subir', 'danger');
 }
 
-function removeEmptyState() {
-    if (sinImagenes) { sinImagenes.remove(); }
-}
+input.addEventListener('change', async () => {
+    const files = Array.from(input.files || []);
+    if (!files.length) return;
 
-async function subirArchivos(files) {
     const variante = document.getElementById('id_variante').value;
     const principal = document.getElementById('principal').value;
     const orden = document.getElementById('orden').value;
@@ -905,7 +716,7 @@ async function subirArchivos(files) {
     }
 
     input.value = '';
-}
+});
 
 /* ============ DRAG & DROP + CLICK ============ */
 dropzone.addEventListener('click', () => input.click());
@@ -926,11 +737,39 @@ dropzone.addEventListener('drop', e => {
     }
 });
 
-input.addEventListener('change', () => {
-    const files = Array.from(input.files || []);
-    if (!files.length) return;
-    abrirModalRotacion(files);
-});
+/* ============ ROTAR (POST-UPLOAD) ============ */
+function rotarImagen(btn) {
+    const rotateUrl = btn.getAttribute('data-url');
+    if (!rotateUrl) return;
+
+    const card = btn.closest('.gallery-card');
+    const img = card.querySelector('.gc-img > img');
+
+    btn.classList.add('rotating');
+
+    fetch(rotateUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': token
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success && data.url) {
+            img.src = data.url;
+            toast('Imagen girada 90°');
+        } else {
+            toast(data.message || 'No se pudo girar', 'danger');
+        }
+    })
+    .catch(() => {
+        toast('Error de red al girar', 'danger');
+    })
+    .finally(() => {
+        btn.classList.remove('rotating');
+    });
+}
 
 /* ============ LIGHTBOX ============ */
 function openLightbox(src) {
@@ -984,6 +823,13 @@ document.addEventListener('click', function(e) {
     if (viewBtn) {
         e.preventDefault();
         openLightbox(viewBtn.getAttribute('data-url'));
+        return;
+    }
+
+    const rotateBtn = e.target.closest('.btn-rotar');
+    if (rotateBtn) {
+        e.preventDefault();
+        rotarImagen(rotateBtn);
         return;
     }
 
