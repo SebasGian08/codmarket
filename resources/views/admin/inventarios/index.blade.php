@@ -7,15 +7,9 @@
 <div class="page-inner">
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-
         <div class="d-flex align-items-center">
             <h4 class="page-title">Inventario</h4>
         </div>
-
-        <a href="{{ route('admin.ingresos.index') }}" class="btn btn-primary btn-round">
-            <i class="fa fa-plus"></i> Nuevo Ingreso
-        </a>
-
     </div>
 
     <div class="row mb-3">
@@ -172,6 +166,19 @@
 
                     <div class="venta-variantes-grid" id="variantesGrid"></div>
 
+                    <div id="seleccionadasWrap" class="d-none mt-3">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <small class="fw-bold text-muted text-uppercase">
+                                <i class="fa fa-check-circle text-success me-1"></i> Seleccionadas
+                                <span class="badge bg-success ms-1" id="seleccionadasBadge">0</span>
+                            </small>
+                            <button type="button" class="btn btn-sm btn-outline-danger" id="btnLimpiarSeleccion" title="Quitar todas">
+                                <i class="fa fa-times"></i> Limpiar
+                            </button>
+                        </div>
+                        <div id="seleccionadasList" class="d-flex flex-wrap gap-1"></div>
+                    </div>
+
                 </div>
             </div>
 
@@ -201,6 +208,12 @@
                                 </tr>
                             </thead>
                             <tbody id="resultadosBody"></tbody>
+                            <tfoot id="resultadosFoot" class="d-none">
+                                <tr class="table-active fw-bold">
+                                    <td colspan="3" class="text-end">Total</td>
+                                    <td class="text-center" id="totalStockCell">0</td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
 
@@ -373,6 +386,7 @@
         input.value = '';
 
         variantesSeleccionadas = [];
+        renderSeleccionadas();
 
         if (!productoActual.variantes.length) {
             grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes</div>';
@@ -539,6 +553,65 @@
         }
 
         btn.classList.toggle('seleccionada');
+        renderSeleccionadas();
+        renderResultados();
+    });
+
+    /* ============ VARIANTES SELECCIONADAS: badges ============ */
+    function renderSeleccionadas() {
+        var wrap = document.getElementById('seleccionadasWrap');
+        var list = document.getElementById('seleccionadasList');
+        var badgeEl = document.getElementById('seleccionadasBadge');
+
+        if (!variantesSeleccionadas.length) {
+            wrap.classList.add('d-none');
+            list.innerHTML = '';
+            badgeEl.textContent = '0';
+            return;
+        }
+
+        badgeEl.textContent = variantesSeleccionadas.length;
+
+        var html = variantesSeleccionadas.map(function(idVar) {
+            var v = productoActual.variantes.find(function(x) { return x.id === idVar; });
+            if (!v) return '';
+
+            var attrs = (v.atributos || []).map(function(a) { return a.valor; }).join(' ');
+            var label = v.sku || ('SKU ' + v.id);
+            if (attrs) label += ' · ' + attrs;
+
+            return '<span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 d-inline-flex align-items-center gap-1">' +
+                '<i class="fa fa-tag small"></i> ' + escapeHtml(label) +
+                '<button type="button" class="btn-close btn-close-sm ms-1" data-quitar="' + v.id + '" style="font-size:.55rem;" title="Quitar"></button>' +
+                '</span>';
+        }).join('');
+
+        list.innerHTML = html;
+        wrap.classList.remove('d-none');
+    }
+
+    document.getElementById('seleccionadasList').addEventListener('click', function(e) {
+        var btn = e.target.closest('[data-quitar]');
+        if (!btn) return;
+
+        var idVar = parseInt(btn.getAttribute('data-quitar'));
+        var idx = variantesSeleccionadas.indexOf(idVar);
+        if (idx > -1) variantesSeleccionadas.splice(idx, 1);
+
+        document.querySelectorAll('#variantesGrid .venta-var-btn').forEach(function(b) {
+            if (parseInt(b.dataset.variante) === idVar) b.classList.remove('seleccionada');
+        });
+
+        renderSeleccionadas();
+        renderResultados();
+    });
+
+    document.getElementById('btnLimpiarSeleccion').addEventListener('click', function() {
+        variantesSeleccionadas = [];
+        document.querySelectorAll('#variantesGrid .venta-var-btn').forEach(function(b) {
+            b.classList.remove('seleccionada');
+        });
+        renderSeleccionadas();
         renderResultados();
     });
 
@@ -562,6 +635,7 @@
             b.classList.remove('seleccionado');
         });
 
+        renderSeleccionadas();
         renderResultados();
         document.getElementById('productoInput').focus();
     });
@@ -582,13 +656,17 @@
         var vacio = document.getElementById('resultadosVacio');
         var badge = document.getElementById('resultadosBadge');
         var table = document.getElementById('resultadosTable');
+        var foot = document.getElementById('resultadosFoot');
+        var totalCell = document.getElementById('totalStockCell');
         var idTienda = document.getElementById('tiendaSelect').value;
         var filas = [];
+        var totalStock = 0;
 
         if (!productoActual) {
             body.innerHTML = '';
             vacio.style.display = 'block';
             table.classList.add('d-none');
+            foot.classList.add('d-none');
             badge.textContent = '0 registros';
             return;
         }
@@ -602,6 +680,7 @@
             vacio.style.display = 'block';
             vacio.innerHTML = '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Selecciona al menos una variante';
             table.classList.add('d-none');
+            foot.classList.add('d-none');
             badge.textContent = '0 registros';
             return;
         }
@@ -619,6 +698,7 @@
 
             tiendasAMostrar.forEach(function(t) {
                 var st = stockVariante(v.id, t.id);
+                totalStock += st;
 
                 filas.push(
                     '<tr>' +
@@ -638,10 +718,13 @@
             vacio.style.display = 'block';
             vacio.innerHTML = '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Sin registros de stock';
             table.classList.add('d-none');
+            foot.classList.add('d-none');
         } else {
             body.innerHTML = filas.join('');
             vacio.style.display = 'none';
             table.classList.remove('d-none');
+            foot.classList.remove('d-none');
+            totalCell.textContent = totalStock;
         }
 
         badge.textContent = filas.length + ' registro' + (filas.length !== 1 ? 's' : '');

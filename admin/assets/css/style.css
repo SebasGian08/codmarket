@@ -350,6 +350,36 @@ html[data-theme="dark"] .venta-var-btn.seleccionada {
     box-shadow: 0 0 0 2px rgba(33, 195, 108, .4);
 }
 
+#seleccionadasWrap {
+    border-top: 1px dashed rgba(0, 0, 0, .1);
+    padding-top: .75rem;
+}
+
+html[data-theme="dark"] #seleccionadasWrap {
+    border-top-color: var(--ka-border, #3a4658);
+}
+
+#seleccionadasList .badge {
+    font-size: .72rem;
+    font-weight: 500;
+    cursor: default;
+}
+
+#seleccionadasList .btn-close {
+    filter: none;
+    opacity: .6;
+    transition: opacity .15s;
+}
+
+#seleccionadasList .btn-close:hover {
+    opacity: 1;
+}
+
+#resultadosFoot tr td {
+    border-top: 2px solid var(--bs-primary);
+    font-size: .9rem;
+}
+
 /* ============ FIN INVENTARIO ============ */
 
 /* ============ VENDEDORES ============ */
