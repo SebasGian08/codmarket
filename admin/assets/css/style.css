@@ -337,6 +337,21 @@ html[data-theme="dark"] .venta-atributos-filtros .atributo-separador {
 
 /* ============ FIN VENTAS ============ */
 
+/* ============ INVENTARIO ============ */
+
+.venta-var-btn.seleccionada {
+    border-color: var(--bs-success);
+    box-shadow: 0 0 0 2px rgba(33, 195, 108, .35);
+    background: rgba(33, 195, 108, .06);
+}
+
+html[data-theme="dark"] .venta-var-btn.seleccionada {
+    background: rgba(33, 195, 108, .1);
+    box-shadow: 0 0 0 2px rgba(33, 195, 108, .4);
+}
+
+/* ============ FIN INVENTARIO ============ */
+
 /* ============ VENDEDORES ============ */
 /* Estilos del módulo de vendedores */
 /* ============ FIN VENDEDORES ============ */
