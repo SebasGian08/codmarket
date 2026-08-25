@@ -12,66 +12,6 @@
         </div>
     </div>
 
-    <div class="row mb-3">
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small">Productos</span>
-                            <div class="h4 mb-0 fw-bold">{{ $productos->count() }}</div>
-                        </div>
-                        <i class="fa fa-boxes fa-2x text-primary opacity-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small">Variantes activas</span>
-                            <div class="h4 mb-0 fw-bold" id="kpiVariantes">0</div>
-                        </div>
-                        <i class="fa fa-tags fa-2x text-info opacity-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small">Con stock</span>
-                            <div class="h4 mb-0 fw-bold text-success" id="kpiConStock">0</div>
-                        </div>
-                        <i class="fa fa-check-circle fa-2x text-success opacity-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div>
-                            <span class="text-muted small">Stock valorizado</span>
-                            <div class="h4 mb-0 fw-bold text-warning" id="kpiValorizado">S/ 0.00</div>
-                        </div>
-                        <i class="fa fa-dollar-sign fa-2x text-warning opacity-50"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
     <div class="row">
 
         <!-- ================= COLUMNA FILTROS ================= -->
