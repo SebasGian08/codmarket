@@ -586,8 +586,9 @@
 
         if (productoActual) {
             renderVariantesGrid(productoActual.variantes);
-            renderResultados();
         }
+
+        renderResultados();
     });
 
     /* ============ RESULTADOS ============ */
@@ -602,61 +603,84 @@
         var filas = [];
         var totalStock = 0;
 
-        if (!productoActual) {
-            body.innerHTML = '';
-            vacio.style.display = 'block';
-            table.classList.add('d-none');
-            foot.classList.add('d-none');
-            badge.textContent = '0 registros';
-            return;
-        }
-
-        var variantesAMostrar = variantesSeleccionadas.length
-            ? productoActual.variantes.filter(function(v) { return variantesSeleccionadas.indexOf(v.id) > -1; })
-            : productoActual.variantes;
-
-        if (!variantesAMostrar.length) {
-            body.innerHTML = '';
-            vacio.style.display = 'block';
-            vacio.innerHTML = '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Selecciona al menos una variante';
-            table.classList.add('d-none');
-            foot.classList.add('d-none');
-            badge.textContent = '0 registros';
-            return;
-        }
-
         var tiendasAMostrar = idTienda
             ? TIENDAS.filter(function(t) { return String(t.id) === String(idTienda); })
             : TIENDAS;
 
-        variantesAMostrar.forEach(function(v) {
-            var attrs = (v.atributos || []).map(function(a) {
-                return a.atributo + ': ' + a.valor;
-            }).join(', ') || '—';
+        if (productoActual) {
+            var variantesAMostrar = variantesSeleccionadas.length
+                ? productoActual.variantes.filter(function(v) { return variantesSeleccionadas.indexOf(v.id) > -1; })
+                : productoActual.variantes;
 
-            var varianteLabel = (v.sku || 'SKU ' + v.id) + (attrs !== ' —' ? ' · ' + attrs : '');
+            if (!variantesAMostrar.length) {
+                body.innerHTML = '';
+                vacio.style.display = 'block';
+                vacio.innerHTML = '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Selecciona al menos una variante';
+                table.classList.add('d-none');
+                foot.classList.add('d-none');
+                badge.textContent = '0 registros';
+                return;
+            }
 
-            tiendasAMostrar.forEach(function(t) {
-                var st = stockVariante(v.id, t.id);
-                totalStock += st;
+            variantesAMostrar.forEach(function(v) {
+                var attrs = (v.atributos || []).map(function(a) {
+                    return a.atributo + ': ' + a.valor;
+                }).join(', ') || '—';
 
-                filas.push(
-                    '<tr>' +
-                    '<td data-label="Modelo" class="fw-semibold">' + escapeHtml(productoActual.nombre) + '</td>' +
-                    '<td data-label="Variante">' + escapeHtml(varianteLabel) + '</td>' +
-                    '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + '</td>' +
-                    '<td data-label="Stock" class="text-center">' +
-                    '<span class="badge ' + (st <= 0 ? 'bg-secondary' : (st <= 5 ? 'bg-warning' : 'bg-success')) + '">' + st + '</span>' +
-                    '</td>' +
-                    '</tr>'
-                );
+                var varianteLabel = (v.sku || 'SKU ' + v.id) + (attrs !== ' —' ? ' · ' + attrs : '');
+
+                tiendasAMostrar.forEach(function(t) {
+                    var st = stockVariante(v.id, t.id);
+                    totalStock += st;
+
+                    filas.push(
+                        '<tr>' +
+                        '<td data-label="Modelo" class="fw-semibold">' + escapeHtml(productoActual.nombre) + '</td>' +
+                        '<td data-label="Variante">' + escapeHtml(varianteLabel) + '</td>' +
+                        '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + '</td>' +
+                        '<td data-label="Stock" class="text-center">' +
+                        '<span class="badge ' + (st <= 0 ? 'bg-secondary' : (st <= 5 ? 'bg-warning' : 'bg-success')) + '">' + st + '</span>' +
+                        '</td>' +
+                        '</tr>'
+                    );
+                });
             });
-        });
+
+        } else if (idTienda) {
+            PRODUCTOS.forEach(function(p) {
+                (p.variantes || []).forEach(function(v) {
+                    tiendasAMostrar.forEach(function(t) {
+                        var st = stockVariante(v.id, t.id);
+                        if (st <= 0) return;
+                        totalStock += st;
+
+                        var attrs = (v.atributos || []).map(function(a) {
+                            return a.atributo + ': ' + a.valor;
+                        }).join(', ') || '—';
+
+                        var varianteLabel = (v.sku || 'SKU ' + v.id) + (attrs !== ' —' ? ' · ' + attrs : '');
+
+                        filas.push(
+                            '<tr>' +
+                            '<td data-label="Modelo" class="fw-semibold">' + escapeHtml(p.nombre) + '</td>' +
+                            '<td data-label="Variante">' + escapeHtml(varianteLabel) + '</td>' +
+                            '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + '</td>' +
+                            '<td data-label="Stock" class="text-center">' +
+                            '<span class="badge ' + (st <= 5 ? 'bg-warning' : 'bg-success') + '">' + st + '</span>' +
+                            '</td>' +
+                            '</tr>'
+                        );
+                    });
+                });
+            });
+        }
 
         if (!filas.length) {
             body.innerHTML = '';
             vacio.style.display = 'block';
-            vacio.innerHTML = '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Sin registros de stock';
+            vacio.innerHTML = idTienda
+                ? '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Sin stock en esta tienda'
+                : '<i class="fa fa-search fa-2x d-block mb-2 opacity-50"></i>Selecciona un producto o tienda para ver stock';
             table.classList.add('d-none');
             foot.classList.add('d-none');
         } else {
