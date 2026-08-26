@@ -105,6 +105,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/historial', [VentaController::class, 'historial'])->name('admin.ventas.historial');
         Route::get('/{id}/detalle', [VentaController::class, 'detalle'])->name('admin.ventas.detalle');
         Route::post('/{id}/anular', [VentaController::class, 'anular'])->name('admin.ventas.anular');
+
+        // Cerrar Venta
+        Route::get('/cerrar-venta', [VentaController::class, 'cerrarVenta'])->name('admin.ventas.cerrar');
+        Route::get('/{id}/cierre', [VentaController::class, 'obtenerCierre'])->name('admin.ventas.cierre');
+        Route::post('/{id}/detalle-venta', [VentaController::class, 'actualizarDetalle'])->name('admin.ventas.cierre.detalle');
+        Route::post('/{id}/pago', [VentaController::class, 'agregarPago'])->name('admin.ventas.cierre.pago');
+        Route::delete('/{id}/pago/{idPago}', [VentaController::class, 'eliminarPago'])->name('admin.ventas.cierre.pago.eliminar');
+        Route::post('/{id}/procesar-cierre', [VentaController::class, 'procesarCierre'])->name('admin.ventas.cierre.procesar');
     });
 
     // MÓDULO: TIENDAS (sucursales)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Caja;
 use App\Models\Cliente;
+use App\Models\CuentaBancaria;
 use App\Models\Inventario;
 use App\Models\MetodoPago;
 use App\Models\Producto;
@@ -12,6 +13,7 @@ use App\Models\Tienda;
 use App\Models\Vendedor;
 use App\Models\Venta;
 use App\Models\VentaDetalle;
+use App\Models\VentaPago;
 use App\Services\InventarioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -71,7 +73,6 @@ class VentaController extends Controller
         $metodosPagos = MetodoPago::where('estado', 1)->orderBy('id_metodo_pago', 'asc')->get();
         $clienteVarios = Cliente::where('es_varios', 1)->where('estado', 1)->first();
 
-        // Stock por tienda: { id_variante: { id_tienda: cantidad } }
         $stockPorTienda = Inventario::get()
             ->groupBy('id_variante')
             ->map(function ($grupo) {
@@ -96,7 +97,6 @@ class VentaController extends Controller
             'id_caja' => 'required|exists:cajas,id_caja',
             'id_cliente' => 'nullable|exists:clientes,id_cliente',
             'nombre_cliente' => 'nullable|string|max:150',
-            'id_metodo_pago' => 'required|exists:metodos_pagos,id_metodo_pago',
             'items' => 'required|array|min:1',
             'items.*.id_variante' => 'required|exists:productos_variantes,id_variante',
             'items.*.cantidad' => 'required|numeric|min:0.01',
@@ -128,11 +128,12 @@ class VentaController extends Controller
                 'id_usuario' => auth()->id(),
                 'id_cliente' => $request->id_cliente ?: null,
                 'nombre_cliente' => $request->nombre_cliente ?: 'CLIENTES VARIOS',
-                'id_metodo_pago' => $request->id_metodo_pago,
+                'id_metodo_pago' => null,
                 'id_vendedor' => $caja->id_vendedor,
                 'subtotal' => $subtotal,
                 'total' => $subtotal,
                 'estado' => 1,
+                'estado_cobro' => 'pendiente',
             ]);
 
             foreach ($request->items as $item) {
@@ -183,7 +184,7 @@ class VentaController extends Controller
 
     public function historial(Request $request)
     {
-        $query = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor'])
+        $query = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'ventaPagos.metodoPago'])
             ->orderBy('id_venta', 'desc');
 
         if ($request->get('id_tienda')) {
@@ -252,5 +253,241 @@ class VentaController extends Controller
         return response()->json([
             'venta' => $venta,
         ]);
+    }
+
+    /* ================================================================
+       CERRAR VENTA
+       ================================================================ */
+
+    public function cerrarVenta()
+    {
+        $ventasPendientes = Venta::with(['tienda', 'usuario', 'cliente', 'vendedor', 'detalle'])
+            ->where('estado', 1)
+            ->where('estado_cobro', 'pendiente')
+            ->orderBy('id_venta', 'desc')
+            ->get()
+            ->map(function ($v) {
+                $v->total_items = $v->detalle->sum('cantidad');
+                return $v;
+            });
+
+        return view('admin.ventas.cerrar_venta', compact('ventasPendientes'));
+    }
+
+    public function obtenerCierre($id)
+    {
+        $venta = Venta::with([
+            'tienda', 'usuario', 'cliente', 'vendedor',
+            'detalle.variante.producto',
+            'ventaPagos.metodoPago',
+            'ventaPagos.cuentaBancaria'
+        ])->findOrFail($id);
+
+        if ($venta->estado_cobro !== 'pendiente') {
+            return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
+        }
+
+        $metodosPagos = MetodoPago::where('estado', 1)->orderBy('nombre')->get();
+        $cuentas = CuentaBancaria::where('estado', 1)->orderBy('nombre')->get();
+
+        return response()->json([
+            'venta' => $venta,
+            'metodosPagos' => $metodosPagos,
+            'cuentas' => $cuentas,
+        ]);
+    }
+
+    public function actualizarDetalle(Request $request, $id)
+    {
+        $venta = Venta::with('detalle')->findOrFail($id);
+
+        if ($venta->estado_cobro !== 'pendiente') {
+            return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
+        }
+
+        $request->validate([
+            'items' => 'required|array|min:1',
+            'items.*.id_variante' => 'required|exists:productos_variantes,id_variante',
+            'items.*.cantidad' => 'required|numeric|min:0.01',
+            'items.*.precio' => 'required|numeric|min:0',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Stock difference tracking
+            $stockOriginal = [];
+            foreach ($venta->detalle as $d) {
+                $key = $d->id_variante;
+                $stockOriginal[$key] = ($stockOriginal[$key] ?? 0) + $d->cantidad;
+            }
+
+            $stockNuevo = [];
+            foreach ($request->items as $item) {
+                $key = $item['id_variante'];
+                $stockNuevo[$key] = ($stockNuevo[$key] ?? 0) + (int) $item['cantidad'];
+            }
+
+            // Revert stock for removed/changed items
+            foreach ($stockOriginal as $varId => $cantOriginal) {
+                $cantNueva = $stockNuevo[$varId] ?? 0;
+                $diferencia = $cantOriginal - $cantNueva;
+
+                if ($diferencia > 0) {
+                    $this->inventario->aplicar(
+                        $varId, $venta->id_tienda, 'ajuste', $diferencia,
+                        $venta->id_venta, auth()->id(),
+                        'Ajuste cierre venta ' . $venta->numero
+                    );
+                }
+            }
+
+            // Apply stock for new/increased items
+            foreach ($stockNuevo as $varId => $cantNueva) {
+                $cantOriginal = $stockOriginal[$varId] ?? 0;
+                $diferencia = $cantNueva - $cantOriginal;
+
+                if ($diferencia > 0) {
+                    $this->inventario->aplicar(
+                        $varId, $venta->id_tienda, 'venta', $diferencia,
+                        $venta->id_venta, auth()->id(),
+                        'Ajuste cierre venta ' . $venta->numero
+                    );
+                }
+            }
+
+            // Delete old detail
+            VentaDetalle::where('id_venta', $id)->delete();
+
+            // Insert new detail
+            $subtotal = 0;
+            foreach ($request->items as $item) {
+                $cantidad = (int) $item['cantidad'];
+                $precio = (float) $item['precio'];
+                $sub = $precio * $cantidad;
+                $subtotal += $sub;
+
+                VentaDetalle::create([
+                    'id_venta' => $venta->id_venta,
+                    'id_variante' => $item['id_variante'],
+                    'cantidad' => $cantidad,
+                    'precio' => $precio,
+                    'subtotal' => $sub,
+                ]);
+            }
+
+            $venta->update([
+                'subtotal' => $subtotal,
+                'total' => $subtotal,
+            ]);
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'total' => $subtotal]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+    }
+
+    public function agregarPago(Request $request, $id)
+    {
+        $venta = Venta::findOrFail($id);
+
+        if ($venta->estado_cobro !== 'pendiente') {
+            return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
+        }
+
+        $request->validate([
+            'id_metodo_pago' => 'required|exists:metodos_pagos,id_metodo_pago',
+            'id_cuenta_bancaria' => 'required|exists:cuentas_bancarias,id_cuenta_bancaria',
+            'monto' => 'required|numeric|min:0.01',
+        ]);
+
+        $pago = VentaPago::create([
+            'id_venta' => $venta->id_venta,
+            'id_metodo_pago' => $request->id_metodo_pago,
+            'id_cuenta_bancaria' => $request->id_cuenta_bancaria,
+            'monto' => (float) $request->monto,
+            'moneda' => 'PEN',
+            'id_usuario_registro' => auth()->id(),
+        ]);
+
+        $pago->load('metodoPago', 'cuentaBancaria');
+
+        $totalPagado = $venta->ventaPagos()->sum('monto');
+
+        return response()->json([
+            'success' => true,
+            'pago' => $pago,
+            'totalPagado' => $totalPagado,
+        ]);
+    }
+
+    public function eliminarPago($id, $idPago)
+    {
+        $venta = Venta::findOrFail($id);
+
+        if ($venta->estado_cobro !== 'pendiente') {
+            return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
+        }
+
+        VentaPago::where('id_venta_pago', $idPago)
+            ->where('id_venta', $id)
+            ->delete();
+
+        $totalPagado = $venta->ventaPagos()->sum('monto');
+
+        return response()->json([
+            'success' => true,
+            'totalPagado' => $totalPagado,
+        ]);
+    }
+
+    public function procesarCierre($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $venta = Venta::with('ventaPagos')->findOrFail($id);
+
+            if ($venta->estado_cobro !== 'pendiente') {
+                throw new \Exception('Esta venta ya fue cerrada');
+            }
+
+            if ($venta->estado == 0) {
+                throw new \Exception('No se puede cerrar una venta anulada');
+            }
+
+            $totalPagado = $venta->ventaPagos->sum('monto');
+            $totalVenta = (float) $venta->total;
+
+            if (abs($totalPagado - $totalVenta) > 0.01) {
+                throw new \Exception(
+                    'La suma de los pagos (S/ ' . number_format($totalPagado, 2) .
+                    ') no coincide con el total de la venta (S/ ' . number_format($totalVenta, 2) . ')'
+                );
+            }
+
+            if ($venta->ventaPagos->isEmpty()) {
+                throw new \Exception('Debe registrar al menos un pago');
+            }
+
+            // Update first payment method on the sale for backward compatibility
+            $primerPago = $venta->ventaPagos->first();
+            $venta->update([
+                'estado_cobro' => 'cerrado',
+                'fecha_cierre' => now(),
+                'usuario_cierre' => auth()->id(),
+                'id_metodo_pago' => $primerPago->id_metodo_pago,
+            ]);
+
+            DB::commit();
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
     }
 }

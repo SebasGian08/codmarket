@@ -21,8 +21,13 @@ class Venta extends Model
         'id_vendedor',
         'subtotal',
         'total',
-        'estado'
+        'estado',
+        'estado_cobro',
+        'fecha_cierre',
+        'usuario_cierre'
     ];
+
+    protected $dates = ['fecha_cierre'];
 
     public function caja()
     {
@@ -57,5 +62,20 @@ class Venta extends Model
     public function detalle()
     {
         return $this->hasMany(VentaDetalle::class, 'id_venta');
+    }
+
+    public function ventaPagos()
+    {
+        return $this->hasMany(VentaPago::class, 'id_venta');
+    }
+
+    public function usuarioCierre()
+    {
+        return $this->belongsTo(Usuario::class, 'usuario_cierre');
+    }
+
+    public function getTotalPagadoAttribute()
+    {
+        return $this->ventaPagos()->sum('monto');
     }
 }

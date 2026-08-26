@@ -41,23 +41,30 @@
                 </li>
                 @endpermiso
 
-                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga'))
+                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('ventas.cerrar') || \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga'))
                 @if($puedeInventario)
                 <li
-                    class="nav-item {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
+                    class="nav-item {{ Request::is('admin/ventas/*') || Request::is('admin/ventas/cerrar-venta') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#inventario">
                         <i class="fas fa-boxes"></i>
                         <p>Inventario</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/ventas/*') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}"
+                    <div class="collapse {{ Request::is('admin/ventas/*') || Request::is('admin/ventas/cerrar-venta') || Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}"
                         id="inventario">
                         <ul class="nav nav-collapse">
                             @permiso('ventas.historial')
                             <li class="{{ Request::is('admin/ventas/historial') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ventas.historial') }}">
                                     <span class="sub-item">Historial de Ventas</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                            @permiso('ventas.cerrar')
+                            <li class="{{ Request::is('admin/ventas/cerrar-venta') ? 'active' : '' }}">
+                                <a href="{{ route('admin.ventas.cerrar') }}">
+                                    <span class="sub-item">Cerrar Venta</span>
                                 </a>
                             </li>
                             @endpermiso

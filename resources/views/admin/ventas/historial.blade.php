@@ -86,6 +86,7 @@
                             <th>Pago</th>
                             <th class="text-end">Total</th>
                             <th>Vendedor</th>
+                            <th>Cobro</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -105,6 +106,13 @@
                             </td>
                             <td class="text-end fw-bold">S/ {{ number_format($venta->total, 2) }}</td>
                             <td>{{ $venta->vendedor->nombre ?? '—' }}</td>
+                            <td>
+                                @if($venta->estado_cobro === 'cerrado')
+                                    <span class="badge bg-success">Cerrado</span>
+                                @else
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                @endif
+                            </td>
                             <td>
                                 <span class="badge {{ $venta->estado ? 'bg-success' : 'bg-danger' }}">
                                     {{ $venta->estado ? 'Registrada' : 'Anulada' }}
