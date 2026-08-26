@@ -1,7 +1,10 @@
 .env
 vendor/*
 config/*
-database/*
+
+database/seeds/*
+database/factories/*
+database/seeders/*
 
 uploads/
 storage/
