@@ -50,14 +50,14 @@
                     <hr>
 
                     <label class="form-label small fw-semibold text-uppercase text-muted">
-                        <i class="fa fa-search me-1"></i> Buscar producto (nombre o SKU)
+                        <i class="fa fa-search me-1"></i> Buscar variante (producto, SKU o atributo)
                     </label>
 
                     <div class="trf-buscador position-relative">
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
                             <input type="text" id="varianteInputTrf" class="form-control" autocomplete="off"
-                                placeholder="Escribe para buscar y agregar al detalle...">
+                                placeholder="Escribe para buscar variante y agregar al detalle...">
                         </div>
 
                         <div id="varianteResultadosTrf" class="trf-resultados d-none"></div>
@@ -67,7 +67,7 @@
                         <table class="table table-sm table-hover mb-0">
                             <thead>
                                 <tr>
-                                    <th>Producto</th>
+                                    <th>Variante</th>
                                     <th class="text-center" style="width:140px">Cantidad</th>
                                     <th class="text-end" style="width:60px"></th>
                                 </tr>
@@ -77,7 +77,7 @@
 
                         <div id="trfVacio" class="text-center text-muted py-4">
                             <i class="fa fa-truck fa-2x d-block mb-2 opacity-50"></i>
-                            Agrega productos a la transferencia
+                            Agrega variantes a la transferencia
                         </div>
                     </div>
 

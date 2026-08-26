@@ -144,8 +144,12 @@
         }
 
         var matches = VARIANTES_TRF.filter(function(v) {
-            return (v.producto || '').toLowerCase().indexOf(t) > -1 ||
-                (v.sku || '').toLowerCase().indexOf(t) > -1;
+            if ((v.sku || '').toLowerCase().indexOf(t) > -1) return true;
+            if ((v.producto || '').toLowerCase().indexOf(t) > -1) return true;
+            return (v.atributos || []).some(function(a) {
+                return (a.valor || '').toLowerCase().indexOf(t) > -1 ||
+                    (a.atributo || '').toLowerCase().indexOf(t) > -1;
+            });
         });
 
         if (!matches.length) {
@@ -153,13 +157,16 @@
         } else {
             lista.html(matches.slice(0, 12).map(function(v) {
                 var attrs = (v.atributos || []).map(function(a) {
-                    return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
-                }).join(', ');
+                    return escapeHtml(a.valor);
+                }).join(' · ');
+                var stock = stockEnOrigen(v.id);
+                var stockClass = stock <= 0 ? 'text-danger' : '';
                 return '<div class="trf-resultado" data-id="' + v.id + '">' +
-                    '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
-                    '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') +
-                    (attrs ? ' · ' + attrs : '') +
-                    ' · Stock en origen: ' + stockEnOrigen(v.id) + '</div>' +
+                    '<div class="fw-semibold">' + escapeHtml(attrs || 'Sin variante') + '</div>' +
+                    '<div class="small text-muted">' + escapeHtml(v.producto) +
+                    (v.sku ? ' — <strong>' + escapeHtml(v.sku) + '</strong>' : '') +
+                    '</div>' +
+                    '<div class="small ' + stockClass + '">Stock origen: ' + stock + '</div>' +
                     '</div>';
             }).join(''));
         }
@@ -192,18 +199,19 @@
         var filas = $('#trfFilas');
 
         if (filas.find('input[name="items[' + v.id + '][id_variante]"]').length) {
-            Swal.fire('Atención', 'El producto ya está en el detalle', 'warning');
+            Swal.fire('Atención', 'Esta variante ya está en el detalle', 'warning');
             return;
         }
 
         var attrs = (v.atributos || []).map(function(a) {
-            return escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor);
-        }).join(', ');
+            return escapeHtml(a.valor);
+        }).join(' · ');
 
         var fila = $(`
             <tr data-variante="${v.id}">
-                <td class="fw-semibold">${escapeHtml(v.producto)}<br>
-                    <span class="small text-muted">${escapeHtml(v.sku || 'Sin SKU')}${attrs ? ' · ' + attrs : ''}</span>
+                <td>
+                    <div class="fw-semibold">${escapeHtml(attrs || 'Sin variante')}</div>
+                    <div class="small text-muted">${escapeHtml(v.producto)}${v.sku ? ' — ' + escapeHtml(v.sku) : ''}</div>
                 </td>
                 <td style="width:140px">
                     <div class="input-group input-group-sm">
@@ -263,7 +271,7 @@
 
         if (!filas) {
             e.preventDefault();
-            Swal.fire('Atención', 'Agrega al menos un producto al detalle', 'warning');
+            Swal.fire('Atención', 'Agrega al menos una variante al detalle', 'warning');
             return;
         }
 
@@ -281,7 +289,7 @@
 
         if (error) {
             e.preventDefault();
-            Swal.fire('Stock insuficiente', 'Uno o más productos superan el stock de la tienda origen', 'warning');
+            Swal.fire('Stock insuficiente', 'Una o más variantes superan el stock de la tienda origen', 'warning');
             return;
         }
 

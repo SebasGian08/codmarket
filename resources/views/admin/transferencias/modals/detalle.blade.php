@@ -54,7 +54,7 @@
         <table class="table table-sm table-striped mb-0">
             <thead>
                 <tr>
-                    <th>Producto</th>
+                    <th>Variante</th>
                     <th>SKU</th>
                     <th class="text-center">Cantidad</th>
                 </tr>
@@ -70,10 +70,8 @@
                 @endphp
                 <tr>
                     <td>
-                        {{ $detalle->variante->producto->nombre ?? 'Producto' }}
-                        @if($atributos)
-                        <div class="small text-muted">{{ $atributos }}</div>
-                        @endif
+                        <div class="fw-semibold">{{ $atributos ?: 'Sin variante' }}</div>
+                        <div class="small text-muted">{{ $detalle->variante->producto->nombre ?? 'Producto' }}</div>
                     </td>
                     <td>{{ $detalle->variante->sku ?? '—' }}</td>
                     <td class="text-center">{{ $detalle->cantidad }}</td>
