@@ -213,42 +213,6 @@
                 </div>
             </div>
 
-            <!-- DETALLE DE VENTA -->
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
-                    <h6 class="fw-bold mb-0">
-                        <i class="fa fa-shopping-cart me-1"></i> Detalle de venta
-                    </h6>
-                    <span class="badge bg-primary" id="itemsBadge">0 items</span>
-                </div>
-
-                <div class="card-body p-0">
-
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover table-cards mb-0" id="cartTable">
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Variante</th>
-                                    <th>Atributos</th>
-                                    <th class="text-center">Cant.</th>
-                                    <th class="text-end">Precio</th>
-                                    <th class="text-end">Subtotal</th>
-                                    <th class="text-end">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cartBody"></tbody>
-                        </table>
-                    </div>
-
-                    <div id="cartVacio" class="text-center text-muted py-5">
-                        <i class="fa fa-cart-arrow-down fa-2x d-block mb-2 opacity-50"></i>
-                        Aún no hay productos en la venta
-                    </div>
-
-                </div>
-            </div>
-
         </div>
 
         <!-- ================= RESUMEN ================= -->
@@ -325,6 +289,42 @@
 
         </div>
 
+    </div>
+
+    <!-- DETALLE DE VENTA - ANCHO COMPLETO -->
+    <div class="card border-0 shadow-sm mt-3">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
+            <h6 class="fw-bold mb-0">
+                <i class="fa fa-shopping-cart me-1"></i> Detalle de venta
+            </h6>
+            <span class="badge bg-primary" id="itemsBadge">0 items</span>
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-cards mb-0" id="cartTable">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Variante</th>
+                            <th>Atributos</th>
+                            <th class="text-center">Cant.</th>
+                            <th class="text-end">Precio</th>
+                            <th class="text-end">Subtotal</th>
+                            <th class="text-end">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartBody"></tbody>
+                </table>
+            </div>
+
+            <div id="cartVacio" class="text-center text-muted py-5">
+                <i class="fa fa-cart-arrow-down fa-2x d-block mb-2 opacity-50"></i>
+                Aún no hay productos en la venta
+            </div>
+
+        </div>
     </div>
 
 </div>
