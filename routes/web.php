@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\IngresoController;
 use App\Http\Controllers\Admin\TransferenciaController;
 use App\Http\Controllers\Admin\CargaInventarioController;
 use App\Http\Controllers\Admin\InventarioController;
+use App\Http\Controllers\Admin\GastoController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
@@ -163,6 +164,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/{id}/recibir', [TransferenciaController::class, 'recibir'])->name('admin.transferencias.recibir');
         Route::post('/{id}/anular', [TransferenciaController::class, 'anular'])->name('admin.transferencias.anular');
         Route::get('/{id}/detalle', [TransferenciaController::class, 'detalle'])->name('admin.transferencias.detalle');
+    });
+
+    // MÓDULO: GASTOS
+    Route::prefix('gastos')->group(function () {
+        Route::get('/', [GastoController::class, 'index'])->name('admin.gastos.index');
+        Route::post('/guardar', [GastoController::class, 'store'])->name('admin.gastos.store');
+        Route::post('/{id}/anular', [GastoController::class, 'anular'])->name('admin.gastos.anular');
+        Route::get('/{id}/detalle', [GastoController::class, 'detalle'])->name('admin.gastos.detalle');
     });
 
     // MÓDULO: INVENTARIO

@@ -1,0 +1,171 @@
+@extends('admin.layouts.app')
+
+@section('title', 'Gastos')
+
+@section('content')
+
+<div class="page-inner">
+
+    <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+        <div class="d-flex align-items-center">
+            <h4 class="page-title">Gastos</h4>
+        </div>
+
+        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateGasto">
+            <i class="fa fa-plus"></i> Nuevo Gasto
+        </button>
+
+    </div>
+
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover" id="basic-datatables">
+
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Tienda</th>
+                            <th>Cuenta Bancaria</th>
+                            <th>Monto</th>
+                            <th>Fecha</th>
+                            <th>Registrado por</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach($gastos as $gasto)
+                        <tr>
+                            <td><span class="badge bg-dark">{{ $gasto->numero }}</span></td>
+                            <td>
+                                <span class="badge bg-warning text-dark">{{ $gasto->tipoGasto->nombre }}</span>
+                            </td>
+                            <td class="fw-semibold">{{ $gasto->descripcion }}</td>
+                            <td>{{ $gasto->tienda->nombre }}</td>
+                            <td>{{ $gasto->cuentaBancaria->nombre ?? '—' }}</td>
+                            <td class="fw-bold text-danger">S/ {{ number_format($gasto->monto, 2) }}</td>
+                            <td>{{ $gasto->fecha->format('d/m/Y') }}</td>
+                            <td>{{ $gasto->usuario->nombres }} {{ $gasto->usuario->apellidos }}</td>
+                            <td>
+                                <span class="badge {{ $gasto->estado ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $gasto->estado ? 'Registrado' : 'Anulado' }}
+                                </span>
+                            </td>
+                            <td>
+
+                                <button class="btn btn-sm btn-info btn-border btn-round btn-ver-detalle-gasto"
+                                    data-url="{{ route('admin.gastos.detalle', $gasto->id_gasto) }}">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+
+                                @if($gasto->estado)
+                                <button class="btn btn-sm btn-danger btn-round btn-anular-gasto"
+                                    data-url="{{ route('admin.gastos.anular', $gasto->id_gasto) }}">
+                                    <i class="fa fa-ban"></i> Anular
+                                </button>
+                                @endif
+
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@include('admin.gastos.modals.create')
+@include('admin.gastos.modals.detalle_modal')
+
+@push('scripts')
+<script>
+    /* ============ CARGAR CAJAS POR TIENDA ============ */
+    var CAJAS = @json($cajasAbiertas);
+
+    function cargarCajasGasto() {
+        var idTienda = $('#tiendaGasto').val();
+        var select = $('#cajaGasto');
+        select.html('<option value="">Sin caja</option>');
+
+        if (!idTienda) return;
+
+        CAJAS.forEach(function(c) {
+            if (c.id_tienda == idTienda) {
+                select.append('<option value="' + c.id_caja + '">' + c.nombre + '</option>');
+            }
+        });
+    }
+
+    $('#tiendaGasto').on('change', cargarCajasGasto);
+
+    /* ============ SUBMIT ============ */
+    $('#formGasto').on('submit', function() {
+        $('#btnGuardarGasto').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Guardando...');
+    });
+
+    /* ============ VER DETALLE ============ */
+    $(document).on('click', '.btn-ver-detalle-gasto', function() {
+        var url = $(this).data('url');
+
+        $.get(url, function(html) {
+            $('#modalDetalleGasto .modal-content').html(html);
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalDetalleGasto')).show();
+        });
+    });
+
+    /* ============ ANULAR ============ */
+    $(document).on('click', '.btn-anular-gasto', function() {
+        var url = $(this).data('url');
+
+        Swal.fire({
+            title: '¿Anular gasto?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, anular',
+            cancelButtonText: 'Cancelar'
+        }).then(function(r) {
+            if (r.isConfirmed) {
+                $.post(url, { _token: '{{ csrf_token() }}' })
+                    .done(function() {
+                        Swal.fire({ icon: 'success', title: 'Anulado', timer: 1200, showConfirmButton: false });
+                        setTimeout(function() { location.reload(); }, 800);
+                    })
+                    .fail(function(xhr) {
+                        Swal.fire('Error', (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo anular', 'error');
+                    });
+            }
+        });
+    });
+</script>
+@endpush
+
+@endsection

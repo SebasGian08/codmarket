@@ -409,6 +409,16 @@ html[data-theme="dark"] #seleccionadasWrap {
 
 /* ============ FIN INVENTARIO ============ */
 
+/* ============ GASTOS ============ */
+
+.gasto-monto-display {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--bs-danger);
+}
+
+/* ============ FIN GASTOS ============ */
+
 /* ============ VENDEDORES ============ */
 /* Estilos del módulo de vendedores */
 /* ============ FIN VENDEDORES ============ */
