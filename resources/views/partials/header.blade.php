@@ -48,6 +48,30 @@
                                 </a>
                             </li>
                             @endif
+
+                            @if($config['youtube_url'] ?? false)
+                            <li>
+                                <a href="{{ $config['youtube_url'] }}" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </li>
+                            @endif
+
+                            @if($config['twitter_url'] ?? false)
+                            <li>
+                                <a href="{{ $config['twitter_url'] }}" target="_blank">
+                                    <i class="fab fa-x-twitter"></i>
+                                </a>
+                            </li>
+                            @endif
+
+                            @if($config['linkedin_url'] ?? false)
+                            <li>
+                                <a href="{{ $config['linkedin_url'] }}" target="_blank">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                            @endif
                         </ul>
                         <!-- <span style="color: #e1e1e1">|</span>
                         <span class="topbar_text" id="topbar-text">
