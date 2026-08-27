@@ -17,16 +17,20 @@
 
         </div>
 
-        <div class="barnd_carousel clearfix">
-
-            @foreach($marcas as $marca)
-            <div class="item">
-                <a class="brand_item" target="_blank">
+        <div class="marcas_marquee">
+            <div class="marcas_track">
+                @foreach($marcas as $marca)
+                <div class="marcas_item">
                     <img src="{{ asset($marca->logo) }}" alt="{{ $marca->nombre }}">
-                </a>
+                </div>
+                @endforeach
+                @foreach($marcas as $marca)
+                <div class="marcas_item">
+                    <img src="{{ asset($marca->logo) }}" alt="{{ $marca->nombre }}">
+                </div>
+                @endforeach
             </div>
-            @endforeach
-
         </div>
+
     </div>
 </div>

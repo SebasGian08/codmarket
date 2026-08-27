@@ -2199,3 +2199,63 @@
         font-size: 28px;
     }
 }
+
+/* ============ MARCAS MARQUEE ============ */
+.marcas_marquee {
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marcas_track {
+    display: flex;
+    width: max-content;
+    animation: marcasScroll 20s linear infinite;
+}
+
+.marcas_item {
+    flex: 0 0 auto;
+    width: 180px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+}
+
+.marcas_item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: grayscale(30%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.marcas_item img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+@keyframes marcasScroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 768px) {
+    .marcas_item {
+        width: 140px;
+        height: 80px;
+        padding: 10px 20px;
+    }
+
+    .marcas_track {
+        animation-duration: 15s;
+    }
+}
