@@ -3,13 +3,18 @@
 <div class="rubros_section sec_ptb_50 clearfix">
     <div class="container maxw_1430">
 
-        <div class="section_title text-center mb-5">
-            <h2>Nuestros Rubros</h2>
-            <p>Explora nuestras categorías principales</p>
-            <div class="title_line"></div>
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>RUBROS</small>
+                <span></span>
+            </div>
+            <p class="section_heading_description">
+                Explora nuestras categorías principales
+            </p>
         </div>
 
-        <div class="row g-4 justify-content-center">
+        <div class="row g-3 justify-content-center">
 
             @foreach($rubros as $rubro)
 
@@ -19,7 +24,7 @@
                     : asset('assets/images/default.png');
             @endphp
 
-            <div class="col-lg-3 col-md-4 col-6 mt-2">
+            <div class="col-lg-3 col-md-4 col-6">
 
                 <a href="" class="rubro_card_premium">
 
@@ -33,7 +38,6 @@
                             {{ $rubro->nombre }}
                         </div>
 
-                        {{-- DESCRIPCIÓN PEQUEÑA --}}
                         <div class="rubro_desc">
                             {{ Str::limit($rubro->descripcion ?? 'Explora nuestros productos en esta categoría', 70) }}
                         </div>
