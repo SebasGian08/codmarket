@@ -1,10 +1,15 @@
 <div class="faq-section">
     <div class="faq-container">
 
-        <div class="section_title text-center mb-5">
-            <h2>Preguntas Frecuentes</h2>
-            <p> Resolvemos las dudas más comunes sobre nuestros servicios.</p>
-            <div class="title_line"></div>
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>PREGUNTAS</small>
+                <span></span>
+            </div>
+            <p class="section_heading_description">
+                Resolvemos las dudas más comunes sobre nuestros servicios.
+            </p>
         </div>
 
         <!-- ITEM -->

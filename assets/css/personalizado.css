@@ -2370,3 +2370,260 @@
         transform: none;
     }
 }
+
+/* =============================================================
+   FONDOS Y DECORACIONES POR SECCIÓN - HOME
+   ============================================================= */
+
+/* ============ RUBROS ============ */
+.rubros_section {
+    background: #ffffff;
+    position: relative;
+}
+
+.rubros_section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right,
+        var(--color-secundario),
+        var(--color-primario),
+        var(--color-secundario));
+}
+
+/* ============ CATEGORÍAS ============ */
+.deals_section {
+    background: linear-gradient(180deg, #f5f0f8 0%, #ede5f2 100%);
+    position: relative;
+}
+
+.deals_section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.6));
+}
+
+/* ============ MARCAS ============ */
+.barnd_section {
+    background: #ffffff;
+    position: relative;
+}
+
+.barnd_section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(118, 76, 150, 0.04) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* ============ PRODUCTOS (CATÁLOGO) ============ */
+.product_section {
+    background: linear-gradient(180deg, #f9f5fc 0%, #f3edf7 100%);
+    position: relative;
+}
+
+.product_section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(118, 76, 150, 0.2), transparent);
+}
+
+/* ============ PROMOCIONES ============ */
+.offer_section {
+    background: linear-gradient(135deg,
+        rgba(118, 76, 150, 0.06) 0%,
+        rgba(211, 184, 223, 0.12) 50%,
+        rgba(118, 76, 150, 0.06) 100%);
+    position: relative;
+}
+
+/* ============ PRODUCTOS DESTACADOS ============ */
+.bestseller_section {
+    background: #ffffff;
+    position: relative;
+}
+
+.bestseller_section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--color-secundario), transparent);
+    border-radius: 20px;
+}
+
+/* ============ SERVICIOS ============ */
+.services_section {
+    background: linear-gradient(160deg, #1a0a2e 0%, #0d0618 40%, #110b20 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.services_section::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(118, 76, 150, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.services_section::after {
+    content: '';
+    position: absolute;
+    bottom: -150px;
+    left: -150px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(211, 184, 223, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.services_section .section_heading_title small {
+    color: #fff;
+}
+
+.services_section .section_heading_description {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============ STEPS / POR QUÉ ELEGIRNOS ============ */
+.gadget_feature_section {
+    background: linear-gradient(180deg, #f5f0f8 0%, #ede5f2 100%) !important;
+    position: relative;
+}
+
+.gadget_feature_section::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--color-secundario);
+    border-radius: 20px;
+}
+
+/* ============ SUSCRIPCIÓN / NEWSLETTER ============ */
+.newsletter_section {
+    background: linear-gradient(135deg,
+        var(--color-secundario) 0%,
+        #5a2d7a 50%,
+        var(--color-secundario) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.newsletter_section::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    right: -80px;
+    width: 300px;
+    height: 300px;
+    border: 40px solid rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.newsletter_section::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    left: -60px;
+    width: 200px;
+    height: 200px;
+    border: 30px solid rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.newsletter_section .section_heading_title small {
+    color: #fff;
+}
+
+.newsletter_section .section_heading_description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============ PREGUNTAS FRECUENTES ============ */
+.faq-section {
+    background: #ffffff;
+    position: relative;
+}
+
+.faq-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(118, 76, 150, 0.15), transparent);
+}
+
+/* ============ BLOG ============ */
+.blog_section {
+    background: linear-gradient(180deg, #f5f0f8 0%, #ede5f2 100%);
+    position: relative;
+}
+
+/* ============ TESTIMONIOS / CASOS DE ÉXITO ============ */
+.success_cases_section {
+    background: linear-gradient(160deg, #110b20 0%, #1a0a2e 50%, #0d0618 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.success_cases_section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(118, 76, 150, 0.1) 0%, transparent 60%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.success_cases_section .section_heading_title small {
+    color: #fff;
+}
+
+.success_cases_section .section_heading_description {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ============ SEPARADORES DECORATIVOS ============ */
+.section_divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, var(--color-secundario), var(--color-primario));
+    border-radius: 20px;
+    margin: 0 auto 20px;
+}

@@ -4,10 +4,13 @@
 
     <div class="container maxw_1460">
 
-        <div class="section_title text-center mb-5">
-            <h4>Casos de Éxito</h4>
-            <div class="title_line"></div>
-            <p class="mt-3">
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>CASOS DE ÉXITO</small>
+                <span></span>
+            </div>
+            <p class="section_heading_description">
                 Algunos de nuestros proyectos realizados.
             </p>
         </div>

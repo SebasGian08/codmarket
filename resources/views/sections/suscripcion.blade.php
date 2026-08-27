@@ -8,11 +8,13 @@
                 <!-- Honeypot -->
                 <input type="text" name="website" style="display:none">
 
-                <span class="newsletter_subtitle">
-                    BENEFICIOS EXCLUSIVOS
-                </span>
+                <div class="section_heading_title mb_30">
+                    <span></span>
+                    <small style="color: rgba(255,255,255,0.85); font-size: 14px; letter-spacing: 3px;">BENEFICIOS EXCLUSIVOS</small>
+                    <span></span>
+                </div>
 
-                <h2>
+                <h2 style="color: #fff; font-weight: 600; font-size: 28px; max-width: 600px; margin: 0 auto 30px; line-height: 1.4;">
                     Hasta 35% de descuento y ofertas exclusivas en tu correo.
                 </h2>
 
