@@ -24,8 +24,8 @@
 <meta property="og:url" content="{{ url()->current() }}">
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="{{ asset($config['empresa_favicon'] ?? 'assets/images/logo/a.png') }}">
-<link rel="icon" href="{{ asset($config['empresa_favicon'] ?? 'assets/images/favicon.png') }}">
+<link rel="shortcut icon" href="{{ asset($empresa->favicon ?? 'assets/images/logo/a.png') }}">
+<link rel="icon" href="{{ asset($empresa->favicon ?? 'assets/images/favicon.png') }}">
 
 <!-- Framework -->
 <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">

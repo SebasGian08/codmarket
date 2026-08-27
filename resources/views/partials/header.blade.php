@@ -82,7 +82,7 @@
                     <div class="col-lg-3">
                         <div class="brand_logo">
                             <a class="brand_link" href="{{ route('home') }}">
-                                <img src="{{ asset($config['empresa_logo'] ?? 'assets/images/logo.png') }}" alt="logo"
+                                <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
                                     style="height: {{ $height }}; width: auto; object-fit: contain;">
                             </a>
                             <ul class="mh_action_btns ul_li clearfix">
@@ -380,7 +380,7 @@
             <!-- LOGO -->
             <div class="msb_widget brand_logo text-center" style="padding-bottom: 0px !important;">
                 <a href="{{ route('home') }}">
-                    <img src="{{ asset($config['empresa_logo'] ?? 'assets/images/logo.png') }}" alt="logo"
+                    <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
                         style="max-width: 50%; margin: 0 auto;">
                 </a>
             </div>
