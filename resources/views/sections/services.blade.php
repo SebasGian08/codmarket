@@ -1,12 +1,15 @@
 <div class="services_section sec_ptb_100 clearfix">
     <div class="container maxw_1430">
 
-        <div class="section_title text-center mb-5">
-            <h2>Nuestros Servicios</h2>
-            <p>
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>SERVICIOS</small>
+                <span></span>
+            </div>
+            <p class="section_heading_description">
                 Soluciones profesionales para potenciar tu empresa
             </p>
-            <div class="title_line"></div>
         </div>
 
         <div class="row">
