@@ -42,8 +42,9 @@
     inset: 0;
     background: linear-gradient(to top,
             rgba(0, 0, 0, 0.85),
-            rgba(0, 0, 0, 0.2),
-            transparent);
+            rgba(0, 0, 0, 0.35),
+            rgba(0, 0, 0, 0.15));
+    z-index: 1;
 }
 
 /* BADGE (nombre encima de imagen) */
