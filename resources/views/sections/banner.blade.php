@@ -3,7 +3,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 @endphp
 
 @if($bannerTipo === 'opcion_1')
-<section class="hero_banner_slider" style="margin: 20px 0 0;">
+<section class="hero_banner_slider">
     <div class="container hero_container">
         <button class="slider_btn prev">&#10094;</button>
         <button class="slider_btn next">&#10095;</button>
