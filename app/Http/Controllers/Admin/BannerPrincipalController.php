@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BannerPrincipal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 
 class BannerPrincipalController extends Controller
 {

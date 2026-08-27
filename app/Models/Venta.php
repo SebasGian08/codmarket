@@ -27,7 +27,9 @@ class Venta extends Model
         'usuario_cierre'
     ];
 
-    protected $dates = ['fecha_cierre'];
+    protected $casts = [
+        'fecha_cierre' => 'datetime',
+    ];
 
     public function caja()
     {

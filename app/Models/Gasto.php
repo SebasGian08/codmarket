@@ -25,7 +25,9 @@ class Gasto extends Model
         'estado'
     ];
 
-    protected $dates = ['fecha'];
+    protected $casts = [
+        'fecha' => 'datetime',
+    ];
 
     public function tipoGasto()
     {

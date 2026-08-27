@@ -2,23 +2,13 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use Illuminate\Http\Request;
 
-class Authenticate
+class Authenticate extends Middleware
 {
-    public function handle($request, Closure $next, $guard = null)
+    protected function redirectTo(Request $request): ?string
     {
-        // Usamos el método oficial de Laravel para verificar la sesión
-        if (!Auth::check()) {
-
-            if ($request->ajax()) {
-                return response('Unauthorized.', 401);
-            }
-
-            return redirect()->route('admin.login');
-        }
-
-        return $next($request);
+        return $request->expectsJson() ? null : route('admin.login');
     }
 }

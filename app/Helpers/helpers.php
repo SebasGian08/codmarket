@@ -1,6 +1,6 @@
 <?php
 
-use Intervention\Image\Facades\Image;
+use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\DB;
 
 if (!function_exists('generarNumeroDocumento')) {
@@ -28,7 +28,7 @@ if (!function_exists('uploadImageOptimized')) {
 
     function uploadImageOptimized($file, $folder = 'general', $width = 1200, $quality = 80, $maxKb = 100)
     {
-        $destinationPath = public_path('uploads/' . $folder);
+        $destinationPath = base_path('uploads/' . $folder);
 
         if (!file_exists($destinationPath)) {
             mkdir($destinationPath, 0777, true);
@@ -46,26 +46,21 @@ if (!function_exists('uploadImageOptimized')) {
 
         $fileName = time() . '_' . uniqid() . '.webp';
 
-        $img = Image::make($file);
+        $img = Image::gd()->read($file->getPathname());
 
         if ($width) {
-            $img->resize($width, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
+            $img->scaleDown(width: $width);
         }
 
-        $img->encode('webp', $quality);
-
-        // Baja la calidad de forma progresiva hasta que pese menos del objetivo
         $maxBytes = $maxKb * 1024;
+        $encoded = $img->toWebp($quality);
 
-        while ($quality > 30 && strlen($img->getEncoded()) > $maxBytes) {
+        while ($quality > 30 && strlen($encoded) > $maxBytes) {
             $quality -= 10;
-            $img->encode('webp', $quality);
+            $encoded = $img->toWebp($quality);
         }
 
-        $img->save($destinationPath . '/' . $fileName, $quality);
+        $encoded->save($destinationPath . '/' . $fileName);
 
         return 'uploads/' . $folder . '/' . $fileName;
     }

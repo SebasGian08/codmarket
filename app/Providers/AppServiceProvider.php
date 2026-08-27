@@ -9,7 +9,6 @@ use App\Models\Service;
 use App\Models\Empresa;
 use App\Models\Configuracion;
 use App\Models\Categoria;
-//use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use App\Repositories\MarcaRepository;
 use App\Repositories\MarcaRepositoryInterface;
@@ -18,7 +17,7 @@ use App\Services\MarcaServiceInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
         $this->app->bind('path.public', function() {
             return base_path();
@@ -28,19 +27,18 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MarcaServiceInterface::class, MarcaService::class);
     }
 
-    public function boot()
-    {   
+    public function boot(): void
+    {
         if (\App::environment('production')) {
             \URL::forceScheme('https');
             $this->app['request']->server->set('HTTPS','on');
         }
 
-        Schema::defaultStringLength(200);
         \Carbon\Carbon::setLocale('es');
 
         View::composer('*', function ($view) {
             $config = Configuracion::pluck('valor', 'clave')->toArray();
-             $view->with('services', Service::where('estado', 1)->get());
+            $view->with('services', Service::where('estado', 1)->get());
             $view->with('servicesMenu', Service::where('estado', 1)->get());
             $view->with('empresa', Empresa::first());
             $view->with('config', $config);
@@ -50,12 +48,5 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('permiso', function($codigo){
             return \App\Helpers\PermisoHelper::tiene($codigo);
         });
-
-        // Fix Laravel 5.8: la regla "image" falla para archivos .jpg porque la lista
-        // interna de validateImage solo contiene "jpeg". Se usa una subclase que acepta jpg.
-        \Illuminate\Support\Facades\Validator::resolver(function ($translator, $data, $rules, $messages, $customAttributes) {
-            return new \App\Validation\Validator($translator, $data, $rules, $messages, $customAttributes);
-        });
-
     }
 }

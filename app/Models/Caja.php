@@ -21,7 +21,10 @@ class Caja extends Model
         'estado'
     ];
 
-    protected $dates = ['fecha_apertura', 'fecha_cierre'];
+    protected $casts = [
+        'fecha_apertura' => 'datetime',
+        'fecha_cierre' => 'datetime',
+    ];
 
     public function tienda()
     {

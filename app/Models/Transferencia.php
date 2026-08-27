@@ -20,7 +20,9 @@ class Transferencia extends Model
         'estado'
     ];
 
-    protected $dates = ['fecha'];
+    protected $casts = [
+        'fecha' => 'datetime',
+    ];
 
     public function tiendaOrigen()
     {

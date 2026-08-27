@@ -20,7 +20,9 @@ class Movimiento extends Model
         'observacion'
     ];
 
-    protected $dates = ['fecha'];
+    protected $casts = [
+        'fecha' => 'datetime',
+    ];
 
     public function variante()
     {

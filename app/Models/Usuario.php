@@ -13,7 +13,9 @@ class Usuario extends Authenticatable
     
     protected $table = 'usuarios';
     protected $primaryKey = 'id_usuario';
-    protected $dates = ['deleted_at'];
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
     protected $fillable = [
         'id_rol',
         'nombres',
