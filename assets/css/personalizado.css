@@ -2474,7 +2474,7 @@
 
 /* ============ SERVICIOS ============ */
 .services_section {
-    background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 40%, #111 100%);
+   /*  background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 40%, #111 100%); */
     position: relative;
     overflow: hidden;
 }
