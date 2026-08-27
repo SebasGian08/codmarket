@@ -2478,7 +2478,7 @@
     position: relative;
 }
 
-.gadget_feature_section::before {
+/* .gadget_feature_section::before {
     content: '';
     position: absolute;
     top: 20px;
@@ -2488,7 +2488,7 @@
     height: 3px;
     background: var(--color-secundario);
     border-radius: 20px;
-}
+} */
 
 /* ============ SUSCRIPCIÓN / NEWSLETTER ============ */
 .newsletter_section {
