@@ -2472,36 +2472,6 @@
     border-radius: 20px;
 }
 
-/* ============ SERVICIOS ============ */
-.services_section {
-   /*  background: linear-gradient(160deg, #1a1a1a 0%, #0a0a0a 40%, #111 100%); */
-    position: relative;
-    overflow: hidden;
-}
-
-.services_section::before {
-    content: '';
-    position: absolute;
-    top: -200px;
-    right: -200px;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-secundario) 18%, transparent) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-.services_section::after {
-    content: '';
-    position: absolute;
-    bottom: -150px;
-    left: -150px;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 10%, transparent) 0%, transparent 70%);
-    border-radius: 50%;
-}
-
-
 /* ============ STEPS / POR QUÉ ELEGIRNOS ============ */
 .gadget_feature_section {
     background: linear-gradient(180deg, #f8f8f8 0%, #f0f0f0 100%) !important;
