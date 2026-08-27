@@ -1466,8 +1466,21 @@
 .topbar_main {
     background: #fff;
     border-bottom: 1px solid #eee;
-    font-size: 13px;
-    padding: 6px 0;
+    font-size: 10px !important;
+    padding: 9px 0;
+    line-height: 1;
+}
+
+.fashion_minimal_header .header_top.topbar_main {
+    min-height: auto;
+}
+
+.fashion_minimal_header .contact_info > li,
+.fashion_minimal_header .contact_info > li:not(:last-child) {
+    height: auto;
+    margin-right: 10px;
+    padding-right: 10px;
+    line-height: 1;
 }
 
 /* CONTENEDOR FLEX PRINCIPAL */
@@ -1475,19 +1488,20 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 0;
 }
 
 /* IZQUIERDA */
 .topbar_left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 /* redes */
 .topbar_left ul {
     display: flex;
-    gap: 10px;
+    gap: 6px;
     margin: 0;
 }
 
