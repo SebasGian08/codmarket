@@ -14,7 +14,7 @@
             </p>
         </div>
 
-        <div class="row g-3 justify-content-center">
+        <div class="row g-4 justify-content-center">
 
             @foreach($rubros as $rubro)
 
@@ -24,7 +24,7 @@
                     : asset('assets/images/default.png');
             @endphp
 
-            <div class="col-lg-3 col-md-4 col-6">
+            <div class="col-lg-4 col-md-4 col-6">
 
                 <a href="" class="rubro_card_premium">
 
