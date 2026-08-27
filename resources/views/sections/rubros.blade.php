@@ -10,7 +10,7 @@
                 <span></span>
             </div>
             <p class="section_heading_description">
-                Explora nuestras categorías principales
+                Descubre la variedad de rubros que tenemos para ofrecerte los mejores productos y servicios del mercado
             </p>
         </div>
 
