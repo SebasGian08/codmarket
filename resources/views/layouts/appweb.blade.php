@@ -24,6 +24,8 @@
 
     @include('partials.scripts')
 
+    @stack('scripts')
+
     @if(session('success'))
     <script>
     Swal.fire({
