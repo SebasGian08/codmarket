@@ -2395,11 +2395,11 @@
 }
 
 /* ============ CATEGORÍAS ============ */
-.deals_section {
+/* .deals_section {
     background: linear-gradient(180deg, #f8f8f8 0%, #f0f0f0 100%);
     position: relative;
 }
-
+ */
 .deals_section::after {
     content: '';
     position: absolute;

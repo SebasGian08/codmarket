@@ -6,8 +6,8 @@
 
             <div class="section_heading_title">
 
-                <span></span>
-
+                <!-- <span></span>
+ -->
                 <small>
                     ¿Por qué elegirnos?
                 </small>
