@@ -1,4 +1,11 @@
 /* =========================
+   ANTI SCROLL HORIZONTAL (FIX)
+========================= */
+html, body {
+    overflow-x: hidden;
+}
+
+/* =========================
    BOTÓN PRINCIPAL (FIX)
 ========================= */
 
@@ -2873,6 +2880,20 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
 
     .cliente_logo {
         max-height: 55px;
+    }
+
+    .clientes_carousel_wrap .left_arrow_clientes {
+        left: -8px;
+    }
+
+    .clientes_carousel_wrap .right_arrow_clientes {
+        right: -8px;
+    }
+
+    .clientes_carousel_wrap .left_arrow_clientes,
+    .clientes_carousel_wrap .right_arrow_clientes {
+        width: 40px;
+        height: 40px;
     }
 }
 
