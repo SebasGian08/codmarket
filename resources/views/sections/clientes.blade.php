@@ -80,9 +80,6 @@
                         <img src="{{ asset($cliente->imagen) }}"
                             alt="{{ $cliente->nombre }}" class="cliente_logo">
                     @endif
-
-                    <span class="cliente_nombre">{{ $cliente->nombre }}</span>
-
                 </div>
 
             </div>
