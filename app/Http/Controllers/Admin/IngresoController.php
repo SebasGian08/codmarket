@@ -29,14 +29,19 @@ class IngresoController extends Controller
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $proveedores = Proveedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        $variantes = \App\Models\ProductoVariante::with('producto')
+        $variantes = \App\Models\ProductoVariante::with(['producto', 'atributos.atributo'])
             ->where('estado', 1)
             ->get()
             ->map(function ($v) {
+                $atributos = $v->atributos->map(function ($a) {
+                    return $a->atributo->nombre . ': ' . $a->valor;
+                })->implode(', ');
+
                 return [
                     'id' => $v->id_variante,
                     'sku' => $v->sku,
                     'producto' => $v->producto->nombre ?? '',
+                    'atributos' => $atributos,
                     'costo' => (float) $v->costo,
                 ];
             })
