@@ -44,9 +44,9 @@
 
             @foreach($clientesCarousel as $cliente)
 
-            <div class="item px-2">
+            <div class="item px-2 mt-2">
 
-                <div class="cliente_card">
+                <div class="cliente_card mt-2">
 
                     @if($cliente->logo)
                         <img src="{{ asset($cliente->logo) }}"
