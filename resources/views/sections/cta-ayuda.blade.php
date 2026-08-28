@@ -12,8 +12,8 @@ $mensaje = urlencode('Hola, quisiera recibir ayuda y más información sobre sus
             </div>
 
             <div class="cta_ayuda_content">
-                <h2>Nuestros expertos estarán <br>encantados de ayudarte</h2>
-                <p>Resuelve tus dudas, elige tu próximo producto <br>o recibe asesoría personalizada.</p>
+                <h2>Nuestros expertos estarán encantados de ayudarte</h2>
+                <p>Resuelve tus dudas, elige tu próximo producto o recibe asesoría personalizada.</p>
             </div>
 
             <a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" target="_blank" class="cta_ayuda_btn">
