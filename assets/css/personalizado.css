@@ -997,6 +997,69 @@
     transform: rotate(180deg);
 }
 
+/* =========================================
+   MENÚ CATEGORÍAS - LISTA VERTICAL (subcategorías una debajo de otra)
+   ========================================= */
+.menu_item_has_child .submenu.submenu_flat {
+    min-width: 260px;
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.menu_item_has_child .submenu.submenu_flat > li > a {
+    font-weight: 700;
+    color: #2e2e2e;
+}
+
+.submenu_flat_children {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.submenu_flat_children > li > a {
+    display: block;
+    line-height: 1;
+    font-size: 14px;
+    padding: 11px 30px 11px 42px;
+    white-space: nowrap;
+    color: #6b6b6b;
+    transition: all .3s ease;
+}
+
+.submenu_flat_children > li:hover > a {
+    color: var(--color-secundario);
+    background-color: #f5f5f5;
+}
+
+/* Scroll elegante */
+.submenu_flat::-webkit-scrollbar {
+    width: 6px;
+}
+
+.submenu_flat::-webkit-scrollbar-thumb {
+    background: #d6d6d6;
+    border-radius: 10px;
+}
+
+/* dark mode */
+html[data-theme="dark"] .menu_item_has_child .submenu.submenu_flat {
+    background: #1f1f1f;
+}
+
+html[data-theme="dark"] .menu_item_has_child .submenu.submenu_flat > li > a {
+    color: #eee;
+}
+
+html[data-theme="dark"] .submenu_flat_children > li > a {
+    color: #bbb;
+}
+
+html[data-theme="dark"] .submenu_flat_children > li:hover > a {
+    color: var(--color-secundario);
+    background-color: #2c2c2c;
+}
+
 .custom_category_sidebar {
     display: flex;
     flex-direction: column;

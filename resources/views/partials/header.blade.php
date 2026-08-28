@@ -155,15 +155,14 @@
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
 
-                                    <ul class="submenu">
+                                    <ul class="submenu submenu_flat">
                                         @foreach($categorias as $categoria)
-                                        @if($categoria->hijos && $categoria->hijos->count())
-                                        <li class="menu_item_has_child">
+                                        <li>
                                             <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                                 {{ $categoria->nombre }}
-                                                <i class="fas fa-chevron-right ml-1 arrow_icon"></i>
                                             </a>
-                                            <ul class="submenu">
+                                            @if($categoria->hijos && $categoria->hijos->count())
+                                            <ul class="submenu_flat_children">
                                                 @foreach($categoria->hijos as $hijo)
                                                 <li>
                                                     <a href="{{ route('productos.categoria', $hijo->slug) }}">
@@ -172,14 +171,8 @@
                                                 </li>
                                                 @endforeach
                                             </ul>
+                                            @endif
                                         </li>
-                                        @else
-                                        <li>
-                                            <a href="{{ route('productos.categoria', $categoria->slug) }}">
-                                                {{ $categoria->nombre }}
-                                            </a>
-                                        </li>
-                                        @endif
                                         @endforeach
                                     </ul>
                                 </li>
@@ -449,15 +442,14 @@
                     <!-- CATEGORÍAS -->
                     <li class="menu_item_has_child">
                         <a href="#!">Categorías</a>
-                        <ul class="submenu">
+                        <ul class="submenu submenu_flat">
                             @foreach($categorias as $categoria)
-                            @if($categoria->hijos && $categoria->hijos->count())
-                            <li class="menu_item_has_child">
+                            <li>
                                 <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                     {{ $categoria->nombre }}
-                                    <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                 </a>
-                                <ul class="submenu">
+                                @if($categoria->hijos && $categoria->hijos->count())
+                                <ul class="submenu_flat_children">
                                     @foreach($categoria->hijos as $hijo)
                                     <li>
                                         <a href="{{ route('productos.categoria', $hijo->slug) }}">
@@ -466,14 +458,8 @@
                                     </li>
                                     @endforeach
                                 </ul>
+                                @endif
                             </li>
-                            @else
-                            <li>
-                                <a href="{{ route('productos.categoria', $categoria->slug) }}">
-                                    {{ $categoria->nombre }}
-                                </a>
-                            </li>
-                            @endif
                             @endforeach
                         </ul>
                     </li>
