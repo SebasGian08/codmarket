@@ -16,6 +16,8 @@ class Cliente extends Model
         'telefono',
         'correo',
         'direccion',
+        'imagen',
+        'logo',
         'es_varios',
         'estado'
     ];

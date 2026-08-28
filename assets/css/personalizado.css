@@ -2689,3 +2689,117 @@
         justify-content: center;
     }
 }
+
+/* ============ CLIENTES (CARRUSEL) ============ */
+.cliente_section {
+    background: #ffffff;
+    position: relative;
+}
+
+.cliente_section::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 5%, transparent) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.cliente_card {
+    background: #fafafa;
+    border: 1px solid #eee;
+    border-radius: 16px;
+    padding: 28px 24px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.cliente_card:hover {
+    border-color: color-mix(in srgb, var(--color-secundario) 40%, transparent);
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--color-secundario) 12%, transparent);
+    transform: translateY(-4px);
+}
+
+.cliente_logo {
+    max-width: 100%;
+    max-height: 70px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.cliente_card:hover .cliente_logo {
+    transform: scale(1.06);
+}
+
+.cliente_nombre {
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    text-align: center;
+    line-height: 1.3;
+    max-width: 100%;
+}
+
+/* Navegación del carrusel (reutiliza carousel_nav) */
+.cliente_section .left_arrow_clientes,
+.cliente_section .right_arrow_clientes {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: var(--color-secundario);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.cliente_section .left_arrow_clientes:hover,
+.cliente_section .right_arrow_clientes:hover {
+    background: var(--color-secundario);
+    color: #fff;
+    border-color: var(--color-secundario);
+}
+
+@media (max-width: 576px) {
+    .cliente_card {
+        height: 130px;
+        padding: 20px 16px;
+    }
+
+    .cliente_logo {
+        max-height: 55px;
+    }
+}
+
+html[data-theme="dark"] .cliente_section {
+    background: #161616;
+}
+
+html[data-theme="dark"] .cliente_card {
+    background: #1f1f1f;
+    border-color: #2e2e2e;
+}
+
+html[data-theme="dark"] .cliente_nombre {
+    color: #aaa;
+}
+
+html[data-theme="dark"] .cliente_section .left_arrow_clientes,
+html[data-theme="dark"] .cliente_section .right_arrow_clientes {
+    background: #1f1f1f;
+    border-color: #333;
+    color: var(--color-secundario);
+}

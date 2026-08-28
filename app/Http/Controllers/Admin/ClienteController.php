@@ -26,9 +26,19 @@ class ClienteController extends Controller
             'telefono' => 'nullable|string|max:30',
             'correo' => 'nullable|email|max:150',
             'direccion' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|max:5120',
+            'logo' => 'nullable|image|max:5120',
         ]);
 
         try {
+            $imagen = $request->hasFile('imagen')
+                ? uploadImageOptimized($request->file('imagen'), 'clientes', 1200)
+                : null;
+
+            $logo = $request->hasFile('logo')
+                ? uploadImageOptimized($request->file('logo'), 'clientes', 800)
+                : null;
+
             $cliente = Cliente::create([
                 'nombre' => $request->nombre,
                 'id_tipo_documento' => $request->id_tipo_documento ?: null,
@@ -36,6 +46,8 @@ class ClienteController extends Controller
                 'telefono' => $request->telefono,
                 'correo' => $request->correo,
                 'direccion' => $request->direccion,
+                'imagen' => $imagen,
+                'logo' => $logo,
                 'estado' => $request->estado ?? 1,
             ]);
 
@@ -70,10 +82,20 @@ class ClienteController extends Controller
             'telefono' => 'nullable|string|max:30',
             'correo' => 'nullable|email|max:150',
             'direccion' => 'nullable|string|max:255',
+            'imagen' => 'nullable|image|max:5120',
+            'logo' => 'nullable|image|max:5120',
         ]);
 
         try {
             $cliente = Cliente::findOrFail($id);
+
+            $imagen = $request->hasFile('imagen')
+                ? uploadImageOptimized($request->file('imagen'), 'clientes', 1200)
+                : $cliente->imagen;
+
+            $logo = $request->hasFile('logo')
+                ? uploadImageOptimized($request->file('logo'), 'clientes', 800)
+                : $cliente->logo;
 
             $cliente->update([
                 'nombre' => $request->nombre,
@@ -82,6 +104,8 @@ class ClienteController extends Controller
                 'telefono' => $request->telefono,
                 'correo' => $request->correo,
                 'direccion' => $request->direccion,
+                'imagen' => $imagen,
+                'logo' => $logo,
                 'estado' => $request->estado ?? 1,
             ]);
 

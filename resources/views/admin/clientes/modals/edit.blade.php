@@ -1,7 +1,8 @@
 <div class="modal fade" id="edit{{ $cliente->id_cliente }}">
     <div class="modal-dialog modal-lg">
 
-        <form action="{{ route('admin.clientes.update', $cliente->id_cliente) }}" method="POST">
+        <form action="{{ route('admin.clientes.update', $cliente->id_cliente) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -63,6 +64,26 @@
                             <option value="1" {{ $cliente->estado ? 'selected' : '' }}>Activo</option>
                             <option value="0" {{ !$cliente->estado ? 'selected' : '' }}>Inactivo</option>
                         </select>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <label>Imagen <small class="text-muted">(Se usa en el carrusel de clientes)</small></label>
+                        <input type="file" name="imagen" class="form-control">
+
+                        @if($cliente->imagen)
+                        <img src="{{ asset($cliente->imagen) }}" alt="Imagen" class="img-thumbnail mt-2"
+                            style="max-height: 90px;">
+                        @endif
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <label>Logo <small class="text-muted">(Se recomienda 800px x 400px)</small></label>
+                        <input type="file" name="logo" class="form-control">
+
+                        @if($cliente->logo)
+                        <img src="{{ asset($cliente->logo) }}" alt="Logo" class="img-thumbnail mt-2"
+                            style="max-height: 90px;">
+                        @endif
                     </div>
 
                 </div>

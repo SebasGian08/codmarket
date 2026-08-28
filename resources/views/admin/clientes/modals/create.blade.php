@@ -1,7 +1,7 @@
 <div class="modal fade" id="modalCreate">
     <div class="modal-dialog modal-lg">
 
-        <form action="{{ route('admin.clientes.store') }}" method="POST">
+        <form action="{{ route('admin.clientes.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="modal-content">
@@ -54,6 +54,16 @@
                             <option value="1">Activo</option>
                             <option value="0">Inactivo</option>
                         </select>
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <label>Imagen <small class="text-muted">(Se usa en el carrusel de clientes)</small></label>
+                        <input type="file" name="imagen" class="form-control">
+                    </div>
+
+                    <div class="col-md-6 mt-3">
+                        <label>Logo <small class="text-muted">(Se recomienda 800px x 400px)</small></label>
+                        <input type="file" name="logo" class="form-control">
                     </div>
 
                 </div>

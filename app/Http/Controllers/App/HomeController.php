@@ -12,6 +12,7 @@ use App\Models\Producto;
 use App\Models\Promocion;
 use App\Models\Empresa;
 use App\Models\Marca;
+use App\Models\Cliente;
 use App\Models\TrabajoRealizado;
 use App\Models\Rubro;
 
@@ -96,6 +97,10 @@ class HomeController extends Controller
             ->orderBy('orden', 'asc')
             ->get();
                 
+        $clientes = Cliente::where('estado', 1)
+            ->orderBy('nombre', 'asc')
+            ->get();
+
         return view('pages.home', compact(
             'services',
             'blogs',
@@ -106,7 +111,8 @@ class HomeController extends Controller
             'promociones',
             'marcas',
             'trabajosRealizados',
-            'rubros'
+            'rubros',
+            'clientes'
         ));
     }
 

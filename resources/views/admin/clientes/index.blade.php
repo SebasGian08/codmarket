@@ -35,6 +35,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Logo</th>
                             <th>Nombre</th>
                             <th>Documento</th>
                             <th>Teléfono</th>
@@ -48,6 +49,16 @@
                         @foreach($clientes as $cliente)
                         <tr>
                             <td>{{ $cliente->id_cliente }}</td>
+                            <td>
+                                @if($cliente->logo)
+                                <img src="{{ asset($cliente->logo) }}" alt="Logo" style="height: 36px; object-fit: contain;">
+                                @elseif($cliente->imagen)
+                                <img src="{{ asset($cliente->imagen) }}" alt="Imagen"
+                                    style="height: 36px; width: 36px; object-fit: cover; border-radius: 6px;">
+                                @else
+                                <span class="text-muted">—</span>
+                                @endif
+                            </td>
                             <td class="fw-semibold">{{ $cliente->nombre }}</td>
                             <td>
                                 {{ $cliente->tipoDocumento->codigo ?? '' }}
