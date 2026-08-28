@@ -44,7 +44,7 @@
 @endif
 
 @if($mostrarClientes == 1)
-    <div class="scroll-reveal reveal-right">{{-- Clientes: carrusel --}}
+    <div class="scroll-reveal reveal-right mt-2">{{-- Clientes: carrusel --}}
         @include('sections.clientes')
     </div>
 @endif

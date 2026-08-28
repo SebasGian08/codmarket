@@ -40,32 +40,7 @@
 
         </div>
 
-        <div class="clientes_slider row clearfix"
-            data-slick='{
-                "dots": false,
-                "arrows": true,
-                "infinite": true,
-                "autoplay": true,
-                "autoplaySpeed": 4000,
-                "slidesToShow": 4,
-                "slidesToScroll": 1,
-                "prevArrow": ".left_arrow_clientes",
-                "nextArrow": ".right_arrow_clientes",
-                "responsive": [
-                    {
-                        "breakpoint": 992,
-                        "settings": {
-                            "slidesToShow": 3
-                        }
-                    },
-                    {
-                        "breakpoint": 576,
-                        "settings": {
-                            "slidesToShow": 2
-                        }
-                    }
-                ]
-            }'>
+        <div class="clientes_slider row clearfix">
 
             @foreach($clientesCarousel as $cliente)
 
@@ -80,6 +55,9 @@
                         <img src="{{ asset($cliente->imagen) }}"
                             alt="{{ $cliente->nombre }}" class="cliente_logo">
                     @endif
+
+                    <span class="cliente_nombre">{{ $cliente->nombre }}</span>
+
                 </div>
 
             </div>

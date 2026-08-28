@@ -572,7 +572,45 @@
     }
     ]
   });
-  // common carousel - end
+
+  // clientes carousel - start
+  // --------------------------------------------------
+  $('.clientes_slider').slick({
+    dots: false,
+    arrows: true,
+    infinite: true,
+    autoplay: true,
+    pauseOnHover: true,
+    autoplaySpeed: 4000,
+    speed: 700,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    rows: 2,
+    slidesPerRow: 5,
+    prevArrow: ".left_arrow_clientes",
+    nextArrow: ".right_arrow_clientes",
+    responsive: [
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesPerRow: 4
+      }
+    },
+    {
+      breakpoint: 992,
+      settings: {
+        slidesPerRow: 3
+      }
+    },
+    {
+      breakpoint: 576,
+      settings: {
+        slidesPerRow: 2
+      }
+    }
+    ]
+  });
+  // clientes carousel - end
   // --------------------------------------------------
 
 

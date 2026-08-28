@@ -73,7 +73,7 @@ break;
                             @if($empresa->telefono)
                             <li>
                                 <i class="far fa-phone"></i>
-                                <span>Celular:</span>
+                                <span>Asesoría en línea:</span>
                                 {{ $empresa->telefono }}
                             </li>
                             @endif
