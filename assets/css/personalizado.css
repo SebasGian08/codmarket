@@ -1714,7 +1714,7 @@
 
 .sec-title_three-heading {
     font-size: 36px;
-    color: #1a202c;
+    color: var(--color-texto);
     font-weight: 800;
 }
 

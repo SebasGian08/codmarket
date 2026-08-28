@@ -37,15 +37,15 @@
                 <div style="padding: 20px 10px;">
 
                     <div class="sec-title">
-                        <div style="font-size: 13px; letter-spacing: 2px; color: #2563eb; font-weight: 600; text-transform: uppercase;">
+                        <div style="font-size: 13px; letter-spacing: 2px; color: var(--color-secundario); font-weight: 600; text-transform: uppercase;">
                             Calidad y confianza garantizada
                         </div>
 
-                        <h2 style="font-size: 38px; font-weight: 800; margin-top: 10px; line-height: 1.2;">
-                            Nuestro <span style="color:#2563eb;">Servicio</span>
+                        <h2 style="font-size: 38px; font-weight: 800; margin-top: 10px; line-height: 1.2; color: var(--color-texto);">
+                            Nuestro <span style="color: var(--color-secundario);">Servicio</span>
                         </h2>
 
-                        <div style="margin-top: 20px; font-size: 16px; line-height: 1.8; color: #475569;">
+                        <div style="margin-top: 20px; font-size: 16px; line-height: 1.8; color: var(--color-texto);">
                             <div style="background: #ffffff; padding: 25px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
                                 {!! strip_tags($service->content, '<p><strong><br><ul><li>') !!}
                             </div>
@@ -78,7 +78,7 @@
                         position: absolute;
                         width: 120px;
                         height: 120px;
-                        background: #2563eb;
+                        background: var(--color-secundario);
                         opacity: 0.08;
                         border-radius: 50%;
                         top: -20px;
@@ -101,7 +101,7 @@
             <div class="sec-title_three-title"
                 style="color: var(--color-secundario);; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">
                 Descubre lo que obtienes</div>
-            <h2 class="sec-title_three-heading" style="font-size: 36px; color: #1a202c; font-weight: 800;">
+            <h2 class="sec-title_three-heading" style="font-size: 36px; color: var(--color-texto); font-weight: 800;">
                 Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
             </h2>
         </div>
@@ -337,14 +337,14 @@
 }
 
 .hero-btn-primary{
-    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    background: linear-gradient(135deg, var(--color-secundario), var(--color-primario));
     color: #fff;
     padding: 16px 34px;
     border-radius: 14px;
     font-weight: 700;
     text-decoration: none;
     transition: .35s ease;
-    box-shadow: 0 10px 30px rgba(0,114,255,.35);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--color-primario) 35%, transparent);
 }
 
 .hero-btn-primary:hover{
@@ -424,7 +424,7 @@
 .bannerSwiper .swiper-pagination-bullet-active{
     width: 35px;
     border-radius: 50px;
-    background: #00c6ff;
+    background: var(--color-secundario);
 }
 
 /* =========================================================
@@ -460,7 +460,7 @@
 }
 
 .sec-title_heading span{
-    color: #00c6ff;
+    color: var(--color-secundario);
 }
 
 .sec-title_text{
@@ -509,7 +509,7 @@
     width: 75px;
     height: 75px;
     border-radius: 20px;
-    background: linear-gradient(135deg,#00c6ff,#0072ff);
+    background: linear-gradient(135deg, var(--color-secundario), var(--color-primario));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -552,7 +552,7 @@
 .price{
     font-size: 52px;
     font-weight: 900;
-    color: #0072ff;
+    color: var(--color-primario);
     padding: 20px 0;
 }
 
@@ -595,7 +595,7 @@
 
 .idx-proy-card:hover{
     transform: translateY(-12px);
-    border-color: rgba(0,198,255,.45);
+    border-color: color-mix(in srgb, var(--color-secundario) 45%, transparent);
 }
 
 .idx-proy-img{
@@ -622,8 +622,8 @@
     display: inline-block;
     padding: 8px 15px;
     border-radius: 50px;
-    background: rgba(0,198,255,.12);
-    color: #00c6ff;
+    background: color-mix(in srgb, var(--color-secundario) 12%, transparent);
+    color: var(--color-secundario);
     font-size: 13px;
     margin-bottom: 18px;
 }
@@ -645,7 +645,7 @@
     align-items: center;
     gap: 10px;
     margin-top: 22px;
-    color: #00c6ff;
+    color: var(--color-secundario);
     font-weight: 700;
 }
 
