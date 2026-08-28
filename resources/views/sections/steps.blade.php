@@ -17,12 +17,11 @@
             </div>
 
             <h2 class="mb-3">
-                {{ $config['seccion_steps_subtitulo'] ?? 'Experiencia premium en cada compra' }}
+                {!! limpiarTextoEditor($config['seccion_steps_subtitulo'] ?? 'Experiencia premium en cada compra') !!}
             </h2>
 
             <p class="section_heading_description">
-                {{ $config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura
-                para que compres con total confianza.' }}
+                {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura para que compres con total confianza.') !!}
             </p>
 
         </div>

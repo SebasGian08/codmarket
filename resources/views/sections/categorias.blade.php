@@ -10,7 +10,7 @@
             </div>
 
             <p class="section_heading_description">
-                {{ $config['seccion_categorias_descripcion'] ?? 'Descubre nuestras colecciones cuidadosamente organizadas para encontrar el producto ideal con una experiencia de compra rápida y sencilla.' }}
+                {!! limpiarTextoEditor($config['seccion_categorias_descripcion'] ?? 'Descubre nuestras colecciones cuidadosamente organizadas para encontrar el producto ideal con una experiencia de compra rápida y sencilla.') !!}
             </p>
 
         </div>

@@ -8,7 +8,7 @@
                 <span></span>
             </div>
             <p class="section_heading_description">
-                {{ $config['seccion_servicios_descripcion'] ?? 'Soluciones profesionales para potenciar tu empresa' }}
+                {!! limpiarTextoEditor($config['seccion_servicios_descripcion'] ?? 'Soluciones profesionales para potenciar tu empresa') !!}
             </p>
         </div>
 

@@ -11,7 +11,7 @@
                 <span></span>
             </div>
             <p class="section_heading_description">
-                {{ $config['seccion_clientes_descripcion'] ?? 'Empresas y personas que confían en nosotros.' }}
+                {!! limpiarTextoEditor($config['seccion_clientes_descripcion'] ?? 'Empresas y personas que confían en nosotros.') !!}
             </p>
         </div>
 

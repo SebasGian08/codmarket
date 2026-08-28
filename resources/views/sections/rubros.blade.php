@@ -10,7 +10,7 @@
                 <span></span>
             </div>
             <p class="section_heading_description">
-                {{ $config['seccion_rubros_descripcion'] ?? 'Descubre la variedad de rubros que tenemos para ofrecerte los mejores productos y servicios del mercado' }}
+                {!! limpiarTextoEditor($config['seccion_rubros_descripcion'] ?? 'Descubre la variedad de rubros que tenemos para ofrecerte los mejores productos y servicios del mercado') !!}
             </p>
         </div>
 

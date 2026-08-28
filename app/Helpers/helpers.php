@@ -24,6 +24,30 @@ if (!function_exists('generarNumeroDocumento')) {
     }
 }
 
+if (!function_exists('limpiarTextoEditor')) {
+
+    /**
+     * Limpia el HTML producido por el editor TinyMCE para mostrarlo
+     * dentro de un contenedor <p>/texto simple: elimina un <p></p>
+     * envolvente si existe, dejando el contenido interno.
+     */
+    function limpiarTextoEditor($text)
+    {
+        if (empty($text)) {
+            return '';
+        }
+
+        $text = trim($text);
+
+        // Elimina un único <p ...> ... </p> envolvente (y saltos/blancos alrededor)
+        if (preg_match('/^<p[^>]*>(.*)<\/p>$/is', $text, $matches)) {
+            return trim($matches[1]);
+        }
+
+        return $text;
+    }
+}
+
 if (!function_exists('uploadImageOptimized')) {
 
     function uploadImageOptimized($file, $folder = 'general', $width = 1200, $quality = 80, $maxKb = 100)

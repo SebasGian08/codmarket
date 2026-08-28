@@ -11,7 +11,7 @@
                     <span></span>
                 </div>
                 <p class="section_heading_description">
-                    {{ $config['seccion_marcas_descripcion'] ?? 'Conoce las marcas que forman parte de nuestro catálogo y descubre productos de calidad respaldados por los mejores fabricantes.' }}
+                    {!! limpiarTextoEditor($config['seccion_marcas_descripcion'] ?? 'Conoce las marcas que forman parte de nuestro catálogo y descubre productos de calidad respaldados por los mejores fabricantes.') !!}
                 </p>
             </div>
 

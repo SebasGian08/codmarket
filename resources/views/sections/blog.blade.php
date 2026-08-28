@@ -4,7 +4,7 @@
         <div class="row justify-content-center mb-4">
             <div class="col-lg-8 text-center">
                 <h2>{{ $config['seccion_blog_titulo'] ?? 'Últimos artículos' }}</h2>
-                <p class="text-muted">{{ $config['seccion_blog_descripcion'] ?? 'Explora nuestras novedades' }}</p>
+                <p class="text-muted">{!! limpiarTextoEditor($config['seccion_blog_descripcion'] ?? 'Explora nuestras novedades') !!}</p>
             </div>
         </div>
 
