@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Inventario;
 use App\Models\Movimiento;
+use App\Models\MovimientoTipo;
 use App\Models\ProductoVariante;
 use Illuminate\Support\Facades\DB;
 
@@ -26,11 +27,13 @@ class InventarioService
         DB::beginTransaction();
 
         try {
-            $signo = $this->signo($tipo);
+            $tipoMovimiento = MovimientoTipo::where('codigo', $tipo)->where('estado', 1)->first();
 
-            if ($signo === 0) {
+            if (!$tipoMovimiento) {
                 throw new \Exception('Tipo de movimiento inválido: ' . $tipo);
             }
+
+            $signo = $tipoMovimiento->signo === '-' ? -1 : 1;
 
             $delta = ($tipo === 'ajuste') ? (int) $cantidad : ($signo * abs((int) $cantidad));
 
@@ -56,14 +59,14 @@ class InventarioService
             }
 
             Movimiento::create([
-                'id_variante'   => $idVariante,
-                'id_tienda'     => $idTienda,
-                'tipo'          => $tipo,
-                'cantidad'      => $delta,
-                'id_referencia' => $idReferencia,
-                'id_usuario'    => $idUsuario,
-                'fecha'         => now(),
-                'observacion'   => $observacion,
+                'id_variante'        => $idVariante,
+                'id_tienda'          => $idTienda,
+                'id_tipo_movimiento' => $tipoMovimiento->id_tipo_movimiento,
+                'cantidad'           => $delta,
+                'id_referencia'      => $idReferencia,
+                'id_usuario'         => $idUsuario,
+                'fecha'              => now(),
+                'observacion'        => $observacion,
             ]);
 
             DB::commit();
@@ -77,17 +80,12 @@ class InventarioService
 
     public function signo($tipo)
     {
-        switch ($tipo) {
-            case 'ingreso':
-            case 'transferencia_entrada':
-                return 1;
-            case 'venta':
-            case 'transferencia_salida':
-                return -1;
-            case 'ajuste':
-                return 1;
-            default:
-                return 0;
+        $tipoMovimiento = MovimientoTipo::where('codigo', $tipo)->where('estado', 1)->first();
+
+        if (!$tipoMovimiento) {
+            return 0;
         }
+
+        return $tipoMovimiento->signo === '-' ? -1 : 1;
     }
 }

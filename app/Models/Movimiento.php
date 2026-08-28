@@ -12,7 +12,7 @@ class Movimiento extends Model
     protected $fillable = [
         'id_variante',
         'id_tienda',
-        'tipo',
+        'id_tipo_movimiento',
         'cantidad',
         'id_referencia',
         'id_usuario',
@@ -27,6 +27,11 @@ class Movimiento extends Model
     public function variante()
     {
         return $this->belongsTo(ProductoVariante::class, 'id_variante');
+    }
+
+    public function tipoMovimiento()
+    {
+        return $this->belongsTo(MovimientoTipo::class, 'id_tipo_movimiento');
     }
 
     public function tienda()

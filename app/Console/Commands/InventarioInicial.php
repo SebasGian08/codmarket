@@ -49,12 +49,12 @@ class InventarioInicial extends Command
                     $inventario->save();
 
                     Movimiento::create([
-                        'id_variante' => $variante->id_variante,
-                        'id_tienda' => $tienda->id_tienda,
-                        'tipo' => 'ingreso',
-                        'cantidad' => $variante->stock,
-                        'fecha' => now(),
-                        'observacion' => 'Carga inicial de stock desde productos_variantes',
+                        'id_variante'        => $variante->id_variante,
+                        'id_tienda'          => $tienda->id_tienda,
+                        'id_tipo_movimiento' => 1, // ingreso
+                        'cantidad'           => $variante->stock,
+                        'fecha'              => now(),
+                        'observacion'        => 'Carga inicial de stock desde productos_variantes',
                     ]);
 
                     $cargados++;
@@ -68,12 +68,12 @@ class InventarioInicial extends Command
                     $inventario->save();
 
                     Movimiento::create([
-                        'id_variante' => $variante->id_variante,
-                        'id_tienda' => $tienda->id_tienda,
-                        'tipo' => 'ajuste',
-                        'cantidad' => $diferencia,
-                        'fecha' => now(),
-                        'observacion' => 'Ajuste de carga inicial: stock global ' . $variante->stock . ', tienda tenía ' . $anterior,
+                        'id_variante'        => $variante->id_variante,
+                        'id_tienda'          => $tienda->id_tienda,
+                        'id_tipo_movimiento' => 5, // ajuste
+                        'cantidad'           => $diferencia,
+                        'fecha'              => now(),
+                        'observacion'        => 'Ajuste de carga inicial: stock global ' . $variante->stock . ', tienda tenía ' . $anterior,
                     ]);
 
                     $ajustados++;
