@@ -12,7 +12,7 @@ $mensaje = urlencode('Hola, quisiera recibir ayuda y más información sobre sus
             </div>
 
             <div class="cta_ayuda_content">
-                <h2>Nuestros expertos estarán encantados de ayudarte</h2>
+                <h2>Nuestros expertos estarán <br>encantados de ayudarte</h2>
                 <p>Resuelve tus dudas, elige tu próximo producto o recibe asesoría personalizada.</p>
             </div>
 
