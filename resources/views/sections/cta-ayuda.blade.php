@@ -8,7 +8,7 @@ $mensaje = urlencode('Hola, quisiera recibir ayuda y más información sobre sus
         <div class="cta_ayuda_wrap">
 
             <div class="cta_ayuda_icon">
-                <i class="fab fa-whatsapp"></i>
+                <i class="fas fa-headset"></i>
             </div>
 
             <div class="cta_ayuda_content">
@@ -17,7 +17,7 @@ $mensaje = urlencode('Hola, quisiera recibir ayuda y más información sobre sus
             </div>
 
             <a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" target="_blank" class="cta_ayuda_btn">
-                <i class="fab fa-whatsapp"></i>
+                <i class="fas fa-comments"></i>
                 Contáctanos por WhatsApp
             </a>
 
