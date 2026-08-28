@@ -34,17 +34,20 @@
 
                         <div class="rubro_gradient"></div>
 
-                        <div class="rubro_desc">
-                            {{ Str::limit($rubro->descripcion ?? 'Explora nuestros productos en esta categoría', 70) }}
+                        <div class="rubro_tag">
+                            {{ $rubro->nombre }}
                         </div>
 
-                        <div class="rubro_footer">
-                            <span class="rubro_badge">{{ $rubro->nombre }}</span>
-                            <span class="rubro_ver_mas">
-                                Ver más <i class="fal fa-arrow-right"></i>
-                            </span>
-                        </div>
+                    </div>
 
+                    <div class="rubro_body">
+                        <h3 class="rubro_nombre">{{ $rubro->nombre }}</h3>
+                        <p class="rubro_desc">
+                            {{ Str::limit($rubro->descripcion ?? 'Explora nuestros productos en esta categoría', 120) }}
+                        </p>
+                        <span class="rubro_ver_mas">
+                            Ver más <i class="fal fa-arrow-right"></i>
+                        </span>
                     </div>
 
                 </a>
