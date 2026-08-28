@@ -23,46 +23,41 @@
 
         @if($clientesCarousel->count())
 
-        <div class="row align-items-center mb-4">
+        <div class="clientes_carousel_wrap">
 
-            <div class="col-lg-10 col-6"></div>
+            <div class="clientes_slider row clearfix">
 
-            <div class="col-lg-2 col-6">
-                <div class="carousel_nav align_right">
-                    <button type="button" class="left_arrow_clientes">
-                        <i class="fal fa-arrow-left"></i>
-                    </button>
-                    <button type="button" class="right_arrow_clientes">
-                        <i class="fal fa-arrow-right"></i>
-                    </button>
-                </div>
-            </div>
+                @foreach($clientesCarousel as $cliente)
 
-        </div>
+                <div class="item px-2 mt-2">
 
-        <div class="clientes_slider row clearfix">
+                    <div class="cliente_card mt-2">
 
-            @foreach($clientesCarousel as $cliente)
+                        @if($cliente->logo)
+                            <img src="{{ asset($cliente->logo) }}"
+                                alt="{{ $cliente->nombre }}" class="cliente_logo">
+                        @elseif($cliente->imagen)
+                            <img src="{{ asset($cliente->imagen) }}"
+                                alt="{{ $cliente->nombre }}" class="cliente_logo">
+                        @endif
 
-            <div class="item px-2 mt-2">
+                        <span class="cliente_nombre">{{ $cliente->nombre }}</span>
 
-                <div class="cliente_card mt-2">
-
-                    @if($cliente->logo)
-                        <img src="{{ asset($cliente->logo) }}"
-                            alt="{{ $cliente->nombre }}" class="cliente_logo">
-                    @elseif($cliente->imagen)
-                        <img src="{{ asset($cliente->imagen) }}"
-                            alt="{{ $cliente->nombre }}" class="cliente_logo">
-                    @endif
-
-                    <span class="cliente_nombre">{{ $cliente->nombre }}</span>
+                    </div>
 
                 </div>
 
+                @endforeach
+
             </div>
 
-            @endforeach
+            <button type="button" class="left_arrow_clientes">
+                <i class="fal fa-arrow-left"></i>
+            </button>
+
+            <button type="button" class="right_arrow_clientes">
+                <i class="fal fa-arrow-right"></i>
+            </button>
 
         </div>
 

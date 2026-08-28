@@ -2749,11 +2749,19 @@
     max-width: 100%;
 }
 
-/* Navegación del carrusel (reutiliza carousel_nav) */
-.cliente_section .left_arrow_clientes,
-.cliente_section .right_arrow_clientes {
-    width: 40px;
-    height: 40px;
+/* Navegación del carrusel: flechas a los lados, centradas verticalmente */
+.clientes_carousel_wrap {
+    position: relative;
+}
+
+.clientes_carousel_wrap .left_arrow_clientes,
+.clientes_carousel_wrap .right_arrow_clientes {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     border: 1px solid #ddd;
     background: #fff;
@@ -2763,11 +2771,20 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 16px;
+    font-size: 18px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.cliente_section .left_arrow_clientes:hover,
-.cliente_section .right_arrow_clientes:hover {
+.clientes_carousel_wrap .left_arrow_clientes {
+    left: -24px;
+}
+
+.clientes_carousel_wrap .right_arrow_clientes {
+    right: -24px;
+}
+
+.clientes_carousel_wrap .left_arrow_clientes:hover,
+.clientes_carousel_wrap .right_arrow_clientes:hover {
     background: var(--color-secundario);
     color: #fff;
     border-color: var(--color-secundario);
@@ -2797,8 +2814,8 @@ html[data-theme="dark"] .cliente_nombre {
     color: #aaa;
 }
 
-html[data-theme="dark"] .cliente_section .left_arrow_clientes,
-html[data-theme="dark"] .cliente_section .right_arrow_clientes {
+html[data-theme="dark"] .clientes_carousel_wrap .left_arrow_clientes,
+html[data-theme="dark"] .clientes_carousel_wrap .right_arrow_clientes {
     background: #1f1f1f;
     border-color: #333;
     color: var(--color-secundario);
