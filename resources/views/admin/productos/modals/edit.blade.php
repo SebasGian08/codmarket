@@ -120,17 +120,22 @@
                                             Categorías
                                         </label>
 
-                                        <select name="categorias[]" class="form-select" multiple>
+                                        <select name="categorias[]" class="form-select" multiple size="8">
 
                                             @foreach($categorias as $c)
-
                                             <option value="{{ $c->id_categoria }}"
-                                                {{ $p->categorias->contains($c->id_categoria) ? 'selected' : '' }}>
-
+                                                {{ $p->categorias->contains($c->id_categoria) ? 'selected' : '' }}
+                                                class="fw-bold">
                                                 {{ $c->nombre }}
-
                                             </option>
-
+                                            @if($c->hijos && $c->hijos->count())
+                                            @foreach($c->hijos as $hijo)
+                                            <option value="{{ $hijo->id_categoria }}"
+                                                {{ $p->categorias->contains($hijo->id_categoria) ? 'selected' : '' }}>
+                                                ↳ {{ $hijo->nombre }}
+                                            </option>
+                                            @endforeach
+                                            @endif
                                             @endforeach
 
                                         </select>

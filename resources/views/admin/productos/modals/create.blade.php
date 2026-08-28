@@ -111,12 +111,19 @@
                                             Categorías
                                         </label>
 
-                                        <select name="categorias[]" class="form-select" multiple>
+                                        <select name="categorias[]" class="form-select" multiple size="8">
 
                                             @foreach($categorias as $c)
-                                            <option value="{{ $c->id_categoria }}">
+                                            <option value="{{ $c->id_categoria }}" class="fw-bold">
                                                 {{ $c->nombre }}
                                             </option>
+                                            @if($c->hijos && $c->hijos->count())
+                                            @foreach($c->hijos as $hijo)
+                                            <option value="{{ $hijo->id_categoria }}">
+                                                ↳ {{ $hijo->nombre }}
+                                            </option>
+                                            @endforeach
+                                            @endif
                                             @endforeach
 
                                         </select>

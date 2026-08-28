@@ -1009,6 +1009,16 @@
 .menu_item_has_child .submenu.submenu_flat > li > a {
     font-weight: 700;
     color: #2e2e2e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.menu_subcat_icon {
+    width: 18px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-secundario);
 }
 
 .submenu_flat_children {
@@ -1018,7 +1028,9 @@
 }
 
 .submenu_flat_children > li > a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
     line-height: 1;
     font-size: 14px;
     padding: 11px 30px 11px 42px;

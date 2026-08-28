@@ -159,6 +159,9 @@
                                         @foreach($categorias as $categoria)
                                         <li>
                                             <a href="{{ route('productos.categoria', $categoria->slug) }}">
+                                                @if($categoria->icono)
+                                                <i class="{{ $categoria->icono }} menu_subcat_icon"></i>
+                                                @endif
                                                 {{ $categoria->nombre }}
                                             </a>
                                             @if($categoria->hijos && $categoria->hijos->count())
@@ -166,6 +169,9 @@
                                                 @foreach($categoria->hijos as $hijo)
                                                 <li>
                                                     <a href="{{ route('productos.categoria', $hijo->slug) }}">
+                                                        @if($hijo->icono)
+                                                        <i class="{{ $hijo->icono }} menu_subcat_icon"></i>
+                                                        @endif
                                                         {{ $hijo->nombre }}
                                                     </a>
                                                 </li>
@@ -446,6 +452,9 @@
                             @foreach($categorias as $categoria)
                             <li>
                                 <a href="{{ route('productos.categoria', $categoria->slug) }}">
+                                    @if($categoria->icono)
+                                    <i class="{{ $categoria->icono }} menu_subcat_icon"></i>
+                                    @endif
                                     {{ $categoria->nombre }}
                                 </a>
                                 @if($categoria->hijos && $categoria->hijos->count())
@@ -453,6 +462,9 @@
                                     @foreach($categoria->hijos as $hijo)
                                     <li>
                                         <a href="{{ route('productos.categoria', $hijo->slug) }}">
+                                            @if($hijo->icono)
+                                            <i class="{{ $hijo->icono }} menu_subcat_icon"></i>
+                                            @endif
                                             {{ $hijo->nombre }}
                                         </a>
                                     </li>
