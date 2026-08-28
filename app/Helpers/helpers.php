@@ -24,6 +24,19 @@ if (!function_exists('generarNumeroDocumento')) {
     }
 }
 
+if (!function_exists('imagenOrDefault')) {
+
+    /**
+     * Devuelve la URL de una imagen dada, o una imagen por defecto
+     * si está vacía. Sirve para mostrar un placeholder genérico en
+     * toda la web cuando un registro no tiene imagen cargada.
+     */
+    function imagenOrDefault($imagen, $default = 'assets/images/tienda_virtual/default.png')
+    {
+        return !empty($imagen) ? asset($imagen) : asset($default);
+    }
+}
+
 if (!function_exists('limpiarTextoEditor')) {
 
     /**

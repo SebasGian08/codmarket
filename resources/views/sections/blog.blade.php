@@ -19,7 +19,7 @@
                     <article class="blog_card">
 
                         <a href="{{ route('blog.show', $blog->slug) }}" class="blog_image">
-                            <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}">
+                            <img src="{{ imagenOrDefault($blog->image) }}" alt="{{ $blog->title }}">
                             <span class="blog_date">
                                 {{ $blog->created_at->format('d M Y') }}
                             </span>

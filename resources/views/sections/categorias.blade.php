@@ -74,9 +74,7 @@
             @foreach($categorias as $cat)
 
             @php
-            $imagenCategoria = !empty($cat->imagen)
-            ? asset($cat->imagen)
-            : asset('assets/images/tienda_virtual/default.png');
+            $imagenCategoria = imagenOrDefault($cat->imagen);
             @endphp
 
             <div class="item px-2">
@@ -110,9 +108,7 @@
             @foreach($categorias as $cat)
 
             @php
-            $imagenCategoria = !empty($cat->imagen)
-            ? asset($cat->imagen)
-            : asset('assets/images/tienda_virtual/default.png');
+            $imagenCategoria = imagenOrDefault($cat->imagen);
             @endphp
 
             <div class="col-lg-3 col-md-6 col-6 mb-4">

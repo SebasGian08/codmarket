@@ -16,9 +16,7 @@
         </div>
 
         @php
-            $clientesCarousel = ($clientes ?? collect())
-                ->filter(fn($c) => $c->logo || $c->imagen)
-                ->values();
+            $clientesCarousel = ($clientes ?? collect())->values();
         @endphp
 
         @if($clientesCarousel->count())
@@ -33,13 +31,9 @@
 
                     <div class="cliente_card mt-2">
 
-                        @if($cliente->logo)
-                            <img src="{{ asset($cliente->logo) }}"
-                                alt="{{ $cliente->nombre }}" class="cliente_logo">
-                        @elseif($cliente->imagen)
-                            <img src="{{ asset($cliente->imagen) }}"
-                                alt="{{ $cliente->nombre }}" class="cliente_logo">
-                        @endif
+                        <img src="{{ imagenOrDefault($cliente->logo ?: $cliente->imagen) }}"
+                            alt="{{ $cliente->nombre }}" class="cliente_logo">
+
                     </div>
 
                 </div>

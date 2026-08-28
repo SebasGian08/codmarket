@@ -20,12 +20,12 @@
                 <div class="marcas_track">
                     @foreach($marcas as $marca)
                     <div class="marcas_item">
-                        <img src="{{ asset($marca->logo) }}" alt="{{ $marca->nombre }}">
+                        <img src="{{ imagenOrDefault($marca->logo) }}" alt="{{ $marca->nombre }}">
                     </div>
                     @endforeach
                     @foreach($marcas as $marca)
                     <div class="marcas_item">
-                        <img src="{{ asset($marca->logo) }}" alt="{{ $marca->nombre }}">
+                        <img src="{{ imagenOrDefault($marca->logo) }}" alt="{{ $marca->nombre }}">
                     </div>
                     @endforeach
                 </div>

@@ -19,9 +19,7 @@
             @foreach($rubros as $rubro)
 
             @php
-                $imagenRubro = !empty($rubro->imagen)
-                    ? asset($rubro->imagen)
-                    : asset('assets/images/default.png');
+                $imagenRubro = imagenOrDefault($rubro->imagen);
             @endphp
 
             <div class="col-lg-4 col-md-4 col-6 mb-3">
