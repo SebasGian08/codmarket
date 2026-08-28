@@ -12,8 +12,16 @@ class CategoriaController extends Controller
 {
     public function index()
     {
-        $categorias = Categoria::orderBy('orden', 'asc')->get();
-        return view('admin.categorias.index', compact('categorias'));
+        $categorias = Categoria::with('padre')
+            ->orderBy('orden', 'asc')
+            ->get();
+
+        // Categorías disponibles para ser "padre" (solo categorías raíz)
+        $categoriasPadre = Categoria::whereNull('id_categoria_padre')
+            ->orderBy('orden', 'asc')
+            ->get();
+
+        return view('admin.categorias.index', compact('categorias', 'categoriasPadre'));
     }
 
     public function store(Request $request)

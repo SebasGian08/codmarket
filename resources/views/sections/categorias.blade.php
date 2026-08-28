@@ -89,6 +89,16 @@
 
                     <h5>{{ $cat->nombre }}</h5>
 
+                    @if($cat->hijos && $cat->hijos->count())
+                    <div class="category_subcats">
+                        @foreach($cat->hijos as $hijo)
+                        <a href="{{ route('productos.categoria', $hijo->slug) }}" class="category_subcat_link">
+                            {{ $hijo->nombre }}
+                        </a>
+                        @endforeach
+                    </div>
+                    @endif
+
                 </a>
 
             </div>
@@ -124,6 +134,16 @@
                     <div class="category_grid_content">
 
                         <h5>{{ $cat->nombre }}</h5>
+
+                        @if($cat->hijos && $cat->hijos->count())
+                        <div class="category_subcats">
+                            @foreach($cat->hijos as $hijo)
+                            <a href="{{ route('productos.categoria', $hijo->slug) }}" class="category_subcat_link">
+                                {{ $hijo->nombre }}
+                            </a>
+                            @endforeach
+                        </div>
+                        @endif
 
                     </div>
 

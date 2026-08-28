@@ -139,3 +139,61 @@
     }
 
 }
+
+/* ========================================= */
+/* SUBCATEGORÍAS */
+/* ========================================= */
+
+.category_carousel_card .category_subcats{
+    margin-top:12px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px;
+}
+
+.category_subcat_link{
+    display:inline-block;
+    padding:4px 12px;
+    font-size:13px;
+    color:#555;
+    background:rgba(0,0,0,.04);
+    border-radius:20px;
+    text-decoration:none;
+    transition:.3s ease;
+}
+
+.category_subcat_link:hover{
+    color:#fff;
+    background:var(--color-secundario);
+}
+
+/* Subcategorías dentro del grid corporativo (contenido sobre color secundario) */
+.category_grid_content .category_subcats{
+    margin-top:12px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:6px;
+}
+
+.category_grid_content .category_subcat_link{
+    color:rgba(255,255,255,.9);
+    background:rgba(0,0,0,.15);
+}
+
+.category_grid_content .category_subcat_link:hover{
+    color:#fff;
+    background:rgba(0,0,0,.3);
+}
+
+/* dark mode */
+html[data-theme="dark"] .category_subcat_link{
+    color:#ddd;
+    background:rgba(255,255,255,.08);
+}
+
+html[data-theme="dark"] .category_subcat_link:hover{
+    color:#fff;
+    background:var(--color-secundario);
+}

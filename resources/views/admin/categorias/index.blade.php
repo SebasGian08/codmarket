@@ -29,6 +29,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
+                            <th>Categoría padre</th>
                             <th>Slug</th>
                             <th>Orden</th>
                             <th>Estado</th>
@@ -41,7 +42,14 @@
                         @foreach($categorias as $cat)
                         <tr>
                             <td>{{ $cat->id_categoria }}</td>
-                            <td>{{ $cat->nombre }}</td>
+                            <td>
+                                @if($cat->id_categoria_padre)
+                                <span class="text-muted me-1">↳</span> {{ $cat->nombre }}
+                                @else
+                                <strong>{{ $cat->nombre }}</strong>
+                                @endif
+                            </td>
+                            <td>{{ $cat->padre->nombre ?? '—' }}</td>
                             <td>{{ $cat->slug }}</td>
                             <td>{{ $cat->orden }}</td>
 

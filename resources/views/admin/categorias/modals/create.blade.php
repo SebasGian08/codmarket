@@ -24,6 +24,16 @@
                     </div>
 
                     <div class="col-md-12 mt-2">
+                        <label>Categoría padre <small class="text-muted">(opcional, si es una subcategoría)</small></label>
+                        <select name="id_categoria_padre" class="form-control">
+                            <option value="">— Sin padre (categoría principal) —</option>
+                            @foreach($categoriasPadre ?? [] as $padre)
+                            <option value="{{ $padre->id_categoria }}">{{ $padre->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mt-2">
                         <label>Descripción</label>
                         <textarea name="descripcion" class="form-control editor"></textarea>
                     </div>

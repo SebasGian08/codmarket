@@ -157,11 +157,29 @@
 
                                     <ul class="submenu">
                                         @foreach($categorias as $categoria)
+                                        @if($categoria->hijos && $categoria->hijos->count())
+                                        <li class="menu_item_has_child">
+                                            <a href="{{ route('productos.categoria', $categoria->slug) }}">
+                                                {{ $categoria->nombre }}
+                                                <i class="fas fa-chevron-right ml-1 arrow_icon"></i>
+                                            </a>
+                                            <ul class="submenu">
+                                                @foreach($categoria->hijos as $hijo)
+                                                <li>
+                                                    <a href="{{ route('productos.categoria', $hijo->slug) }}">
+                                                        {{ $hijo->nombre }}
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                        @else
                                         <li>
                                             <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                                 {{ $categoria->nombre }}
                                             </a>
                                         </li>
+                                        @endif
                                         @endforeach
                                     </ul>
                                 </li>
@@ -433,11 +451,29 @@
                         <a href="#!">Categorías</a>
                         <ul class="submenu">
                             @foreach($categorias as $categoria)
+                            @if($categoria->hijos && $categoria->hijos->count())
+                            <li class="menu_item_has_child">
+                                <a href="{{ route('productos.categoria', $categoria->slug) }}">
+                                    {{ $categoria->nombre }}
+                                    <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
+                                </a>
+                                <ul class="submenu">
+                                    @foreach($categoria->hijos as $hijo)
+                                    <li>
+                                        <a href="{{ route('productos.categoria', $hijo->slug) }}">
+                                            {{ $hijo->nombre }}
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </li>
+                            @else
                             <li>
                                 <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                     {{ $categoria->nombre }}
                                 </a>
                             </li>
+                            @endif
                             @endforeach
                         </ul>
                     </li>

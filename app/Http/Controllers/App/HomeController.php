@@ -30,7 +30,15 @@ class HomeController extends Controller
 
         $now = now();
 
-        $categorias = Categoria::where('estado', 1)
+        $categorias = Categoria::whereNull('id_categoria_padre')
+            ->with(['hijos' => function ($q) {
+                $q->where('estado', 1)->orderBy('orden', 'asc');
+            }])
+            ->where('estado', 1)
+            ->orderBy('orden', 'asc')
+            ->get();
+
+        $allCategorias = Categoria::where('estado', 1)
             ->orderBy('orden', 'asc')
             ->get();
 
@@ -106,6 +114,7 @@ class HomeController extends Controller
             'blogs',
             'banners',
             'categorias',
+            'allCategorias',
             'productos',
             'categoriasProductos',
             'promociones',
