@@ -141,17 +141,17 @@
                                 <li><a href="{{ route('nosotros') }}"
                                         class="{{ request()->routeIs('nosotros') ? 'active-menu' : '' }}">Nosotros</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="{{ route('productos.index') }}"
                                         class="{{ request()->routeIs('productos.index') ? 'active-menu' : '' }}">
                                         Productos
                                     </a>
-                                </li>
+                                </li> -->
 
                                 <li class="menu_item_has_child">
                                     <a href="#!"
                                         class="{{ request()->routeIs('productos.categoria*') ? 'active-menu' : '' }}">
-                                        Categorías
+                                        Productos
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
 
