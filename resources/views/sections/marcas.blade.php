@@ -7,12 +7,11 @@
             <div class="marcas_texto">
                 <div class="section_heading_title">
                     <span></span>
-                    <small>MARCAS</small>
+                    <small>{{ $config['seccion_marcas_titulo'] ?? 'MARCAS' }}</small>
                     <span></span>
                 </div>
                 <p class="section_heading_description">
-                    Conoce las marcas que forman parte de nuestro catálogo y descubre productos de calidad respaldados por
-                    los mejores fabricantes.
+                    {{ $config['seccion_marcas_descripcion'] ?? 'Conoce las marcas que forman parte de nuestro catálogo y descubre productos de calidad respaldados por los mejores fabricantes.' }}
                 </p>
             </div>
 

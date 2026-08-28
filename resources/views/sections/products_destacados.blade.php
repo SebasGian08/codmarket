@@ -17,7 +17,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         <span></span>
 
                         <small>
-                            Más vendidos
+                            {{ $config['seccion_destacados_titulo'] ?? 'Más vendidos' }}
                         </small>
 
                         <span></span>

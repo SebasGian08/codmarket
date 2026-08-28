@@ -7,11 +7,11 @@
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
-                <small>CASOS DE ÉXITO</small>
+                <small>{{ $config['seccion_testimonios_titulo'] ?? 'CASOS DE ÉXITO' }}</small>
                 <span></span>
             </div>
             <p class="section_heading_description">
-                Algunos de nuestros proyectos realizados.
+                {{ $config['seccion_testimonios_descripcion'] ?? 'Algunos de nuestros proyectos realizados.' }}
             </p>
         </div>
 

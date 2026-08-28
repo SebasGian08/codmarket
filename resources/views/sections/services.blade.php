@@ -4,11 +4,11 @@
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
-                <small>SERVICIOS</small>
+                <small>{{ $config['seccion_servicios_titulo'] ?? 'SERVICIOS' }}</small>
                 <span></span>
             </div>
             <p class="section_heading_description">
-                Soluciones profesionales para potenciar tu empresa
+                {{ $config['seccion_servicios_descripcion'] ?? 'Soluciones profesionales para potenciar tu empresa' }}
             </p>
         </div>
 

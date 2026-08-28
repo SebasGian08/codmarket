@@ -10,12 +10,12 @@
 
                 <div class="section_heading_title mb_30">
                     <span></span>
-                    <small style="color: rgba(255,255,255,0.85); font-size: 14px; letter-spacing: 3px;">BENEFICIOS EXCLUSIVOS</small>
+                    <small style="color: rgba(255,255,255,0.85); font-size: 14px; letter-spacing: 3px;">{{ $config['seccion_suscripcion_titulo'] ?? 'BENEFICIOS EXCLUSIVOS' }}</small>
                     <span></span>
                 </div>
 
                 <h2 style="color: #fff; font-weight: 600; font-size: 28px; max-width: 600px; margin: 0 auto 30px; line-height: 1.4;">
-                    Hasta 35% de descuento y ofertas exclusivas en tu correo.
+                    {{ $config['seccion_suscripcion_descripcion'] ?? 'Hasta 35% de descuento y ofertas exclusivas en tu correo.' }}
                 </h2>
 
                 <div class="form_item">

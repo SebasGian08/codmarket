@@ -7,11 +7,11 @@
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
-                <small>NUESTROS CLIENTES</small>
+                <small>{{ $config['seccion_clientes_titulo'] ?? 'NUESTROS CLIENTES' }}</small>
                 <span></span>
             </div>
             <p class="section_heading_description">
-                Empresas y personas que confían en nosotros.
+                {{ $config['seccion_clientes_descripcion'] ?? 'Empresas y personas que confían en nosotros.' }}
             </p>
         </div>
 

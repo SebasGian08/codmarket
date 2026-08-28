@@ -4,11 +4,11 @@
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
-                <small>PREGUNTAS</small>
+                <small>{{ $config['seccion_preguntas_titulo'] ?? 'PREGUNTAS' }}</small>
                 <span></span>
             </div>
             <p class="section_heading_description">
-                Resolvemos las dudas más comunes sobre nuestros servicios.
+                {{ $config['seccion_preguntas_descripcion'] ?? 'Resolvemos las dudas más comunes sobre nuestros servicios.' }}
             </p>
         </div>
 

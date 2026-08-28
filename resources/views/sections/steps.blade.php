@@ -9,7 +9,7 @@
                 <!-- <span></span>
  -->
                 <small>
-                    ¿Por qué elegirnos?
+                    {{ $config['seccion_steps_titulo'] ?? '¿Por qué elegirnos?' }}
                 </small>
 
                 <span></span>
@@ -17,12 +17,12 @@
             </div>
 
             <h2 class="mb-3">
-                Experiencia premium en cada compra
+                {{ $config['seccion_steps_subtitulo'] ?? 'Experiencia premium en cada compra' }}
             </h2>
 
             <p class="section_heading_description">
-                Diseñamos una experiencia moderna, rápida y segura
-                para que compres con total confianza.
+                {{ $config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura
+                para que compres con total confianza.' }}
             </p>
 
         </div>

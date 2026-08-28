@@ -5,13 +5,12 @@
 
             <div class="section_heading_title">
                 <span></span>
-                <small>CATEGORÍAS</small>
+                <small>{{ $config['seccion_categorias_titulo'] ?? 'CATEGORÍAS' }}</small>
                 <span></span>
             </div>
 
             <p class="section_heading_description">
-                Descubre nuestras colecciones cuidadosamente organizadas para encontrar el producto ideal con una
-                experiencia de compra rápida y sencilla.
+                {{ $config['seccion_categorias_descripcion'] ?? 'Descubre nuestras colecciones cuidadosamente organizadas para encontrar el producto ideal con una experiencia de compra rápida y sencilla.' }}
             </p>
 
         </div>

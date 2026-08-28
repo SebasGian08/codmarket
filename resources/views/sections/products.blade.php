@@ -8,7 +8,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
         <div class="section_heading text-center mb-5">
             <div class="section_heading_title">
                 <span></span>
-                <small>NUESTROS PRODUCTOS</small>
+                <small>{{ $config['seccion_productos_titulo'] ?? 'NUESTROS PRODUCTOS' }}</small>
                 <span></span>
             </div>
         </div>
