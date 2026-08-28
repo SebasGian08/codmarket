@@ -2572,7 +2572,7 @@
 
 /* ============ CTA AYUDA / WHATSAPP ============ */
 .cta_ayuda_section {
-    padding: 60px 0;
+    padding: 24px 0;
 }
 
 .cta_ayuda_wrap {
@@ -2584,7 +2584,7 @@
         var(--color-secundario) 0%,
         color-mix(in srgb, var(--color-secundario) 75%, #000) 100%); */
     border-radius: 20px;
-    padding: 40px 50px;
+    padding: 30px 45px;
     box-shadow: 0 15px 40px color-mix(in srgb, var(--color-secundario) 20%, transparent);
     position: relative;
     overflow: hidden;
@@ -2671,13 +2671,13 @@
     .cta_ayuda_wrap {
         flex-direction: column;
         text-align: center;
-        padding: 36px 30px;
+        padding: 28px 24px;
     }
 }
 
 @media (max-width: 576px) {
     .cta_ayuda_section {
-        padding: 40px 0;
+        padding: 20px 0;
     }
 
     .cta_ayuda_content h2 {
