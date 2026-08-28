@@ -2203,63 +2203,63 @@
 /* ============ MARCAS MARQUEE ============ */
 .marcas_row {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 30px;
 }
 
 .marcas_texto {
-    flex: 0 0 280px;
-    text-align: left;
+    flex: 0 0 auto;
+    text-align: center;
+    max-width: 600px;
 }
 
 .marcas_texto .section_heading_title {
-    justify-content: flex-start;
-    margin-bottom: 10px;
+    justify-content: center;
+    margin-bottom: 12px;
 }
 
 .marcas_texto .section_heading_description {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #888;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #777;
     margin: 0;
 }
 
 .marcas_marquee {
     flex: 1;
+    width: 100%;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, black, black 80%, transparent);
-    mask-image: linear-gradient(to right, black, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
 .marcas_track {
     display: flex;
+    align-items: center;
     width: max-content;
-    animation: marcasScroll 25s linear infinite;
+    animation: marcasScroll 30s linear infinite;
 }
 
 .marcas_item {
     flex: 0 0 auto;
-    width: 160px;
-    height: 90px;
+    width: 200px;
+    height: 110px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 25px;
+    padding: 15px 30px;
 }
 
 .marcas_item img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
-    filter: grayscale(30%);
-    opacity: 0.7;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .marcas_item img:hover {
-    filter: grayscale(0%);
-    opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 @keyframes marcasScroll {
@@ -2271,36 +2271,15 @@
     }
 }
 
-@media (max-width: 991px) {
-    .marcas_row {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .marcas_texto {
-        flex: 0 0 auto;
-        text-align: center;
-        max-width: 100%;
-    }
-
-    .marcas_texto .section_heading_title {
-        justify-content: center;
-    }
-
-    .marcas_texto .section_heading_description {
-        padding: 0 15px;
-    }
-}
-
 @media (max-width: 768px) {
     .marcas_item {
-        width: 130px;
-        height: 70px;
-        padding: 10px 15px;
+        width: 150px;
+        height: 85px;
+        padding: 12px 20px;
     }
 
     .marcas_track {
-        animation-duration: 15s;
+        animation-duration: 18s;
     }
 }
 
