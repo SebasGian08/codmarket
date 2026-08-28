@@ -2579,7 +2579,7 @@
     display: flex;
     align-items: center;
     gap: 28px;
-        background: #0f0f0f;
+    background: #0f0f0f;
     /* background: linear-gradient(135deg,
         var(--color-secundario) 0%,
         color-mix(in srgb, var(--color-secundario) 75%, #000) 100%); */
