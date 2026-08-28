@@ -72,6 +72,10 @@
     </div>
 @endif
 
+<div class="scroll-reveal">{{-- CTA Ayuda --}}
+    @include('sections.cta-ayuda')
+</div>
+
 @if($mostrarSuscripcion == 1)
     <div class="scroll-reveal">{{-- Suscripción: fade up --}}
         @include('sections.suscripcion')
