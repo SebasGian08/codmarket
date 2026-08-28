@@ -32,10 +32,6 @@
 
                         <div class="rubro_gradient"></div>
 
-                        <div class="rubro_tag">
-                            {{ $rubro->nombre }}
-                        </div>
-
                     </div>
 
                     <div class="rubro_body">
