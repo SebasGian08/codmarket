@@ -47,6 +47,7 @@ use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
 use App\Http\Controllers\Admin\RubroController;
 use App\Http\Controllers\Admin\PermisoController;
+use App\Http\Controllers\Admin\PreguntaFrecuenteController;
 
 App::setLocale('es');
 
@@ -342,6 +343,13 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [RubroController::class, 'store'])->name('admin.rubros.store');
         Route::put('/{id}/actualizar', [RubroController::class, 'update'])->name('admin.rubros.update');
         Route::delete('/{id}/eliminar', [RubroController::class, 'destroy'])->name('admin.rubros.destroy');
+    });
+
+    Route::prefix('preguntas-frecuentes')->group(function () {
+        Route::get('/', [PreguntaFrecuenteController::class, 'index'])->name('admin.preguntas.index');
+        Route::post('/guardar', [PreguntaFrecuenteController::class, 'store'])->name('admin.preguntas.store');
+        Route::put('/{id}/actualizar', [PreguntaFrecuenteController::class, 'update'])->name('admin.preguntas.update');
+        Route::delete('/{id}/eliminar', [PreguntaFrecuenteController::class, 'destroy'])->name('admin.preguntas.destroy');
     });
 
     Route::prefix('permisos')->group(function () {

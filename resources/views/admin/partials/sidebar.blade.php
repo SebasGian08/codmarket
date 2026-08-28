@@ -255,7 +255,8 @@
                     Request::is('admin/servicios*') || 
                     Request::is('admin/portafolios*') || 
                     Request::is('admin/contacts*') || 
-                    Request::is('admin/banners-principales*') ? 'active' : '' }}">
+                    Request::is('admin/banners-principales*') || 
+                    Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
 
                     <a data-bs-toggle="collapse" href="#tiendaVirtual">
                         <i class="fas fa-store"></i>
@@ -268,7 +269,8 @@
                         Request::is('admin/servicios*') || 
                         Request::is('admin/portafolios*') || 
                         Request::is('admin/contacts*') || 
-                        Request::is('admin/banners-principales*') ? 'show' : '' }}" id="tiendaVirtual">
+                        Request::is('admin/banners-principales*') || 
+                        Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}" id="tiendaVirtual">
 
                         <ul class="nav nav-collapse">
 
@@ -332,6 +334,14 @@
                             <li class="{{ Request::is('admin/rubros*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.rubros.index') }}">
                                     <span class="sub-item">Rubros</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
+                            @permiso('preguntas.ver')
+                            <li class="{{ Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.preguntas.index') }}">
+                                    <span class="sub-item">Preguntas Frecuentes</span>
                                 </a>
                             </li>
                             @endpermiso

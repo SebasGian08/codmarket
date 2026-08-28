@@ -15,6 +15,7 @@ use App\Models\Marca;
 use App\Models\Cliente;
 use App\Models\TrabajoRealizado;
 use App\Models\Rubro;
+use App\Models\PreguntaFrecuente;
 
 class HomeController extends Controller
 {
@@ -109,6 +110,10 @@ class HomeController extends Controller
             ->orderBy('nombre', 'asc')
             ->get();
 
+        $preguntas = PreguntaFrecuente::where('estado', 1)
+            ->orderBy('orden', 'asc')
+            ->get();
+
         return view('pages.home', compact(
             'services',
             'blogs',
@@ -121,7 +126,8 @@ class HomeController extends Controller
             'marcas',
             'trabajosRealizados',
             'rubros',
-            'clientes'
+            'clientes',
+            'preguntas'
         ));
     }
 
