@@ -208,11 +208,11 @@
                             @auth
 
                             <li>
-                                <button type="button" class="user_btn" data-toggle="collapse"
+                                <!-- <button type="button" class="user_btn" data-toggle="collapse"
                                     data-target="#user_dropdown" aria-expanded="false">
 
                                     <i class="fal fa-user"></i>
-                                </button>
+                                </button> -->
 
                                 <div id="user_dropdown" class="collapse_dropdown collapse">
 
@@ -260,11 +260,11 @@
                             @else
 
                             <li>
-                                <button type="button" class="user_btn" data-toggle="collapse"
+                                <!-- <button type="button" class="user_btn" data-toggle="collapse"
                                     data-target="#guest_dropdown" aria-expanded="false">
 
                                     <i class="fal fa-user"></i>
-                                </button>
+                                </button> -->
 
                                 <div id="guest_dropdown" class="collapse_dropdown collapse">
 
