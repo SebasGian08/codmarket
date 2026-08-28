@@ -34,8 +34,11 @@ class IngresoController extends Controller
             ->get()
             ->map(function ($v) {
                 $atributos = $v->atributos->map(function ($a) {
-                    return $a->atributo->nombre . ': ' . $a->valor;
-                })->implode(', ');
+                    return [
+                        'atributo' => $a->atributo->nombre ?? '',
+                        'valor' => $a->valor,
+                    ];
+                })->values();
 
                 return [
                     'id' => $v->id_variante,

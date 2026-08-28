@@ -58,14 +58,14 @@
                     <hr>
 
                     <label class="form-label small fw-semibold text-uppercase text-muted">
-                        <i class="fa fa-search me-1"></i> Buscar producto (nombre o SKU)
+                        <i class="fa fa-search me-1"></i> Buscar producto (nombre, SKU o variante)
                     </label>
 
                     <div class="ingreso-buscador position-relative">
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
                             <input type="text" id="varianteInputIngreso" class="form-control" autocomplete="off"
-                                placeholder="Escribe para buscar y agregar al detalle...">
+                                placeholder="Buscar por nombre, SKU, talla o color...">
                         </div>
 
                         <div id="varianteResultadosIngreso" class="ingreso-resultados d-none"></div>

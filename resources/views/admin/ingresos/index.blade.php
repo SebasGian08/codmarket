@@ -116,22 +116,34 @@
             return;
         }
 
+        // helper: texto de atributos (para buscar por talla/color/etc.)
+        function textoAtributos(v) {
+            return (v.atributos || []).map(function(a) {
+                return (a.atributo || '') + ' ' + (a.valor || '');
+            }).join(' ').toLowerCase();
+        }
+
         var matches = VARIANTES.filter(function(v) {
             return (v.producto || '').toLowerCase().indexOf(t) > -1 ||
                 (v.sku || '').toLowerCase().indexOf(t) > -1 ||
-                (v.atributos || '').toLowerCase().indexOf(t) > -1;
+                textoAtributos(v).indexOf(t) > -1;
         });
+
+        // helper: badges de atributos (igual que inventario)
+        function badgesAtributos(v) {
+            return (v.atributos || []).map(function(a) {
+                return '<span class="badge bg-light text-dark border me-1">' +
+                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+            }).join('');
+        }
 
         if (!matches.length) {
             lista.html('<div class="ingreso-resultado py-2 text-muted">Sin resultados</div>');
         } else {
             lista.html(matches.slice(0, 12).map(function(v) {
-                var attrLine = v.atributos
-                    ? '<div class="small text-primary">' + escapeHtml(v.atributos) + '</div>'
-                    : '';
                 return '<div class="ingreso-resultado" data-id="' + v.id + '">' +
                     '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
-                    attrLine +
+                    '<div class="small mb-1">' + badgesAtributos(v) + '</div>' +
                     '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') + ' · Costo: S/ ' +
                     parseFloat(v.costo || 0).toFixed(2) + '</div>' +
                     '</div>';
@@ -170,13 +182,15 @@
             return;
         }
 
-        var attrHtml = v.atributos
-            ? '<br><span class="small text-primary">' + escapeHtml(v.atributos) + '</span>'
-            : '';
+        var attrHtml = (v.atributos || []).map(function(a) {
+            return '<span class="badge bg-light text-dark border me-1">' +
+                escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+        }).join('');
 
         var fila = $(`
             <tr data-variante="${v.id}">
-                <td class="fw-semibold">${escapeHtml(v.producto)}${attrHtml}<br>
+                <td class="fw-semibold">${escapeHtml(v.producto)}
+                    ${attrHtml ? '<div class="small mt-1">' + attrHtml + '</div>' : ''}<br>
                     <span class="small text-muted">${escapeHtml(v.sku || 'Sin SKU')}</span>
                 </td>
                 <td style="width:120px">
