@@ -3,13 +3,13 @@
 <div class="rubros_section sec_ptb_50 clearfix">
     <div class="container">
 
-        <div class="section_heading rubros_heading text-center mb_40">
+        <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
                 <small>{{ $config['seccion_rubros_titulo'] ?? 'RUBROS' }}</small>
                 <span></span>
             </div>
-            <p class="section_heading_description rubros_descripcion">
+            <p class="section_heading_description">
                 {!! limpiarTextoEditor($config['seccion_rubros_descripcion'] ?? 'Descubre la variedad de rubros que tenemos para ofrecerte los mejores productos y servicios del mercado') !!}
             </p>
         </div>
