@@ -1,8 +1,57 @@
 /* =============================================
    ESTILOS PERSONALIZADOS - ADMIN
-   CSS de vistas admin organizado por módulo.
-   Cada módulo se separa con un comentario.
+   CSS de vistas admin organizado por m��dulo.
+   Cada m��dulo se separa con un comentario.
    ============================================= */
+
+/* ============ MODALES (GLOBAL) ============ */
+/* Cabecera unificada de todos los modales del sistema. */
+.modal-header {
+    background: linear-gradient(135deg, #1f3a5f 0%, #2c5f8a 100%);
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .12);
+    padding: 1rem 1.25rem;
+    color: #fff;
+}
+
+.modal-header h1,
+.modal-header h2,
+.modal-header h3,
+.modal-header h4,
+.modal-header h5,
+.modal-header h6 {
+    color: #fff;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+    opacity: .85;
+}
+
+.modal-header .btn-close:hover {
+    opacity: 1;
+}
+
+html[data-theme="dark"] .modal-header {
+    background: linear-gradient(135deg, #1f3a5f 0%, #2c5f8a 100%);
+}
+
+html[data-theme="dark"] .modal-header h1,
+html[data-theme="dark"] .modal-header h2,
+html[data-theme="dark"] .modal-header h3,
+html[data-theme="dark"] .modal-header h4,
+html[data-theme="dark"] .modal-header h5,
+html[data-theme="dark"] .modal-header h6 {
+    color: #fff;
+}
+
+html[data-theme="dark"] .modal-header {
+    color: #fff;
+}
+
+/* ============ FIN MODALES (GLOBAL) ============ */
 
 /* ============ VENTAS / PUNTO DE VENTA ============ */
 
@@ -347,8 +396,6 @@ html[data-theme="dark"] .venta-atributos-filtros .atributo-separador {
 }
 
 .cierre-modal-header {
-    background: linear-gradient(135deg, #1f3a5f 0%, #2c5f8a 100%);
-    border: 0;
     padding: 1.1rem 1.4rem;
 }
 
