@@ -41,7 +41,7 @@ class VentaController extends Controller
                     'variantes' => $p->variantes
                         ->where('estado', 1)
                         ->values()
-                        ->map(function ($v) use ($p) {
+                        ->map(function ($v) {
                             $img = $v->imagenes->where('principal', 1)->first() ?? $v->imagenes->first();
                             return [
                                 'id' => $v->id_variante,
@@ -49,7 +49,9 @@ class VentaController extends Controller
                                 'precio' => (float) $v->precio,
                                 'precio_oferta' => $v->precio_oferta !== null ? (float) $v->precio_oferta : null,
                                 'stock' => (int) $v->stock,
-                                'imagen' => $img ? asset($img->url) : $p->imagen_principal_url,
+                                'imagen' => $img
+                                    ? asset($img->url)
+                                    : asset('assets/images/tienda_virtual/default.png'),
                                 'atributos' => $v->atributos
                                     ->map(function ($av) {
                                         return [
