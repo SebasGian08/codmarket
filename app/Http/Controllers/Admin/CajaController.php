@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Caja;
 use App\Models\Tienda;
 use App\Models\Vendedor;
+use App\Services\MovimientoDineroService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CajaController extends Controller
 {
+    protected $movimiento;
+
+    public function __construct(MovimientoDineroService $movimiento)
+    {
+        $this->movimiento = $movimiento;
+    }
+
     public function index()
     {
         $cajas = Caja::with(['tienda', 'usuario', 'vendedor'])
@@ -21,6 +29,7 @@ class CajaController extends Controller
             ->each(function ($caja) {
                 $caja->total_ventas = $caja->ventas()->where('estado', 1)->sum('total');
                 $caja->nro_ventas = $caja->ventas()->where('estado', 1)->count();
+                $caja->efectivo_esperado = $this->movimiento->efectivoEsperadoCaja($caja->id_caja);
             });
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
@@ -88,16 +97,33 @@ class CajaController extends Controller
                 throw new \Exception('Esta caja ya está cerrada');
             }
 
+            $contado = (float) $request->monto_cierre;
+            $esperado = $this->movimiento->efectivoEsperadoCaja($caja->id_caja);
+
+            // Arqueo: diferencia entre el conteo final y el esperado
+            $diferencia = round($contado - $esperado, 2);
+
             $caja->update([
-                'monto_cierre' => $request->monto_cierre,
+                'monto_cierre' => $contado,
+                'monto_diferencia' => $diferencia,
                 'fecha_cierre' => now(),
                 'estado' => 0,
             ]);
 
             DB::commit();
 
+            $mensaje = 'Caja cerrada correctamente. Efectivo esperado: S/ ' . number_format($esperado, 2) .
+                ' | Contado: S/ ' . number_format($contado, 2);
+
+            if (abs($diferencia) > 0.001) {
+                $tipo = $diferencia > 0 ? 'sobrante' : 'faltante';
+                $mensaje .= ' | ' . ucfirst($tipo) . ': S/ ' . number_format(abs($diferencia), 2);
+            } else {
+                $mensaje .= ' | Caja cuadrada.';
+            }
+
             return redirect()->route('admin.cajas.index')
-                ->with('success', 'Caja cerrada correctamente');
+                ->with('success', $mensaje);
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());

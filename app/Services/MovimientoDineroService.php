@@ -301,8 +301,17 @@ class MovimientoDineroService
             throw new \Exception('No existe un tipo de reversión configurado para ' . $tipoOriginalCodigo);
         }
 
+        $tipoOriginal = TipoMovimientoDinero::where('codigo', $tipoOriginalCodigo)->where('estado', 1)->first();
+        if (!$tipoOriginal) {
+            throw new \Exception('Tipo de movimiento de dinero inválido: ' . $tipoOriginalCodigo);
+        }
+
+        // Sólo revierte los movimientos ORIGINALES de ese tipo (no los de reversión,
+        // que comparten referencia pero tienen otro tipo). Impide doble reversión
+        // cuando una referencia genera varios movimientos (ej. transferencia salida+entrada).
         $movimientos = MovimientoDinero::where('referencia_tipo', $referenciaTipo)
             ->where('id_referencia', $idReferencia)
+            ->where('id_tipo_movimiento_dinero', $tipoOriginal->id_tipo_movimiento_dinero)
             ->where('estado', 1)
             ->get();
 

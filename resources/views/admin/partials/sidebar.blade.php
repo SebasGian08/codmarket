@@ -115,6 +115,52 @@
                 </li>
                 @endif
 
+                @php($puedeFinanzas = \App\Helpers\PermisoHelper::tiene('cuentas-bancarias.ver') || \App\Helpers\PermisoHelper::tiene('ingresos-economicos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias-dinero.ver') || \App\Helpers\PermisoHelper::tiene('movimientos-dinero.ver'))
+                @if($puedeFinanzas)
+                <li
+                    class="nav-item {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#finanzas">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <p>Finanzas</p>
+                        <span class="caret"></span>
+                    </a>
+
+                    <div class="collapse {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') ? 'show' : '' }}"
+                        id="finanzas">
+                        <ul class="nav nav-collapse">
+                            @permiso('cuentas-bancarias.ver')
+                            <li class="{{ Request::is('admin/cuentas-bancarias*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.cuentas-bancarias.index') }}">
+                                    <span class="sub-item">Cuentas Bancarias</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                            @permiso('ingresos-economicos.ver')
+                            <li class="{{ Request::is('admin/ingresos-economicos*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.ingresos-economicos.index') }}">
+                                    <span class="sub-item">Ingresos Económicos</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                            @permiso('transferencias-dinero.ver')
+                            <li class="{{ Request::is('admin/transferencias-dinero*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.transferencias-dinero.index') }}">
+                                    <span class="sub-item">Transferencias de Dinero</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                            @permiso('movimientos-dinero.ver')
+                            <li class="{{ Request::is('admin/movimientos-dinero*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.movimientos-dinero.index') }}">
+                                    <span class="sub-item">Movimientos de Dinero</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                        </ul>
+                    </div>
+                </li>
+                @endif
+
                 <li
                     class="nav-item  {{ Request::is('admin/marcas*') || Request::is('admin/proveedores*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#productos">
@@ -249,7 +295,6 @@
                         </ul>
                     </div>
                 </li>
-
                 <li class="nav-item 
                     {{ Request::is('admin/blogs*') || 
                     Request::is('admin/servicios*') || 
@@ -258,7 +303,7 @@
                     Request::is('admin/banners-principales*') || 
                     Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
 
-                    <a data-bs-toggle="collapse" href="#tiendaVirtual">
+                    <a data-bs-toggle="collapse" href="#web">
                         <i class="fas fa-store"></i>
                         <p>Web</p>
                         <span class="caret"></span>

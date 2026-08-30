@@ -80,7 +80,8 @@
                                     data-id="{{ $caja->id_caja }}"
                                     data-tienda="{{ $caja->tienda->nombre }} ({{ $caja->tienda->codigo }})"
                                     data-apertura="{{ number_format($caja->monto_apertura, 2) }}"
-                                    data-ventas="{{ number_format($caja->total_ventas, 2) }}">
+                                    data-ventas="{{ number_format($caja->total_ventas, 2) }}"
+                                    data-esperado="{{ number_format($caja->efectivo_esperado, 2) }}">
                                     <i class="fa fa-lock"></i> Cerrar
                                 </button>
                             </td>
@@ -175,8 +176,11 @@
             $('#cerrarInfo').html(
                 'Tienda: <b>' + $btn.data('tienda') + '</b><br>' +
                 'Monto apertura: <b>S/ ' + $btn.data('apertura') + '</b><br>' +
+                'Efectivo esperado: <b class="text-primary">S/ ' + $btn.data('esperado') + '</b><br>' +
                 'Ventas del turno: <b class="text-success">S/ ' + $btn.data('ventas') + '</b>'
             );
+            $('#cerrarEsperado').val($btn.data('esperado'));
+            $('#cerrarDiferencia').html('');
 
             bootstrap.Modal.getOrCreateInstance(document.getElementById('modalCerrar')).show();
         });

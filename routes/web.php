@@ -42,6 +42,10 @@ use App\Http\Controllers\Admin\TransferenciaController;
 use App\Http\Controllers\Admin\CargaInventarioController;
 use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\GastoController;
+use App\Http\Controllers\Admin\CuentaBancariaController;
+use App\Http\Controllers\Admin\IngresoEconomicoController;
+use App\Http\Controllers\Admin\TransferenciaDineroController;
+use App\Http\Controllers\Admin\MovimientoDineroController;
 use App\Http\Controllers\Admin\ProveedorController as AdminProveedorController;
 use App\Http\Controllers\Admin\PromocionController as AdminPromocionController;
 use App\Http\Controllers\Admin\TrabajoRealizadoController;
@@ -173,6 +177,33 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [GastoController::class, 'store'])->name('admin.gastos.store');
         Route::post('/{id}/anular', [GastoController::class, 'anular'])->name('admin.gastos.anular');
         Route::get('/{id}/detalle', [GastoController::class, 'detalle'])->name('admin.gastos.detalle');
+    });
+
+    // MÓDULO: CUENTAS BANCARIAS (dinero)
+    Route::prefix('cuentas-bancarias')->group(function () {
+        Route::get('/', [CuentaBancariaController::class, 'index'])->name('admin.cuentas-bancarias.index');
+        Route::post('/guardar', [CuentaBancariaController::class, 'store'])->name('admin.cuentas-bancarias.store');
+        Route::put('/{id}/actualizar', [CuentaBancariaController::class, 'update'])->name('admin.cuentas-bancarias.update');
+        Route::delete('/{id}/eliminar', [CuentaBancariaController::class, 'destroy'])->name('admin.cuentas-bancarias.destroy');
+    });
+
+    // MÓDULO: INGRESOS ECONÓMICOS (dinero)
+    Route::prefix('ingresos-economicos')->group(function () {
+        Route::get('/', [IngresoEconomicoController::class, 'index'])->name('admin.ingresos-economicos.index');
+        Route::post('/guardar', [IngresoEconomicoController::class, 'store'])->name('admin.ingresos-economicos.store');
+        Route::post('/{id}/anular', [IngresoEconomicoController::class, 'anular'])->name('admin.ingresos-economicos.anular');
+    });
+
+    // MÓDULO: TRANSFERENCIAS DE DINERO (caja <-> cuenta)
+    Route::prefix('transferencias-dinero')->group(function () {
+        Route::get('/', [TransferenciaDineroController::class, 'index'])->name('admin.transferencias-dinero.index');
+        Route::post('/guardar', [TransferenciaDineroController::class, 'store'])->name('admin.transferencias-dinero.store');
+        Route::post('/{id}/anular', [TransferenciaDineroController::class, 'anular'])->name('admin.transferencias-dinero.anular');
+    });
+
+    // MÓDULO: MOVIMIENTOS FINANCIEROS (trazabilidad de dinero)
+    Route::prefix('movimientos-dinero')->group(function () {
+        Route::get('/', [MovimientoDineroController::class, 'index'])->name('admin.movimientos-dinero.index');
     });
 
     // MÓDULO: INVENTARIO
