@@ -14,7 +14,8 @@ class ProductoImagenController extends Controller
     {
         $producto = Producto::with('variantes.atributos.atributo')->findOrFail($productoId);
 
-        $imagenes = ProductoImagen::where('id_producto', $productoId)
+        $imagenes = ProductoImagen::with('variante.atributos.atributo')
+            ->where('id_producto', $productoId)
             ->orderBy('orden', 'asc')
             ->get();
 

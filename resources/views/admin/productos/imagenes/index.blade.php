@@ -175,9 +175,17 @@
                                 </div>
 
                                 <div class="gc-footer">
-                                    <span class="gc-sku" title="{{ $img->variante->sku ?? 'Sin SKU' }}">
+                                    <span class="gc-sku" title="{{ $img->variante
+                                        ? $img->variante->atributos->map(fn($a) => ($a->atributo->nombre ?? '') . ': ' . $a->valor)->implode(', ')
+                                        : 'Sin variante' }}">
                                         <i class="fa fa-tag me-1 text-muted"></i>
-                                        {{ \Illuminate\Support\Str::limit($img->variante->sku ?? 'Sin SKU', 18, '...') }}
+                                        {{ $img->variante
+                                            ? \Illuminate\Support\Str::limit(
+                                                $img->variante->atributos->map(fn($a) => ($a->atributo->nombre ?? '') . ': ' . $a->valor)->implode(' · '),
+                                                22,
+                                                '...'
+                                            )
+                                            : 'Sin variante' }}
                                     </span>
                                     <span class="gc-orden">
                                         <i class="fa fa-sort-numeric-asc"></i> {{ $img->orden }}
