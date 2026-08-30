@@ -238,24 +238,36 @@
 
         $('#cierreResumenTotal').text(moneda(total));
         $('#cierreResumenPagado').text(moneda(pagado));
-        $('#cierreResumenPendiente').text(moneda(diferencia > 0 ? diferencia : 0));
 
         var diffEl = $('#cierreResumenDiferencia');
-        diffEl.text(moneda(Math.abs(diferencia)));
         diffEl.removeClass('text-success text-danger');
+        diffEl.text(moneda(Math.abs(diferencia)));
         if (Math.abs(diferencia) < 0.01) {
             diffEl.addClass('text-success');
         } else {
             diffEl.addClass('text-danger');
         }
 
-        // Enable/disable close button
-        var btnCerrar = $('#btnProcesarCierre');
-        if (Math.abs(diferencia) < 0.01 && pagosCierre.length > 0) {
-            btnCerrar.prop('disabled', false);
+        // Indicador de estado
+        var statusWrap = $('#cierreStatusWrap');
+        var statusText = $('#cierreStatusText');
+        var listo = false;
+
+        if (pagosCierre.length === 0) {
+            statusText.html('<i class="fa fa-info-circle me-1"></i> Agrega al menos un pago');
+            statusWrap.removeClass('cierre-status-ok status-ok cierre-status-warn')
+                .addClass('cierre-status-warn');
+        } else if (Math.abs(diferencia) < 0.01) {
+            listo = true;
+            statusText.html('<i class="fa fa-check-circle me-1"></i> Pagos completos, listo para cerrar');
+            statusWrap.removeClass('cierre-status-warn status-ok').addClass('cierre-status-ok');
         } else {
-            btnCerrar.prop('disabled', true);
+            statusText.html('<i class="fa fa-exclamation-triangle me-1"></i> Falta ' + moneda(diferencia) + ' por cubrir');
+            statusWrap.removeClass('status-ok cierre-status-ok').addClass('cierre-status-warn');
         }
+
+        // Enable/disable close button
+        $('#btnProcesarCierre').prop('disabled', !listo);
     }
 
     /* ============ ACCIONES DETALLE ============ */

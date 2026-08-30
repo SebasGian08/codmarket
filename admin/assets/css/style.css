@@ -339,27 +339,202 @@ html[data-theme="dark"] .venta-atributos-filtros .atributo-separador {
 
 /* ============ CERRAR VENTA ============ */
 
-.cierre-resumen-card {
-    background: #f8f9fa;
+/* ---- Cabecera del modal ---- */
+.cierre-modal-content {
+    border: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.cierre-modal-header {
+    background: linear-gradient(135deg, #1f3a5f 0%, #2c5f8a 100%);
+    border: 0;
+    padding: 1.1rem 1.4rem;
+}
+
+.cierre-modal-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: .75rem;
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+}
+
+.cierre-modal-header h5 {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* ---- Info de la venta ---- */
+.cierre-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    background: #f8fafc;
+    border: 1px solid rgba(0, 0, 0, .07);
+    border-radius: .75rem;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+}
+
+html[data-theme="dark"] .cierre-info-grid {
+    background: var(--ka-surface-2, #273243);
+    border-color: var(--ka-border, #3a4658);
+}
+
+.cierre-info-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cierre-info-label {
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--bs-secondary);
+    margin-bottom: .15rem;
+}
+
+.cierre-info-value {
+    font-weight: 600;
+    color: var(--bs-body-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---- Pasos (Detalle / Pagos) ---- */
+.cierre-step {
     border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: .75rem;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.4rem;
+    background: #fff;
 }
 
-html[data-theme="dark"] .cierre-resumen-card {
-    background: var(--ka-surface-2);
-    border-color: var(--ka-border);
+html[data-theme="dark"] .cierre-step {
+    background: var(--ka-surface, #1b2434);
+    border-color: var(--ka-border, #3a4658);
 }
 
-.cierre-total-display {
-    font-size: 1.4rem;
+.cierre-step-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .75rem;
+    margin-bottom: .9rem;
+}
+
+.cierre-step-title {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    flex-wrap: wrap;
+}
+
+.cierre-step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--bs-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: .85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cierre-step-hint {
+    font-size: .75rem;
+    color: var(--bs-secondary);
+}
+
+.cierre-table {
+    border: 1px solid rgba(0, 0, 0, .06);
+    border-radius: .5rem;
+    overflow: hidden;
+}
+
+/* ---- Pie fijo / Resumen ---- */
+.cierre-modal-footer {
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, .08);
+    padding: 1rem 1.4rem;
+}
+
+html[data-theme="dark"] .cierre-modal-footer {
+    background: var(--ka-surface, #1b2434);
+    border-color: var(--ka-border, #3a4658);
+}
+
+.cierre-resumen {
+    width: 100%;
+}
+
+.cierre-resumen-celda {
+    min-width: 110px;
+    padding-right: 1.2rem;
+    border-right: 1px dashed rgba(0, 0, 0, .1);
+}
+
+.cierre-resumen-celda:last-of-type {
+    border-right: 0;
+}
+
+html[data-theme="dark"] .cierre-resumen-celda {
+    border-color: var(--ka-border, #3a4658);
+}
+
+.cierre-resumen-valor {
+    font-size: 1.25rem;
     font-weight: 800;
 }
 
-.cierre-diferencia-ok {
+/* ---- Indicador de estado ---- */
+.cierre-status {
+    font-size: .85rem;
+    font-weight: 600;
+    padding: .45rem .9rem;
+    border-radius: 2rem;
+}
+
+.cierre-status-ok {
+    background: rgba(25, 135, 84, .12);
     color: var(--bs-success);
 }
 
-.cierre-diferencia-error {
-    color: var(--bs-danger);
+.cierre-status-warn {
+    background: rgba(255, 193, 7, .15);
+    color: #b8860b;
+}
+
+html[data-theme="dark"] .cierre-status-warn {
+    color: #f5c518;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    .cierre-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .cierre-resumen-celda {
+        min-width: 90px;
+    }
+    .cierre-status {
+        order: 3;
+        width: 100%;
+        text-align: center;
+    }
+    .cierre-resumen .btn-lg {
+        width: 100%;
+    }
 }
 
 /* ============ FIN CERRAR VENTA ============ */
