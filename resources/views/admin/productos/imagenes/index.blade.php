@@ -145,7 +145,7 @@
                                 data-variante="{{ $img->id_variante }}" data-orden="{{ $img->orden }}">
 
                                 <div class="gc-img">
-                                    <img src="{{ asset($img->url) . '?v=' . filemtime(public_path($img->url)) }}" alt="">
+                                    <img src="{{ asset($img->url) . '?v=' . (is_file(public_path($img->url)) ? filemtime(public_path($img->url)) : time()) }}" alt="">
 
                                     @if($img->principal)
                                     <span class="gc-badge-principal"><i class="fa fa-star me-1"></i>Principal</span>
@@ -153,7 +153,7 @@
 
                                     <div class="gc-actions">
                                         <button type="button" class="gc-btn gc-btn-view"
-                                            data-url="{{ asset($img->url) . '?v=' . filemtime(public_path($img->url)) }}" title="Ver">
+                                            data-url="{{ asset($img->url) . '?v=' . (is_file(public_path($img->url)) ? filemtime(public_path($img->url)) : time()) }}" title="Ver">
                                             <i class="fa fa-eye"></i>
                                         </button>
                                         <button type="button" class="gc-btn gc-btn-rotate btn-rotar"
