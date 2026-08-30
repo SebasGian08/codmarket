@@ -192,10 +192,32 @@
         actualizarResumenCierre();
     }
 
+    function esPagoEfectivo(p) {
+        if (!p || !p.id_metodo_pago) return false;
+        var metodo = METODOS_PAGO_GLOBAL.find(function(m) { return m.id == p.id_metodo_pago; });
+        return metodo && (String(metodo.codigo).toLowerCase() === 'efectivo');
+    }
+
     function renderPagosCierre() {
         var totalPagado = 0;
         var html = pagosCierre.map(function(p, idx) {
             totalPagado += parseFloat(p.monto);
+            var efectivo = esPagoEfectivo(p);
+
+            var celdaCuenta;
+            if (efectivo) {
+                celdaCuenta = '<span class="badge bg-success-subtle text-success px-2 py-1">' +
+                    '<i class="fa fa-cash-register me-1"></i> Caja</span>';
+            } else {
+                celdaCuenta = '<select class="form-select form-select-sm cierre-pago-cuenta" data-idx="' + idx + '">' +
+                    '<option value="">Selecciona cuenta</option>' +
+                    CUENTAS_GLOBAL.map(function(c) {
+                        return '<option value="' + c.id_cuenta_bancaria + '"' + (c.id_cuenta_bancaria == p.id_cuenta_bancaria ? ' selected' : '') +
+                            '>' + escapeHtml(c.nombre_banco) + '</option>';
+                    }).join('') +
+                    '</select>';
+            }
+
             return '<tr data-pago-idx="' + idx + '">' +
                 '<td>' +
                     '<select class="form-select form-select-sm cierre-pago-metodo" data-idx="' + idx + '">' +
@@ -204,13 +226,7 @@
                     }).join('') +
                     '</select>' +
                 '</td>' +
-                '<td>' +
-                    '<select class="form-select form-select-sm cierre-pago-cuenta" data-idx="' + idx + '">' +
-                    CUENTAS_GLOBAL.map(function(c) {
-                        return '<option value="' + c.id_cuenta_bancaria + '"' + (c.id_cuenta_bancaria == p.id_cuenta_bancaria ? ' selected' : '') +                                 '>' + escapeHtml(c.nombre_banco) + '</option>';
-                    }).join('') +
-                    '</select>' +
-                '</td>' +
+                '<td>' + celdaCuenta + '</td>' +
                 '<td style="width:140px">' +
                     '<input type="number" class="form-control form-control-sm cierre-pago-monto" data-idx="' + idx + '" value="' + parseFloat(p.monto).toFixed(2) + '" min="0.01" step="0.01">' +
                 '</td>' +
@@ -296,11 +312,16 @@
             pagosCierre = [];
         }
 
-        pagosCierre.push({
+        var nuevo = {
             id_metodo_pago: METODOS_PAGO_GLOBAL.length ? METODOS_PAGO_GLOBAL[0].id : '',
-            id_cuenta_bancaria: CUENTAS_GLOBAL.length ? CUENTAS_GLOBAL[0].id_cuenta_bancaria : '',
+            id_cuenta_bancaria: null,
             monto: 0
-        });
+        };
+        if (METODOS_PAGO_GLOBAL.length && !esPagoEfectivo(nuevo)) {
+            nuevo.id_cuenta_bancaria = CUENTAS_GLOBAL.length ? CUENTAS_GLOBAL[0].id_cuenta_bancaria : null;
+        }
+
+        pagosCierre.push(nuevo);
 
         renderPagosCierre();
     });
@@ -308,6 +329,10 @@
     $(document).on('change', '.cierre-pago-metodo', function() {
         var idx = parseInt($(this).data('idx'));
         pagosCierre[idx].id_metodo_pago = parseInt($(this).val());
+        if (esPagoEfectivo(pagosCierre[idx])) {
+            pagosCierre[idx].id_cuenta_bancaria = null;
+        }
+        renderPagosCierre();
     });
 
     $(document).on('change', '.cierre-pago-cuenta', function() {
