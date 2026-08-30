@@ -290,7 +290,7 @@ class VentaController extends Controller
         }
 
         $metodosPagos = MetodoPago::where('estado', 1)->orderBy('nombre')->get();
-        $cuentas = CuentaBancaria::where('estado', 1)->orderBy('nombre')->get();
+        $cuentas = CuentaBancaria::where('estado', 1)->orderBy('nombre_banco')->get();
 
         return response()->json([
             'venta' => $venta,

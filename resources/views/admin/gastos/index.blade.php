@@ -63,7 +63,7 @@
                             </td>
                             <td class="fw-semibold">{{ $gasto->descripcion }}</td>
                             <td>{{ $gasto->tienda->nombre }}</td>
-                            <td>{{ $gasto->cuentaBancaria->nombre ?? '—' }}</td>
+                            <td>{{ $gasto->cuentaBancaria->nombre_banco ?? '—' }}</td>
                             <td class="fw-bold text-danger">S/ {{ number_format($gasto->monto, 2) }}</td>
                             <td>{{ $gasto->fecha->format('d/m/Y') }}</td>
                             <td>{{ $gasto->usuario->nombres }} {{ $gasto->usuario->apellidos }}</td>

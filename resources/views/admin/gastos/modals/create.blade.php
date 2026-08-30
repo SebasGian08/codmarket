@@ -47,7 +47,7 @@
                             <select name="id_cuenta_bancaria" class="form-control">
                                 <option value="">Selecciona una cuenta</option>
                                 @foreach($cuentasBancarias as $cuenta)
-                                <option value="{{ $cuenta->id_cuenta_bancaria }}">{{ $cuenta->nombre }}</option>
+                                <option value="{{ $cuenta->id_cuenta_bancaria }}">{{ $cuenta->nombre_banco }}</option>
                                 @endforeach
                             </select>
                         </div>

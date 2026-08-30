@@ -207,7 +207,7 @@
                 '<td>' +
                     '<select class="form-select form-select-sm cierre-pago-cuenta" data-idx="' + idx + '">' +
                     CUENTAS_GLOBAL.map(function(c) {
-                        return '<option value="' + c.id_cuenta_bancaria + '"' + (c.id_cuenta_bancaria == p.id_cuenta_bancaria ? ' selected' : '') + '>' + escapeHtml(c.nombre) + '</option>';
+                        return '<option value="' + c.id_cuenta_bancaria + '"' + (c.id_cuenta_bancaria == p.id_cuenta_bancaria ? ' selected' : '') +                                 '>' + escapeHtml(c.nombre_banco) + '</option>';
                     }).join('') +
                     '</select>' +
                 '</td>' +

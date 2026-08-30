@@ -21,7 +21,7 @@ class GastoController extends Controller
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $tiposGasto = TipoGasto::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $cuentasBancarias = CuentaBancaria::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        $cuentasBancarias = CuentaBancaria::where('estado', 1)->orderBy('nombre_banco', 'asc')->get();
 
         $cajasAbiertas = Caja::where('estado', 1)
             ->with('tienda')
