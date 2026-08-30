@@ -45,7 +45,7 @@
                             <th>Tipo</th>
                             <th>Descripción</th>
                             <th>Tienda</th>
-                            <th>Cuenta Bancaria</th>
+                            <th>Destino</th>
                             <th>Monto</th>
                             <th>Fecha</th>
                             <th>Registrado por</th>
@@ -63,7 +63,13 @@
                             </td>
                             <td class="fw-semibold">{{ $gasto->descripcion }}</td>
                             <td>{{ $gasto->tienda->nombre }}</td>
-                            <td>{{ $gasto->cuentaBancaria->nombre_banco ?? '—' }}</td>
+                            <td>
+                                @if($gasto->id_caja)
+                                <span class="badge bg-success">Caja: {{ $gasto->caja->nombre ?? '—' }}</span>
+                                @else
+                                <span class="badge bg-info text-dark">Cuenta: {{ $gasto->cuentaBancaria->nombre_banco ?? '—' }}</span>
+                                @endif
+                            </td>
                             <td class="fw-bold text-danger">S/ {{ number_format($gasto->monto, 2) }}</td>
                             <td>{{ $gasto->fecha->format('d/m/Y') }}</td>
                             <td>{{ $gasto->usuario->nombres }} {{ $gasto->usuario->apellidos }}</td>

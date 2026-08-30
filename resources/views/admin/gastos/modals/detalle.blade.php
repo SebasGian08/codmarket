@@ -30,8 +30,12 @@
         </div>
 
         <div class="col-md-4">
-            <span class="small text-muted d-block">Cuenta Bancaria</span>
-            <span class="fw-semibold">{{ $gasto->cuentaBancaria->nombre ?? '—' }}</span>
+            <span class="small text-muted d-block">Destino del gasto</span>
+            @if($gasto->id_caja)
+            <span class="badge bg-success">Caja: {{ $gasto->caja->nombre ?? '—' }}</span>
+            @else
+            <span class="badge bg-info text-dark">Cuenta: {{ $gasto->cuentaBancaria->nombre_banco ?? '—' }}</span>
+            @endif
         </div>
 
         <div class="col-md-4">

@@ -23,7 +23,7 @@ class GastoController extends Controller
 
     public function index()
     {
-        $gastos = Gasto::with(['tipoGasto', 'tienda', 'cuentaBancaria', 'usuario'])
+        $gastos = Gasto::with(['tipoGasto', 'tienda', 'caja', 'cuentaBancaria', 'usuario'])
             ->orderBy('id_gasto', 'desc')
             ->get();
 
@@ -131,7 +131,7 @@ class GastoController extends Controller
 
     public function detalle($id)
     {
-        $gasto = Gasto::with(['tipoGasto', 'tienda', 'cuentaBancaria', 'usuario'])
+        $gasto = Gasto::with(['tipoGasto', 'tienda', 'caja', 'cuentaBancaria', 'usuario'])
             ->findOrFail($id);
 
         return view('admin.gastos.modals.detalle', compact('gasto'));
