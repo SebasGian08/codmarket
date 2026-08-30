@@ -21,6 +21,7 @@ class Venta extends Model
         'id_vendedor',
         'subtotal',
         'total',
+        'monto_recibido',
         'estado',
         'estado_cobro',
         'fecha_cierre',

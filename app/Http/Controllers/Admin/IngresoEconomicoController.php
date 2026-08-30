@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Caja;
 use App\Models\CuentaBancaria;
-use App\Models\Gasto;
+use App\Models\IngresoEconomico;
 use App\Models\Tienda;
-use App\Models\TipoGasto;
+use App\Models\TipoIngresoEconomico;
 use App\Services\MovimientoDineroService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GastoController extends Controller
+class IngresoEconomicoController extends Controller
 {
     protected $movimiento;
 
@@ -23,27 +23,24 @@ class GastoController extends Controller
 
     public function index()
     {
-        $gastos = Gasto::with(['tipoGasto', 'tienda', 'cuentaBancaria', 'usuario'])
-            ->orderBy('id_gasto', 'desc')
+        $ingresos = IngresoEconomico::with(['tipoIngresoEconomico', 'tienda', 'caja', 'cuentaBancaria', 'usuario'])
+            ->orderBy('id_ingreso_economico', 'desc')
             ->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $tiposGasto = TipoGasto::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        $tiposIngreso = TipoIngresoEconomico::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $cuentasBancarias = CuentaBancaria::where('estado', 1)->orderBy('nombre_banco', 'asc')->get();
+        $cajasAbiertas = Caja::where('estado', 1)->with('tienda')->get();
 
-        $cajasAbiertas = Caja::where('estado', 1)
-            ->with('tienda')
-            ->get();
-
-        return view('admin.gastos.index', compact(
-            'gastos', 'tiendas', 'tiposGasto', 'cuentasBancarias', 'cajasAbiertas'
+        return view('admin.ingresos-economicos.index', compact(
+            'ingresos', 'tiendas', 'tiposIngreso', 'cuentasBancarias', 'cajasAbiertas'
         ));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'id_tipo_gasto' => 'required|exists:tipos_gastos,id_tipo_gasto',
+            'id_tipo_ingreso_economico' => 'required|exists:tipos_ingresos_economicos,id_tipo_ingreso_economico',
             'id_tienda' => 'required|exists:tiendas,id_tienda',
             'id_caja' => 'nullable|exists:cajas,id_caja',
             'id_cuenta_bancaria' => 'nullable|exists:cuentas_bancarias,id_cuenta_bancaria',
@@ -56,23 +53,23 @@ class GastoController extends Controller
         try {
             DB::beginTransaction();
 
-            $num = generarNumeroDocumento('GAS', 'gastos', $request->id_tienda);
-
             $idCaja = $request->id_caja;
             $idCuenta = $request->id_cuenta_bancaria;
 
-            // Un gasto afecta exactamente a UN destino financiero (caja XOR cuenta)
+            // Un ingreso afecta exactamente a UN destino financiero (caja XOR cuenta)
             if ($idCaja && $idCuenta) {
-                throw new \Exception('Un gasto no puede afectar caja y cuenta bancaria a la vez');
+                throw new \Exception('Un ingreso no puede afectar caja y cuenta bancaria a la vez');
             }
             if (!$idCaja && !$idCuenta) {
-                throw new \Exception('Debe indicar el destino del gasto: caja o cuenta bancaria');
+                throw new \Exception('Debe indicar el destino del ingreso: caja o cuenta bancaria');
             }
 
-            $gasto = Gasto::create([
+            $num = generarNumeroDocumento('ING', 'ingresos_economicos', $request->id_tienda);
+
+            $ingreso = IngresoEconomico::create([
                 'numero' => $num['numero'],
                 'correlativo' => $num['correlativo'],
-                'id_tipo_gasto' => $request->id_tipo_gasto,
+                'id_tipo_ingreso_economico' => $request->id_tipo_ingreso_economico,
                 'id_tienda' => $request->id_tienda,
                 'id_caja' => $idCaja,
                 'id_cuenta_bancaria' => $idCuenta,
@@ -85,13 +82,13 @@ class GastoController extends Controller
                 'estado' => 1,
             ]);
 
-            // Emitir el movimiento financiero (salida de dinero) y actualizar saldo
-            $this->movimiento->aplicarGasto($gasto);
+            // Emitir el movimiento financiero (entrada de dinero)
+            $this->movimiento->aplicarIngresoEconomico($ingreso);
 
             DB::commit();
 
-            return redirect()->route('admin.gastos.index')
-                ->with('success', 'Gasto ' . $gasto->numero . ' registrado correctamente');
+            return redirect()->route('admin.ingresos-economicos.index')
+                ->with('success', 'Ingreso económico ' . $ingreso->numero . ' registrado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
@@ -103,37 +100,29 @@ class GastoController extends Controller
         try {
             DB::beginTransaction();
 
-            $gasto = Gasto::findOrFail($id);
+            $ingreso = IngresoEconomico::findOrFail($id);
 
-            if ($gasto->estado == 0) {
-                throw new \Exception('Este gasto ya está anulado');
+            if ($ingreso->estado == 0) {
+                throw new \Exception('Este ingreso ya está anulado');
             }
 
-            // Revertir el movimiento financiero (devolver el dinero a caja/cuenta)
+            // Revertir el movimiento financiero (sacar el dinero de caja/cuenta)
             $this->movimiento->revertirPorReferencia(
-                MovimientoDineroService::TIPO_GASTO,
-                MovimientoDineroService::REF_GASTO,
-                $gasto->id_gasto,
-                'Anulación de gasto ' . $gasto->numero
+                MovimientoDineroService::TIPO_INGRESO_ECONOMICO,
+                MovimientoDineroService::REF_INGRESO_ECONOMICO,
+                $ingreso->id_ingreso_economico,
+                'Anulación de ingreso económico ' . $ingreso->numero
             );
 
-            $gasto->update(['estado' => 0]);
+            $ingreso->update(['estado' => 0]);
 
             DB::commit();
 
-            return redirect()->route('admin.gastos.index')
-                ->with('success', 'Gasto anulado correctamente');
+            return redirect()->route('admin.ingresos-economicos.index')
+                ->with('success', 'Ingreso económico anulado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
-    }
-
-    public function detalle($id)
-    {
-        $gasto = Gasto::with(['tipoGasto', 'tienda', 'cuentaBancaria', 'usuario'])
-            ->findOrFail($id);
-
-        return view('admin.gastos.modals.detalle', compact('gasto'));
     }
 }

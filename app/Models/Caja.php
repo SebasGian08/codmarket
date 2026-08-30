@@ -16,6 +16,7 @@ class Caja extends Model
         'nombre',
         'monto_apertura',
         'monto_cierre',
+        'monto_diferencia',
         'fecha_apertura',
         'fecha_cierre',
         'estado'
@@ -49,5 +50,15 @@ class Caja extends Model
     public function getTotalVentasAttribute()
     {
         return $this->ventas()->where('estado', 1)->sum('total');
+    }
+
+    public function movimientosDinero()
+    {
+        return $this->hasMany(MovimientoDinero::class, 'id_caja');
+    }
+
+    public function gastos()
+    {
+        return $this->hasMany(Gasto::class, 'id_caja');
     }
 }

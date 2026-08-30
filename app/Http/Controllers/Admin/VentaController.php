@@ -15,16 +15,19 @@ use App\Models\Venta;
 use App\Models\VentaDetalle;
 use App\Models\VentaPago;
 use App\Services\InventarioService;
+use App\Services\MovimientoDineroService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class VentaController extends Controller
 {
     protected $inventario;
+    protected $movimiento;
 
-    public function __construct(InventarioService $inventario)
+    public function __construct(InventarioService $inventario, MovimientoDineroService $movimiento)
     {
         $this->inventario = $inventario;
+        $this->movimiento = $movimiento;
     }
 
     public function index()
@@ -99,6 +102,8 @@ class VentaController extends Controller
             'id_caja' => 'required|exists:cajas,id_caja',
             'id_cliente' => 'nullable|exists:clientes,id_cliente',
             'nombre_cliente' => 'nullable|string|max:150',
+            'id_metodo_pago' => 'nullable|exists:metodos_pagos,id_metodo_pago',
+            'monto_recibido' => 'nullable|numeric|min:0',
             'items' => 'required|array|min:1',
             'items.*.id_variante' => 'required|exists:productos_variantes,id_variante',
             'items.*.cantidad' => 'required|numeric|min:0.01',
@@ -130,10 +135,11 @@ class VentaController extends Controller
                 'id_usuario' => auth()->id(),
                 'id_cliente' => $request->id_cliente ?: null,
                 'nombre_cliente' => $request->nombre_cliente ?: 'CLIENTES VARIOS',
-                'id_metodo_pago' => null,
+                'id_metodo_pago' => $request->id_metodo_pago ?: null,
                 'id_vendedor' => $caja->id_vendedor,
                 'subtotal' => $subtotal,
                 'total' => $subtotal,
+                'monto_recibido' => $request->monto_recibido ?: null,
                 'estado' => 1,
                 'estado_cobro' => 'pendiente',
             ]);
@@ -217,7 +223,7 @@ class VentaController extends Controller
         try {
             DB::beginTransaction();
 
-            $venta = Venta::with('detalle')->findOrFail($id);
+            $venta = Venta::with(['detalle', 'ventaPagos'])->findOrFail($id);
 
             if ($venta->estado == 0) {
                 throw new \Exception('Esta venta ya está anulada');
@@ -235,12 +241,25 @@ class VentaController extends Controller
                 );
             }
 
-            $venta->update(['estado' => 0]);
+            // Si la venta ya fue cobrada (cerrada), revertir los movimientos de dinero
+            if ($venta->estado_cobro === 'cerrado' && $venta->ventaPagos->isNotEmpty()) {
+                $this->movimiento->revertirPorReferencia(
+                    MovimientoDineroService::TIPO_VENTA,
+                    MovimientoDineroService::REF_VENTA_PAGO,
+                    $venta->id_venta,
+                    'Anulación de venta ' . $venta->numero
+                );
+            }
+
+            $venta->update([
+                'estado' => 0,
+                'estado_cobro' => 'cerrado',
+            ]);
 
             DB::commit();
 
             return redirect()->route('admin.ventas.historial')
-                ->with('success', 'Venta anulada: stock restablecido');
+                ->with('success', 'Venta anulada: stock y dinero revertidos');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
@@ -464,35 +483,60 @@ class VentaController extends Controller
             // Pagos enviados desde el modal (persistir antes de cerrar)
             $pagos = $request->input('pagos', []);
 
+            // Suma de pagos antes de ingresar para validar contra el total
+            $sumaPagos = array_reduce($pagos, function ($carry, $p) {
+                return $carry + (float) ($p['monto'] ?? 0);
+            }, 0.0);
+
+            $totalVenta = (float) $venta->total;
+
+            if (empty($pagos)) {
+                throw new \Exception('Debe registrar al menos un pago');
+            }
+
+            if (abs($sumaPagos - $totalVenta) > 0.01) {
+                throw new \Exception(
+                    'La suma de los pagos (S/ ' . number_format($sumaPagos, 2) .
+                    ') no coincide con el total de la venta (S/ ' . number_format($totalVenta, 2) . ')'
+                );
+            }
+
             // Reemplazar los pagos locales del modal
             VentaPago::where('id_venta', $venta->id_venta)->delete();
+
+            // Limpiar movimientos financieros previos (reintento de cierre)
+            DB::table('movimientos_dinero')
+                ->where('referencia_tipo', MovimientoDineroService::REF_VENTA_PAGO)
+                ->where('id_referencia', $venta->id_venta)
+                ->delete();
 
             foreach ($pagos as $pago) {
                 $idMetodo = $pago['id_metodo_pago'] ?? null;
                 $idCuenta = $pago['id_cuenta_bancaria'] ?? null;
                 $monto = (float) ($pago['monto'] ?? 0);
 
-                // Validar método de pago
-                $metodoPago = DB::table('metodos_pagos')
-                    ->where('id_metodo_pago', $idMetodo)->first();
-                if (!$metodoPago) {
+                // Validar método de pago y su destino configurado (maestro destinos_pago)
+                $metodo = MetodoPago::with('destinoPago')->find($idMetodo);
+                if (!$metodo) {
                     throw new \Exception('Debe seleccionar un método de pago válido');
                 }
+                if (!$metodo->destinoPago) {
+                    throw new \Exception('El método ' . $metodo->nombre . ' no tiene un destino financiero configurado');
+                }
 
-                // El efectivo va a la caja; los demás métodos exigen cuenta bancaria
-                $esEfectivo = strtolower($metodoPago->codigo ?? '') === 'efectivo';
-
-                if (!$esEfectivo) {
+                // El origen/destino se resuelve desde el maestro: caja o cuenta.
+                if ($metodo->afectaCuenta()) {
                     $cuentaExiste = DB::table('cuentas_bancarias')
-                        ->where('id_cuenta_bancaria', $idCuenta)->exists();
+                        ->where('id_cuenta_bancaria', $idCuenta)->where('estado', 1)
+                        ->exists();
                     if (!$cuentaExiste) {
                         throw new \Exception(
-                            'El método ' . $metodoPago->nombre .
+                            'El método ' . $metodo->nombre .
                             ' requiere seleccionar una cuenta bancaria'
                         );
                     }
                 } else {
-                    // Efectivo: no usa cuenta bancaria (afecta a la caja)
+                    // Método de caja (ej. efectivo): no usa cuenta bancaria
                     $idCuenta = null;
                 }
 
@@ -502,25 +546,27 @@ class VentaController extends Controller
 
                 VentaPago::create([
                     'id_venta' => $venta->id_venta,
-                    'id_metodo_pago' => $metodoPago->id_metodo_pago,
+                    'id_metodo_pago' => $metodo->id_metodo_pago,
                     'id_cuenta_bancaria' => $idCuenta,
                     'monto' => $monto,
                     'moneda' => 'PEN',
                     'id_usuario_registro' => auth()->id(),
                 ]);
+
+                // Emitir el movimiento financiero correspondiente (caja o cuenta)
+                $this->movimiento->aplicarVentaPago(
+                    $venta->id_venta,
+                    $venta->id_caja,
+                    [
+                        'id_metodo_pago' => $metodo->id_metodo_pago,
+                        'id_cuenta_bancaria' => $idCuenta,
+                        'monto' => $monto,
+                        'moneda' => 'PEN',
+                    ]
+                );
             }
 
             $venta->load('ventaPagos');
-
-            $totalPagado = $venta->ventaPagos->sum('monto');
-            $totalVenta = (float) $venta->total;
-
-            if (abs($totalPagado - $totalVenta) > 0.01) {
-                throw new \Exception(
-                    'La suma de los pagos (S/ ' . number_format($totalPagado, 2) .
-                    ') no coincide con el total de la venta (S/ ' . number_format($totalVenta, 2) . ')'
-                );
-            }
 
             if ($venta->ventaPagos->isEmpty()) {
                 throw new \Exception('Debe registrar al menos un pago');
@@ -533,6 +579,7 @@ class VentaController extends Controller
                 'fecha_cierre' => now(),
                 'usuario_cierre' => auth()->id(),
                 'id_metodo_pago' => $primerPago->id_metodo_pago,
+                'monto_recibido' => $venta->ventaPagos->sum('monto'),
             ]);
 
             DB::commit();
