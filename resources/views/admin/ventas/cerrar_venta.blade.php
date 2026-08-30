@@ -138,8 +138,9 @@
             renderModalCierre();
             Swal.close();
             bootstrap.Modal.getOrCreateInstance(document.getElementById('modalCerrarVenta')).show();
-        }).fail(function() {
-            Swal.fire('Error', 'No se pudo cargar la venta', 'error');
+        }).fail(function(xhr) {
+            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo cargar la venta';
+            Swal.fire('Error', msg, 'error');
         });
     });
 
@@ -379,7 +380,14 @@
                     url: '{{ url("admin/ventas") }}/' + ventaCierreActual.id_venta + '/procesar-cierre',
                     type: 'POST',
                     data: {
-                        _token: '{{ csrf_token() }}'
+                        _token: '{{ csrf_token() }}',
+                        pagos: pagosCierre.map(function(p) {
+                            return {
+                                id_metodo_pago: p.id_metodo_pago,
+                                id_cuenta_bancaria: p.id_cuenta_bancaria,
+                                monto: p.monto
+                            };
+                        })
                     },
                     dataType: 'json'
                 }).done(function(res) {

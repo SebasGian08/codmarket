@@ -446,7 +446,7 @@ class VentaController extends Controller
         ]);
     }
 
-    public function procesarCierre($id)
+    public function procesarCierre(Request $request, $id)
     {
         try {
             DB::beginTransaction();
@@ -460,6 +460,40 @@ class VentaController extends Controller
             if ($venta->estado == 0) {
                 throw new \Exception('No se puede cerrar una venta anulada');
             }
+
+            // Pagos enviados desde el modal (persistir antes de cerrar)
+            $pagos = $request->input('pagos', []);
+
+            // Reemplazar los pagos locales del modal
+            VentaPago::where('id_venta', $venta->id_venta)->delete();
+
+            foreach ($pagos as $pago) {
+                // Validar método de pago y cuenta bancaria existentes
+                $metodoExiste = DB::table('metodos_pagos')
+                    ->where('id_metodo_pago', $pago['id_metodo_pago'] ?? null)->exists();
+                $cuentaExiste = DB::table('cuentas_bancarias')
+                    ->where('id_cuenta_bancaria', $pago['id_cuenta_bancaria'] ?? null)->exists();
+
+                if (!$metodoExiste || !$cuentaExiste) {
+                    throw new \Exception('Debe seleccionar un método de pago y una cuenta válida');
+                }
+
+                $monto = (float) ($pago['monto'] ?? 0);
+                if ($monto <= 0) {
+                    throw new \Exception('El monto de cada pago debe ser mayor a 0');
+                }
+
+                VentaPago::create([
+                    'id_venta' => $venta->id_venta,
+                    'id_metodo_pago' => $pago['id_metodo_pago'],
+                    'id_cuenta_bancaria' => $pago['id_cuenta_bancaria'],
+                    'monto' => $monto,
+                    'moneda' => 'PEN',
+                    'id_usuario_registro' => auth()->id(),
+                ]);
+            }
+
+            $venta->load('ventaPagos');
 
             $totalPagado = $venta->ventaPagos->sum('monto');
             $totalVenta = (float) $venta->total;
