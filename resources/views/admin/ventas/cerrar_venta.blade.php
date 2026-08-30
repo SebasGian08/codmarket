@@ -194,7 +194,7 @@
 
     function esPagoEfectivo(p) {
         if (!p || !p.id_metodo_pago) return false;
-        var metodo = METODOS_PAGO_GLOBAL.find(function(m) { return m.id == p.id_metodo_pago; });
+        var metodo = METODOS_PAGO_GLOBAL.find(function(m) { return m.id_metodo_pago == p.id_metodo_pago; });
         return metodo && (String(metodo.codigo).toLowerCase() === 'efectivo');
     }
 
@@ -222,7 +222,7 @@
                 '<td>' +
                     '<select class="form-select form-select-sm cierre-pago-metodo" data-idx="' + idx + '">' +
                     METODOS_PAGO_GLOBAL.map(function(m) {
-                        return '<option value="' + m.id + '"' + (m.id == p.id_metodo_pago ? ' selected' : '') + '>' + escapeHtml(m.nombre) + '</option>';
+                        return '<option value="' + m.id_metodo_pago + '"' + (m.id_metodo_pago == p.id_metodo_pago ? ' selected' : '') + '>' + escapeHtml(m.nombre) + '</option>';
                     }).join('') +
                     '</select>' +
                 '</td>' +
@@ -313,7 +313,7 @@
         }
 
         var nuevo = {
-            id_metodo_pago: METODOS_PAGO_GLOBAL.length ? METODOS_PAGO_GLOBAL[0].id : '',
+            id_metodo_pago: METODOS_PAGO_GLOBAL.length ? METODOS_PAGO_GLOBAL[0].id_metodo_pago : '',
             id_cuenta_bancaria: null,
             monto: 0
         };
