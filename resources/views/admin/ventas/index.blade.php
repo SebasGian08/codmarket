@@ -175,7 +175,7 @@
                             </div>
                             <div class="venta-prod-nombre">{{ $p['nombre'] }}</div>
                             <div class="venta-prod-precio">{{ $p['variantes'] ? 'S/ ' . number_format($precioP, 2) : '—' }}</div>
-                            <div class="venta-prod-stock" data-stock-principal>S/ 0.00</div>
+                            <div class="venta-prod-stock" data-variantes-count>{{ count($p['variantes']) }} var.</div>
                         </button>
                         @endforeach
 
@@ -408,10 +408,18 @@
     }
 
     function stockVariante(idVariante) {
-        if (!cajaActual) return 0;
+        if (cajaActual) {
+            var m = STOCK_POR_TIENDA[idVariante];
+            return m ? (parseInt(m[cajaActual.id_tienda]) || 0) : 0;
+        }
 
-        var m = STOCK_POR_TIENDA[idVariante];
-        return m ? (parseInt(m[cajaActual.id_tienda]) || 0) : 0;
+        // Sin caja seleccionada: mostrar el stock total del producto en todas las tiendas
+        var total = 0;
+        var m2 = STOCK_POR_TIENDA[idVariante];
+        if (m2) {
+            Object.keys(m2).forEach(function(k) { total += parseInt(m2[k]) || 0; });
+        }
+        return total;
     }
 
     /* ============ CAJA ACTIVA ============ */
@@ -556,19 +564,14 @@
         var botones = document.querySelectorAll('#catalogoGrid .venta-prod-btn');
 
         botones.forEach(function(b) {
-            var stEl = b.querySelector('[data-stock-principal]');
+            var stEl = b.querySelector('[data-variantes-count]');
             if (!stEl) return;
 
-            var idVariante = b.getAttribute('data-variante-principal');
-            var st = 0;
+            var id = parseInt(b.dataset.id);
+            var p = PRODUCTOS.find(function(x) { return x.id === id; });
+            var n = (p && p.variantes) ? p.variantes.length : 0;
 
-            if (cajaActual && idVariante) {
-                var m = STOCK_POR_TIENDA[idVariante];
-                st = m ? (parseInt(m[cajaActual.id_tienda]) || 0) : 0;
-            }
-
-            stEl.textContent = st + (st === 1 ? ' ud' : ' uds');
-            stEl.classList.toggle('sin-stock', st <= 0);
+            stEl.textContent = n + (n === 1 ? ' variante' : ' variantes');
         });
     }
 
