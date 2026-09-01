@@ -148,7 +148,7 @@
                                 <span class="badge bg-secondary">Cerrada</span>
                             </td>
                             <td>
-
+                                @if((int) $caja->id_usuario === (int) auth()->id())
                                 <form action="{{ route('admin.cajas.destroy', $caja->id_caja) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
@@ -158,7 +158,11 @@
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </form>
-
+                                @else
+                                <span class="badge bg-light border text-muted" title="Solo la persona que abrió esta caja puede eliminarla">
+                                    <i class="fa fa-ban text-muted"></i> No disponible
+                                </span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

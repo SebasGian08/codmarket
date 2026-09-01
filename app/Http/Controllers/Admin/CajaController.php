@@ -138,6 +138,10 @@ class CajaController extends Controller
     {
         $caja = Caja::findOrFail($id);
 
+        if ((int) $caja->id_usuario !== (int) auth()->id()) {
+            return back()->with('error', 'Solo la persona que abrió esta caja puede eliminarla');
+        }
+
         if ($caja->estado == 1) {
             return back()->with('error', 'Debes cerrar la caja antes de eliminarla');
         }
