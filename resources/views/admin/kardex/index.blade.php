@@ -47,8 +47,11 @@
                     <select name="id_variante" id="kardexVariante" class="form-control">
                         <option value="">Todas las variantes</option>
                         @if($varianteSeleccionada)
+                        @php
+                            $atributosSel = $varianteSeleccionada->atributos->filter(fn($a) => $a->atributo)->map(fn($a) => ($a->atributo->nombre ?? '') . ': ' . $a->valor)->implode(' / ');
+                        @endphp
                         <option value="{{ $varianteSeleccionada->id_variante }}" selected>
-                            [{{ $varianteSeleccionada->sku }}] {{ $varianteSeleccionada->producto->nombre ?? '' }}
+                            {{ $varianteSeleccionada->producto->nombre ?? '' }} — {{ $atributosSel ?: 'SKU ' . $varianteSeleccionada->sku }}
                         </option>
                         @endif
                     </select>
@@ -97,8 +100,14 @@
         <div class="card-body">
             @if($varianteSeleccionada)
             <div class="kardex-variante-info mb-3">
-                <span class="badge bg-primary">SKU: {{ $varianteSeleccionada->sku }}</span>
-                <span>{{ $varianteSeleccionada->producto->nombre ?? '' }}</span>
+                <span class="fw-semibold me-2">{{ $varianteSeleccionada->producto->nombre ?? '' }}</span>
+                @if($varianteSeleccionada->atributos->isNotEmpty())
+                    @foreach($varianteSeleccionada->atributos as $attr)
+                        <span class="badge bg-primary">{{ $attr->atributo->nombre ?? 'attr' }}: {{ $attr->valor }}</span>
+                    @endforeach
+                @else
+                    <span class="badge bg-secondary">SKU: {{ $varianteSeleccionada->sku }}</span>
+                @endif
             </div>
             @endif
 
@@ -129,7 +138,17 @@
                             <td class="text-nowrap">{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y H:i') }}</td>
                             <td>
                                 <div class="fw-semibold">{{ $m->variante->producto->nombre ?? '—' }}</div>
-                                <div class="small text-muted">[{{ $m->variante->sku ?? '' }}]</div>
+                                <div class="small text-muted">
+                                    @if($m->variante && $m->variante->atributos->isNotEmpty())
+                                        @foreach($m->variante->atributos as $attr)
+                                            <span class="badge bg-light border px-1 me-1 rounded text-dark">
+                                                {{ $attr->atributo->nombre ?? 'attr' }}: <strong>{{ $attr->valor }}</strong>
+                                            </span>
+                                        @endforeach
+                                    @else
+                                        [{{ $m->variante->sku ?? '' }}]
+                                    @endif
+                                </div>
                             </td>
                             <td>
                                 @if($m->tienda)
@@ -197,7 +216,12 @@
 
             variantes.forEach(function(v) {
                 var sel = seleccionado && String(v.id_variante) === String(seleccionado) ? ' selected' : '';
-                $var.append('<option value="' + v.id_variante + '"' + sel + '>[SKU ' + v.sku + ']</option>');
+                var texto = v.atributos && v.atributos.length
+                    ? v.atributos.map(function(a) {
+                        return (a.atributo && a.atributo.nombre ? a.atributo.nombre + ': ' : '') + a.valor;
+                      }).join(' / ')
+                    : 'SKU ' + v.sku;
+                $var.append('<option value="' + v.id_variante + '"' + sel + '>' + texto + '</option>');
             });
         }
 

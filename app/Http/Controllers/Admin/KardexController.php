@@ -28,7 +28,7 @@ class KardexController extends Controller
         // El saldo en cada fila refleja el stock resultante tras ese movimiento, por
         // variante+tienda, en orden cronológico. Los filtros de tipo/fecha solo ocultan
         // filas, no alteran el saldo.
-        $query = Movimiento::with(['variante.producto', 'tipoMovimiento', 'tienda', 'usuario']);
+        $query = Movimiento::with(['variante.producto', 'variante.atributos.atributo', 'tipoMovimiento', 'tienda', 'usuario']);
 
         if ($idVariante) {
             $query->where('id_variante', $idVariante);
@@ -89,12 +89,12 @@ class KardexController extends Controller
         $productos = Producto::where('estado', 1)
             ->orderBy('nombre', 'asc')
             ->with(['variantes' => function ($q) {
-                $q->orderBy('sku', 'asc');
+                $q->orderBy('sku', 'asc')->with('atributos.atributo');
             }])
             ->get(['id_producto', 'nombre']);
 
         $varianteSeleccionada = $idVariante
-            ? ProductoVariante::with('producto')->find($idVariante)
+            ? ProductoVariante::with('producto', 'atributos.atributo')->find($idVariante)
             : null;
 
         $filtros = compact('idVariante', 'idTienda', 'idTipo', 'fechaDesde', 'fechaHasta');
