@@ -71,9 +71,6 @@
                             <td>{{ $caja->nombre }}</td>
                             <td>
                                 {{ $caja->usuario->nombres }} {{ $caja->usuario->apellidos }}
-                                @if((int) $caja->id_usuario === (int) auth()->id())
-                                <span class="badge bg-info text-dark">mía</span>
-                                @endif
                             </td>
                             <td>{{ $caja->vendedor->nombre ?? '—' }}</td>
                             <td class="text-end">S/ {{ number_format($caja->monto_apertura, 2) }}</td>
