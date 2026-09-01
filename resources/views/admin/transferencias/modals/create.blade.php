@@ -17,12 +17,20 @@
 
                         <div class="col-md-3">
                             <label>Tienda origen</label>
-                            <select name="id_tienda_origen" id="tiendaOrigen" class="form-control" required>
+                            <select name="id_tienda_origen" id="tiendaOrigen" class="form-control" required
+                                {{ $tiendaAsignada ? 'disabled' : '' }}>
+                                @if(!$tiendaAsignada)
                                 <option value="">Selecciona una tienda</option>
+                                @endif
                                 @foreach($tiendas as $tienda)
-                                <option value="{{ $tienda->id_tienda }}">{{ $tienda->codigo }} - {{ $tienda->nombre }}</option>
+                                <option value="{{ $tienda->id_tienda }}" {{ $tiendaAsignada && (int)$tiendaAsignada === (int)$tienda->id_tienda ? 'selected' : '' }}>
+                                    {{ $tienda->codigo }} - {{ $tienda->nombre }}
+                                </option>
                                 @endforeach
                             </select>
+                            @if($tiendaAsignada)
+                            <input type="hidden" name="id_tienda_origen" value="{{ $tiendaAsignada }}">
+                            @endif
                         </div>
 
                         <div class="col-md-3">
@@ -30,7 +38,9 @@
                             <select name="id_tienda_destino" id="tiendaDestino" class="form-control" required>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendas as $tienda)
+                                @if(!$tiendaAsignada || (int)$tiendaAsignada !== (int)$tienda->id_tienda)
                                 <option value="{{ $tienda->id_tienda }}">{{ $tienda->codigo }} - {{ $tienda->nombre }}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>

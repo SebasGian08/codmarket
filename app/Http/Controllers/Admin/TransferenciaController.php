@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Caja;
 use App\Models\Inventario;
 use App\Models\Tienda;
 use App\Models\Transferencia;
@@ -20,6 +21,39 @@ class TransferenciaController extends Controller
         $this->inventario = $inventario;
     }
 
+    protected function tiendaAsignadaUsuario()
+    {
+        return Caja::where('id_usuario', auth()->id())
+            ->where('estado', 1)
+            ->value('id_tienda');
+    }
+
+    protected function guardarDetalleTransferencia(Transferencia $transferencia)
+    {
+        foreach ($transferencia->detalle as $detalle) {
+            $stockOrigen = Inventario::where('id_variante', $detalle->id_variante)
+                ->where('id_tienda', $transferencia->id_tienda_origen)
+                ->value('cantidad') ?? 0;
+
+            if ($stockOrigen < $detalle->cantidad) {
+                $variante = $detalle->variante;
+                throw new \Exception('Stock insuficiente en origen para ' . ($variante->sku ?? 'variante #' . $detalle->id_variante));
+            }
+
+            $this->inventario->aplicar(
+                $detalle->id_variante,
+                $transferencia->id_tienda_origen,
+                'transferencia_salida',
+                $detalle->cantidad,
+                $transferencia->id_transferencia,
+                auth()->id(),
+                'Transferencia ' . $transferencia->numero
+            );
+        }
+
+        $transferencia->update(['estado' => 'en_transito']);
+    }
+
     public function index()
     {
         $transferencias = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario'])
@@ -27,6 +61,8 @@ class TransferenciaController extends Controller
             ->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
+
+        $tiendaAsignada = $this->tiendaAsignadaUsuario();
 
         $variantes = \App\Models\ProductoVariante::with(['producto', 'atributos.atributo'])
             ->where('estado', 1)
@@ -55,7 +91,7 @@ class TransferenciaController extends Controller
             })
             ->toArray();
 
-        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda'));
+        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendaAsignada'));
     }
 
     public function store(Request $request)
@@ -73,17 +109,31 @@ class TransferenciaController extends Controller
         try {
             DB::beginTransaction();
 
-            $num = generarNumeroDocumento('TRF', 'transferencias', $request->id_tienda_origen, 'id_tienda_origen');
+            $tiendaAsignada = $this->tiendaAsignadaUsuario();
+
+            // Un usuario con tienda asignada solo puede emitir desde su propia tienda
+            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $request->id_tienda_origen) {
+                throw new \Exception('Solo puedes enviar transferencias desde tu tienda asignada');
+            }
+
+            $idTiendaOrigen = $tiendaAsignada ?: $request->id_tienda_origen;
+            $idTiendaDestino = $request->id_tienda_destino;
+
+            if ((int) $idTiendaOrigen === (int) $idTiendaDestino) {
+                throw new \Exception('La tienda origen y destino deben ser diferentes');
+            }
+
+            $num = generarNumeroDocumento('TRF', 'transferencias', $idTiendaOrigen, 'id_tienda_origen');
 
             $transferencia = Transferencia::create([
                 'numero' => $num['numero'],
                 'correlativo' => $num['correlativo'],
-                'id_tienda_origen' => $request->id_tienda_origen,
-                'id_tienda_destino' => $request->id_tienda_destino,
+                'id_tienda_origen' => $idTiendaOrigen,
+                'id_tienda_destino' => $idTiendaDestino,
                 'id_usuario' => auth()->id(),
                 'fecha' => $request->fecha,
                 'observacion' => $request->observacion,
-                'estado' => 'pendiente',
+                'estado' => 'en_transito',
             ]);
 
             foreach ($request->items as $item) {
@@ -94,10 +144,15 @@ class TransferenciaController extends Controller
                 ]);
             }
 
+            // Al registrarse se descuenta el stock del origen y queda en tránsito,
+            // sin necesidad de un paso extra de "enviar".
+            $transferencia->load('detalle');
+            $this->guardarDetalleTransferencia($transferencia);
+
             DB::commit();
 
             return redirect()->route('admin.transferencias.index')
-                ->with('success', 'Transferencia ' . $transferencia->numero . ' creada correctamente');
+                ->with('success', 'Transferencia ' . $transferencia->numero . ' creada: stock descontado de la tienda origen, a la espera de aprobación en destino');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
@@ -115,28 +170,13 @@ class TransferenciaController extends Controller
                 throw new \Exception('Solo se puede enviar una transferencia pendiente');
             }
 
-            foreach ($transferencia->detalle as $detalle) {
-                $stockOrigen = Inventario::where('id_variante', $detalle->id_variante)
-                    ->where('id_tienda', $transferencia->id_tienda_origen)
-                    ->value('cantidad') ?? 0;
+            $tiendaAsignada = $this->tiendaAsignadaUsuario();
 
-                if ($stockOrigen < $detalle->cantidad) {
-                    $variante = $detalle->variante;
-                    throw new \Exception('Stock insuficiente en origen para ' . ($variante->sku ?? 'variante #' . $detalle->id_variante));
-                }
-
-                $this->inventario->aplicar(
-                    $detalle->id_variante,
-                    $transferencia->id_tienda_origen,
-                    'transferencia_salida',
-                    $detalle->cantidad,
-                    $transferencia->id_transferencia,
-                    auth()->id(),
-                    'Transferencia ' . $transferencia->numero
-                );
+            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
+                throw new \Exception('Solo puedes enviar transferencias desde tu tienda asignada');
             }
 
-            $transferencia->update(['estado' => 'en_transito']);
+            $this->guardarDetalleTransferencia($transferencia);
 
             DB::commit();
 
@@ -157,6 +197,12 @@ class TransferenciaController extends Controller
 
             if ($transferencia->estado !== 'en_transito') {
                 throw new \Exception('Solo se puede recibir una transferencia en tránsito');
+            }
+
+            $tiendaAsignada = $this->tiendaAsignadaUsuario();
+
+            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $transferencia->id_tienda_destino) {
+                throw new \Exception('Solo puedes aprobar la recepción si la tienda destino es tu tienda asignada');
             }
 
             foreach ($transferencia->detalle as $detalle) {
@@ -192,6 +238,12 @@ class TransferenciaController extends Controller
 
             if ($transferencia->estado === 'recibida') {
                 throw new \Exception('No se puede anular una transferencia recibida');
+            }
+
+            $tiendaAsignada = $this->tiendaAsignadaUsuario();
+
+            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
+                throw new \Exception('Solo puedes anular transferencias de tu tienda asignada');
             }
 
             // Si estaba en tránsito, se devuelve el stock a la tienda origen

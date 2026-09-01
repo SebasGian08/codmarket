@@ -77,24 +77,30 @@
                                 </button>
 
                                 @if($trf->estado === 'pendiente')
-                                <button class="btn btn-sm btn-primary btn-round btn-enviar"
-                                    data-url="{{ route('admin.transferencias.enviar', $trf->id_transferencia) }}">
-                                    <i class="fa fa-paper-plane"></i> Enviar
-                                </button>
+                                    @if(!$tiendaAsignada || (int)$tiendaAsignada === (int)$trf->id_tienda_origen)
+                                    <button class="btn btn-sm btn-primary btn-round btn-enviar"
+                                        data-url="{{ route('admin.transferencias.enviar', $trf->id_transferencia) }}">
+                                        <i class="fa fa-paper-plane"></i> Enviar
+                                    </button>
+                                    @endif
                                 @endif
 
                                 @if($trf->estado === 'en_transito')
-                                <button class="btn btn-sm btn-success btn-round btn-recibir"
-                                    data-url="{{ route('admin.transferencias.recibir', $trf->id_transferencia) }}">
-                                    <i class="fa fa-boxes"></i> Recibir
-                                </button>
+                                    @if(!$tiendaAsignada || (int)$tiendaAsignada === (int)$trf->id_tienda_destino)
+                                    <button class="btn btn-sm btn-success btn-round btn-recibir"
+                                        data-url="{{ route('admin.transferencias.recibir', $trf->id_transferencia) }}">
+                                        <i class="fa fa-boxes"></i> Aprobar recepción
+                                    </button>
+                                    @endif
                                 @endif
 
                                 @if($trf->estado !== 'recibida' && $trf->estado !== 'anulada')
-                                <button class="btn btn-sm btn-danger btn-round btn-anular"
-                                    data-url="{{ route('admin.transferencias.anular', $trf->id_transferencia) }}">
-                                    <i class="fa fa-ban"></i>
-                                </button>
+                                    @if(!$tiendaAsignada || (int)$tiendaAsignada === (int)$trf->id_tienda_origen)
+                                    <button class="btn btn-sm btn-danger btn-round btn-anular"
+                                        data-url="{{ route('admin.transferencias.anular', $trf->id_transferencia) }}">
+                                        <i class="fa fa-ban"></i>
+                                    </button>
+                                    @endif
                                 @endif
 
                             </td>
@@ -338,8 +344,8 @@
     });
 
     $(document).on('click', '.btn-recibir', function() {
-        confirmarAccion($(this).data('url'), '¿Recibir transferencia?',
-            'El stock se sumará a la tienda destino', '#28a745');
+        confirmarAccion($(this).data('url'), '¿Aprobar recepción?',
+            'Al aprobar, el stock ingresará a la tienda destino', '#28a745');
     });
 
     $(document).on('click', '.btn-anular', function() {
