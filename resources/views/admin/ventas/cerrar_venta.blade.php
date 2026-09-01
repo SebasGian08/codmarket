@@ -212,10 +212,13 @@
         var html = detalleCierre.map(function(item, idx) {
             var bruto = item.cantidad * item.precio;
 
-            // Descuento por línea (porcentaje) según motivo ITEM seleccionado
-            var pct = item.tipo_descuento === 'PORCENTAJE' && item.id_motivo_descuento
-                ? (parseFloat(item.valor_descuento_unitario) / (item.precio > 0 ? item.precio : 1) * 100 || 0)
-                : 0;
+            // % que muestra el usuario (lo que escribió o vino del backend)
+            var pctMostrado = parseFloat(item.valor_descuento) || 0;
+            if (pctMostrado < 0) pctMostrado = 0;
+            if (pctMostrado > 100) pctMostrado = 100;
+
+            // Descuento aplicado SOLO si hay motivo ITEM y el tipo es PORCENTAJE
+            var pct = item.tipo_descuento === 'PORCENTAJE' && item.id_motivo_descuento ? pctMostrado : 0;
             item._pct = pct;
             var desc = Math.min(bruto, bruto * pct / 100);
             item._desc = desc;
@@ -234,12 +237,11 @@
                 '<td class="text-end" style="width:100px">' + moneda(item.precio) + '</td>' +
                 '<td style="width:150px">' +
                     '<select class="form-select form-select-sm cierre-motivo" data-idx="' + idx + '">' +
-                    motivosItemCheckout().replace('<option value="">—</option>',
-                        '<option value="">—</option>') +
+                    motivosItemCheckout() +
                     '</select>' +
                 '</td>' +
                 '<td style="width:90px">' +
-                    '<input type="number" step="0.01" min="0" max="100" class="form-control form-control-sm cierre-desc" data-idx="' + idx + '" value="' + pct.toFixed(2) + '" placeholder="%">' +
+                    '<input type="number" step="0.01" min="0" max="100" class="form-control form-control-sm cierre-desc" data-idx="' + idx + '" value="' + pctMostrado.toFixed(2) + '" placeholder="%">' +
                 '</td>' +
                 '<td class="text-end fw-bold" style="width:110px">' + moneda(sf) + '</td>' +
                 '<td class="text-end" style="width:60px">' +
