@@ -102,6 +102,22 @@
         return 'S/ ' + parseFloat(n || 0).toFixed(2);
     }
 
+    function formatearFecha(iso) {
+        if (!iso) return '—';
+        try {
+            var d = new Date(iso);
+            if (isNaN(d.getTime())) return iso;
+            var dd = String(d.getDate()).padStart(2, '0');
+            var mm = String(d.getMonth() + 1).padStart(2, '0');
+            var yy = d.getFullYear();
+            var hh = String(d.getHours()).padStart(2, '0');
+            var mi = String(d.getMinutes()).padStart(2, '0');
+            return dd + '/' + mm + '/' + yy + ' ' + hh + ':' + mi;
+        } catch (e) {
+            return iso;
+        }
+    }
+
     var METODOS_PAGO_GLOBAL = [];
     var CUENTAS_GLOBAL = [];
     var CONFIG_CHECKOUT = { tipos_venta: [], motivos_descuento: [] };
@@ -159,7 +175,7 @@
         $('#cierreVentaNumero').text(ventaCierreActual.numero);
         $('#cierreVentaCliente').text(ventaCierreActual.nombre_cliente);
         $('#cierreVentaTienda').text(ventaCierreActual.tienda ? ventaCierreActual.tienda.nombre : '—');
-        $('#cierreVentaFecha').text(ventaCierreActual.created_at);
+        $('#cierreVentaFecha').text(formatearFecha(ventaCierreActual.created_at));
         $('#cierreVentaVendedor').text(ventaCierreActual.vendedor ? ventaCierreActual.vendedor.nombre : '—');
 
         // Detail table
