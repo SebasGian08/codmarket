@@ -16,6 +16,7 @@ use App\Models\VentaDetalle;
 use App\Models\VentaPago;
 use App\Services\InventarioService;
 use App\Services\MovimientoDineroService;
+use App\Services\VentaCheckoutService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,11 +24,16 @@ class VentaController extends Controller
 {
     protected $inventario;
     protected $movimiento;
+    protected $checkout;
 
-    public function __construct(InventarioService $inventario, MovimientoDineroService $movimiento)
-    {
+    public function __construct(
+        InventarioService $inventario,
+        MovimientoDineroService $movimiento,
+        VentaCheckoutService $checkout
+    ) {
         $this->inventario = $inventario;
         $this->movimiento = $movimiento;
+        $this->checkout = $checkout;
     }
 
     public function index()
@@ -299,7 +305,8 @@ class VentaController extends Controller
     {
         $venta = Venta::with([
             'tienda', 'usuario', 'cliente', 'vendedor',
-            'detalle.variante.producto',
+            'tipoVenta', 'motivoDescuentoGlobal',
+            'detalle.variante.producto', 'detalle.motivoDescuento',
             'ventaPagos.metodoPago',
             'ventaPagos.cuentaBancaria'
         ])->findOrFail($id);
@@ -315,6 +322,7 @@ class VentaController extends Controller
             'venta' => $venta,
             'metodosPagos' => $metodosPagos,
             'cuentas' => $cuentas,
+            'configCheckout' => $this->checkout->getCheckoutConfig(),
         ]);
     }
 
@@ -478,6 +486,23 @@ class VentaController extends Controller
 
             if ($venta->estado == 0) {
                 throw new \Exception('No se puede cerrar una venta anulada');
+            }
+
+            // Aplicar descuentos SOLO en el cierre de venta (checkout):
+            // tipos de venta, motivos por ítem, reglas de volumen y descuento global.
+            if ($request->has('items')) {
+                $this->checkout->procesar(
+                    $venta,
+                    [
+                        'items' => $request->input('items', []),
+                        'id_tipo_venta' => $request->input('id_tipo_venta'),
+                        'id_motivo_descuento_global' => $request->input('id_motivo_descuento_global'),
+                        'descuento_global' => $request->input('descuento_global'),
+                    ],
+                    auth()->id()
+                );
+
+                $venta->refresh();
             }
 
             // Pagos enviados desde el modal (persistir antes de cerrar)

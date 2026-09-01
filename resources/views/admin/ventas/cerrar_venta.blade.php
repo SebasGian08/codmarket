@@ -104,6 +104,7 @@
 
     var METODOS_PAGO_GLOBAL = [];
     var CUENTAS_GLOBAL = [];
+    var CONFIG_CHECKOUT = { tipos_venta: [], motivos_descuento: [] };
     var ventaCierreActual = null;
     var pagosCierre = [];
     var detalleCierre = [];
@@ -122,6 +123,7 @@
             ventaCierreActual = res.venta;
             METODOS_PAGO_GLOBAL = res.metodosPagos;
             CUENTAS_GLOBAL = res.cuentas;
+            CONFIG_CHECKOUT = res.configCheckout || CONFIG_CHECKOUT;
             pagosCierre = res.venta.venta_pagos || [];
             detalleCierre = res.venta.detalle.map(function(d) {
                 return {
@@ -131,7 +133,12 @@
                     sku: d.variante.sku || '',
                     cantidad: d.cantidad,
                     precio: parseFloat(d.precio),
-                    subtotal: parseFloat(d.subtotal)
+                    subtotal: parseFloat(d.subtotal),
+                    id_motivo_descuento: d.id_motivo_descuento || null,
+                    tipo_descuento: d.tipo_descuento || null,
+                    valor_descuento: d.tipo_descuento == 'MONTO'
+                        ? (parseFloat(d.valor_descuento_unitario) || 0)
+                        : (d.tipo_descuento == 'PORCENTAJE' ? (parseFloat(d.valor_descuento_unitario) / parseFloat(d.precio) * 100 || 0) : null)
                 };
             });
 
@@ -160,24 +167,81 @@
 
         // Payments
         renderPagosCierre();
+
+        // Descuentos / tipo de venta
+        renderDescuentosCierre();
+    }
+
+    function motivosItemCheckout() {
+        var motivos = (CONFIG_CHECKOUT.motivos_descuento || []).filter(function(m) { return m.aplica_a === 'ITEM'; });
+        var opts = '<option value="">—</option>';
+        motivos.forEach(function(m) {
+            opts += '<option value="' + m.id_motivo_descuento + '">' + escapeHtml(m.nombre) + '</option>';
+        });
+        return opts;
+    }
+
+    function renderDescuentosCierre() {
+        // Tipo de venta
+        var tipos = CONFIG_CHECKOUT.tipos_venta || [];
+        var htmlTv = '<option value="">— Sin tipo —</option>';
+        tipos.forEach(function(t) {
+            var sel = ventaCierreActual && ventaCierreActual.id_tipo_venta == t.id_tipo_venta ? ' selected' : '';
+            htmlTv += '<option value="' + t.id_tipo_venta + '"' + sel + '>' + escapeHtml(t.nombre) + '</option>';
+        });
+        $('#cierreTipoVenta').html(htmlTv);
+
+        // Motivos de cabecera (global)
+        var motivosCab = (CONFIG_CHECKOUT.motivos_descuento || []).filter(function(m) { return m.aplica_a === 'CABECERA'; });
+        var htmlM = '<option value="">— Sin motivo —</option>';
+        motivosCab.forEach(function(m) {
+            var sel = ventaCierreActual && ventaCierreActual.id_motivo_descuento_global == m.id_motivo_descuento ? ' selected' : '';
+            htmlM += '<option value="' + m.id_motivo_descuento + '"' + sel + '>' + escapeHtml(m.nombre) + '</option>';
+        });
+        $('#cierreMotivoGlobal').html(htmlM);
+
+        // Descuento global previamente aplicado
+        var dg = ventaCierreActual ? parseFloat(ventaCierreActual.descuento_global) || 0 : 0;
+        $('#cierreDescuentoGlobal').val(dg > 0 ? dg.toFixed(2) : '');
+
+        actualizarResumenCierre();
     }
 
     function renderDetalleCierre() {
         var total = 0;
         var html = detalleCierre.map(function(item, idx) {
-            var sub = item.cantidad * item.precio;
-            item.subtotal = sub;
-            total += sub;
+            var bruto = item.cantidad * item.precio;
+
+            // Descuento por línea (porcentaje) según motivo ITEM seleccionado
+            var pct = item.tipo_descuento === 'PORCENTAJE' && item.id_motivo_descuento
+                ? (parseFloat(item.valor_descuento_unitario) / (item.precio > 0 ? item.precio : 1) * 100 || 0)
+                : 0;
+            item._pct = pct;
+            var desc = Math.min(bruto, bruto * pct / 100);
+            item._desc = desc;
+            var sf = bruto - desc;
+            item.subtotal = sf;
+            total += sf;
+
             return '<tr data-idx="' + idx + '">' +
                 '<td>' +
                     '<div class="fw-semibold">' + escapeHtml(item.nombre) + '</div>' +
                     '<div class="small text-muted">' + escapeHtml(item.sku) + '</div>' +
                 '</td>' +
-                '<td style="width:100px">' +
+                '<td style="width:90px">' +
                     '<input type="number" class="form-control form-control-sm cierre-cant" data-idx="' + idx + '" value="' + item.cantidad + '" min="1">' +
                 '</td>' +
-                '<td class="text-end" style="width:120px">' + moneda(item.precio) + '</td>' +
-                '<td class="text-end fw-bold" style="width:120px">' + moneda(sub) + '</td>' +
+                '<td class="text-end" style="width:100px">' + moneda(item.precio) + '</td>' +
+                '<td style="width:150px">' +
+                    '<select class="form-select form-select-sm cierre-motivo" data-idx="' + idx + '">' +
+                    motivosItemCheckout().replace('<option value="">—</option>',
+                        '<option value="">—</option>') +
+                    '</select>' +
+                '</td>' +
+                '<td style="width:90px">' +
+                    '<input type="number" step="0.01" min="0" max="100" class="form-control form-control-sm cierre-desc" data-idx="' + idx + '" value="' + pct.toFixed(2) + '" placeholder="%">' +
+                '</td>' +
+                '<td class="text-end fw-bold" style="width:110px">' + moneda(sf) + '</td>' +
                 '<td class="text-end" style="width:60px">' +
                     '<button type="button" class="btn btn-sm btn-danger btn-border btn-round btn-quitar-detalle" data-idx="' + idx + '">' +
                         '<i class="fa fa-trash"></i>' +
@@ -185,6 +249,17 @@
                 '</td>' +
                 '</tr>';
         }).join('');
+
+        // Pre-seleccionar motivo por línea tras renderizar
+        setTimeout(function() {
+            detalleCierre.forEach(function(item, idx) {
+                if (item.id_motivo_descuento) {
+                    var $sel = $('.cierre-motivo[data-idx="' + idx + '"]');
+                    var present = $sel.find('option[value="' + item.id_motivo_descuento + '"]').length > 0;
+                    if (present) $sel.val(String(item.id_motivo_descuento));
+                }
+            });
+        }, 0);
 
         $('#cierreDetalleBody').html(html);
         $('#cierreTotalVenta').text(moneda(total));
@@ -247,7 +322,12 @@
     }
 
     function actualizarResumenCierre() {
-        var total = parseFloat(ventaCierreActual ? ventaCierreActual.total : 0) || 0;
+        var subtotal = parseFloat(ventaCierreActual ? ventaCierreActual.total : 0) || 0;
+        var descGlobal = parseFloat($('#cierreDescuentoGlobal').val()) || 0;
+        if (descGlobal < 0) descGlobal = 0;
+        if (descGlobal > subtotal) descGlobal = subtotal;
+        var total = subtotal - descGlobal;
+
         var pagado = 0;
         pagosCierre.forEach(function(p) { pagado += parseFloat(p.monto) || 0; });
         var diferencia = total - pagado;
@@ -303,6 +383,47 @@
         }
         detalleCierre.splice(idx, 1);
         renderDetalleCierre();
+    });
+
+    /* ============ ACCIONES DESCUENTOS ============ */
+    $(document).on('change', '.cierre-motivo', function() {
+        var idx = parseInt($(this).data('idx'));
+        detalleCierre[idx].id_motivo_descuento = $(this).val() ? parseInt($(this).val()) : null;
+        if (!detalleCierre[idx].id_motivo_descuento) {
+            detalleCierre[idx].tipo_descuento = null;
+            detalleCierre[idx].valor_descuento = null;
+        } else if (detalleCierre[idx].tipo_descuento !== 'PORCENTAJE') {
+            detalleCierre[idx].tipo_descuento = 'PORCENTAJE';
+            detalleCierre[idx].valor_descuento = parseFloat($('.cierre-desc[data-idx="' + idx + '"]').val()) || 0;
+        }
+        renderDetalleCierre();
+    });
+
+    $(document).on('input change', '.cierre-desc', function() {
+        var idx = parseInt($(this).data('idx'));
+        var pct = parseFloat($(this).val()) || 0;
+        if (pct < 0) pct = 0; if (pct > 100) pct = 100;
+        detalleCierre[idx].valor_descuento = pct;
+        if (pct > 0) {
+            detalleCierre[idx].tipo_descuento = 'PORCENTAJE';
+        } else {
+            detalleCierre[idx].tipo_descuento = null;
+        }
+        renderDetalleCierre();
+    });
+
+    $('#cierreDescuentoGlobal').on('input change', function() {
+        actualizarResumenCierre();
+    });
+
+    $(document).on('change', '#cierreTipoVenta', function() {
+        // Al elegir un tipo de venta (ej. Vestidos Fallados) se re-evalúan las reglas
+        ventaCierreActual._tipo_venta = $(this).val();
+        actualizarResumenCierre();
+    });
+
+    $(document).on('change', '#cierreMotivoGlobal', function() {
+        actualizarResumenCierre();
     });
 
     /* ============ ACCIONES PAGOS ============ */
@@ -418,6 +539,20 @@
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
+                        id_tipo_venta: $('#cierreTipoVenta').val() || null,
+                        id_motivo_descuento_global: $('#cierreMotivoGlobal').val() || null,
+                        descuento_global: parseFloat($('#cierreDescuentoGlobal').val()) || 0,
+                        items: detalleCierre.map(function(d) {
+                            var valor = parseFloat(d.valor_descuento) || 0;
+                            return {
+                                id_variante: d.id_variante,
+                                cantidad: d.cantidad,
+                                precio: d.precio,
+                                id_motivo_descuento: (d.id_motivo_descuento && valor > 0) ? d.id_motivo_descuento : null,
+                                tipo_descuento: valor > 0 ? (d.tipo_descuento || 'PORCENTAJE') : null,
+                                valor_descuento: valor > 0 ? valor : null
+                            };
+                        }),
                         pagos: pagosCierre.map(function(p) {
                             return {
                                 id_metodo_pago: p.id_metodo_pago,

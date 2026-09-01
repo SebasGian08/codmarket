@@ -56,6 +56,8 @@
                                     <th>Producto</th>
                                     <th class="text-center" style="width:110px">Cantidad</th>
                                     <th class="text-end" style="width:120px">Precio</th>
+                                    <th style="width:170px">Motivo desc.</th>
+                                    <th class="text-end" style="width:110px">Desc.</th>
                                     <th class="text-end" style="width:130px">Subtotal</th>
                                     <th style="width:50px"></th>
                                 </tr>
@@ -65,11 +67,41 @@
                     </div>
                 </div>
 
-                <!-- PASO 2: PAGOS -->
+                <!-- PASO 1.5: DESCUENTOS / TIPO DE VENTA -->
                 <div class="cierre-step">
                     <div class="cierre-step-head">
                         <div class="cierre-step-title">
                             <span class="cierre-step-num">2</span>
+                            <h6 class="mb-0">Descuentos y tipo de venta</h6>
+                            <span class="cierre-step-hint">Aplica descuentos solo al cerrar la venta</span>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mt-1">
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold small">Tipo de venta</label>
+                            <select class="form-select form-select-sm" id="cierreTipoVenta">
+                                <option value="">— Sin tipo —</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold small">Descuento global (S/)</label>
+                            <input type="number" step="0.01" min="0" class="form-control form-control-sm" id="cierreDescuentoGlobal" placeholder="0.00">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold small">Motivo global (cabecera)</label>
+                            <select class="form-select form-select-sm" id="cierreMotivoGlobal">
+                                <option value="">— Sin motivo —</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASO 3: PAGOS -->
+                <div class="cierre-step">
+                    <div class="cierre-step-head">
+                        <div class="cierre-step-title">
+                            <span class="cierre-step-num">3</span>
                             <h6 class="mb-0">Registrar pagos</h6>
                             <span class="cierre-step-hint">La suma de pagos debe igualar el total</span>
                         </div>

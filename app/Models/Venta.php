@@ -19,8 +19,14 @@ class Venta extends Model
         'nombre_cliente',
         'id_metodo_pago',
         'id_vendedor',
+        'id_tipo_venta',
         'subtotal',
         'total',
+        'subtotal_bruto',
+        'descuento_items_total',
+        'descuento_global',
+        'id_motivo_descuento_global',
+        'total_neto',
         'monto_recibido',
         'estado',
         'estado_cobro',
@@ -60,6 +66,16 @@ class Venta extends Model
     public function vendedor()
     {
         return $this->belongsTo(Vendedor::class, 'id_vendedor');
+    }
+
+    public function tipoVenta()
+    {
+        return $this->belongsTo(TipoVenta::class, 'id_tipo_venta');
+    }
+
+    public function motivoDescuentoGlobal()
+    {
+        return $this->belongsTo(MotivoDescuento::class, 'id_motivo_descuento_global');
     }
 
     public function detalle()

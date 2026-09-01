@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\PosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+/*
+| Configuración del cierre de venta (Checkout POS)
+| Retorna tipos de venta y motivos de descuento para armar los combos.
+*/
+Route::get('/pos/cierre-config', [PosController::class, 'configuracionCierre']);
+

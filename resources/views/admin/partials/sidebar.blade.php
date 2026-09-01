@@ -193,6 +193,46 @@
                 </li>
                 @endif
 
+                {{-- SECCIÓN: DESCUENTOS DE VENTA --}}
+                @php($puedeDescuentosVenta = \App\Helpers\PermisoHelper::tiene('tipos-venta.ver') || \App\Helpers\PermisoHelper::tiene('motivos-descuento.ver') || \App\Helpers\PermisoHelper::tiene('reglas-descuento.ver'))
+                @if($puedeDescuentosVenta)
+                <li class="nav-item {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#descuentosVenta">
+                        <i class="fas fa-tags"></i>
+                        <p>Descuentos de Venta</p>
+                        <span class="caret"></span>
+                    </a>
+
+                    <div class="collapse {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'show' : '' }}" id="descuentosVenta">
+                        <ul class="nav nav-collapse">
+                            @permiso('tipos-venta.ver')
+                            <li class="{{ Request::is('admin/tipos-venta*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.tipos-venta.index') }}">
+                                    <span class="sub-item">Tipos de Venta</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
+                            @permiso('motivos-descuento.ver')
+                            <li class="{{ Request::is('admin/motivos-descuento*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.motivos-descuento.index') }}">
+                                    <span class="sub-item">Motivos de Descuento</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
+                            @permiso('reglas-descuento.ver')
+                            <li class="{{ Request::is('admin/reglas-descuento*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.reglas-descuento.index') }}">
+                                    <span class="sub-item">Reglas de Descuento</span>
+                                </a>
+                            </li>
+                            @endpermiso
+                        </ul>
+                    </div>
+                </li>
+                @endif
+
                 {{-- SECCIÓN: MIS PRODUCTOS --}}
                 <li class="nav-item {{ Request::is('admin/categorias*') || Request::is('admin/marcas*') || Request::is('admin/proveedores*') || Request::is('admin/productos*') || Request::is('admin/atributos*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#productos">

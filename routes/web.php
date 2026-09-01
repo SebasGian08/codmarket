@@ -43,6 +43,9 @@ use App\Http\Controllers\Admin\CargaInventarioController;
 use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\GastoController;
 use App\Http\Controllers\Admin\TipoGastoController;
+use App\Http\Controllers\Admin\TipoVentaController;
+use App\Http\Controllers\Admin\MotivoDescuentoController;
+use App\Http\Controllers\Admin\ReglaDescuentoController;
 use App\Http\Controllers\Admin\CuentaBancariaController;
 use App\Http\Controllers\Admin\IngresoEconomicoController;
 use App\Http\Controllers\Admin\TransferenciaDineroController;
@@ -188,6 +191,29 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::delete('/{id}/eliminar', [TipoGastoController::class, 'destroy'])->name('admin.tipos-gastos.destroy');
     });
 
+    // MÓDULO: TIPOS DE VENTA (mantenimiento)
+    Route::prefix('tipos-venta')->group(function () {
+        Route::get('/', [TipoVentaController::class, 'index'])->name('admin.tipos-venta.index');
+        Route::post('/guardar', [TipoVentaController::class, 'store'])->name('admin.tipos-venta.store');
+        Route::put('/{id}/actualizar', [TipoVentaController::class, 'update'])->name('admin.tipos-venta.update');
+        Route::delete('/{id}/eliminar', [TipoVentaController::class, 'destroy'])->name('admin.tipos-venta.destroy');
+    });
+
+    // MÓDULO: MOTIVOS DE DESCUENTO (mantenimiento)
+    Route::prefix('motivos-descuento')->group(function () {
+        Route::get('/', [MotivoDescuentoController::class, 'index'])->name('admin.motivos-descuento.index');
+        Route::post('/guardar', [MotivoDescuentoController::class, 'store'])->name('admin.motivos-descuento.store');
+        Route::put('/{id}/actualizar', [MotivoDescuentoController::class, 'update'])->name('admin.motivos-descuento.update');
+        Route::delete('/{id}/eliminar', [MotivoDescuentoController::class, 'destroy'])->name('admin.motivos-descuento.destroy');
+    });
+
+    // MÓDULO: REGLAS DE DESCUENTO (mantenimiento)
+    Route::prefix('reglas-descuento')->group(function () {
+        Route::get('/', [ReglaDescuentoController::class, 'index'])->name('admin.reglas-descuento.index');
+        Route::post('/guardar', [ReglaDescuentoController::class, 'store'])->name('admin.reglas-descuento.store');
+        Route::put('/{id}/actualizar', [ReglaDescuentoController::class, 'update'])->name('admin.reglas-descuento.update');
+        Route::delete('/{id}/eliminar', [ReglaDescuentoController::class, 'destroy'])->name('admin.reglas-descuento.destroy');
+    });
     // MÓDULO: CUENTAS BANCARIAS (dinero)
     Route::prefix('cuentas-bancarias')->group(function () {
         Route::get('/', [CuentaBancariaController::class, 'index'])->name('admin.cuentas-bancarias.index');

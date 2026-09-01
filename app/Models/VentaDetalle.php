@@ -14,8 +14,15 @@ class VentaDetalle extends Model
         'id_variante',
         'cantidad',
         'precio',
-        'subtotal'
+        'subtotal',
+        'id_motivo_descuento',
+        'id_tipo_descuento',
+        'valor_descuento_unitario',
+        'descuento_total_item',
+        'subtotal_final'
     ];
+
+    protected $appends = ['tipo_descuento'];
 
     public function venta()
     {
@@ -25,5 +32,20 @@ class VentaDetalle extends Model
     public function variante()
     {
         return $this->belongsTo(ProductoVariante::class, 'id_variante');
+    }
+
+    public function motivoDescuento()
+    {
+        return $this->belongsTo(MotivoDescuento::class, 'id_motivo_descuento');
+    }
+
+    public function tipoDescuento()
+    {
+        return $this->belongsTo(TipoDescuento::class, 'id_tipo_descuento');
+    }
+
+    public function getTipoDescuentoAttribute()
+    {
+        return optional($this->tipoDescuento()->first())->codigo;
     }
 }
