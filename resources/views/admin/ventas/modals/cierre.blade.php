@@ -57,7 +57,7 @@
                                     <th class="text-center" style="width:110px">Cantidad</th>
                                     <th class="text-end" style="width:120px">Precio</th>
                                     <th style="width:170px">Motivo desc.</th>
-                                    <th class="text-end" style="width:110px">Desc.</th>
+                                    <th class="text-end" style="width:110px">Desc. %</th>
                                     <th class="text-end" style="width:130px">Subtotal</th>
                                     <th style="width:50px"></th>
                                 </tr>
@@ -85,11 +85,11 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-semibold small">Descuento global (S/)</label>
+                            <label class="form-label fw-semibold small">Descuento Total(S/)</label>
                             <input type="number" step="0.01" min="0" class="form-control form-control-sm" id="cierreDescuentoGlobal" placeholder="0.00">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label fw-semibold small">Motivo global (cabecera)</label>
+                            <label class="form-label fw-semibold small">Motivo</label>
                             <select class="form-select form-select-sm" id="cierreMotivoGlobal">
                                 <option value="">— Sin motivo —</option>
                             </select>

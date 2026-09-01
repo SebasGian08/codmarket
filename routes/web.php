@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\IngresoController;
 use App\Http\Controllers\Admin\TransferenciaController;
 use App\Http\Controllers\Admin\CargaInventarioController;
 use App\Http\Controllers\Admin\InventarioController;
+use App\Http\Controllers\Admin\KardexController;
 use App\Http\Controllers\Admin\GastoController;
 use App\Http\Controllers\Admin\TipoGastoController;
 use App\Http\Controllers\Admin\TipoVentaController;
@@ -247,6 +248,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/carga', [CargaInventarioController::class, 'index'])->name('admin.inventario.carga.index');
         Route::get('/carga/plantilla', [CargaInventarioController::class, 'plantilla'])->name('admin.inventario.carga.plantilla');
         Route::post('/carga/importar', [CargaInventarioController::class, 'importar'])->name('admin.inventario.carga.importar');
+        Route::get('/kardex', [KardexController::class, 'index'])->name('admin.inventario.kardex');
     });
 
     // MÓDULO: USUARIOS (Sintaxis compatible)

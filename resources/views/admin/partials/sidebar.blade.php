@@ -74,7 +74,7 @@
                 @endif
 
                 {{-- SECCIÓN: INVENTARIO --}}
-                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('gastos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga'))
+                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('gastos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga') || \App\Helpers\PermisoHelper::tiene('kardex.ver'))
                 @if($puedeInventario)
                 <li class="nav-item {{ Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#inventario">
@@ -118,9 +118,17 @@
                             @endpermiso
 
                             @permiso('inventario.ver')
-                            <li class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') ? 'active' : '' }}">
+                            <li class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.inventario.index') }}">
                                     <span class="sub-item">Stock por Tienda</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
+                            @permiso('kardex.ver')
+                            <li class="{{ Request::is('admin/inventario/kardex*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.inventario.kardex') }}">
+                                    <span class="sub-item">Kardex</span>
                                 </a>
                             </li>
                             @endpermiso

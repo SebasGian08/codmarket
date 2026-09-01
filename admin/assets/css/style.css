@@ -644,3 +644,19 @@ html[data-theme="dark"] #seleccionadasWrap {
 /* ============ VENDEDORES ============ */
 /* Estilos del módulo de vendedores */
 /* ============ FIN VENDEDORES ============ */
+
+/* ============ KARDEX ============ */
+.kardex-filtros .form-control {
+    height: 38px;
+}
+.kardex-variante-info {
+    padding: 8px 12px;
+    background: rgba(13, 110, 253, 0.06);
+    border: 1px solid rgba(13, 110, 253, 0.15);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+.kardex-variante-info .badge {
+    margin-right: 8px;
+}
+/* ============ FIN KARDEX ============ */
