@@ -69,13 +69,19 @@
                                 {{ $caja->tienda->nombre }}
                             </td>
                             <td>{{ $caja->nombre }}</td>
-                            <td>{{ $caja->usuario->nombres }} {{ $caja->usuario->apellidos }}</td>
+                            <td>
+                                {{ $caja->usuario->nombres }} {{ $caja->usuario->apellidos }}
+                                @if((int) $caja->id_usuario === (int) auth()->id())
+                                <span class="badge bg-info text-dark">mía</span>
+                                @endif
+                            </td>
                             <td>{{ $caja->vendedor->nombre ?? '—' }}</td>
                             <td class="text-end">S/ {{ number_format($caja->monto_apertura, 2) }}</td>
                             <td class="text-end fw-bold text-success">S/ {{ number_format($caja->total_ventas, 2) }}</td>
                             <td class="text-center"><span class="badge bg-primary">{{ $caja->nro_ventas }}</span></td>
                             <td>{{ $caja->fecha_apertura ? $caja->fecha_apertura->format('d/m/Y H:i') : '—' }}</td>
                             <td>
+                                @if((int) $caja->id_usuario === (int) auth()->id())
                                 <button class="btn btn-sm btn-success btn-round btn-cerrar-caja"
                                     data-id="{{ $caja->id_caja }}"
                                     data-tienda="{{ $caja->tienda->nombre }} ({{ $caja->tienda->codigo }})"
@@ -84,6 +90,11 @@
                                     data-esperado="{{ number_format($caja->efectivo_esperado, 2) }}">
                                     <i class="fa fa-lock"></i> Cerrar
                                 </button>
+                                @else
+                                <span class="badge bg-light border text-muted" title="Solo la persona que abrió esta caja puede cerrarla">
+                                    <i class="fa fa-lock text-muted"></i> No disponible
+                                </span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

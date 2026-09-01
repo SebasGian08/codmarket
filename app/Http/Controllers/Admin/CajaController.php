@@ -97,6 +97,10 @@ class CajaController extends Controller
                 throw new \Exception('Esta caja ya está cerrada');
             }
 
+            if ((int) $caja->id_usuario !== (int) auth()->id()) {
+                throw new \Exception('Solo la persona que abrió esta caja puede cerrarla');
+            }
+
             $contado = (float) $request->monto_cierre;
             $esperado = $this->movimiento->efectivoEsperadoCaja($caja->id_caja);
 
