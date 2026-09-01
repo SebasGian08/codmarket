@@ -42,6 +42,7 @@ use App\Http\Controllers\Admin\TransferenciaController;
 use App\Http\Controllers\Admin\CargaInventarioController;
 use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\GastoController;
+use App\Http\Controllers\Admin\TipoGastoController;
 use App\Http\Controllers\Admin\CuentaBancariaController;
 use App\Http\Controllers\Admin\IngresoEconomicoController;
 use App\Http\Controllers\Admin\TransferenciaDineroController;
@@ -177,6 +178,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [GastoController::class, 'store'])->name('admin.gastos.store');
         Route::post('/{id}/anular', [GastoController::class, 'anular'])->name('admin.gastos.anular');
         Route::get('/{id}/detalle', [GastoController::class, 'detalle'])->name('admin.gastos.detalle');
+    });
+
+    // MÓDULO: TIPOS DE GASTOS (mantenimiento)
+    Route::prefix('tipos-gastos')->group(function () {
+        Route::get('/', [TipoGastoController::class, 'index'])->name('admin.tipos-gastos.index');
+        Route::post('/guardar', [TipoGastoController::class, 'store'])->name('admin.tipos-gastos.store');
+        Route::put('/{id}/actualizar', [TipoGastoController::class, 'update'])->name('admin.tipos-gastos.update');
+        Route::delete('/{id}/eliminar', [TipoGastoController::class, 'destroy'])->name('admin.tipos-gastos.destroy');
     });
 
     // MÓDULO: CUENTAS BANCARIAS (dinero)

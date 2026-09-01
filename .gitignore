@@ -12,3 +12,5 @@ public/uploads/*
 public/uploadsbk/*
 public/.well-known/*
 public/logs/*
+
+.graphify/

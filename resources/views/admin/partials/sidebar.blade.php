@@ -138,16 +138,16 @@
                 @endif
 
                 {{-- SECCIÓN: FINANZAS --}}
-                @php($puedeFinanzas = \App\Helpers\PermisoHelper::tiene('cuentas-bancarias.ver') || \App\Helpers\PermisoHelper::tiene('ingresos-economicos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias-dinero.ver') || \App\Helpers\PermisoHelper::tiene('movimientos-dinero.ver'))
+                @php($puedeFinanzas = \App\Helpers\PermisoHelper::tiene('cuentas-bancarias.ver') || \App\Helpers\PermisoHelper::tiene('ingresos-economicos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias-dinero.ver') || \App\Helpers\PermisoHelper::tiene('movimientos-dinero.ver') || \App\Helpers\PermisoHelper::tiene('tipos-gastos.ver'))
                 @if($puedeFinanzas)
-                <li class="nav-item {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#finanzas">
                         <i class="fas fa-money-bill-wave"></i>
                         <p>Finanzas</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') ? 'show' : '' }}" id="finanzas">
+                    <div class="collapse {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'show' : '' }}" id="finanzas">
                         <ul class="nav nav-collapse">
                             @permiso('cuentas-bancarias.ver')
                             <li class="{{ Request::is('admin/cuentas-bancarias*') ? 'active' : '' }}">
@@ -177,6 +177,14 @@
                             <li class="{{ Request::is('admin/movimientos-dinero*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.movimientos-dinero.index') }}">
                                     <span class="sub-item">Movimientos de Dinero</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
+                            @permiso('tipos-gastos.ver')
+                            <li class="{{ Request::is('admin/tipos-gastos*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.tipos-gastos.index') }}">
+                                    <span class="sub-item">Tipos de Gasto</span>
                                 </a>
                             </li>
                             @endpermiso
