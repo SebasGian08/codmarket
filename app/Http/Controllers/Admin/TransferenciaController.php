@@ -111,9 +111,9 @@ class TransferenciaController extends Controller
 
             $tiendaAsignada = $this->tiendaAsignadaUsuario();
 
-            // Un usuario con tienda asignada solo puede emitir desde su propia tienda
-            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $request->id_tienda_origen) {
-                throw new \Exception('Solo puedes enviar transferencias desde tu tienda asignada');
+            // Para crear/emitir una transferencia es obligatorio tener caja abierta en la tienda origen
+            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $request->id_tienda_origen) {
+                throw new \Exception('Solo puedes emitir transferencias desde tu tienda asignada (debes tener una caja abierta en la tienda origen)');
             }
 
             $idTiendaOrigen = $tiendaAsignada ?: $request->id_tienda_origen;
@@ -172,8 +172,8 @@ class TransferenciaController extends Controller
 
             $tiendaAsignada = $this->tiendaAsignadaUsuario();
 
-            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
-                throw new \Exception('Solo puedes enviar transferencias desde tu tienda asignada');
+            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
+                throw new \Exception('Solo puedes enviar transferencias desde tu tienda asignada (debes tener una caja abierta en la tienda origen)');
             }
 
             $this->guardarDetalleTransferencia($transferencia);
@@ -201,8 +201,8 @@ class TransferenciaController extends Controller
 
             $tiendaAsignada = $this->tiendaAsignadaUsuario();
 
-            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $transferencia->id_tienda_destino) {
-                throw new \Exception('Solo puedes aprobar la recepción si la tienda destino es tu tienda asignada');
+            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $transferencia->id_tienda_destino) {
+                throw new \Exception('Solo un usuario con caja abierta en la tienda destino puede aprobar la recepción');
             }
 
             foreach ($transferencia->detalle as $detalle) {
@@ -242,8 +242,8 @@ class TransferenciaController extends Controller
 
             $tiendaAsignada = $this->tiendaAsignadaUsuario();
 
-            if ($tiendaAsignada && (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
-                throw new \Exception('Solo puedes anular transferencias de tu tienda asignada');
+            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
+                throw new \Exception('Solo puedes anular transferencias de tu tienda asignada (debes tener una caja abierta en la tienda origen)');
             }
 
             // Si estaba en tránsito, se devuelve el stock a la tienda origen
