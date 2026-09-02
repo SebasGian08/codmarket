@@ -19,11 +19,30 @@ class CajaController extends Controller
         $this->movimiento = $movimiento;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $cajas = Caja::with(['tienda', 'usuario', 'vendedor'])
-            ->withCount('ventas')
-            ->orderBy('estado', 'desc')
+        $filtros = [
+            'id_tienda' => $request->query('id_tienda'),
+            'estado' => $request->query('estado'),
+            'nombre' => $request->query('nombre'),
+        ];
+
+        $query = Caja::with(['tienda', 'usuario', 'vendedor'])
+            ->withCount('ventas');
+
+        if (!empty($filtros['id_tienda'])) {
+            $query->where('id_tienda', $filtros['id_tienda']);
+        }
+
+        if ($filtros['estado'] !== null && $filtros['estado'] !== '') {
+            $query->where('estado', (int) $filtros['estado']);
+        }
+
+        if (!empty($filtros['nombre'])) {
+            $query->where('nombre', 'like', '%' . $filtros['nombre'] . '%');
+        }
+
+        $cajas = $query->orderBy('estado', 'desc')
             ->orderBy('id_caja', 'desc')
             ->get()
             ->each(function ($caja) {
@@ -38,7 +57,7 @@ class CajaController extends Controller
             ->orderBy('nombre', 'asc')
             ->get();
 
-        return view('admin.cajas.index', compact('cajas', 'tiendas', 'vendedores'));
+        return view('admin.cajas.index', compact('cajas', 'tiendas', 'vendedores', 'filtros'));
     }
 
     public function abrir(Request $request)

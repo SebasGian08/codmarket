@@ -32,6 +32,48 @@
     </div>
 
     <div class="card">
+        <div class="card-body py-3">
+            <form method="GET" action="{{ route('admin.productos.index') }}" class="row g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Buscar producto</label>
+                    <input type="text" name="nombre" class="form-control form-control-sm" placeholder="Nombre del producto"
+                        value="{{ $filtros['nombre'] ?? '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Marca</label>
+                    <select name="id_marca" class="form-select form-select-sm">
+                        <option value="">Todas</option>
+                        @foreach($marcas as $marca)
+                        <option value="{{ $marca->id_marca }}" {{ (string)($filtros['id_marca'] ?? '') === (string)$marca->id_marca ? 'selected' : '' }}>
+                            {{ $marca->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Proveedor</label>
+                    <select name="id_proveedor" class="form-select form-select-sm">
+                        <option value="">Todos</option>
+                        @foreach($proveedores as $prov)
+                        <option value="{{ $prov->id_proveedor }}" {{ (string)($filtros['id_proveedor'] ?? '') === (string)$prov->id_proveedor ? 'selected' : '' }}>
+                            {{ $prov->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-sm btn-primary btn-round">
+                        <i class="fa fa-search"></i> Buscar
+                    </button>
+                    <a href="{{ route('admin.productos.index') }}" class="btn btn-sm btn-secondary btn-round">
+                        <i class="fa fa-eraser"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body">
 
             <div class="table-responsive">

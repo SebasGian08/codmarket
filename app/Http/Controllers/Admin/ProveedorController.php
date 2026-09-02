@@ -10,13 +10,27 @@ use App\Models\TipoDocumento;
 
 class ProveedorController extends Controller
 {
-    public function index()
-{
-    $proveedores = Proveedor::with('tipoDocumento')->get();
-    $tipos = TipoDocumento::all();
+public function index(Request $request)
+    {
+        $filtros = [
+            'nombre' => $request->query('nombre'),
+        ];
 
-    return view('admin.proveedores.index', compact('proveedores', 'tipos'));
-}
+        $query = Proveedor::with('tipoDocumento');
+
+        if (!empty($filtros['nombre'])) {
+            $query->where(function ($q) use ($filtros) {
+                $q->where('nombre', 'like', '%' . $filtros['nombre'] . '%')
+                    ->orWhere('numero_documento', 'like', '%' . $filtros['nombre'] . '%')
+                    ->orWhere('correo', 'like', '%' . $filtros['nombre'] . '%');
+            });
+        }
+
+        $proveedores = $query->orderBy('nombre', 'asc')->get();
+        $tipos = TipoDocumento::all();
+
+        return view('admin.proveedores.index', compact('proveedores', 'tipos', 'filtros'));
+    }
     public function store(Request $request)
     {
         $request->validate([

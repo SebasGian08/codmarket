@@ -19,6 +19,32 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                    <form method="GET" action="{{ route('admin.users.index') }}" class="row g-2 align-items-end mb-3">
+                        <div class="col-md-6 col-lg-4">
+                            <label class="form-label fw-semibold">Buscar usuario</label>
+                            <input type="text" name="nombre" class="form-control form-control-sm" placeholder="Nombres, email"
+                                value="{{ $filtros['nombre'] ?? '' }}">
+                        </div>
+                        <div class="col-md-4 col-lg-3">
+                            <label class="form-label fw-semibold">Rol</label>
+                            <select name="id_rol" class="form-select form-select-sm">
+                                <option value="">Todos</option>
+                                @foreach($roles as $rol)
+                                <option value="{{ $rol->id_rol }}" {{ (string)($filtros['id_rol'] ?? '') === (string)$rol->id_rol ? 'selected' : '' }}>
+                                    {{ $rol->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-12 d-flex flex-wrap gap-2">
+                            <button type="submit" class="btn btn-sm btn-primary btn-round">
+                                <i class="fa fa-search"></i> Buscar
+                            </button>
+                            <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-secondary btn-round">
+                                <i class="fa fa-eraser"></i> Limpiar
+                            </a>
+                        </div>
+                    </form>
                     <div class="table-responsive">
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>

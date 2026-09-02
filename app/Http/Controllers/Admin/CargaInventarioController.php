@@ -36,7 +36,6 @@ class CargaInventarioController extends Controller
     {
         $request->validate([
             'archivo' => 'required|mimes:xlsx,xls',
-            'id_tienda' => 'required|exists:tiendas,id_tienda',
         ]);
 
         try {
@@ -44,60 +43,71 @@ class CargaInventarioController extends Controller
 
             $rows = Excel::toArray([], $request->file('archivo'));
 
-            if (empty($rows) || empty($rows[0])) {
+            if (empty($rows)) {
                 throw new \Exception('El archivo no contiene datos.');
             }
-
-            $datos = $rows[0];
-            unset($datos[0]); // eliminar cabecera
 
             $procesadas = 0;
             $sinSku = 0;
             $sinVariante = 0;
+            $tiendas = Tienda::where('estado', 1)->get()->keyBy(function ($tienda) {
+                return mb_strtolower(trim((string) $tienda->codigo));
+            });
 
-            $tienda = Tienda::findOrFail($request->id_tienda);
-
-            foreach ($datos as $fila) {
-                $sku = trim($fila[0] ?? '');
-
-                if (!$sku) {
-                    $sinSku++;
+            foreach ($rows as $indiceHoja => $datos) {
+                if (empty($datos)) {
                     continue;
                 }
 
-                $variante = ProductoVariante::where('sku', $sku)->first();
+                // Excel::toArray no expone el nombre de la hoja; se obtiene del lector.
+                $nombreHoja = $this->nombreHoja($request->file('archivo'), $indiceHoja);
+                $codigoTienda = mb_strtolower(trim($nombreHoja));
 
-                if (!$variante) {
-                    $sinVariante++;
+                if ($codigoTienda === 'instrucciones') {
                     continue;
                 }
 
-                $cantidad = (int) ($fila[2] ?? 0);
-
-                if ($cantidad <= 0) {
-                    $sinSku++;
-                    continue;
+                $tienda = $tiendas->get($codigoTienda);
+                if (!$tienda) {
+                    throw new \Exception('La pestaña "' . $nombreHoja . '" no corresponde a una tienda activa.');
                 }
 
-                $this->inventario->aplicar(
-                    $variante->id_variante,
-                    $tienda->id_tienda,
-                    'ingreso',
-                    $cantidad,
-                    null,
-                    auth()->id(),
-                    'Carga masiva de inventario: ' . $sku . ' (' . $tienda->nombre . ')'
-                );
+                unset($datos[0]);
+                foreach ($datos as $fila) {
+                    $sku = trim((string) ($fila[0] ?? ''));
+                    $cantidad = (int) ($fila[3] ?? 0);
 
-                $procesadas++;
+                    if (!$sku || $cantidad <= 0) {
+                        $sinSku++;
+                        continue;
+                    }
+
+                    $variante = ProductoVariante::where('sku', $sku)->first();
+                    if (!$variante) {
+                        $sinVariante++;
+                        continue;
+                    }
+
+                    $this->inventario->aplicar($variante->id_variante, $tienda->id_tienda, 'ingreso', $cantidad, null, auth()->id(), 'Carga masiva de inventario: ' . $sku . ' (' . $tienda->nombre . ')');
+                    $procesadas++;
+                }
             }
 
             DB::commit();
 
-            return back()->with('success', "Carga completada: {$procesadas} variantes procesadas, {$sinVariante} sin variante, {$sinSku} filas omitidas.");
+            return back()->with('success', "Carga completada: {$procesadas} variantes procesadas en pestañas, {$sinVariante} sin variante, {$sinSku} filas omitidas.");
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    private function nombreHoja($archivo, $indice): string
+    {
+        $lector = \PhpOffice\PhpSpreadsheet\IOFactory::createReaderForFile($archivo->getRealPath());
+        $lector->setReadDataOnly(true);
+        $hojas = $lector->listWorksheetNames($archivo->getRealPath());
+
+        return $hojas[$indice] ?? '';
     }
 }

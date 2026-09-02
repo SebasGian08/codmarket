@@ -588,6 +588,17 @@ html[data-theme="dark"] .cierre-status-warn {
 
 /* ============ INVENTARIO ============ */
 
+.inventario-carga-nota {
+    border-left: 3px solid var(--bs-primary);
+    background: rgba(13, 110, 253, .05);
+    padding: .65rem .8rem;
+    border-radius: 0 .35rem .35rem 0;
+}
+
+html[data-theme="dark"] .inventario-carga-nota {
+    background: rgba(13, 110, 253, .12);
+}
+
 .venta-var-btn.seleccionada {
     border-color: var(--bs-success);
     box-shadow: 0 0 0 2px rgba(33, 195, 108, .35);
@@ -659,4 +670,18 @@ html[data-theme="dark"] #seleccionadasWrap {
 .kardex-variante-info .badge {
     margin-right: 8px;
 }
+/* ============ TRANSFERENCIAS ============ */
+.trf-filtros .form-control,
+.trf-filtros .form-select {
+    height: 38px;
+}
+/* ============ FIN TRANSFERENCIAS ============ */
+
+/* ============ FILTROS DE LISTADOS ============ */
+.card-body.py-3 form.row .form-control,
+.card-body.py-3 form.row .form-select {
+    height: 38px;
+}
+/* ============ FIN FILTROS DE LISTADOS ============ */
+
 /* ============ FIN KARDEX ============ */

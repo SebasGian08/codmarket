@@ -11,12 +11,31 @@ use Illuminate\Support\Facades\Auth;
 
 class UsuarioController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = Usuario::with('rol')->orderBy('id_usuario', 'desc')->get();
-        $roles = Rol::all(); 
+        $filtros = [
+            'nombre' => $request->query('nombre'),
+            'id_rol' => $request->query('id_rol'),
+        ];
 
-        return view('admin.users.index', compact('users', 'roles'));
+        $query = Usuario::with('rol');
+
+        if (!empty($filtros['nombre'])) {
+            $query->where(function ($q) use ($filtros) {
+                $q->where('nombres', 'like', '%' . $filtros['nombre'] . '%')
+                    ->orWhere('apellidos', 'like', '%' . $filtros['nombre'] . '%')
+                    ->orWhere('email', 'like', '%' . $filtros['nombre'] . '%');
+            });
+        }
+
+        if (!empty($filtros['id_rol'])) {
+            $query->where('id_rol', $filtros['id_rol']);
+        }
+
+        $users = $query->orderBy('id_usuario', 'desc')->get();
+        $roles = Rol::all();
+
+        return view('admin.users.index', compact('users', 'roles', 'filtros'));
     }
 
     public function store(Request $request)

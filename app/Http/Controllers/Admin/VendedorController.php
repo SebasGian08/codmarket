@@ -10,13 +10,23 @@ use Illuminate\Http\Request;
 
 class VendedorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $vendedores = Vendedor::with(['usuario', 'tiendas'])->orderBy('nombre', 'asc')->get();
+        $filtros = [
+            'nombre' => $request->query('nombre'),
+        ];
+
+        $query = Vendedor::with(['usuario', 'tiendas']);
+
+        if (!empty($filtros['nombre'])) {
+            $query->where('nombre', 'like', '%' . $filtros['nombre'] . '%');
+        }
+
+        $vendedores = $query->orderBy('nombre', 'asc')->get();
         $usuarios = Usuario::where('estado', 1)->orderBy('nombres', 'asc')->get();
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        return view('admin.vendedores.index', compact('vendedores', 'usuarios', 'tiendas'));
+        return view('admin.vendedores.index', compact('vendedores', 'usuarios', 'tiendas', 'filtros'));
     }
 
     public function store(Request $request)

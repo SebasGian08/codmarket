@@ -54,11 +54,47 @@ class TransferenciaController extends Controller
         $transferencia->update(['estado' => 'en_transito']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $transferencias = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario'])
-            ->orderBy('id_transferencia', 'desc')
-            ->get();
+        $filtros = [
+            'numero' => $request->query('numero'),
+            'id_tienda_origen' => $request->query('id_tienda_origen'),
+            'id_tienda_destino' => $request->query('id_tienda_destino'),
+            'estado' => $request->query('estado'),
+            'fecha_desde' => $request->query('fecha_desde'),
+            'fecha_hasta' => $request->query('fecha_hasta'),
+        ];
+
+        $query = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario']);
+
+        if (!empty($filtros['numero'])) {
+            $query->where(function ($q) use ($filtros) {
+                $q->where('numero', 'like', '%' . $filtros['numero'] . '%')
+                    ->orWhere('correlativo', 'like', '%' . $filtros['numero'] . '%');
+            });
+        }
+
+        if (!empty($filtros['id_tienda_origen'])) {
+            $query->where('id_tienda_origen', $filtros['id_tienda_origen']);
+        }
+
+        if (!empty($filtros['id_tienda_destino'])) {
+            $query->where('id_tienda_destino', $filtros['id_tienda_destino']);
+        }
+
+        if (!empty($filtros['estado'])) {
+            $query->where('estado', $filtros['estado']);
+        }
+
+        if (!empty($filtros['fecha_desde'])) {
+            $query->whereDate('fecha', '>=', $filtros['fecha_desde']);
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
+        }
+
+        $transferencias = $query->orderBy('id_transferencia', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
@@ -91,7 +127,7 @@ class TransferenciaController extends Controller
             })
             ->toArray();
 
-        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendaAsignada'));
+        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendaAsignada', 'filtros'));
     }
 
     public function store(Request $request)

@@ -21,11 +21,44 @@ class IngresoEconomicoController extends Controller
         $this->movimiento = $movimiento;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $ingresos = IngresoEconomico::with(['tipoIngresoEconomico', 'tienda', 'caja', 'cuentaBancaria', 'usuario'])
-            ->orderBy('id_ingreso_economico', 'desc')
-            ->get();
+        $filtros = [
+            'numero' => $request->query('numero'),
+            'id_tienda' => $request->query('id_tienda'),
+            'id_tipo_ingreso_economico' => $request->query('id_tipo_ingreso_economico'),
+            'estado' => $request->query('estado'),
+            'fecha_desde' => $request->query('fecha_desde'),
+            'fecha_hasta' => $request->query('fecha_hasta'),
+        ];
+
+        $query = IngresoEconomico::with(['tipoIngresoEconomico', 'tienda', 'caja', 'cuentaBancaria', 'usuario']);
+
+        if (!empty($filtros['numero'])) {
+            $query->where('numero', 'like', '%' . $filtros['numero'] . '%');
+        }
+
+        if (!empty($filtros['id_tienda'])) {
+            $query->where('id_tienda', $filtros['id_tienda']);
+        }
+
+        if (!empty($filtros['id_tipo_ingreso_economico'])) {
+            $query->where('id_tipo_ingreso_economico', $filtros['id_tipo_ingreso_economico']);
+        }
+
+        if ($filtros['estado'] !== null && $filtros['estado'] !== '') {
+            $query->where('estado', (int) $filtros['estado']);
+        }
+
+        if (!empty($filtros['fecha_desde'])) {
+            $query->whereDate('fecha', '>=', $filtros['fecha_desde']);
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
+        }
+
+        $ingresos = $query->orderBy('id_ingreso_economico', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $tiposIngreso = TipoIngresoEconomico::where('estado', 1)->orderBy('nombre', 'asc')->get();
@@ -33,7 +66,7 @@ class IngresoEconomicoController extends Controller
         $cajasAbiertas = Caja::where('estado', 1)->with('tienda')->get();
 
         return view('admin.ingresos-economicos.index', compact(
-            'ingresos', 'tiendas', 'tiposIngreso', 'cuentasBancarias', 'cajasAbiertas'
+            'ingresos', 'tiendas', 'tiposIngreso', 'cuentasBancarias', 'cajasAbiertas', 'filtros'
         ));
     }
 

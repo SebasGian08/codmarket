@@ -26,6 +26,26 @@
     @endif
 
     <div class="card">
+        <div class="card-body py-3">
+            <form method="GET" action="{{ route('admin.vendedores.index') }}" class="row g-2 align-items-end">
+                <div class="col-md-6 col-lg-4">
+                    <label class="form-label fw-semibold">Buscar vendedor</label>
+                    <input type="text" name="nombre" class="form-control form-control-sm" placeholder="Nombre o documento"
+                        value="{{ $filtros['nombre'] ?? '' }}">
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-sm btn-primary btn-round">
+                        <i class="fa fa-search"></i> Buscar
+                    </button>
+                    <a href="{{ route('admin.vendedores.index') }}" class="btn btn-sm btn-secondary btn-round">
+                        <i class="fa fa-eraser"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body">
 
             <div class="table-responsive">

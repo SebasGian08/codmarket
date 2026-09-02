@@ -21,11 +21,44 @@ class GastoController extends Controller
         $this->movimiento = $movimiento;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $gastos = Gasto::with(['tipoGasto', 'tienda', 'caja', 'cuentaBancaria', 'usuario'])
-            ->orderBy('id_gasto', 'desc')
-            ->get();
+        $filtros = [
+            'numero' => $request->query('numero'),
+            'id_tienda' => $request->query('id_tienda'),
+            'id_tipo_gasto' => $request->query('id_tipo_gasto'),
+            'estado' => $request->query('estado'),
+            'fecha_desde' => $request->query('fecha_desde'),
+            'fecha_hasta' => $request->query('fecha_hasta'),
+        ];
+
+        $query = Gasto::with(['tipoGasto', 'tienda', 'caja', 'cuentaBancaria', 'usuario']);
+
+        if (!empty($filtros['numero'])) {
+            $query->where('numero', 'like', '%' . $filtros['numero'] . '%');
+        }
+
+        if (!empty($filtros['id_tienda'])) {
+            $query->where('id_tienda', $filtros['id_tienda']);
+        }
+
+        if (!empty($filtros['id_tipo_gasto'])) {
+            $query->where('id_tipo_gasto', $filtros['id_tipo_gasto']);
+        }
+
+        if ($filtros['estado'] !== null && $filtros['estado'] !== '') {
+            $query->where('estado', (int) $filtros['estado']);
+        }
+
+        if (!empty($filtros['fecha_desde'])) {
+            $query->whereDate('fecha', '>=', $filtros['fecha_desde']);
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
+        }
+
+        $gastos = $query->orderBy('id_gasto', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $tiposGasto = TipoGasto::where('estado', 1)->orderBy('nombre', 'asc')->get();
@@ -36,7 +69,7 @@ class GastoController extends Controller
             ->get();
 
         return view('admin.gastos.index', compact(
-            'gastos', 'tiendas', 'tiposGasto', 'cuentasBancarias', 'cajasAbiertas'
+            'gastos', 'tiendas', 'tiposGasto', 'cuentasBancarias', 'cajasAbiertas', 'filtros'
         ));
     }
 

@@ -9,12 +9,26 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $clientes = Cliente::with('tipoDocumento')->orderBy('nombre', 'asc')->get();
+        $filtros = [
+            'nombre' => $request->query('nombre'),
+        ];
+
+        $query = Cliente::with('tipoDocumento');
+
+        if (!empty($filtros['nombre'])) {
+            $query->where(function ($q) use ($filtros) {
+                $q->where('nombre', 'like', '%' . $filtros['nombre'] . '%')
+                    ->orWhere('numero_documento', 'like', '%' . $filtros['nombre'] . '%')
+                    ->orWhere('correo', 'like', '%' . $filtros['nombre'] . '%');
+            });
+        }
+
+        $clientes = $query->orderBy('nombre', 'asc')->get();
         $tiposDocumento = TipoDocumento::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        return view('admin.clientes.index', compact('clientes', 'tiposDocumento'));
+        return view('admin.clientes.index', compact('clientes', 'tiposDocumento', 'filtros'));
     }
 
     public function store(Request $request)

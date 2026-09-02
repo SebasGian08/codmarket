@@ -21,9 +21,30 @@ class ProductoController extends Controller
         return Excel::download(new ProductosExport(), 'Productos.xlsx');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Producto::with(['marca', 'proveedor'])->get();
+        $filtros = [
+            'nombre' => $request->query('nombre'),
+            'id_marca' => $request->query('id_marca'),
+            'id_proveedor' => $request->query('id_proveedor'),
+        ];
+
+        $query = Producto::with(['marca', 'proveedor']);
+
+        if (!empty($filtros['nombre'])) {
+            $query->where('nombre', 'like', '%' . $filtros['nombre'] . '%');
+        }
+
+        if (!empty($filtros['id_marca'])) {
+            $query->where('id_marca', $filtros['id_marca']);
+        }
+
+        if (!empty($filtros['id_proveedor'])) {
+            $query->where('id_proveedor', $filtros['id_proveedor']);
+        }
+
+        $productos = $query->orderBy('nombre', 'asc')->get();
+
         $marcas = Marca::where('estado', 1)->get();
         $proveedores = Proveedor::where('estado', 1)->get();
         $categorias = Categoria::whereNull('id_categoria_padre')
@@ -38,7 +59,8 @@ class ProductoController extends Controller
             'productos',
             'marcas',
             'proveedores',
-            'categorias'
+            'categorias',
+            'filtros'
         ));
     }
 

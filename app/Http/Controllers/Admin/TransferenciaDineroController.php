@@ -20,18 +20,48 @@ class TransferenciaDineroController extends Controller
         $this->movimiento = $movimiento;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $transferencias = TransferenciaDinero::with([
+        $filtros = [
+            'numero' => $request->query('numero'),
+            'id_tienda' => $request->query('id_tienda'),
+            'estado' => $request->query('estado'),
+            'fecha_desde' => $request->query('fecha_desde'),
+            'fecha_hasta' => $request->query('fecha_hasta'),
+        ];
+
+        $query = TransferenciaDinero::with([
             'tienda', 'cajaOrigen', 'cuentaOrigen', 'cajaDestino', 'cuentaDestino', 'usuario'
-        ])->orderBy('id_transferencia_dinero', 'desc')->get();
+        ]);
+
+        if (!empty($filtros['numero'])) {
+            $query->where('numero', 'like', '%' . $filtros['numero'] . '%');
+        }
+
+        if (!empty($filtros['id_tienda'])) {
+            $query->where('id_tienda', $filtros['id_tienda']);
+        }
+
+        if ($filtros['estado'] !== null && $filtros['estado'] !== '') {
+            $query->where('estado', (int) $filtros['estado']);
+        }
+
+        if (!empty($filtros['fecha_desde'])) {
+            $query->whereDate('fecha', '>=', $filtros['fecha_desde']);
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
+        }
+
+        $transferencias = $query->orderBy('id_transferencia_dinero', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $cuentasBancarias = CuentaBancaria::where('estado', 1)->orderBy('nombre_banco', 'asc')->get();
         $cajasAbiertas = Caja::where('estado', 1)->with('tienda')->get();
 
         return view('admin.transferencias-dinero.index', compact(
-            'transferencias', 'tiendas', 'cuentasBancarias', 'cajasAbiertas'
+            'transferencias', 'tiendas', 'cuentasBancarias', 'cajasAbiertas', 'filtros'
         ));
     }
 

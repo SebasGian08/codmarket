@@ -20,11 +20,49 @@ class IngresoController extends Controller
         $this->inventario = $inventario;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $ingresos = Ingreso::with(['tienda', 'proveedor', 'usuario'])
-            ->orderBy('id_ingreso', 'desc')
-            ->get();
+        $filtros = [
+            'numero' => $request->query('numero'),
+            'tipo' => $request->query('tipo'),
+            'id_tienda' => $request->query('id_tienda'),
+            'id_proveedor' => $request->query('id_proveedor'),
+            'estado' => $request->query('estado'),
+            'fecha_desde' => $request->query('fecha_desde'),
+            'fecha_hasta' => $request->query('fecha_hasta'),
+        ];
+
+        $query = Ingreso::with(['tienda', 'proveedor', 'usuario']);
+
+        if (!empty($filtros['numero'])) {
+            $query->where('numero', 'like', '%' . $filtros['numero'] . '%');
+        }
+
+        if (!empty($filtros['tipo'])) {
+            $query->where('tipo', $filtros['tipo']);
+        }
+
+        if (!empty($filtros['id_tienda'])) {
+            $query->where('id_tienda', $filtros['id_tienda']);
+        }
+
+        if (!empty($filtros['id_proveedor'])) {
+            $query->where('id_proveedor', $filtros['id_proveedor']);
+        }
+
+        if ($filtros['estado'] !== null && $filtros['estado'] !== '') {
+            $query->where('estado', (int) $filtros['estado']);
+        }
+
+        if (!empty($filtros['fecha_desde'])) {
+            $query->whereDate('fecha', '>=', $filtros['fecha_desde']);
+        }
+
+        if (!empty($filtros['fecha_hasta'])) {
+            $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
+        }
+
+        $ingresos = $query->orderBy('id_ingreso', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $proveedores = Proveedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
@@ -50,7 +88,7 @@ class IngresoController extends Controller
             })
             ->values();
 
-        return view('admin.ingresos.index', compact('ingresos', 'tiendas', 'proveedores', 'variantes'));
+        return view('admin.ingresos.index', compact('ingresos', 'tiendas', 'proveedores', 'variantes', 'filtros'));
     }
 
     public function store(Request $request)

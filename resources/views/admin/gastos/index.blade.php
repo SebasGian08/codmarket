@@ -33,6 +33,66 @@
     @endif
 
     <div class="card">
+        <div class="card-body py-3">
+            <form method="GET" action="{{ route('admin.gastos.index') }}" class="row g-2 align-items-end gasto-filtros">
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">N° / Documento</label>
+                    <input type="text" name="numero" class="form-control form-control-sm" placeholder="GAS-0001"
+                        value="{{ $filtros['numero'] ?? '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Tipo de gasto</label>
+                    <select name="id_tipo_gasto" class="form-select form-select-sm">
+                        <option value="">Todos</option>
+                        @foreach($tiposGasto as $tg)
+                        <option value="{{ $tg->id_tipo_gasto }}" {{ (string)($filtros['id_tipo_gasto'] ?? '') === (string)$tg->id_tipo_gasto ? 'selected' : '' }}>
+                            {{ $tg->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Tienda</label>
+                    <select name="id_tienda" class="form-select form-select-sm">
+                        <option value="">Todas</option>
+                        @foreach($tiendas as $tienda)
+                        <option value="{{ $tienda->id_tienda }}" {{ (string)($filtros['id_tienda'] ?? '') === (string)$tienda->id_tienda ? 'selected' : '' }}>
+                            [{{ $tienda->codigo }}] {{ $tienda->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Estado</label>
+                    <select name="estado" class="form-select form-select-sm">
+                        <option value="">Todos</option>
+                        <option value="1" {{ ($filtros['estado'] ?? '') === '1' ? 'selected' : '' }}>Registrado</option>
+                        <option value="0" {{ ($filtros['estado'] ?? '') === '0' ? 'selected' : '' }}>Anulado</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Desde</label>
+                    <input type="date" name="fecha_desde" class="form-control form-control-sm"
+                        value="{{ $filtros['fecha_desde'] ?? '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-semibold">Hasta</label>
+                    <input type="date" name="fecha_hasta" class="form-control form-control-sm"
+                        value="{{ $filtros['fecha_hasta'] ?? '' }}">
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-sm btn-primary btn-round">
+                        <i class="fa fa-search"></i> Buscar
+                    </button>
+                    <a href="{{ route('admin.gastos.index') }}" class="btn btn-sm btn-secondary btn-round">
+                        <i class="fa fa-eraser"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body">
 
             <div class="table-responsive">

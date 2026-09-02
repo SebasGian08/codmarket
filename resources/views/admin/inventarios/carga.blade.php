@@ -42,9 +42,10 @@
                         <i class="fa fa-upload me-1"></i> Subir archivo Excel
                     </h6>
 
-                    <p class="text-muted small mb-3">
-                        La cantidad del archivo se <b>suma</b> al stock existente de la tienda seleccionada
-                        y queda registrada como movimiento de tipo <span class="badge bg-primary">Ingreso</span>.
+                    <p class="inventario-carga-nota text-muted small mb-3">
+                        La plantilla trae automáticamente todas las variantes activas y una pestaña por tienda.
+                        Completa únicamente la cantidad; esta se <b>suma</b> al stock existente y queda registrada
+                        como movimiento de tipo <span class="badge bg-primary">Ingreso</span>.
                     </p>
 
                     <form method="POST" action="{{ route('admin.inventario.carga.importar') }}" enctype="multipart/form-data">
@@ -52,22 +53,7 @@
 
                         <div class="row g-3">
 
-                            <div class="col-md-6">
-                                <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
-                                    <i class="fa fa-store me-1"></i> Tienda destino
-                                </label>
-                                <select name="id_tienda" class="form-select" required>
-                                    <option value="">Selecciona una tienda...</option>
-                                    @foreach($tiendas as $tienda)
-                                    <option value="{{ $tienda->id_tienda }}">{{ $tienda->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                @error('id_tienda')
-                                <div class="text-danger small mt-1">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <label class="form-label small fw-semibold text-uppercase text-muted mb-1">
                                     <i class="fa fa-file-excel me-1"></i> Archivo (xlsx / xls)
                                 </label>
@@ -103,24 +89,26 @@
                                 <tr>
                                     <th>sku</th>
                                     <th>producto</th>
+                                    <th>variante</th>
                                     <th>cantidad</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td><code>LAB001-ROJO</code></td>
-                                    <td>Referencia (opcional)</td>
-                                    <td>25</td>
+                                    <td>Producto real</td>
+                                    <td>Color: Rojo</td>
+                                    <td>Completar</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <ul class="text-muted small mb-0 ps-3">
-                        <li>El <b>SKU</b> debe coincidir con una variante existente.</li>
-                        <li>La columna <b>producto</b> es solo referencia, no se usa.</li>
-                        <li>La <b>cantidad</b> se suma al stock actual.</li>
-                        <li>Las filas sin SKU o sin variante se omiten.</li>
+                        <li>Cada pestaña corresponde a una tienda y se identifica por su código.</li>
+                        <li>No cambies el <b>SKU</b> ni el nombre de las pestañas.</li>
+                        <li>Completa solo <b>cantidad</b>; se suma al stock actual.</li>
+                        <li>Las filas vacías o con cantidad cero se omiten.</li>
                     </ul>
                 </div>
             </div>
