@@ -8,7 +8,8 @@
                 <span></span>
             </div>
             <p class="section_heading_description">
-                {!! limpiarTextoEditor($config['seccion_servicios_descripcion'] ?? 'Soluciones profesionales para potenciar tu empresa') !!}
+                {!! limpiarTextoEditor($config['seccion_servicios_descripcion'] ?? 'Soluciones profesionales para
+                potenciar tu empresa') !!}
             </p>
         </div>
 
@@ -22,16 +23,10 @@
 
                     <!-- PORTADA ARRIBA -->
                     <div class="service_cover">
-                        <img
-                            src="{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}"
-                            alt="{{ $item->nombre }}"
-                            loading="lazy"
-                            onerror="this.onerror=null;this.src='{{ asset('assets/images/tienda_virtual/default.png') }}'"
-                        >
+                        <img src="{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}"
+                            alt="{{ $item->nombre }}" loading="lazy"
+                            onerror="this.onerror=null;this.src='{{ asset('assets/images/tienda_virtual/default.png') }}'">
                         <div class="service_cover_overlay"></div>
-                        <div class="service_cover_text">
-                            {{ $item->descripcion_portada ?? $item->nombre }}
-                        </div>
                     </div>
 
                     <!-- CONTENIDO -->
@@ -45,10 +40,7 @@
                             {{ Str::limit(strip_tags($item->descripcion), 110) }}
                         </p>
 
-                        <a
-                            href="{{ route('services.show', $item->slug) }}"
-                            class="service_btn"
-                        >
+                        <a href="{{ route('services.show', $item->slug) }}" class="service_btn">
                             Conocer más
                             <i class="fas fa-arrow-right"></i>
                         </a>
