@@ -18,18 +18,22 @@
 
             <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
 
-                <div class="service_card text-center">
+                <div class="service_card">
 
-                    <!-- EFECTO BRILLO -->
-                    <div class="glow_effect"></div>
-
-                    <!-- IMAGEN -->
-                    <div class="service_image">
-                        <img 
-                            src="{{ asset($item->portada) }}" 
+                    <!-- PORTADA ARRIBA -->
+                    @if($item->portada)
+                    <div class="service_cover">
+                        <img
+                            src="{{ asset($item->portada) }}"
                             alt="{{ $item->nombre }}"
+                            loading="lazy"
                         >
+                        <div class="service_cover_overlay"></div>
+                        <div class="service_cover_text">
+                            {{ $item->descripcion_portada ?? $item->nombre }}
+                        </div>
                     </div>
+                    @endif
 
                     <!-- CONTENIDO -->
                     <div class="service_content">
@@ -39,14 +43,14 @@
                         </h3>
 
                         <p>
-                            {{ Str::limit(strip_tags($item->descripcion), 100) }}
+                            {{ Str::limit(strip_tags($item->descripcion), 110) }}
                         </p>
 
-                        <a 
-                            href="{{ route('services.show', $item->slug) }}" 
+                        <a
+                            href="{{ route('services.show', $item->slug) }}"
                             class="service_btn"
                         >
-                            Ver más
+                            Conocer más
                             <i class="fas fa-arrow-right"></i>
                         </a>
 
