@@ -21,19 +21,18 @@
                 <div class="service_card">
 
                     <!-- PORTADA ARRIBA -->
-                    @if($item->portada)
                     <div class="service_cover">
                         <img
-                            src="{{ asset($item->portada) }}"
+                            src="{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}"
                             alt="{{ $item->nombre }}"
                             loading="lazy"
+                            onerror="this.onerror=null;this.src='{{ asset('assets/images/tienda_virtual/default.png') }}'"
                         >
                         <div class="service_cover_overlay"></div>
                         <div class="service_cover_text">
                             {{ $item->descripcion_portada ?? $item->nombre }}
                         </div>
                     </div>
-                    @endif
 
                     <!-- CONTENIDO -->
                     <div class="service_content">
