@@ -685,3 +685,59 @@ html[data-theme="dark"] #seleccionadasWrap {
 /* ============ FIN FILTROS DE LISTADOS ============ */
 
 /* ============ FIN KARDEX ============ */
+
+/* ============ PRODUCTOS ============ */
+.toggle-web-form {
+    vertical-align: middle;
+}
+.toggle-web {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+}
+.toggle-web input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-web-slider {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    background: var(--bs-danger);
+    border-radius: 22px;
+    transition: background .2s ease;
+    flex-shrink: 0;
+}
+.toggle-web-slider::before {
+    content: '';
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    top: 2px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform .2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+}
+.toggle-web input:checked + .toggle-web-slider {
+    background: var(--bs-success);
+}
+.toggle-web input:checked + .toggle-web-slider::before {
+    transform: translateX(18px);
+}
+.toggle-web-text {
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--bs-body-color);
+    min-width: 24px;
+}
+html[data-theme="dark"] .toggle-web-text {
+    color: var(--bs-body-color);
+}
+/* ============ FIN PRODUCTOS ============ */

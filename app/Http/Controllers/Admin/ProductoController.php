@@ -203,6 +203,17 @@ class ProductoController extends Controller
         return back()->with('delete', 'Producto eliminado');
     }
 
+    public function toggle($id)
+    {
+        $producto = Producto::findOrFail($id);
+        $producto->estado = $producto->estado ? 0 : 1;
+        $producto->save();
+
+        $mensaje = $producto->estado ? 'Producto visible en la web' : 'Producto oculto de la web';
+
+        return back()->with('success', $mensaje);
+    }
+
     public function plantilla()
     {
         return Excel::download(new PlantillaProductosExport(), 'Plantilla_Productos.xlsx');

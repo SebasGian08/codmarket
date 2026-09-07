@@ -86,7 +86,7 @@
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Proveedor</th>
-                            <th scope="col">Estado</th>
+                            <th scope="col">Mostrar en web</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>
@@ -100,9 +100,18 @@
                             <td>{{ $p->proveedor->nombre ?? '-' }}</td>
 
                             <td>
-                                <span class="badge {{ $p->estado ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $p->estado ? 'Activo' : 'Inactivo' }}
-                                </span>
+                                <form action="{{ route('admin.productos.toggle', $p->id_producto) }}"
+                                    method="POST" class="toggle-web-form d-inline">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <label class="toggle-web" title="{{ $p->estado ? 'Visible en la web - clic para ocultar' : 'Oculto de la web - clic para mostrar' }}">
+                                        <input type="checkbox" {{ $p->estado ? 'checked' : '' }}
+                                            onchange="this.closest('form').submit()">
+                                        <span class="toggle-web-slider"></span>
+                                        <span class="toggle-web-text">{{ $p->estado ? 'Sí' : 'No' }}</span>
+                                    </label>
+                                </form>
                             </td>
 
                             <td>

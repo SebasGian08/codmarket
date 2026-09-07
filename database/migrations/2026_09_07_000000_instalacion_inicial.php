@@ -6,9 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 class InstalacionInicial extends Migration
 {
+    private const TABLAS = [
+        'atributos', 'atributos_valores', 'banners_principales', 'blogs', 'blogs_blog_tag',
+        'blogs_categories', 'blogs_tags', 'cajas', 'categorias', 'clientes', 'configuraciones',
+        'contacts', 'contacts_seguimiento', 'contact_sources', 'contact_statuses',
+        'cuentas_bancarias', 'cuentas_tipo_cuenta', 'destinos_pago', 'empresa', 'gastos',
+        'ingresos', 'ingresos_detalle', 'ingresos_economicos', 'inventarios', 'marcas',
+        'metodos_pagos', 'motivos_descuento', 'movimientos', 'movimientos_dinero',
+        'movimientos_tipo', 'permisos', 'portafolios', 'preguntas_frecuentes', 'priorities',
+        'producto_categorias', 'productos', 'productos_imagenes', 'productos_variantes',
+        'promociones', 'proveedores', 'reglas_descuento', 'rol_permiso', 'roles', 'rubros',
+        'seguimiento_tipos', 'service_benefits', 'service_plan_features', 'service_plans',
+        'services', 'subscriptions', 'tiendas', 'tipo_documento', 'tipos_descuento',
+        'tipos_gastos', 'tipos_ingresos_economicos', 'tipos_movimiento_dinero', 'tipos_venta',
+        'trabajos_realizados', 'transferencias', 'transferencias_detalle',
+        'transferencias_dinero', 'usuarios', 'variantes_atributos', 'vendedores',
+        'vendedores_tiendas', 'venta_pagos', 'ventas', 'ventas_detalle',
+    ];
+
     public function up()
     {
-        if (Schema::hasTable('roles')) {
+        if ($this->instalacionExistente()) {
             return;
         }
 
@@ -18,92 +36,39 @@ class InstalacionInicial extends Migration
             throw new RuntimeException('No se pudo leer instalacion_inicial.sql');
         }
 
-        DB::unprepared($sql);
+        foreach (preg_split('/;\s*/', trim($sql)) as $sentencia) {
+            if (trim($sentencia) === '') {
+                continue;
+            }
+
+            DB::unprepared($sentencia . ';');
+        }
+    }
+
+    private function instalacionExistente(): bool
+    {
+        foreach (self::TABLAS as $tabla) {
+            if (Schema::hasTable($tabla)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function down()
     {
-        if (!Schema::hasTable('roles')) {
+        if (!$this->instalacionExistente()) {
             return;
         }
 
-        $tablas = [
-            'ventas_detalle',
-            'ventas',
-            'venta_pagos',
-            'vendedores_tiendas',
-            'vendedores',
-            'variantes_atributos',
-            'usuarios',
-            'transferencias_dinero',
-            'transferencias_detalle',
-            'transferencias',
-            'trabajos_realizados',
-            'tipos_venta',
-            'tipos_movimiento_dinero',
-            'tipos_ingresos_economicos',
-            'tipos_gastos',
-            'tipos_descuento',
-            'tipo_documento',
-            'tiendas',
-            'subscriptions',
-            'services',
-            'service_plans',
-            'service_plan_features',
-            'service_benefits',
-            'seguimiento_tipos',
-            'rubros',
-            'roles',
-            'rol_permiso',
-            'reglas_descuento',
-            'proveedores',
-            'promociones',
-            'productos_variantes',
-            'productos_imagenes',
-            'productos',
-            'producto_categorias',
-            'priorities',
-            'preguntas_frecuentes',
-            'portafolios',
-            'permisos',
-            'movimientos_tipo',
-            'movimientos_dinero',
-            'movimientos',
-            'motivos_descuento',
-            'migrations',
-            'metodos_pagos',
-            'marcas',
-            'inventarios',
-            'ingresos_economicos',
-            'ingresos_detalle',
-            'ingresos',
-            'gastos',
-            'empresa',
-            'destinos_pago',
-            'cuentas_tipo_cuenta',
-            'cuentas_bancarias',
-            'contacts_seguimiento',
-            'contacts',
-            'contact_statuses',
-            'contact_sources',
-            'configuraciones',
-            'clientes',
-            'categorias',
-            'cajas',
-            'blogs_tags',
-            'blogs_categories',
-            'blogs_blog_tag',
-            'blogs',
-            'banners_principales',
-            'atributos_valores',
-            'atributos',
-        ];
-
         DB::unprepared('SET FOREIGN_KEY_CHECKS = 0;');
 
-        foreach ($tablas as $tabla) {
+        foreach (self::TABLAS as $tabla) {
             DB::unprepared('DROP TABLE IF EXISTS `' . $tabla . '`;');
         }
+
+        DB::unprepared('DROP TABLE IF EXISTS `migrations`;');
 
         DB::unprepared('SET FOREIGN_KEY_CHECKS = 1;');
     }
