@@ -3,6 +3,7 @@
     @php
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
     $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
+    $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
     @endphp
 
     <header class="header_section fashion_minimal_header sticky_header clearfix"
@@ -148,6 +149,7 @@
                                     </a>
                                 </li> -->
 
+                                @if($mostrarProductos == 1)
                                 <li class="menu_item_has_child">
                                     <a href="#!"
                                         class="{{ request()->routeIs('productos.categoria*') ? 'active-menu' : '' }}">
@@ -182,6 +184,7 @@
                                         @endforeach
                                     </ul>
                                 </li>
+                                @endif
 
                                 @if($mostrarServicios == 1)
                                 <li class="menu_item_has_child">
