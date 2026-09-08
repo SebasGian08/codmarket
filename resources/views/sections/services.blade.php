@@ -23,9 +23,9 @@
 
                     <!-- PORTADA ARRIBA -->
                     <div class="service_cover">
-                        <img src="{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}"
+                        <img src="{{ asset($item->portada ?: 'assets/images/tienda_virtual/1200x600px.png') }}"
                             alt="{{ $item->nombre }}" loading="lazy"
-                            onerror="this.onerror=null;this.src='{{ asset('assets/images/tienda_virtual/default.png') }}'">
+                            onerror="this.onerror=null;this.src='{{ asset('assets/images/tienda_virtual/1200x600px.png') }}'">
                         <div class="service_cover_overlay"></div>
                     </div>
 

@@ -7,7 +7,7 @@
 <div class="swiper bannerSwiper">
     <div class="swiper-wrapper">
         <div class="swiper-slide hero-slide"
-            style="background-image:url('{{ asset($service->portada) }}'); background-size:cover; background-position:center;">
+            style="background-image:url('{{ asset($service->portada ?: 'assets/images/tienda_virtual/1200x600px.png') }}'); background-size:cover; background-position:center;">
             <div class="hero-container">
                 <div class="hero-text">
                     <h1 class="titulo-principal sec-title_three-heading">
@@ -18,9 +18,7 @@
                     </p>             
                 </div>
                 <div class="hero-image">
-                    @if($service->imagen_portada)
-                    <img src="{{ asset($service->imagen_portada) }}" alt="{{ $service->nombre }}">
-                    @endif
+                    <img src="{{ asset($service->imagen_portada ?: 'assets/images/tienda_virtual/1080x1080px.png') }}" alt="{{ $service->nombre }}">
                 </div>
             </div>
         </div>
@@ -68,9 +66,9 @@
                     " onmouseover="this.style.transform='translateY(-8px)'"
                        onmouseout="this.style.transform='translateY(0)'">
 
-                        <img src="{{ asset($service->imagen_referencial) }}"
+                        <img src="{{ asset($service->imagen_referencial ?: 'assets/images/tienda_virtual/1080x1080px.png') }}"
                              alt="Servicio"
-                             style="width: 100%; height: 450px; object-fit: cover;">
+                             style="width: 100%; aspect-ratio: 1/1; object-fit: cover; object-position: center; display: block;">
                     </div>
 
                     <!-- decorativo -->
@@ -102,7 +100,7 @@
                 style="color: var(--color-secundario);; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">
                 Descubre lo que obtienes</div>
             <h2 class="sec-title_three-heading" style="font-size: 36px; color: var(--color-texto); font-weight: 800;">
-                Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
+                <br> Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
             </h2>
         </div>
 

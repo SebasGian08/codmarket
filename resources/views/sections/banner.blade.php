@@ -17,11 +17,9 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
             <div class="slider_item solo-banner {{ $key == 0 ? 'active' : '' }}">
 
                 <picture>
-                    @if($banner->imagen_mobile)
-                    <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
-                    @endif
+                    <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile ?: 'assets/images/tienda_virtual/1080x1350px.png') }}">
 
-                    <img src="{{ url($banner->imagen) }}" class="banner_full_img">
+                    <img src="{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}" class="banner_full_img">
                 </picture>
 
             </div>
@@ -29,7 +27,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
             @else
 
             <div class="slider_item con-contenido {{ $key == 0 ? 'active' : '' }}"
-                style="background-image: url('{{ url($banner->imagen) }}'); border-radius:20px;">
+                style="background-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}'); border-radius:20px;">
 
                 <div class="row align-items-center hero_card flex-column flex-lg-row">
 
@@ -99,11 +97,9 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
         <div class="slider_item solo-banner {{ $key == 0 ? 'active' : '' }}">
 
             <picture>
-                @if($banner->imagen_mobile)
-                <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
-                @endif
+                <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile ?: 'assets/images/tienda_virtual/1080x1350px.png') }}">
 
-                <img src="{{ url($banner->imagen) }}" class="banner_full_img">
+                <img src="{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}" class="banner_full_img">
             </picture>
 
         </div>
@@ -111,7 +107,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
         @else
 
         <div class="slider_item con-contenido {{ $key == 0 ? 'active' : '' }}"
-            style="background-image: url('{{ url($banner->imagen) }}');">
+            style="background-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}');">
 
             <div class="hero_full_content">
 

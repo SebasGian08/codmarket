@@ -1756,7 +1756,7 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
 
 /* CONTACT */
 .contact-one {
-    background: var(--color-primario);
+    background: #f3f3f3;
     padding: 40px 20px;
 }
 
