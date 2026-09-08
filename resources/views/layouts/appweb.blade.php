@@ -10,7 +10,7 @@
 
 </head>
 
-<body>
+<body class="@if(($config['home_mostrar_brand_ticker'] ?? 1) != 1) no-brand-ticker @endif">
 
     <div class="page-wrapper">
 
