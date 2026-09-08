@@ -161,10 +161,7 @@
                             </label>
 
                             <div class="input-wrapper select-wrapper">
-                                <i class="bi bi-grid"></i>
-
                                 <select name="servicio" required>
-
                                     <option value="">
                                         Seleccione un servicio
                                     </option>
@@ -343,7 +340,7 @@
 ========================================================= */
 
 .contact-info {
-    color: var(--color-texto);
+    color: #fff;
 }
 
 .contact-eyebrow {
@@ -360,7 +357,7 @@
 
 .contact-info h2 {
     margin: 0 0 25px;
-    color: var(--color-texto);
+    color: #fff;
     font-size: clamp(42px, 4.5vw, 62px);
     line-height: 1.05;
     font-weight: 900;
@@ -375,7 +372,7 @@
 .contact-description {
     max-width: 520px;
     margin-bottom: 40px;
-    color: color-mix(in srgb, var(--color-texto) 65%, transparent);
+    color: rgba(255, 255, 255, .65);
     font-size: 17px;
     line-height: 1.85;
 }
@@ -405,9 +402,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
+    border: 1px solid rgba(255, 255, 255, .1);
     border-radius: 13px;
-    background: color-mix(in srgb, var(--color-texto) 6%, transparent);
+    background: rgba(255, 255, 255, .06);
     color: var(--color-secundario);
     font-size: 19px;
 }
@@ -419,13 +416,13 @@
 
 .contact-benefit strong {
     margin-bottom: 3px;
-    color: var(--color-texto);
+    color: #fff;
     font-size: 14px;
     font-weight: 800;
 }
 
 .contact-benefit span {
-    color: color-mix(in srgb, var(--color-texto) 48%, transparent);
+    color: rgba(255, 255, 255, .48);
     font-size: 12px;
 }
 
@@ -439,9 +436,9 @@
     align-items: center;
     gap: 14px;
     padding: 15px;
-    border: 1px solid color-mix(in srgb, var(--color-texto) 9%, transparent);
+    border: 1px solid rgba(255, 255, 255, .09);
     border-radius: 17px;
-    background: color-mix(in srgb, var(--color-texto) 5%, transparent);
+    background: rgba(255, 255, 255, .045);
     backdrop-filter: blur(10px);
 }
 
@@ -469,12 +466,12 @@
 
 .whatsapp-content span {
     margin-bottom: 3px;
-    color: color-mix(in srgb, var(--color-texto) 45%, transparent);
+    color: rgba(255, 255, 255, .45);
     font-size: 11px;
 }
 
 .whatsapp-content strong {
-    color: var(--color-texto);
+    color: #fff;
     font-size: 13px;
 }
 
@@ -504,10 +501,10 @@
 
 .contact-form-card {
     padding: 38px;
-    border: 1px solid color-mix(in srgb, var(--color-texto) 12%, transparent);
+    border: 1px solid rgba(255, 255, 255, .12);
     border-radius: 26px;
     background: rgba(255, 255, 255, .97);
-    box-shadow: 0 35px 90px color-mix(in srgb, var(--color-texto) 14%, transparent);
+    box-shadow: 0 35px 90px rgba(0, 0, 0, .28);
 }
 
 
