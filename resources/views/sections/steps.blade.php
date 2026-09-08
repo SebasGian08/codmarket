@@ -7,7 +7,7 @@ section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-
             <div class="section_heading_title">
                 <span></span>
                 <small>
-                    {{ $config['seccion_steps_titulo'] ?? '¿POR QU�‰ ELEGIRNOS?' }}
+                    {{ $config['seccion_steps_titulo'] ?? '¿POR QUÉ ELEGIRNOS?' }}
                 </small>
                 <span></span>
             </div>

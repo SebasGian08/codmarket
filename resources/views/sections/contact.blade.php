@@ -20,12 +20,12 @@
                 </span>
 
                 <h2>
-                    �Tienes una idea?
-                    <span>Hag�smolo realidad.</span>
+                    ¿Tienes una idea?
+                    <span>Hagámoslo realidad.</span>
                 </h2>
 
                 <p class="contact-description">
-                    Com�ntanos lo que necesitas y nuestro equipo se pondrá
+                    Coméntanos lo que necesitas y nuestro equipo se pondrá
                     en contacto contigo para brindarte una solución
                     personalizada.
                 </p>
@@ -38,7 +38,7 @@
                         </div>
 
                         <div>
-                            <strong>Respuesta r�pida</strong>
+                            <strong>Respuesta rápida</strong>
                             <span>Te contactaremos lo antes posible.</span>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         </div>
 
                         <div>
-                            <strong>Atenci�n personalizada</strong>
+                            <strong>Atención personalizada</strong>
                             <span>Analizamos tus necesidades y objetivos.</span>
                         </div>
                     </div>
@@ -75,8 +75,8 @@
                     </div>
 
                     <div class="whatsapp-content">
-                        <span>�Prefieres hablar directamente?</span>
-                        <strong>Escr�benos por WhatsApp</strong>
+                        <span>¿Prefieres hablar directamente?</span>
+                        <strong>Escríbenos por WhatsApp</strong>
                     </div>
 
                     <a href="https://wa.me/{{ $wspTelefono }}?text={{ $wspMensaje }}" target="_blank"
@@ -104,7 +104,7 @@
 
                     <div>
                         <span>Formulario de contacto</span>
-                        <h3>Cu�ntanos sobre tu proyecto</h3>
+                        <h3>Cuéntanos sobre tu proyecto</h3>
                     </div>
 
                 </div>
@@ -176,18 +176,18 @@
                         </div>
 
 
-                        {{-- TEL�‰FONO --}}
+                        {{-- TELÉFONO --}}
                         <div class="form-field">
 
                             <label>
-                                Tel�fono
+                                Teléfono
                                 <span>*</span>
                             </label>
 
                             <div class="phone-wrapper">
 
                                 <div class="phone-prefix">
-                                    <span>Per�</span>
+                                    <span>Perú</span>
                                     +51
                                 </div>
 
@@ -203,7 +203,7 @@
                         <div class="form-field full">
 
                             <label>
-                                Correo electr�nico
+                                Correo electrónico
                                 <span>*</span>
                             </label>
 
@@ -256,7 +256,7 @@
                         </div>
 
 
-                        {{-- BOT�“N --}}
+                        {{-- BOTÓN --}}
                         <div class="form-field full">
 
                             <button type="submit" class="contact-submit">
@@ -279,7 +279,7 @@
 
                 <div class="form-security">
                     <i class="bi bi-lock-fill"></i>
-                    Tus datos est�n protegidos y no serán compartidos con terceros.
+                    Tus datos están protegidos y no serán compartidos con terceros.
                 </div>
 
             </div>
