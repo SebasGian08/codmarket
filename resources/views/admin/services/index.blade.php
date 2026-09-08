@@ -76,6 +76,8 @@
 
 @include('admin.services.modals.create')
 
+@include('admin.services.partials.guia-iconos')
+
 @push('scripts')
 <script>
 $(document).ready(function() {
@@ -92,7 +94,7 @@ $(document).ready(function() {
         <div class="row mb-2 animated fadeIn align-items-center">
             <div class="col-md-3"><input type="text" name="beneficios[${i}][titulo]" class="form-control" placeholder="Ingrese título del beneficio"></div>
             <div class="col-md-4"><input type="text" name="beneficios[${i}][descripcion]" class="form-control" placeholder="Ingrese descripción del beneficio"></div>
-            <div class="col-md-4"><input type="text" name="beneficios[${i}][icono]" class="form-control" placeholder="Icono (fa fa-check)"></div>
+            <div class="col-md-4"><div class="input-group"><input type="text" name="beneficios[${i}][icono]" class="form-control" placeholder="Icono (fa fa-check)"><span class="input-group-text" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-icons"></i></span></div></div>
             <div class="col-md-1 text-end">
                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.row').remove()"><i class="fa fa-times"></i></button>
             </div>
@@ -167,7 +169,10 @@ $(document).ready(function() {
                 <input type="text" name="beneficios[${uniqueIdx}][descripcion]" class="form-control" placeholder="Descripción">
             </div>
             <div class="col-md-4">
-                <input type="text" name="beneficios[${uniqueIdx}][icono]" class="form-control" placeholder="fa fa-check">
+                <div class="input-group">
+                    <input type="text" name="beneficios[${uniqueIdx}][icono]" class="form-control" placeholder="fa fa-check">
+                    <span class="input-group-text" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-icons"></i></span>
+                </div>
             </div>
             <div class="col-md-1 text-end">
                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.row').remove()">

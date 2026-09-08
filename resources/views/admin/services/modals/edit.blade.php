@@ -113,8 +113,15 @@
                                             placeholder="Descripción">
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text" name="beneficios[{{ $index }}][icono]"
-                                            value="{{ $ben->icono }}" class="form-control" placeholder="Icono">
+                                        <div class="input-group">
+                                            <input type="text" name="beneficios[{{ $index }}][icono]"
+                                                value="{{ $ben->icono }}" class="form-control" placeholder="Icono">
+                                            <span class="input-group-text" style="cursor: pointer;"
+                                                data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
+                                                onclick="prepararIcono(this)" title="Ver guía de iconos">
+                                                <i class="fa fa-icons"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="col-md-1 text-end">
                                         <button type="button" class="btn btn-danger btn-sm"

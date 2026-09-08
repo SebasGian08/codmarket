@@ -81,8 +81,15 @@
 
                                     <div class="col-md-4">
                                         <label class="small fw-bold">Icono</label>
-                                        <input type="text" name="beneficios[0][icono]" class="form-control"
-                                            placeholder="fa fa-check">
+                                        <div class="input-group">
+                                            <input type="text" name="beneficios[0][icono]" class="form-control"
+                                                placeholder="fa fa-check">
+                                            <span class="input-group-text" style="cursor: pointer;"
+                                                data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
+                                                onclick="prepararIcono(this)" title="Ver guía de iconos">
+                                                <i class="fa fa-icons"></i>
+                                            </span>
+                                        </div>
                                     </div>
 
                                 </div>
