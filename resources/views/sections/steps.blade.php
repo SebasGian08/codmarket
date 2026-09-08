@@ -5,15 +5,11 @@
         <div class="section_heading text-center mb-5">
 
             <div class="section_heading_title">
-
-                <!-- <span></span>
- -->
-                <small>
-                    {{ $config['seccion_steps_titulo'] ?? '¿Por qué elegirnos?' }}
-                </small>
-
                 <span></span>
-
+                <small>
+                    {{ $config['seccion_steps_titulo'] ?? '¿POR QUÉ ELEGIRNOS?' }}
+                </small>
+                <span></span>
             </div>
 
             <h2 class="mb-3">

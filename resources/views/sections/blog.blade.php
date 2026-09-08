@@ -1,11 +1,15 @@
 <section class="blog_section sec_ptb_50 clearfix">
     <div class="container">
 
-        <div class="row justify-content-center mb-4">
-            <div class="col-lg-8 text-center">
-                <h2>{{ $config['seccion_blog_titulo'] ?? 'Últimos artículos' }}</h2>
-                <p class="text-muted">{!! limpiarTextoEditor($config['seccion_blog_descripcion'] ?? 'Explora nuestras novedades') !!}</p>
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>{{ $config['seccion_blog_titulo'] ?? 'ÚLTIMAS NOVEDADES' }}</small>
+                <span></span>
             </div>
+            <p class="section_heading_description">
+                {!! limpiarTextoEditor($config['seccion_blog_descripcion'] ?? 'Explora nuestras novedades') !!}
+            </p>
         </div>
 
         <!-- SWIPER -->

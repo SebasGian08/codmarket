@@ -25,6 +25,10 @@
     margin: 0;
 }
 
+.modal-header .modal-title {
+    color: #fff;
+}
+
 .modal-header .btn-close {
     filter: invert(1);
     opacity: .85;
@@ -44,6 +48,10 @@ html[data-theme="dark"] .modal-header h3,
 html[data-theme="dark"] .modal-header h4,
 html[data-theme="dark"] .modal-header h5,
 html[data-theme="dark"] .modal-header h6 {
+    color: #fff;
+}
+
+html[data-theme="dark"] .modal-header .modal-title {
     color: #fff;
 }
 
