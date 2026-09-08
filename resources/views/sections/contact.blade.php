@@ -311,9 +311,9 @@
     overflow: hidden;
     background:
         linear-gradient(135deg,
-            #07101f 0%,
-            #0d1729 55%,
-            #111c31 100%);
+            color-mix(in srgb, var(--color-primario) 6%, var(--color-fondo)) 0%,
+            var(--color-fondo) 55%,
+            color-mix(in srgb, var(--color-secundario) 6%, var(--color-fondo)) 100%);
 }
 
 .contact-bg {
@@ -343,7 +343,7 @@
 ========================================================= */
 
 .contact-info {
-    color: #fff;
+    color: var(--color-texto);
 }
 
 .contact-eyebrow {
@@ -360,7 +360,7 @@
 
 .contact-info h2 {
     margin: 0 0 25px;
-    color: #fff;
+    color: var(--color-texto);
     font-size: clamp(42px, 4.5vw, 62px);
     line-height: 1.05;
     font-weight: 900;
@@ -375,7 +375,7 @@
 .contact-description {
     max-width: 520px;
     margin-bottom: 40px;
-    color: rgba(255, 255, 255, .65);
+    color: color-mix(in srgb, var(--color-texto) 65%, transparent);
     font-size: 17px;
     line-height: 1.85;
 }
@@ -405,9 +405,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid rgba(255, 255, 255, .1);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 10%, transparent);
     border-radius: 13px;
-    background: rgba(255, 255, 255, .06);
+    background: color-mix(in srgb, var(--color-texto) 6%, transparent);
     color: var(--color-secundario);
     font-size: 19px;
 }
@@ -419,13 +419,13 @@
 
 .contact-benefit strong {
     margin-bottom: 3px;
-    color: #fff;
+    color: var(--color-texto);
     font-size: 14px;
     font-weight: 800;
 }
 
 .contact-benefit span {
-    color: rgba(255, 255, 255, .48);
+    color: color-mix(in srgb, var(--color-texto) 48%, transparent);
     font-size: 12px;
 }
 
@@ -439,9 +439,9 @@
     align-items: center;
     gap: 14px;
     padding: 15px;
-    border: 1px solid rgba(255, 255, 255, .09);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 9%, transparent);
     border-radius: 17px;
-    background: rgba(255, 255, 255, .045);
+    background: color-mix(in srgb, var(--color-texto) 5%, transparent);
     backdrop-filter: blur(10px);
 }
 
@@ -469,12 +469,12 @@
 
 .whatsapp-content span {
     margin-bottom: 3px;
-    color: rgba(255, 255, 255, .45);
+    color: color-mix(in srgb, var(--color-texto) 45%, transparent);
     font-size: 11px;
 }
 
 .whatsapp-content strong {
-    color: #fff;
+    color: var(--color-texto);
     font-size: 13px;
 }
 
@@ -504,10 +504,10 @@
 
 .contact-form-card {
     padding: 38px;
-    border: 1px solid rgba(255, 255, 255, .12);
+    border: 1px solid color-mix(in srgb, var(--color-texto) 12%, transparent);
     border-radius: 26px;
     background: rgba(255, 255, 255, .97);
-    box-shadow: 0 35px 90px rgba(0, 0, 0, .28);
+    box-shadow: 0 35px 90px color-mix(in srgb, var(--color-texto) 14%, transparent);
 }
 
 
@@ -663,6 +663,7 @@
     z-index: 2;
     top: 50%;
     right: 15px;
+    left: auto;
     transform: translateY(-50%);
     color: #94a3b8;
     pointer-events: none;
