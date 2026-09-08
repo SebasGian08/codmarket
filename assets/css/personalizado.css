@@ -2226,6 +2226,7 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
 }
 
 .section_heading_title small {
+    font-family: "Jost", sans-serif;
     font-size: 34px;
     font-weight: 300;
     letter-spacing: 6px;

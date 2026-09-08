@@ -1,7 +1,7 @@
 <section class="deals_section sec_ptb_50 clearfix">
     <div class="container maxw_1460">
 
-        <div class="section_heading text-center mb-5">
+        <div class="section_heading text-center mb_30">
 
             <div class="section_heading_title">
                 <span></span>

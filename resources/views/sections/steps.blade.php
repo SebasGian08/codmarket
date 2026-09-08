@@ -2,7 +2,7 @@
     <div class="container">
 
         <!-- TITLE -->
-        <div class="section_heading text-center mb-5">
+        <div class="section_heading text-center mb_30">
 
             <div class="section_heading_title">
                 <span></span>
@@ -11,10 +11,6 @@
                 </small>
                 <span></span>
             </div>
-
-            <h2 class="mb-3">
-                {!! limpiarTextoEditor($config['seccion_steps_subtitulo'] ?? 'Experiencia premium en cada compra') !!}
-            </h2>
 
             <p class="section_heading_description">
                 {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura para que compres con total confianza.') !!}

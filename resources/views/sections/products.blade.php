@@ -5,12 +5,15 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 <section class="product_section sec_ptb_50 clearfix">
     <div class="container">
 
-        <div class="section_heading text-center mb-5">
+        <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
                 <small>{{ $config['seccion_productos_titulo'] ?? 'NUESTROS PRODUCTOS' }}</small>
                 <span></span>
             </div>
+            <p class="section_heading_description">
+                {!! limpiarTextoEditor($config['seccion_productos_descripcion'] ?? 'Explora nuestra variedad de productos seleccionados para ti') !!}
+            </p>
         </div>
 
         <div class="tab-content has_multy_carousel">
