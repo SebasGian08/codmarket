@@ -1,12 +1,8 @@
-extends('layouts.appweb')
+@extends('layouts.appweb')
 
 @section('title', $service->nombre . ' - ' . ($empresa->nombre ?? 'Mi Empresa'))
 
 @section('content')
-
-{{-- =========================================================
-HERO
-========================================================= --}}
 
 <section class="service-hero"
     style="background-image: url('{{ asset($service->portada ?: 'assets/images/tienda_virtual/1200x600px.png') }}');">
@@ -432,5 +428,9 @@ CONTACTO
 @include('sections.contact')
 
 {{-- CSS movido a assets/css/servicios-show.css --}}
+
+{{-- Bootstrap Icons --}}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 @endsection
