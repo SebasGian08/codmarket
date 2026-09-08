@@ -4,8 +4,6 @@
 
 @section('content')
 
-<link rel="stylesheet" href="{{ asset('assets/css/sobre-nosotros.css') }}">
-
 {{-- =========================================================
      HERO / SOBRE NOSOTROS
 ========================================================= --}}

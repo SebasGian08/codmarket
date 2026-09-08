@@ -59,6 +59,10 @@
 <link rel="stylesheet" href="{{ asset('assets/css/rubros.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/products.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/products-destacados.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/contacto.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/steps.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/blog-detail.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/servicios-show.css') }}">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

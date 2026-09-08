@@ -1,4 +1,4 @@
-@extends('layouts.appweb')
+extends('layouts.appweb')
 
 @section('title', $blog->title)
 
@@ -62,7 +62,7 @@
                                                 <h4>') !!}
                 </div>
 
-                <!-- TAGS (opcional dinámico si luego lo tienes) -->
+                <!-- TAGS (opcional dinÃ¡mico si luego lo tienes) -->
                 <ul class="item_tag_list ul_li clearfix">
                     <li>
                         <h4 class="list_title text-uppercase mb-0">Tags:</h4>
@@ -77,7 +77,7 @@
 
                         <div class="share_text">
                             <span class="share_label">
-                                Compartir artículo
+                                Compartir artÃ­culo
                             </span>
 
                             <h4>
@@ -87,7 +87,7 @@
 
                         @php
                         $url = urlencode(Request::url());
-                        $titulo = urlencode($blog->titulo ?? 'Mira este artículo');
+                        $titulo = urlencode($blog->titulo ?? 'Mira este artÃ­culo');
                         @endphp
 
                         <ul class="circle_social_links">
@@ -133,118 +133,10 @@
                     </div>
 
                 </div>
-                <style>
-                .post_share_box {
-                    background: linear-gradient(135deg, #1f1f1f, #2d2d2d);
-                    border-radius: 18px;
-                    padding: 28px 35px;
-                    margin-bottom: 50px;
-                    box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
-                    overflow: hidden;
-                    position: relative;
-                }
-
-                .post_share_box::before {
-                    content: '';
-                    position: absolute;
-                    top: -60px;
-                    right: -60px;
-                    width: 180px;
-                    height: 180px;
-                    background: rgba(255, 255, 255, .04);
-                    border-radius: 50%;
-                }
-
-                .share_content {
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    gap: 205px;
-                    flex-wrap: wrap;
-                    position: relative;
-                    z-index: 2;
-                }
-
-                .share_label {
-                    display: inline-block;
-                    color: rgba(255, 255, 255, .65);
-                    font-size: 13px;
-                    font-weight: 600;
-                    letter-spacing: 1px;
-                    text-transform: uppercase;
-                    margin-bottom: 6px;
-                }
-
-                .share_text h4 {
-                    color: #fff;
-                    font-size: 28px;
-                    font-weight: 700;
-                    margin: 0;
-                    line-height: 1.2;
-                }
-
-                .circle_social_links {
-                    display: flex;
-                    align-items: center;
-                    gap: 14px;
-                    margin: 0;
-                    padding: 0;
-                    list-style: none;
-                }
-
-                .circle_social_links li a {
-                    width: 52px;
-                    height: 52px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: #fff;
-                    font-size: 18px;
-                    text-decoration: none;
-                    transition: .3s ease;
-                    background: rgba(255, 255, 255, .08);
-                    border: 1px solid rgba(255, 255, 255, .08);
-                    backdrop-filter: blur(6px);
-                }
-
-                .circle_social_links li a:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
-                }
-
-                .circle_social_links .facebook:hover {
-                    background: #1877f2;
-                }
-
-                .circle_social_links .twitter:hover {
-                    background: #1da1f2;
-                }
-
-                .circle_social_links .linkedin:hover {
-                    background: #0a66c2;
-                }
-
-                .circle_social_links .instagram:hover {
-                    background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af);
-                }
-
-                @media(max-width: 768px) {
-
-                    .share_content {
-                        flex-direction: column;
-                        align-items: flex-start;
-                    }
-
-                    .share_text h4 {
-                        font-size: 22px;
-                    }
-
-                }
-                </style>
+                {{-- CSS movido a assets/css/blog-detail.css --}}
                 <!-- RECENT / RELATED -->
                 <div class="related_post_carousel position-relative mb_100">
-                    <h3 class="title_text text-uppercase mb_30">Artículos Relacionados</h3>
+                    <h3 class="title_text text-uppercase mb_30">ArtÃ­culos Relacionados</h3>
 
                     <div class="slideshow3_slider" data-slick='{"dots": false}'>
 
