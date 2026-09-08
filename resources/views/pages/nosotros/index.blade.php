@@ -325,7 +325,7 @@
             Nuestro equipo está preparado para ayudarte.
         </p>
 
-        <a href="#contacto" class="about-btn">
+        <a href="{{ route('contact.index') }}" class="about-btn">
             Contáctanos
             <i class="bi bi-arrow-right"></i>
         </a>
