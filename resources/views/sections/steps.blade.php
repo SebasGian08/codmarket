@@ -7,13 +7,13 @@ section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-
             <div class="section_heading_title">
                 <span></span>
                 <small>
-                    {{ $config['seccion_steps_titulo'] ?? 'Â¿POR QUÃ‰ ELEGIRNOS?' }}
+                    {{ $config['seccion_steps_titulo'] ?? '¿POR QU�‰ ELEGIRNOS?' }}
                 </small>
                 <span></span>
             </div>
 
             <p class="section_heading_description">
-                {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'DiseÃ±amos una experiencia moderna, rÃ¡pida y segura para que compres con total confianza.') !!}
+                {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura para que compres con total confianza.') !!}
             </p>
 
         </div>
@@ -29,10 +29,10 @@ section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-
                     </div>
 
                     <div class="feature_content">
-                        <h3>EnvÃ­os RÃ¡pidos</h3>
+                        <h3>Envíos Rápidos</h3>
 
                         <p>
-                            Realizamos entregas Ã¡giles y seguras
+                            Realizamos entregas ágiles y seguras
                             para que recibas tus productos
                             en el menor tiempo posible.
                         </p>
@@ -53,7 +53,7 @@ section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-
                         <h3>Compra 100% Segura</h3>
 
                         <p>
-                            Protegemos cada transacciÃ³n con mÃ©todos
+                            Protegemos cada transacción con métodos
                             de pago confiables y seguridad avanzada.
                         </p>
                     </div>
@@ -70,11 +70,11 @@ section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-
                     </div>
 
                     <div class="feature_content">
-                        <h3>AtenciÃ³n Personalizada</h3>
+                        <h3>Atención Personalizada</h3>
 
                         <p>
-                            Nuestro equipo estÃ¡ listo para ayudarte
-                            antes, durante y despuÃ©s de tu compra.
+                            Nuestro equipo está listo para ayudarte
+                            antes, durante y después de tu compra.
                         </p>
                     </div>
 

@@ -36,7 +36,7 @@
                 </a>
 
                 <a href="#contacto" class="service-btn-secondary">
-                    Solicitar informaciÃ³n
+                    Solicitar información
                     <i class="bi bi-arrow-up-right"></i>
                 </a>
             </div>
@@ -57,7 +57,7 @@
     </div>
 
     <div class="hero-scroll">
-        <span>Descubre mÃ¡s</span>
+        <span>Descubre más</span>
         <i class="bi bi-chevron-down"></i>
     </div>
 
@@ -83,7 +83,7 @@ SERVICIO
                 </span>
 
                 <h2>
-                    Una soluciÃ³n diseÃ±ada para
+                    Una solución diseñada para
                     <span>hacer crecer tu negocio</span>
                 </h2>
 
@@ -102,7 +102,7 @@ SERVICIO
 
                     <div>
                         <i class="bi bi-person-check"></i>
-                        <span>AtenciÃ³n personalizada</span>
+                        <span>Atención personalizada</span>
                     </div>
 
                     <div>
@@ -166,7 +166,7 @@ BENEFICIOS
             </h2>
 
             <p>
-                ObtÃ©n una soluciÃ³n completa pensada para ofrecerte
+                Obtén una solución completa pensada para ofrecerte
                 mejores resultados y una experiencia profesional.
             </p>
 
@@ -254,7 +254,7 @@ PLANES
 
                 <div class="plan-badge">
                     <i class="bi bi-star-fill"></i>
-                    MÃ¡s recomendado
+                    Más recomendado
                 </div>
 
                 @endif
@@ -262,7 +262,7 @@ PLANES
                 <div class="plan-header">
 
                     <span class="plan-label">
-                        {{ $plan->destacado ? 'Nuestra recomendaciÃ³n' : 'Plan' }}
+                        {{ $plan->destacado ? 'Nuestra recomendación' : 'Plan' }}
                     </span>
 
                     <h3>
@@ -333,7 +333,7 @@ PORTAFOLIO
 
             <span class="section-eyebrow">
                 <i class="bi bi-briefcase"></i>
-                Casos de Ã©xito
+                Casos de éxito
             </span>
 
             <h2>

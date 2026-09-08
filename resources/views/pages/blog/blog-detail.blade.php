@@ -1,4 +1,4 @@
-extends('layouts.appweb')
+@extends('layouts.appweb')
 
 @section('title', $blog->title)
 
@@ -62,7 +62,7 @@ extends('layouts.appweb')
                                                 <h4>') !!}
                 </div>
 
-                <!-- TAGS (opcional dinÃ¡mico si luego lo tienes) -->
+                <!-- TAGS (opcional dinámico si luego lo tienes) -->
                 <ul class="item_tag_list ul_li clearfix">
                     <li>
                         <h4 class="list_title text-uppercase mb-0">Tags:</h4>
@@ -77,7 +77,7 @@ extends('layouts.appweb')
 
                         <div class="share_text">
                             <span class="share_label">
-                                Compartir artÃ­culo
+                                Compartir artículo
                             </span>
 
                             <h4>
@@ -87,7 +87,7 @@ extends('layouts.appweb')
 
                         @php
                         $url = urlencode(Request::url());
-                        $titulo = urlencode($blog->titulo ?? 'Mira este artÃ­culo');
+                        $titulo = urlencode($blog->titulo ?? 'Mira este artículo');
                         @endphp
 
                         <ul class="circle_social_links">
@@ -136,7 +136,7 @@ extends('layouts.appweb')
                 {{-- CSS movido a assets/css/blog-detail.css --}}
                 <!-- RECENT / RELATED -->
                 <div class="related_post_carousel position-relative mb_100">
-                    <h3 class="title_text text-uppercase mb_30">ArtÃ­culos Relacionados</h3>
+                    <h3 class="title_text text-uppercase mb_30">Artículos Relacionados</h3>
 
                     <div class="slideshow3_slider" data-slick='{"dots": false}'>
 

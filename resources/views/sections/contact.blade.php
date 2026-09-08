@@ -2,7 +2,7 @@
 
     @php
     $wspTelefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
-    $wspMensaje = urlencode('Hola, vengo de la web! Quisiera pedir mÃ¡s informaciÃ³n.');
+    $wspMensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
     @endphp
 
 
@@ -20,13 +20,13 @@
                 </span>
 
                 <h2>
-                    Â¿Tienes una idea?
-                    <span>Hagásmolo realidad.</span>
+                    �Tienes una idea?
+                    <span>Hag�smolo realidad.</span>
                 </h2>
 
                 <p class="contact-description">
-                    Coméntanos lo que necesitas y nuestro equipo se pondrÃ¡
-                    en contacto contigo para brindarte una soluciÃ³n
+                    Com�ntanos lo que necesitas y nuestro equipo se pondrá
+                    en contacto contigo para brindarte una solución
                     personalizada.
                 </p>
 
@@ -38,7 +38,7 @@
                         </div>
 
                         <div>
-                            <strong>Respuesta rápida</strong>
+                            <strong>Respuesta r�pida</strong>
                             <span>Te contactaremos lo antes posible.</span>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         </div>
 
                         <div>
-                            <strong>Atención personalizada</strong>
+                            <strong>Atenci�n personalizada</strong>
                             <span>Analizamos tus necesidades y objetivos.</span>
                         </div>
                     </div>
@@ -60,8 +60,8 @@
                         </div>
 
                         <div>
-                            <strong>InformaciÃ³n segura</strong>
-                            <span>Tus datos serÃ¡n tratados de forma confidencial.</span>
+                            <strong>Información segura</strong>
+                            <span>Tus datos serán tratados de forma confidencial.</span>
                         </div>
                     </div>
 
@@ -75,8 +75,8 @@
                     </div>
 
                     <div class="whatsapp-content">
-                        <span>¿Prefieres hablar directamente?</span>
-                        <strong>Escrí­benos por WhatsApp</strong>
+                        <span>�Prefieres hablar directamente?</span>
+                        <strong>Escr�benos por WhatsApp</strong>
                     </div>
 
                     <a href="https://wa.me/{{ $wspTelefono }}?text={{ $wspMensaje }}" target="_blank"
@@ -104,7 +104,7 @@
 
                     <div>
                         <span>Formulario de contacto</span>
-                        <h3>Cuéntanos sobre tu proyecto</h3>
+                        <h3>Cu�ntanos sobre tu proyecto</h3>
                     </div>
 
                 </div>
@@ -170,28 +170,24 @@
                                         {{ $service->nombre }}
                                     </option>
                                     @endforeach
-
                                 </select>
-
-                                <i class="bi bi-chevron-down select-arrow"></i>
-
                             </div>
 
                         </div>
 
 
-                        {{-- TELÃ‰FONO --}}
+                        {{-- TEL�‰FONO --}}
                         <div class="form-field">
 
                             <label>
-                                Teléfono
+                                Tel�fono
                                 <span>*</span>
                             </label>
 
                             <div class="phone-wrapper">
 
                                 <div class="phone-prefix">
-                                    <span>Perú</span>
+                                    <span>Per�</span>
                                     +51
                                 </div>
 
@@ -207,7 +203,7 @@
                         <div class="form-field full">
 
                             <label>
-                                Correo electrónico
+                                Correo electr�nico
                                 <span>*</span>
                             </label>
 
@@ -232,7 +228,7 @@
                             <div class="textarea-wrapper">
 
                                 <textarea name="message" rows="5" maxlength="1000"
-                                    placeholder="CuÃ©ntanos brevemente quÃ© necesitas..." required></textarea>
+                                    placeholder="Cuéntanos brevemente qué necesitas..." required></textarea>
 
                                 <span class="textarea-icon">
                                     <i class="bi bi-chat-left-text"></i>
@@ -260,7 +256,7 @@
                         </div>
 
 
-                        {{-- BOTÃ“N --}}
+                        {{-- BOT�“N --}}
                         <div class="form-field full">
 
                             <button type="submit" class="contact-submit">
@@ -283,7 +279,7 @@
 
                 <div class="form-security">
                     <i class="bi bi-lock-fill"></i>
-                    Tus datos están protegidos y no serÃ¡n compartidos con terceros.
+                    Tus datos est�n protegidos y no serán compartidos con terceros.
                 </div>
 
             </div>
