@@ -1,8 +1,8 @@
-section id="contacto" class="contact-premium">
+<section id="contacto" class="contact-premium">
 
     @php
-        $wspTelefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
-        $wspMensaje = urlencode('Hola, vengo de la web! Quisiera pedir mÃ¡s informaciÃ³n.');
+    $wspTelefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
+    $wspMensaje = urlencode('Hola, vengo de la web! Quisiera pedir mÃ¡s informaciÃ³n.');
     @endphp
 
 
@@ -12,9 +12,6 @@ section id="contacto" class="contact-premium">
 
         <div class="contact-grid">
 
-            {{-- =====================================================
-             INFORMACIÃ“N
-        ====================================================== --}}
             <div class="contact-info">
 
                 <span class="contact-eyebrow">
@@ -24,11 +21,11 @@ section id="contacto" class="contact-premium">
 
                 <h2>
                     Â¿Tienes una idea?
-                    <span>HagÃ¡mosla realidad.</span>
+                    <span>Hagásmolo realidad.</span>
                 </h2>
 
                 <p class="contact-description">
-                    CuÃ©ntanos quÃ© necesitas y nuestro equipo se pondrÃ¡
+                    Coméntanos lo que necesitas y nuestro equipo se pondrÃ¡
                     en contacto contigo para brindarte una soluciÃ³n
                     personalizada.
                 </p>
@@ -41,7 +38,7 @@ section id="contacto" class="contact-premium">
                         </div>
 
                         <div>
-                            <strong>Respuesta rÃ¡pida</strong>
+                            <strong>Respuesta rápida</strong>
                             <span>Te contactaremos lo antes posible.</span>
                         </div>
                     </div>
@@ -52,7 +49,7 @@ section id="contacto" class="contact-premium">
                         </div>
 
                         <div>
-                            <strong>AtenciÃ³n personalizada</strong>
+                            <strong>Atención personalizada</strong>
                             <span>Analizamos tus necesidades y objetivos.</span>
                         </div>
                     </div>
@@ -78,11 +75,12 @@ section id="contacto" class="contact-premium">
                     </div>
 
                     <div class="whatsapp-content">
-                        <span>Â¿Prefieres hablar directamente?</span>
-                        <strong>EscrÃ­benos por WhatsApp</strong>
+                        <span>¿Prefieres hablar directamente?</span>
+                        <strong>Escrí­benos por WhatsApp</strong>
                     </div>
 
-                    <a href="https://wa.me/{{ $wspTelefono }}?text={{ $wspMensaje }}" target="_blank" rel="noopener noreferrer" class="whatsapp-button">
+                    <a href="https://wa.me/{{ $wspTelefono }}?text={{ $wspMensaje }}" target="_blank"
+                        rel="noopener noreferrer" class="whatsapp-button">
                         <i class="fab fa-whatsapp"></i>
                         WhatsApp
                         <i class="bi bi-arrow-up-right"></i>
@@ -106,7 +104,7 @@ section id="contacto" class="contact-premium">
 
                     <div>
                         <span>Formulario de contacto</span>
-                        <h3>CuÃ©ntanos sobre tu proyecto</h3>
+                        <h3>Cuéntanos sobre tu proyecto</h3>
                     </div>
 
                 </div>
@@ -186,14 +184,14 @@ section id="contacto" class="contact-premium">
                         <div class="form-field">
 
                             <label>
-                                TelÃ©fono
+                                Teléfono
                                 <span>*</span>
                             </label>
 
                             <div class="phone-wrapper">
 
                                 <div class="phone-prefix">
-                                    <span>ðŸ‡µðŸ‡ª</span>
+                                    <span>Perú</span>
                                     +51
                                 </div>
 
@@ -209,7 +207,7 @@ section id="contacto" class="contact-premium">
                         <div class="form-field full">
 
                             <label>
-                                Correo electrÃ³nico
+                                Correo electrónico
                                 <span>*</span>
                             </label>
 
@@ -285,7 +283,7 @@ section id="contacto" class="contact-premium">
 
                 <div class="form-security">
                     <i class="bi bi-lock-fill"></i>
-                    Tus datos estÃ¡n protegidos y no serÃ¡n compartidos con terceros.
+                    Tus datos están protegidos y no serÃ¡n compartidos con terceros.
                 </div>
 
             </div>
