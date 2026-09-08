@@ -18,6 +18,8 @@
     $mostrarProductosDestacados = $config['home_mostrar_productos_destacados'] ?? 1;
     $mostrarRubros = $config['home_mostrar_rubros'] ?? 1;
     $mostrarClientes = $config['home_mostrar_clientes'] ?? 0;
+    $mostrarCtaAyuda = $config['home_mostrar_cta_ayuda'] ?? 1;
+    $mostrarTestimonios = $config['home_mostrar_testimonios'] ?? 1;
 @endphp
 
 
@@ -79,9 +81,11 @@
     </div>
 @endif
 
+@if($mostrarCtaAyuda == 1)
 <div class="scroll-reveal">{{-- CTA Ayuda --}}
     @include('sections.cta-ayuda')
 </div>
+@endif
 
 @if($mostrarSuscripcion == 1)
     <div class="scroll-reveal">{{-- Suscripción: fade up --}}
@@ -89,9 +93,11 @@
     </div>
 @endif
 
+@if($mostrarTestimonios == 1)
 <div class="scroll-reveal reveal-left">{{-- Testimonios: izquierda --}}
     @include('sections.testimonios')
 </div>
+@endif
 
 @if($mostrarPreguntas == 1)
     <div class="scroll-reveal reveal-right">{{-- Preguntas: derecha --}}
