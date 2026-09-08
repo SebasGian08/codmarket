@@ -8,9 +8,9 @@
     <div class="idx-wrap">
 
         <!-- HEADER -->
-        <div class="sec-title_two centered">
-            <div class="sec-title_two-title">~ Portafolio ~</div>
-            <h2 class="sec-title_three-heading" style="color: #fff;">
+        <div class="text-center" style="margin-bottom: 50px;">
+            <div class="sec-titulo-eyebrow">~ Portafolio ~</div>
+            <h2 class="sec-titulo sec-titulo-claro">
                 Proyectos desarrollados para <span>clientes y empresas</span>
             </h2>
         </div>

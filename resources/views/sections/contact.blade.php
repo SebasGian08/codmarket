@@ -1,12 +1,12 @@
 <section class="contact-one">
     <div class="auto-container">
 
-        <div class="sec-title_three text-center">
-            <div class="sec-title_three-title">
+        <div class="text-center" style="margin-bottom: 40px;">
+            <div class="sec-titulo-eyebrow">
                 Contacto
             </div>
 
-            <h2 class="sec-title_three-heading">
+            <h2 class="sec-titulo">
                 Contáctanos para más información
             </h2>
         </div>

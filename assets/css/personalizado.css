@@ -2916,3 +2916,35 @@ html[data-theme="dark"] .clientes_carousel_wrap .right_arrow_clientes {
     border-color: #333;
     color: var(--color-secundario);
 }
+/* ============ TITULOS DE SECCION (HOMOLOGADOS) ============ */
+.sec-titulo-eyebrow {
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: var(--color-secundario);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.sec-titulo {
+    font-size: 38px;
+    font-weight: 800;
+    margin-top: 10px;
+    line-height: 1.2;
+    color: var(--color-texto);
+}
+
+.sec-titulo span {
+    color: var(--color-secundario);
+}
+
+.sec-titulo-claro {
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .sec-titulo {
+        font-size: 28px;
+    }
+}
+
+/* ============ FIN TITULOS DE SECCION (HOMOLOGADOS) ============ */

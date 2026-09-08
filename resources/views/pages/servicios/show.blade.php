@@ -35,12 +35,12 @@
                 <div style="padding: 20px 10px;">
 
                     <div class="sec-title">
-                        <div style="font-size: 13px; letter-spacing: 2px; color: var(--color-secundario); font-weight: 600; text-transform: uppercase;">
+                        <div class="sec-titulo-eyebrow">
                             Calidad y confianza garantizada
                         </div>
 
-                        <h2 style="font-size: 38px; font-weight: 800; margin-top: 10px; line-height: 1.2; color: var(--color-texto);">
-                            Nuestro <span style="color: var(--color-secundario);">Servicio</span>
+                        <h2 class="sec-titulo">
+                            Nuestro <span>Servicio</span>
                         </h2>
 
                         <div style="margin-top: 20px; font-size: 16px; line-height: 1.8; color: var(--color-texto);">
@@ -95,12 +95,10 @@
 <section class="incluido-section">
     <div class="section-wrapper">
 
-        <div class="sec-title_three text-center" style="margin-bottom: 50px;">
-            <div class="sec-title_three-title"
-                style="color: var(--color-secundario);; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">
-                Descubre lo que obtienes</div><br>
-            <h2 class="sec-title_three-heading" style="font-size: 36px; color: var(--color-texto); font-weight: 800;">
-                Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
+        <div class="text-center" style="margin-bottom: 50px;">
+            <div class="sec-titulo-eyebrow">Descubre lo que obtienes</div>
+            <h2 class="sec-titulo">
+                Una experiencia completa lista para <span>llevar nuestro servicio al siguiente nivel</span>
             </h2>
         </div>
 
@@ -141,9 +139,9 @@
 
     <div class="auto-container">
 
-        <div class="sec-title_two centered">
-            <div class="sec-title_two-title">~ Planes Exclusivos ~</div>
-            <h2 class="sec-title_two-heading">
+        <div class="text-center" style="margin-bottom: 50px;">
+            <div class="sec-titulo-eyebrow">~ Planes Exclusivos ~</div>
+            <h2 class="sec-titulo">
                 Nuestros <span>increíbles</span> Paquetes <br>de Páginas Web
             </h2>
         </div>
@@ -199,9 +197,9 @@
 <section id="proyectos" class="idx-proy-section">
     <div class="idx-wrap">
 
-        <div class="sec-title_two centered">
-            <div class="sec-title_two-title">~ Casos de éxito ~</div>
-            <h2 class="sec-title_three-heading" style="color: #fff;">
+        <div class="text-center" style="margin-bottom: 50px;">
+            <div class="sec-titulo-eyebrow">~ Casos de éxito ~</div>
+            <h2 class="sec-titulo sec-titulo-claro">
                 Proyectos desarrollados para <span>marcas y empresas</span>
             </h2>
         </div>
