@@ -28,7 +28,7 @@
 
 <section class="testimonial-three" style="padding: 80px 0; background: #f8fafc;">
     <div class="auto-container">
-        <div class="row align-items-center clearfix" style="gap: 30px;">
+        <div class="row align-items-center clearfix">
 
             <!-- TEXTO -->
             <div class="col-lg-6 col-md-12">
@@ -98,9 +98,9 @@
         <div class="sec-title_three text-center" style="margin-bottom: 50px;">
             <div class="sec-title_three-title"
                 style="color: var(--color-secundario);; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; margin-bottom: 10px;">
-                Descubre lo que obtienes</div>
+                Descubre lo que obtienes</div><br>
             <h2 class="sec-title_three-heading" style="font-size: 36px; color: var(--color-texto); font-weight: 800;">
-                <br> Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
+                Una experiencia completa lista para <span style="color: var(--color-secundario);">llevar nuestro servicio al siguiente nivel</span>
             </h2>
         </div>
 
