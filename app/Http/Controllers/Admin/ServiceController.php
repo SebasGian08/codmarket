@@ -20,9 +20,9 @@ class ServiceController extends Controller
         return view('admin.services.index', compact('services'));
     }
 
-    private function uploadImage($file, $folder = 'services')
+    private function uploadImage($file, $folder = 'services', $width = 1600, $quality = 85, $maxKb = 300)
     {
-        return uploadImageOptimized($file, $folder);
+        return uploadImageOptimized($file, $folder, $width, $quality, $maxKb);
     }
 
     public function store(Request $request)
@@ -43,15 +43,15 @@ class ServiceController extends Controller
             $imagenReferencial = null;
 
             if ($request->hasFile('portada')) {
-                $portada = $this->uploadImage($request->file('portada'));
+                $portada = $this->uploadImage($request->file('portada'), 'services', 1920, 85, 400);
             }
 
             if ($request->hasFile('imagen_portada')) {
-                $imagenPortada = $this->uploadImage($request->file('imagen_portada'));
+                $imagenPortada = $this->uploadImage($request->file('imagen_portada'), 'services', 1600, 85, 300);
             }
 
             if ($request->hasFile('imagen_referencial')) {
-                $imagenReferencial = $this->uploadImage($request->file('imagen_referencial'));
+                $imagenReferencial = $this->uploadImage($request->file('imagen_referencial'), 'services', 1080, 85, 300);
             }
 
             $service = Service::create([
@@ -132,15 +132,15 @@ class ServiceController extends Controller
             $imagenReferencial = $service->imagen_referencial;
 
             if ($request->hasFile('portada')) {
-                $portada = $this->uploadImage($request->file('portada'));
+                $portada = $this->uploadImage($request->file('portada'), 'services', 1920, 85, 400);
             }
 
             if ($request->hasFile('imagen_portada')) {
-                $imagenPortada = $this->uploadImage($request->file('imagen_portada'));
+                $imagenPortada = $this->uploadImage($request->file('imagen_portada'), 'services', 1600, 85, 300);
             }
 
             if ($request->hasFile('imagen_referencial')) {
-                $imagenReferencial = $this->uploadImage($request->file('imagen_referencial'));
+                $imagenReferencial = $this->uploadImage($request->file('imagen_referencial'), 'services', 1080, 85, 300);
             }
 
             $service->update([
