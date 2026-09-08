@@ -87,7 +87,7 @@
                                             <span class="input-group-text" style="cursor: pointer;"
                                                 data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
                                                 onclick="prepararIcono(this)" title="Ver guía de iconos">
-                                                <i class="fa fa-icons"></i>
+                                                <i class="fa fa-th"></i>
                                             </span>
                                         </div>
                                     </div>

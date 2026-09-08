@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+﻿@extends('admin.layouts.app')
 
-@section('title', 'Gestión de Servicios')
+@section('title', 'GestiÃ³n de Servicios')
 
 @section('content')
 
@@ -8,7 +8,7 @@
 
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Servicios</h4>        </div>
+            <h4 class="page-title">GestiÃ³n de Servicios</h4>        </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
             <i class="fa fa-plus"></i> Nuevo Servicio
@@ -81,7 +81,7 @@
 @push('scripts')
 <script>
 $(document).ready(function() {
-    // Contadores correlativos globales para la sección de "CREAR NUEVO"
+    // Contadores correlativos globales para la secciÃ³n de "CREAR NUEVO"
     var i = 1; 
     var p = 1;
 
@@ -92,9 +92,9 @@ $(document).ready(function() {
     window.addBeneficio = function() {
         let html = `
         <div class="row mb-2 animated fadeIn align-items-center">
-            <div class="col-md-3"><input type="text" name="beneficios[${i}][titulo]" class="form-control" placeholder="Ingrese título del beneficio"></div>
-            <div class="col-md-4"><input type="text" name="beneficios[${i}][descripcion]" class="form-control" placeholder="Ingrese descripción del beneficio"></div>
-            <div class="col-md-4"><div class="input-group"><input type="text" name="beneficios[${i}][icono]" class="form-control" placeholder="Icono (fa fa-check)"><span class="input-group-text" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-icons"></i></span></div></div>
+            <div class="col-md-3"><input type="text" name="beneficios[${i}][titulo]" class="form-control" placeholder="Ingrese tÃ­tulo del beneficio"></div>
+            <div class="col-md-4"><input type="text" name="beneficios[${i}][descripcion]" class="form-control" placeholder="Ingrese descripciÃ³n del beneficio"></div>
+            <div class="col-md-4"><div class="input-group"><input type="text" name="beneficios[${i}][icono]" class="form-control" placeholder="Icono (fa fa-check)"><span class="input-group-text" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guÃ­a de iconos"><i class="fa fa-th"></i></span></div></div>
             <div class="col-md-1 text-end">
                 <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.row').remove()"><i class="fa fa-times"></i></button>
             </div>
@@ -120,16 +120,16 @@ $(document).ready(function() {
                     <input type="number" step="0.01" name="planes[${p}][precio]" class="form-control mb-2" placeholder="0.00">
                 </div>
             </div>
-            <label class="small">Descripción Corta</label>
+            <label class="small">DescripciÃ³n Corta</label>
             <textarea name="planes[${p}][descripcion]" class="form-control mb-2 editor" rows="2" placeholder="Resumen del plan..."></textarea>
             <div class="bg-light p-2 rounded mb-2">
                 <div id="features-container-${p}" class="mb-2">
                     <div class="input-group mb-1">
                         <input type="text" name="planes[${p}][features][]" class="form-control form-control-sm" placeholder="Ej: Soporte 24/7">
-                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">×</button>
+                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">Ã—</button>
                     </div>
                 </div>
-                <button type="button" class="btn btn-outline-success btn-xs mt-1" onclick="addFeature(${p})"><i class="fa fa-plus"></i> Añadir característica</button>
+                <button type="button" class="btn btn-outline-success btn-xs mt-1" onclick="addFeature(${p})"><i class="fa fa-plus"></i> AÃ±adir caracterÃ­stica</button>
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="planes[${p}][destacado]" value="1" id="destacado${p}">
@@ -143,19 +143,19 @@ $(document).ready(function() {
     window.addFeature = function(planIdx) {
         let featureHtml = `
         <div class="input-group mb-1 animated fadeIn">
-            <input type="text" name="planes[${planIdx}][features][]" class="form-control form-control-sm" placeholder="Nueva característica">
-            <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">×</button>
+            <input type="text" name="planes[${planIdx}][features][]" class="form-control form-control-sm" placeholder="Nueva caracterÃ­stica">
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">Ã—</button>
         </div>`;
         $(`#features-container-${planIdx}`).append(featureHtml);
     };
 
 
     /* ==========================================================================
-       2. FUNCIONES PARA EDICIÓN DE SERVICIOS EXISTENTES (MODAL EDITAR)
+       2. FUNCIONES PARA EDICIÃ“N DE SERVICIOS EXISTENTES (MODAL EDITAR)
        ========================================================================== */
 
     /**
-     * Añadir Beneficio en Modal de Edición
+     * AÃ±adir Beneficio en Modal de EdiciÃ³n
      */
     window.addBeneficioEdit = function(id_service) {
         let uniqueIdx = 'new_' + Date.now() + '_' + Math.floor(Math.random() * 100);
@@ -163,15 +163,15 @@ $(document).ready(function() {
         let html = `
         <div class="row mb-2 align-items-center animated fadeIn">
             <div class="col-md-3">
-                <input type="text" name="beneficios[${uniqueIdx}][titulo]" class="form-control" placeholder="Título">
+                <input type="text" name="beneficios[${uniqueIdx}][titulo]" class="form-control" placeholder="TÃ­tulo">
             </div>
             <div class="col-md-4">
-                <input type="text" name="beneficios[${uniqueIdx}][descripcion]" class="form-control" placeholder="Descripción">
+                <input type="text" name="beneficios[${uniqueIdx}][descripcion]" class="form-control" placeholder="DescripciÃ³n">
             </div>
             <div class="col-md-4">
                 <div class="input-group">
                     <input type="text" name="beneficios[${uniqueIdx}][icono]" class="form-control" placeholder="fa fa-check">
-                    <span class="input-group-text" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-icons"></i></span>
+                    <span class="input-group-text" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guÃ­a de iconos"><i class="fa fa-th"></i></span>
                 </div>
             </div>
             <div class="col-md-1 text-end">
@@ -185,7 +185,7 @@ $(document).ready(function() {
     };
 
     /**
-     * Añadir Plan Completo en Modal de Edición
+     * AÃ±adir Plan Completo en Modal de EdiciÃ³n
      */
     window.addPlanEdit = function(id_service) {
         let uniquePlanIdx = 'new_plan_' + Date.now() + '_' + Math.floor(Math.random() * 100);
@@ -210,20 +210,20 @@ $(document).ready(function() {
                 </div>
             </div>
 
-            <label class="small">Descripción Corta</label>
+            <label class="small">DescripciÃ³n Corta</label>
             <textarea name="planes[${uniquePlanIdx}][descripcion]" class="form-control mb-2" rows="2" placeholder="Resumen..."></textarea>
 
             <div class="bg-light p-2 rounded">
                 <div id="features-container-edit-${id_service}-${uniquePlanIdx}">
                     <div class="input-group mb-1">
-                        <input type="text" name="planes[${uniquePlanIdx}][features][]" class="form-control form-control-sm editor" placeholder="Característica">
-                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">×</button>
+                        <input type="text" name="planes[${uniquePlanIdx}][features][]" class="form-control form-control-sm editor" placeholder="CaracterÃ­stica">
+                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">Ã—</button>
                     </div>
                 </div>
 
                 <button type="button" class="btn btn-outline-success btn-xs mt-1"
                     onclick="addFeatureEdit(${id_service}, '${uniquePlanIdx}')">
-                    <i class="fa fa-plus"></i> Añadir característica
+                    <i class="fa fa-plus"></i> AÃ±adir caracterÃ­stica
                 </button>
             </div>
 
@@ -239,13 +239,13 @@ $(document).ready(function() {
     };
 
     /**
-     * Añadir sub-características (features) a un plan dentro del Modal de Edición
+     * AÃ±adir sub-caracterÃ­sticas (features) a un plan dentro del Modal de EdiciÃ³n
      */
     window.addFeatureEdit = function(id_service, planIdx) {
         let html = `
         <div class="input-group mb-1 animated fadeIn">
-            <input type="text" name="features_nuevas[${planIdx}][]" class="form-control form-control-sm editor" placeholder="Nueva característica">
-            <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">×</button>
+            <input type="text" name="features_nuevas[${planIdx}][]" class="form-control form-control-sm editor" placeholder="Nueva caracterÃ­stica">
+            <button class="btn btn-outline-danger btn-sm" type="button" onclick="this.closest('.input-group').remove()">Ã—</button>
         </div>`;
 
         $(`#features-container-edit-${id_service}-${planIdx}`).append(html);
@@ -253,7 +253,7 @@ $(document).ready(function() {
 
 
     /* ==========================================================================
-       3. SEGURO INTERCEPTOR REFORZADO PARA FORMULARIOS EN ESPAÑOL (SERVICIOS)
+       3. SEGURO INTERCEPTOR REFORZADO PARA FORMULARIOS EN ESPAÃ‘OL (SERVICIOS)
        ========================================================================== */
     
     $(document).on('submit', 'form', function(e) {
