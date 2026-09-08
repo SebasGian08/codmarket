@@ -1,10 +1,10 @@
-/* =========================================================
+﻿/* =========================================================
    VARIABLES
 ========================================================= */
 
 :root {
-    --about-primary: #ff6b00;
-    --about-primary-dark: #d95500;
+    --about-primary: var(--color-secundario);
+    --about-primary-dark: color-mix(in srgb, var(--color-secundario) 85%, #000);
     --about-dark: #111820;
     --about-dark-2: #18232d;
     --about-text: #344454;
@@ -145,7 +145,7 @@
 
     transition: .3s ease;
 
-    box-shadow: 0 12px 35px rgba(255,107,0,.25);
+    box-shadow: 0 12px 35px color-mix(in srgb, var(--color-secundario) 25%, transparent);
 }
 
 .about-btn i {
@@ -181,7 +181,7 @@
 .visual-circle {
     position: absolute;
 
-    border: 1px dashed rgba(255,107,0,.55);
+    border: 1px dashed color-mix(in srgb, var(--color-secundario) 55%, transparent);
 
     border-radius: 50%;
 }
@@ -514,7 +514,7 @@
     right: 25px;
     top: 20px;
 
-    color: rgba(255,107,0,.12);
+    color: color-mix(in srgb, var(--color-secundario) 12%, transparent);
 
     font-size: 65px;
     font-weight: 800;
@@ -528,7 +528,7 @@
     align-items: center;
     justify-content: center;
 
-    background: rgba(255,107,0,.1);
+    background: color-mix(in srgb, var(--color-secundario) 10%, transparent);
 
     color: var(--about-primary);
 
@@ -684,3 +684,4 @@
     }
 
 }
+
