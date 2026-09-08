@@ -41,8 +41,8 @@ if (!function_exists('limpiarTextoEditor')) {
 
     /**
      * Limpia el HTML producido por el editor TinyMCE para mostrarlo
-     * dentro de un contenedor <p>/texto simple: elimina un <p></p>
-     * envolvente si existe, dejando el contenido interno.
+     * dentro de un contenedor <p>/texto simple: elimina todos los <p>
+     * envolventes (apertura/cierre), dejando solo el contenido interno.
      */
     function limpiarTextoEditor($text)
     {
@@ -52,12 +52,12 @@ if (!function_exists('limpiarTextoEditor')) {
 
         $text = trim($text);
 
-        // Elimina un único <p ...> ... </p> envolvente (y saltos/blancos alrededor)
-        if (preg_match('/^<p[^>]*>(.*)<\/p>$/is', $text, $matches)) {
-            return trim($matches[1]);
-        }
+        // Elimina TODOS los <p> (apertura y cierre) para evitar <p> anidados
+        // cuando el editor guarda varios párrafos o etiquetas con atributos.
+        $text = preg_replace('/\s*<p[^>]*>\s*/i', ' ', $text);
+        $text = preg_replace('/\s*<\/p>\s*/i', ' ', $text);
 
-        return $text;
+        return trim($text);
     }
 }
 

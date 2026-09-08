@@ -10,8 +10,7 @@
 {{-- =========================================================
      HERO / SOBRE NOSOTROS
 ========================================================= --}}
-<section class="about-hero"
-    style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
+<section class="about-hero" style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
 
     <div class="about-hero-overlay"></div>
 
@@ -53,13 +52,12 @@
 
                 @if(!empty($empresa->imagen_empresarial))
 
-                    <img src="{{ asset($empresa->imagen_empresarial) }}"
-                         alt="Equipo profesional">
+                <img src="{{ asset($empresa->imagen_empresarial) }}" alt="Equipo profesional">
 
                 @else
 
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
-                         alt="Equipo profesional">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+                    alt="Equipo profesional">
 
                 @endif
 
@@ -99,7 +97,8 @@
 
             <div class="about-description">
                 {!! $empresa->descripcion_empresarial ??
-                'Somos una empresa comprometida con brindar soluciones profesionales de alta calidad, enfocadas en generar valor y resultados sostenibles para nuestros clientes.' !!}
+                'Somos una empresa comprometida con brindar soluciones profesionales de alta calidad, enfocadas en
+                generar valor y resultados sostenibles para nuestros clientes.' !!}
             </div>
 
         </div>
@@ -244,7 +243,8 @@
 
                 <p>
                     {!! $empresa->mision_empresarial ??
-                    'Brindar soluciones especializadas y eficientes que contribuyan al desarrollo y crecimiento sostenible de nuestros clientes.' !!}
+                    'Brindar soluciones especializadas y eficientes que contribuyan al desarrollo y crecimiento
+                    sostenible de nuestros clientes.' !!}
                 </p>
 
             </article>
@@ -267,7 +267,8 @@
 
                 <p>
                     {!! $empresa->vision_empresarial ??
-                    'Ser reconocidos como una empresa referente por nuestra excelencia profesional, innovación y compromiso con nuestros clientes.' !!}
+                    'Ser reconocidos como una empresa referente por nuestra excelencia profesional, innovación y
+                    compromiso con nuestros clientes.' !!}
                 </p>
 
             </article>
@@ -306,7 +307,7 @@
      CTA
 ========================================================= --}}
 <section class="about-cta"
-        style="background-image: linear-gradient(rgba(10,15,20,.9), rgba(10,15,20,.9)), url('{{ asset($empresa->portada_empresarial ?? '') }}'); background-size: cover; background-position: center;">
+    style="background-image: linear-gradient(rgba(10,15,20,.9), rgba(10,15,20,.9)), url('{{ asset($empresa->portada_empresarial ?? '') }}'); background-size: cover; background-position: center;">
 
     <div class="about-cta-overlay"></div>
 
