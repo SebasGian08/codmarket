@@ -92,7 +92,7 @@
                             <h4>{{ $trabajo->titulo }}</h4>
 
                             <p>
-                                {{ \Illuminate\Support\Str::limit(strip_tags($trabajo->descripcion), 100) }}
+                                {{ limpiarTextoPlano($trabajo->descripcion, 100) }}
                             </p>
 
                         </div>
@@ -131,7 +131,7 @@
                             <h4>{{ $trabajo->titulo }}</h4>
 
                             <p>
-                                {{ \Illuminate\Support\Str::limit(strip_tags($trabajo->descripcion), 100) }}
+                                {{ limpiarTextoPlano($trabajo->descripcion, 100) }}
                             </p>
 
                         </div>

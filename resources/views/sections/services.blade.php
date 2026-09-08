@@ -37,7 +37,7 @@
                         </h3>
 
                         <p>
-                            {{ Str::limit(strip_tags($item->descripcion), 110) }}
+                            {{ limpiarTextoPlano($item->descripcion, 110) }}
                         </p>
 
                         <a href="{{ route('services.show', $item->slug) }}" class="service_btn">

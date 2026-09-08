@@ -8,6 +8,7 @@
 
     <header class="header_section fashion_minimal_header sticky_header clearfix"
         style="background-color: {{ $config['tema_color_fondo'] }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        @if(($config['home_mostrar_brand_ticker'] ?? 1) == 1)
         <div class="brand_ticker">
             <div class="brand_ticker_track">
                 @for($i = 0; $i < 20; $i++) <span>
@@ -17,6 +18,7 @@
                     @endfor
             </div>
         </div>
+        @endif
         <div class="header_top clearfix topbar_main">
             <div class="container-fluid prl_100">
 

@@ -37,7 +37,7 @@
                     <div class="rubro_body">
                         <h3 class="rubro_nombre">{{ $rubro->nombre }}</h3>
                         <p class="rubro_desc">
-                            {{ Str::limit($rubro->descripcion ?? 'Explora nuestros productos en esta categoría', 120) }}
+                            {{ limpiarTextoPlano($rubro->descripcion ?? 'Explora nuestros productos en esta categoría', 120) }}
                         </p>
                         <span class="rubro_ver_mas">
                             Ver más <i class="fal fa-arrow-right"></i>

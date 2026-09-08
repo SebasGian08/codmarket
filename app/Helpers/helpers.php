@@ -61,6 +61,31 @@ if (!function_exists('limpiarTextoEditor')) {
     }
 }
 
+if (!function_exists('limpiarTextoPlano')) {
+
+    /**
+     * Convierte contenido HTML/tinymce a texto plano seguro para la web.
+     * Quita etiquetas HTML y decodifica entidades (&oacute;, &ntilde;, etc.)
+     * para que se muestren correctamente acentos y caracteres especiales
+     * cuando el texto se imprime con el escape de Blade ({{ }}).
+     */
+    function limpiarTextoPlano($text, $limite = null)
+    {
+        if (empty($text)) {
+            return '';
+        }
+
+        $text = html_entity_decode(strip_tags($text), ENT_QUOTES, 'UTF-8');
+        $text = trim($text);
+
+        if ($limite) {
+            return \Illuminate\Support\Str::limit($text, $limite);
+        }
+
+        return $text;
+    }
+}
+
 if (!function_exists('uploadImageOptimized')) {
 
     function uploadImageOptimized($file, $folder = 'general', $width = 1200, $quality = 80, $maxKb = 100)

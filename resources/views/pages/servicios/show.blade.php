@@ -243,7 +243,7 @@
                     @endif
 
                     <div class="idx-proy-desc">
-                        {{ Str::limit($portafolio->descripcion, 120) }}
+                        {{ limpiarTextoPlano($portafolio->descripcion, 120) }}
                     </div>
 
                     <span class="idx-proy-link">

@@ -2,14 +2,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>{{ $config['seo_title'] ?? 'Mi tienda online' }}</title>
-<meta name="description" content="{{ $config['seo_description'] ?? '' }}">
+<title>{!! $config['seo_title'] ?? 'Mi tienda online' !!}</title>
+<meta name="description" content="{!! $config['seo_description'] ?? '' !!}">
 <meta name="keywords" content="{{ $config['seo_keywords'] ?? '' }}">
 <meta name="author" content="{{ $config['seo_author'] ?? 'Sistema' }}">
 <meta property="og:site_name" content="{{ $config['seo_author'] ?? 'Mi tienda online' }}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $config['seo_title'] ?? '' }}">
-<meta name="twitter:description" content="{{ $config['seo_description'] ?? '' }}">
+<meta name="twitter:title" content="{!! $config['seo_title'] ?? '' !!}">
+<meta name="twitter:description" content="{!! $config['seo_description'] ?? '' !!}">
 <meta name="twitter:image" content="{{ asset($config['seo_image'] ?? 'assets/images/og-image.jpg') }}">
 
 <meta name="robots" content="{{ $config['seo_robots'] ?? 'index, follow' }}">
@@ -17,8 +17,8 @@
 <link rel="canonical" href="{{ url()->current() }}">
 
 <!-- Open Graph -->
-<meta property="og:title" content="{{ $config['seo_title'] ?? '' }}">
-<meta property="og:description" content="{{ $config['seo_description'] ?? '' }}">
+<meta property="og:title" content="{!! $config['seo_title'] ?? '' !!}">
+<meta property="og:description" content="{!! $config['seo_description'] ?? '' !!}">
 <meta property="og:image" content="{{ asset($config['seo_image'] ?? 'assets/images/og-image.jpg') }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
