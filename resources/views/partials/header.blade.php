@@ -115,12 +115,6 @@
                                     style="height: {{ $height }}; width: auto; object-fit: contain;">
                             </a>
                             <ul class="mh_action_btns ul_li clearfix">
-                                <li>
-                                    <button type="button" class="search_btn" data-toggle="collapse"
-                                        data-target="#search_body_collapse">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </li>
                                 @if($numeroWhatsappUrl)
                                 <li class="header-whatsapp-item">
                                     <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
@@ -130,6 +124,12 @@
                                     </a>
                                 </li>
                                 @endif
+                                <li>
+                                    <button type="button" class="search_btn" data-toggle="collapse"
+                                        data-target="#search_body_collapse">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </li>
 
                                 <!--  <li>
                                     <button type="button" class="cart_btn">
@@ -232,12 +232,6 @@
                     </div>
                     <div class="col-lg-3">
                         <ul class="action_btns_group ul_li_right clearfix">
-                            <li>
-                                <button type="button" class="search_btn" data-toggle="collapse"
-                                    data-target="#search_body_collapse">
-                                    <i class="fal fa-search"></i>
-                                </button>
-                            </li>
                             @if($numeroWhatsappUrl)
                             <li class="header-whatsapp-item">
                                 <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
@@ -339,6 +333,12 @@
                             </li>
 
                             @endauth
+                            <li>
+                                <button type="button" class="search_btn" data-toggle="collapse"
+                                    data-target="#search_body_collapse">
+                                    <i class="fal fa-search"></i>
+                                </button>
+                            </li>
                             <!-- <li>
                                 <button type="button" class="cart_btn">
                                     <i class="fal fa-shopping-cart"></i>
