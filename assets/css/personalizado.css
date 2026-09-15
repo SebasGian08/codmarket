@@ -1312,6 +1312,14 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
     transition: color .2s ease, transform .2s ease;
 }
 
+@media (min-width: 992px) {
+    .action_btns_group .header-whatsapp-item {
+        flex: 0 0 155px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
 .header-whatsapp i {
     font-size: 21px;
 }

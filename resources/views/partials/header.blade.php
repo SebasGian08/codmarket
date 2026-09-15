@@ -122,7 +122,7 @@
                                     </button>
                                 </li>
                                 @if($numeroWhatsappUrl)
-                                <li>
+                                <li class="header-whatsapp-item">
                                     <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                         target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                         <i class="fab fa-whatsapp"></i>
@@ -239,7 +239,7 @@
                                 </button>
                             </li>
                             @if($numeroWhatsappUrl)
-                            <li>
+                            <li class="header-whatsapp-item">
                                 <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                     target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
