@@ -4,6 +4,8 @@
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
     $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
     $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
+    $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
+    $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
     @endphp
 
     <header class="header_section fashion_minimal_header sticky_header clearfix"
@@ -119,6 +121,15 @@
                                         <i class="fal fa-search"></i>
                                     </button>
                                 </li>
+                                @if($numeroWhatsappUrl)
+                                <li>
+                                    <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
+                                        target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+                                        <i class="fab fa-whatsapp"></i>
+                                        <span>{{ $numeroWhatsapp }}</span>
+                                    </a>
+                                </li>
+                                @endif
 
                                 <!--  <li>
                                     <button type="button" class="cart_btn">
@@ -227,6 +238,15 @@
                                     <i class="fal fa-search"></i>
                                 </button>
                             </li>
+                            @if($numeroWhatsappUrl)
+                            <li>
+                                <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
+                                    target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                    <span>{{ $numeroWhatsapp }}</span>
+                                </a>
+                            </li>
+                            @endif
                             @auth
 
                             <li>
