@@ -8,28 +8,6 @@
     padding-bottom: 3rem;
 }
 
-/* ENCABEZADO */
-.section_heading_title small {
-    display: inline-block;
-    font-size: 0.9rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--color-secundario, #0f172a);
-    background: rgba(0, 0, 0, 0.04);
-    padding: 6px 18px;
-    border-radius: 50px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    margin-bottom: 10px;
-}
-
-.section_heading_description {
-    font-size: 1.05rem;
-    color: #64748b;
-    max-width: 650px;
-    margin: 10px auto 0;
-    line-height: 1.6;
-}
 
 /* TARJETA / CARD CON ÍCONO FLOTANTE */
 .feature_card {
