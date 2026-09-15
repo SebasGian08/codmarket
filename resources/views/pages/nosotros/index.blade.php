@@ -120,7 +120,7 @@
     <div class="stats-container">
         @foreach($indicadores as $indicador)
         <div class="stat">
-            <span class="stat-number">{{ $indicador[0] }}</span>
+            <span class="stat-number" data-value="{{ $indicador[0] }}" aria-label="{{ $indicador[0] }}"></span>
             <span class="stat-label">{{ $indicador[1] }}</span>
         </div>
         @endforeach
@@ -264,7 +264,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const reveals = document.querySelectorAll('.scroll-reveal');
     if (!reveals.length) return;
 
-    const showReveal = (element) => element.classList.add('reveal-visible');
+    const typeIndicator = (element) => {
+        if (element.dataset.animated === 'true') return;
+
+        element.dataset.animated = 'true';
+        const value = element.dataset.value || '';
+        let position = 0;
+
+        const write = () => {
+            element.textContent = value.slice(0, position);
+            position++;
+
+            if (position <= value.length) {
+                setTimeout(write, 100);
+            }
+        };
+
+        write();
+    };
+
+    const animateIndicators = (element) => {
+        if (!element.classList.contains('about-stats')) return;
+        element.querySelectorAll('.stat-number').forEach((stat, index) => {
+            setTimeout(() => typeIndicator(stat), index * 180);
+        });
+    };
+
+    const showReveal = (element) => {
+        element.classList.add('reveal-visible');
+        animateIndicators(element);
+    };
 
     if (!('IntersectionObserver' in window)) {
         reveals.forEach(showReveal);
