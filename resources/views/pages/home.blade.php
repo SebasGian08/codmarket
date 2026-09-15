@@ -28,7 +28,6 @@
 </div>
 
 
-
 @if($mostrarRubros == 1)
     <div class="scroll-reveal reveal-scale">{{-- Rubros: escala --}}
         @include('sections.rubros')
@@ -38,6 +37,12 @@
 @if($mostrarCategorias == 1)
     <div class="scroll-reveal">{{-- Categorías: fade up --}}
         @include('sections.categorias')
+    </div>
+@endif
+
+@if($mostrarServicios == 1)
+    <div class="scroll-reveal">{{-- Servicios: fade up --}}
+        @include('sections.services')
     </div>
 @endif
 
@@ -75,11 +80,6 @@
     </div>
 @endif
 
-@if($mostrarServicios == 1)
-    <div class="scroll-reveal">{{-- Servicios: fade up --}}
-        @include('sections.services')
-    </div>
-@endif
 
 @if($mostrarSteps == 1)
     <div class="scroll-reveal reveal-right">{{-- Steps: derecha --}}
