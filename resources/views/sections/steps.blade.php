@@ -1,15 +1,19 @@
-<section class="gadget_feature_section ecommerce_features sec_ptb_50 py-5">
+<section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-2" style="background: #f8fafc;">
     <div class="container">
 
-        <!-- HEADER SECCIÓN -->
-        <div class="section_title text-center mb-5">
-            <span class="small_title">
-                {{ $config['seccion_steps_titulo'] ?? '¿POR QUÉ ELEGIRNOS?' }}
-            </span>
-            <h2 class="title_heading">Ventajas de comprar con nosotros</h2>
-            <div class="section_description">
-                {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura para que compres con total confianza.') !!}
+        <!-- TITLE -->
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>
+                    {{ $config['seccion_steps_titulo'] ?? '¿POR QUÉ ELEGIRNOS?' }}
+                </small>
+                <span></span>
             </div>
+
+            <p class="section_heading_description">
+                {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura para que compres con total confianza.') !!}
+            </p>
         </div>
 
         @php
@@ -20,22 +24,25 @@
             ];
         @endphp
 
-        <!-- GRID TARJETAS -->
-        <div class="row justify-content-center g-4">
+        <!-- GRID DE TARJETAS CON ÍCONO SOBRESALIENTE -->
+        <div class="row justify-content-center g-4 pt-4">
             @foreach($ventajas as $ventaja)
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-md-6 col-sm-10 mt-5">
                 <div class="feature_card">
-                    <div class="feature_card_inner">
-                        <div class="feature_icon_wrapper">
-                            <div class="feature_icon">
-                                <i class="{{ $ventaja['icono'] ?? 'fas fa-check-circle' }}"></i>
-                            </div>
-                        </div>
-                        <div class="feature_content">
-                            <h3>{{ $ventaja['titulo'] ?? '' }}</h3>
-                            <p>{{ $ventaja['descripcion'] ?? '' }}</p>
+                    <!-- Ícono flotante que sobresale -->
+                    <div class="feature_icon_box">
+                        <div class="feature_icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'secure' : 'support') }}">
+                            <i class="{{ $ventaja['icono'] ?? '' }}"></i>
                         </div>
                     </div>
+                    
+                    <div class="feature_content">
+                        <h3>{{ $ventaja['titulo'] ?? '' }}</h3>
+                        <p>{{ $ventaja['descripcion'] ?? '' }}</p>
+                    </div>
+
+                    <!-- Detalle visual inferior -->
+                    <div class="card_bottom_bar"></div>
                 </div>
             </div>
             @endforeach

@@ -1,156 +1,161 @@
 /* ==========================================
-   SECCIÓN VENTAJAS / E-COMMERCE FEATURES
+   SECCIÓN DE VENTAJAS (DISEÑO PREMIUM)
    ========================================== */
 
 .ecommerce_features {
     position: relative;
-    background: #f8fafc;
-    overflow: hidden;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
 }
 
 /* ENCABEZADO */
-.section_title {
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.section_title .small_title {
+.section_heading_title small {
     display: inline-block;
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 0.9rem;
+    font-weight: 800;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--color-primario, #2563eb);
-    background: rgba(37, 99, 235, 0.08);
-    padding: 6px 16px;
-    border-radius: 50px;
-    margin-bottom: 12px;
-}
-
-.section_title .title_heading {
-    font-size: 2.25rem;
-    font-weight: 800;
     color: var(--color-secundario, #0f172a);
-    line-height: 1.25;
-    margin-bottom: 15px;
-    letter-spacing: -0.5px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    margin-bottom: 10px;
 }
 
-.section_title .section_description {
+.section_heading_description {
     font-size: 1.05rem;
     color: #64748b;
-    line-height: 1.7;
-    margin: 0 auto;
+    max-width: 650px;
+    margin: 10px auto 0;
+    line-height: 1.6;
 }
 
-/* TARJETAS DE CARACTERÍSTICAS */
+/* TARJETA / CARD CON ÍCONO FLOTANTE */
 .feature_card {
-    height: 100%;
     position: relative;
     background: #ffffff;
     border-radius: 20px;
-    padding: 40px 30px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1;
-}
-
-.feature_card_inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* Ajuste de padding para compensar el ícono flotante sin espacios vacíos enormes */
+    padding: 55px 24px 28px 24px;
     text-align: center;
     height: 100%;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-/* EFECTO HOVER EN TARJETA */
 .feature_card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(37, 99, 235, 0.3);
-    box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.12);
+    border-color: var(--color-secundario, #2563eb);
 }
 
-/* ÍCONO Y CONTENEDOR DE ÍCONO */
-.feature_icon_wrapper {
-    position: relative;
-    margin-bottom: 24px;
+/* ÍCONO SOBRESALIENTE (FLOATING ICON) */
+.feature_icon_box {
+    position: absolute;
+    top: -40px; /* Hace que sobresalga de la tarjeta */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
 }
 
 .feature_icon {
     width: 80px;
     height: 80px;
     border-radius: 20px;
-    background: linear-gradient(135deg, var(--color-secundario, #0f172a) 0%, #1e293b 100%);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background: var(--color-secundario, #0f172a);
+    border: 4px solid #ffffff; /* Borde blanco para separarlo de la tarjeta */
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.18);
+    transition: all 0.4s ease;
 }
 
 .feature_icon i {
     font-size: 32px;
     color: #ffffff;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
 /* EFECTO EN ÍCONO AL PASAR EL MOUSE */
 .feature_card:hover .feature_icon {
-    transform: scale(1.08) rotate(-3deg);
-    background: linear-gradient(135deg, var(--color-primario, #2563eb) 0%, #1d4ed8 100%);
-    box-shadow: 0 12px 28px -5px rgba(37, 99, 235, 0.4);
+    transform: rotate(8deg) scale(1.1);
+    box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.25);
 }
 
 .feature_card:hover .feature_icon i {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
-/* TEXTO DE CONTENIDO */
+/* ESTILOS DE COLORES Y DEGRADADOS */
+.feature_icon.shipping,
+.feature_icon.secure,
+.feature_icon.support {
+    background: linear-gradient(135deg, var(--color-secundario, #0f172a) 0%, #1e293b 100%);
+}
+
+/* CONTENIDO */
+.feature_content {
+    margin-top: 5px;
+}
+
 .feature_content h3 {
     font-size: 1.25rem;
     font-weight: 700;
+    margin-bottom: 10px;
     color: var(--color-secundario, #0f172a);
-    margin-bottom: 12px;
-    transition: color 0.3s ease;
-}
-
-.feature_card:hover .feature_content h3 {
-    color: var(--color-primario, #2563eb);
+    line-height: 1.3;
 }
 
 .feature_content p {
-    font-size: 0.95rem;
-    line-height: 1.65;
+    font-size: 0.92rem;
+    line-height: 1.55;
     color: #64748b;
     margin: 0;
 }
 
+/* BARRA DECORATIVA EN EL FONDO DE LA TARJETA */
+.card_bottom_bar {
+    width: 40px;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    margin: 18px auto 0;
+    transition: all 0.4s ease;
+}
+
+.feature_card:hover .card_bottom_bar {
+    width: 80px;
+    background: var(--color-secundario, #2563eb);
+}
+
 /* RESPONSIVO */
 @media (max-width: 991px) {
-    .section_title .title_heading {
-        font-size: 1.85rem;
-    }
-    
     .feature_card {
-        padding: 30px 20px;
+        padding: 50px 20px 24px 20px;
     }
 }
 
 @media (max-width: 576px) {
-    .section_title .title_heading {
-        font-size: 1.6rem;
-    }
-
     .feature_icon {
         width: 70px;
         height: 70px;
-        border-radius: 16px;
+    }
+    
+    .feature_icon i {
+        font-size: 26px;
     }
 
-    .feature_icon i {
-        font-size: 28px;
+    .feature_icon_box {
+        top: -35px;
+    }
+
+    .feature_card {
+        padding-top: 45px;
     }
 }
