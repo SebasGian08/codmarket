@@ -93,6 +93,10 @@
 </div>
 @endif
 
+<div class="scroll-reveal reveal-right">{{-- Contacto --}}
+    @include('sections.contact')
+</div>
+
 @if($mostrarSuscripcion == 1)
     <div class="scroll-reveal">{{-- Suscripción: fade up --}}
         @include('sections.suscripcion')
