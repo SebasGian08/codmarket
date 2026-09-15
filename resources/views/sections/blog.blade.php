@@ -44,7 +44,7 @@
                             </h3>
 
                             <p class="blog_excerpt">
-                                {{ \Illuminate\Support\Str::limit($blog->excerpt, 140) }}
+                                {{ \Illuminate\Support\Str::limit(strip_tags($blog->excerpt ?? ''), 140) }}
                             </p>
 
                             <a class="blog_btn" href="{{ route('blog.show', $blog->slug) }}">
