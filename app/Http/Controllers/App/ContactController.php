@@ -9,6 +9,7 @@ use App\Models\ContactSource;
 use App\Models\Priority;
 use App\Models\ContactStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class ContactController extends Controller
 {
@@ -37,14 +38,16 @@ class ContactController extends Controller
             return back()->withErrors(['error' => 'Bot detectado']);
         }
 
-        $verify = file_get_contents(
-            "https://www.google.com/recaptcha/api/siteverify?secret=" . env('RECAPTCHA_SECRET_KEY') .
-            "&response=" . $request->input('g-recaptcha-response')
-        );
+        $response = Http::asForm()
+            ->timeout(10)
+            ->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'response' => $request->input('g-recaptcha-response'),
+                'remoteip' => $request->ip(),
+            ])
+            ->json();
 
-        $response = json_decode($verify);
-
-        if (!$response->success) {
+        if (!($response['success'] ?? false)) {
             return back()->withErrors(['error' => 'Verificación anti-robot fallida']);
         }
 
