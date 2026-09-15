@@ -825,13 +825,13 @@ html, body {
     font-size: 14px;
 }
 
-.benefits-box {
+.product-benefits-box {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
 
-.benefit-card {
+.product-benefit-card {
     display: flex;
     align-items: center;
     gap: 15px;
@@ -842,12 +842,12 @@ html, body {
     transition: 0.3s ease;
 }
 
-.benefit-card:hover {
+.product-benefit-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 18px rgba(0, 0, 0, 0.06);
 }
 
-.benefit-icon {
+.product-benefit-icon {
     width: 52px;
     /* height: 52px; */
     min-width: 52px;
@@ -857,51 +857,51 @@ html, body {
     justify-content: center;
 }
 
-.benefit-icon i {
+.product-benefit-icon i {
     font-size: 21px;
 }
 
 /* COLORS */
-.benefit-icon.shipping {
+.product-benefit-icon.shipping {
     background: #e9fff1;
 }
 
-.benefit-icon.shipping i {
+.product-benefit-icon.shipping i {
     color: #25D366;
 }
 
-.benefit-icon.fast {
+.product-benefit-icon.fast {
     background: #fff4e5;
 }
 
-.benefit-icon.fast i {
+.product-benefit-icon.fast i {
     color: #ff9800;
 }
 
-.benefit-icon.secure {
+.product-benefit-icon.secure {
     background: #ffeaea;
 }
 
-.benefit-icon.secure i {
+.product-benefit-icon.secure i {
     color: #ff4d4d;
 }
 
-.benefit-icon.support {
+.product-benefit-icon.support {
     background: #eaf4ff;
 }
 
-.benefit-icon.support i {
+.product-benefit-icon.support i {
     color: #2196f3;
 }
 
-.benefit-content h4 {
+.product-benefit-content h4 {
     margin: 0;
     font-size: 15px;
     font-weight: 700;
     color: #111;
 }
 
-.benefit-content span {
+.product-benefit-content span {
     display: block;
     margin-top: 3px;
     font-size: 13px;

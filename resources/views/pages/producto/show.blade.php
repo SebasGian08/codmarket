@@ -269,14 +269,14 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         ];
                     @endphp
 
-                    <div class="benefits-box mt-4">
+                    <div class="product-benefits-box mt-4">
                         @foreach($ventajas as $ventaja)
-                        <div class="benefit-card">
-                            <div class="benefit-icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'fast' : 'support') }}">
+                        <div class="product-benefit-card">
+                            <div class="product-benefit-icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'fast' : 'support') }}">
                                 <i class="{{ $ventaja['icono'] ?? '' }}"></i>
                             </div>
 
-                            <div class="benefit-content">
+                            <div class="product-benefit-content">
                                 <h4>{{ $ventaja['titulo'] ?? '' }}</h4>
                                 <span>{{ $ventaja['descripcion'] ?? '' }}</span>
                             </div>
