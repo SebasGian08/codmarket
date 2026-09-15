@@ -29,7 +29,7 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:150',
             'descripcion' => 'nullable|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'imagen' => 'nullable|image',
             'icono' => 'nullable|string|max:100',
         ]);
 
@@ -69,7 +69,7 @@ class CategoriaController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:150',
             'descripcion' => 'nullable|string|max:255',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'imagen' => 'nullable|image',
             'icono' => 'nullable|string|max:100',
         ]);
 
