@@ -1318,21 +1318,11 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
 
 .header-whatsapp-number {
     display: inline-block;
-    max-width: 0;
     overflow: hidden;
+    min-width: 10px;
     border-right: 2px solid currentColor;
-    animation: header-whatsapp-type 1.4s steps(18, end) .25s forwards,
-        header-whatsapp-caret .7s step-end infinite;
-}
-
-@keyframes header-whatsapp-type {
-    from {
-        max-width: 0;
-    }
-
-    to {
-        max-width: 180px;
-    }
+    padding-right: 2px;
+    animation: header-whatsapp-caret .7s step-end infinite;
 }
 
 @keyframes header-whatsapp-caret {

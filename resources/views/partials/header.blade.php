@@ -126,7 +126,7 @@
                                     <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                         target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                         <i class="fab fa-whatsapp"></i>
-                                        <span class="header-whatsapp-number">{{ $numeroWhatsapp }}</span>
+                                        <span class="header-whatsapp-number" data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
                                     </a>
                                 </li>
                                 @endif
@@ -243,7 +243,7 @@
                                 <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                     target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
-                                    <span class="header-whatsapp-number">{{ $numeroWhatsapp }}</span>
+                                    <span class="header-whatsapp-number" data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
                                 </a>
                             </li>
                             @endif
@@ -613,5 +613,41 @@
 
         }, 3000);
 
+    });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.header-whatsapp-number').forEach((element) => {
+            const messages = ['Escríbenos', element.dataset.number];
+            let messageIndex = 0;
+            let characterIndex = messages[0].length;
+            let deleting = true;
+
+            const type = () => {
+                const message = messages[messageIndex];
+
+                if (deleting) {
+                    characterIndex--;
+                } else {
+                    characterIndex++;
+                }
+
+                element.textContent = message.slice(0, characterIndex);
+
+                if (deleting && characterIndex === 0) {
+                    messageIndex = (messageIndex + 1) % messages.length;
+                    deleting = false;
+                } else if (!deleting && characterIndex === message.length) {
+                    deleting = true;
+                    setTimeout(type, 1800);
+                    return;
+                }
+
+                setTimeout(type, deleting ? 55 : 90);
+            };
+
+            setTimeout(type, 1800);
+        });
     });
     </script>
