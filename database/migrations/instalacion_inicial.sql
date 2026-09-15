@@ -223,7 +223,8 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `indicador_3_titulo` varchar(150) NOT NULL DEFAULT 'Soluciones integrales',
   `indicador_4_valor` varchar(50) NOT NULL DEFAULT 'ISO',
   `indicador_4_titulo` varchar(150) NOT NULL DEFAULT 'Estándares internacionales',
-  `empresa_ventajas` longtext DEFAULT NULL
+  `empresa_ventajas` longtext DEFAULT NULL,
+  `empresa_indicadores` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 CREATE TABLE IF NOT EXISTS `gastos` (
   `id_gasto` bigint(20) UNSIGNED NOT NULL,

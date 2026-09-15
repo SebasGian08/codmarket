@@ -104,21 +104,30 @@
 
                         <h5 class="mb-3">Indicadores de Nosotros</h5>
 
+                        @php
+                            $indicadores = $empresa->empresa_indicadores ?: [
+                                ['valor' => $empresa->indicador_1_valor ?? '+10', 'titulo' => $empresa->indicador_1_titulo ?? 'Años de experiencia'],
+                                ['valor' => $empresa->indicador_2_valor ?? '100%', 'titulo' => $empresa->indicador_2_titulo ?? 'Compromiso profesional'],
+                                ['valor' => $empresa->indicador_3_valor ?? '360°', 'titulo' => $empresa->indicador_3_titulo ?? 'Soluciones integrales'],
+                                ['valor' => $empresa->indicador_4_valor ?? 'ISO', 'titulo' => $empresa->indicador_4_titulo ?? 'Estándares internacionales'],
+                            ];
+                        @endphp
+
                         <div class="row">
-                            @for($i = 1; $i <= 4; $i++)
+                            @foreach($indicadores as $index => $indicador)
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label>Indicador {{ $i }} - Valor</label>
-                                    <input type="text" name="indicador_{{ $i }}_valor" class="form-control"
-                                        value="{{ $empresa->{'indicador_'.$i.'_valor'} ?? '' }}" maxlength="50">
+                                    <label>Indicador {{ $index + 1 }} - Valor</label>
+                                    <input type="text" name="indicadores[{{ $index }}][valor]" class="form-control"
+                                        value="{{ $indicador['valor'] ?? '' }}" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label>Descripción</label>
-                                    <input type="text" name="indicador_{{ $i }}_titulo" class="form-control"
-                                        value="{{ $empresa->{'indicador_'.$i.'_titulo'} ?? '' }}" maxlength="150">
+                                    <input type="text" name="indicadores[{{ $index }}][titulo]" class="form-control"
+                                        value="{{ $indicador['titulo'] ?? '' }}" maxlength="150">
                                 </div>
                             </div>
-                            @endfor
+                            @endforeach
                         </div>
 
                         <hr>

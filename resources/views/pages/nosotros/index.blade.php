@@ -120,8 +120,8 @@
     <div class="stats-container">
         @foreach($indicadores as $indicador)
         <div class="stat">
-            <span class="stat-number" data-value="{{ $indicador[0] }}" aria-label="{{ $indicador[0] }}"></span>
-            <span class="stat-label">{{ $indicador[1] }}</span>
+            <span class="stat-number" data-value="{{ $indicador['valor'] ?? '' }}" aria-label="{{ $indicador['valor'] ?? '' }}"></span>
+            <span class="stat-label">{{ $indicador['titulo'] ?? '' }}</span>
         </div>
         @endforeach
 

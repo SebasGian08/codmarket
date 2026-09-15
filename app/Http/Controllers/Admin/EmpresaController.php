@@ -64,6 +64,7 @@ class EmpresaController extends Controller
                 'indicador_3_titulo' => $request->indicador_3_titulo,
                 'indicador_4_valor' => $request->indicador_4_valor,
                 'indicador_4_titulo' => $request->indicador_4_titulo,
+                'empresa_indicadores' => json_encode($this->indicadoresFromRequest($request), JSON_UNESCAPED_UNICODE),
                 'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES EMPRESARIALES (si las tienes como input file luego)
@@ -146,6 +147,7 @@ class EmpresaController extends Controller
                 'indicador_3_titulo' => $request->indicador_3_titulo,
                 'indicador_4_valor' => $request->indicador_4_valor,
                 'indicador_4_titulo' => $request->indicador_4_titulo,
+                'empresa_indicadores' => json_encode($this->indicadoresFromRequest($request), JSON_UNESCAPED_UNICODE),
                 'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES
@@ -175,6 +177,19 @@ class EmpresaController extends Controller
                     'icono' => $ventaja['icono'] ?? '',
                     'titulo' => $ventaja['titulo'] ?? '',
                     'descripcion' => $ventaja['descripcion'] ?? '',
+                ];
+            })
+            ->values()
+            ->all();
+    }
+
+    private function indicadoresFromRequest(Request $request): array
+    {
+        return collect($request->input('indicadores', []))
+            ->map(function ($indicador) {
+                return [
+                    'valor' => $indicador['valor'] ?? '',
+                    'titulo' => $indicador['titulo'] ?? '',
                 ];
             })
             ->values()
