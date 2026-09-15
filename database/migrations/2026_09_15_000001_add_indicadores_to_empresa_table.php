@@ -8,16 +8,18 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('empresa', function (Blueprint $table) {
-            $table->string('indicador_1_valor', 50)->default('+10');
-            $table->string('indicador_1_titulo', 150)->default('Años de experiencia');
-            $table->string('indicador_2_valor', 50)->default('100%');
-            $table->string('indicador_2_titulo', 150)->default('Compromiso profesional');
-            $table->string('indicador_3_valor', 50)->default('360°');
-            $table->string('indicador_3_titulo', 150)->default('Soluciones integrales');
-            $table->string('indicador_4_valor', 50)->default('ISO');
-            $table->string('indicador_4_titulo', 150)->default('Estándares internacionales');
-        });
+        if (!Schema::hasColumn('empresa', 'indicador_1_valor')) {
+            Schema::table('empresa', function (Blueprint $table) {
+                $table->string('indicador_1_valor', 50)->default('+10');
+                $table->string('indicador_1_titulo', 150)->default('Años de experiencia');
+                $table->string('indicador_2_valor', 50)->default('100%');
+                $table->string('indicador_2_titulo', 150)->default('Compromiso profesional');
+                $table->string('indicador_3_valor', 50)->default('360°');
+                $table->string('indicador_3_titulo', 150)->default('Soluciones integrales');
+                $table->string('indicador_4_valor', 50)->default('ISO');
+                $table->string('indicador_4_titulo', 150)->default('Estándares internacionales');
+            });
+        }
     }
 
     public function down()

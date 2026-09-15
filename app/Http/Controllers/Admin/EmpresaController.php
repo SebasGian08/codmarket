@@ -64,6 +64,7 @@ class EmpresaController extends Controller
                 'indicador_3_titulo' => $request->indicador_3_titulo,
                 'indicador_4_valor' => $request->indicador_4_valor,
                 'indicador_4_titulo' => $request->indicador_4_titulo,
+                'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES EMPRESARIALES (si las tienes como input file luego)
                 'imagen_empresarial' => $request->imagen_empresarial
@@ -145,6 +146,7 @@ class EmpresaController extends Controller
                 'indicador_3_titulo' => $request->indicador_3_titulo,
                 'indicador_4_valor' => $request->indicador_4_valor,
                 'indicador_4_titulo' => $request->indicador_4_titulo,
+                'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES
                 'imagen_empresarial' => $imagenEmp,
@@ -163,5 +165,19 @@ class EmpresaController extends Controller
             DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    private function ventajasFromRequest(Request $request): array
+    {
+        return collect($request->input('ventajas', []))
+            ->map(function ($ventaja) {
+                return [
+                    'icono' => $ventaja['icono'] ?? '',
+                    'titulo' => $ventaja['titulo'] ?? '',
+                    'descripcion' => $ventaja['descripcion'] ?? '',
+                ];
+            })
+            ->values()
+            ->all();
     }
 }

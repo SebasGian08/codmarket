@@ -18,68 +18,28 @@
 
         </div>
 
+        @php
+            $ventajas = $empresa->empresa_ventajas ?: [
+                ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos entregas ágiles y seguras para que recibas tus productos en el menor tiempo posible.'],
+                ['icono' => 'fas fa-shield-alt', 'titulo' => 'Compra 100% Segura', 'descripcion' => 'Protegemos cada transacción con métodos de pago confiables y seguridad avanzada.'],
+                ['icono' => 'fab fa-whatsapp', 'titulo' => 'Atención Personalizada', 'descripcion' => 'Nuestro equipo está listo para ayudarte antes, durante y después de tu compra.'],
+            ];
+        @endphp
+
         <div class="row justify-content-center g-4">
-
-            <!-- ITEM -->
+            @foreach($ventajas as $ventaja)
             <div class="col-lg-4 col-md-6 col-sm-10 mt-3">
                 <div class="feature_card">
-
-                    <div class="feature_icon shipping">
-                        <i class="fas fa-shipping-fast"></i>
+                    <div class="feature_icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'secure' : 'support') }}">
+                        <i class="{{ $ventaja['icono'] ?? '' }}"></i>
                     </div>
-
                     <div class="feature_content">
-                        <h3>Envíos Rápidos</h3>
-
-                        <p>
-                            Realizamos entregas ágiles y seguras
-                            para que recibas tus productos
-                            en el menor tiempo posible.
-                        </p>
+                        <h3>{{ $ventaja['titulo'] ?? '' }}</h3>
+                        <p>{{ $ventaja['descripcion'] ?? '' }}</p>
                     </div>
-
                 </div>
             </div>
-
-            <!-- ITEM -->
-            <div class="col-lg-4 col-md-6 col-sm-10 mt-3">
-                <div class="feature_card">
-
-                    <div class="feature_icon secure">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-
-                    <div class="feature_content">
-                        <h3>Compra 100% Segura</h3>
-
-                        <p>
-                            Protegemos cada transacción con métodos
-                            de pago confiables y seguridad avanzada.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- ITEM -->
-            <div class="col-lg-4 col-md-6 col-sm-10 mt-3">
-                <div class="feature_card">
-
-                    <div class="feature_icon support">
-                        <i class="fab fa-whatsapp"></i>
-                    </div>
-
-                    <div class="feature_content">
-                        <h3>Atención Personalizada</h3>
-
-                        <p>
-                            Nuestro equipo está listo para ayudarte
-                            antes, durante y después de tu compra.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
+            @endforeach
 
         </div>
     </div>

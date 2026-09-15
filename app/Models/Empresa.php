@@ -40,5 +40,10 @@ class Empresa extends Model
         'indicador_3_titulo',
         'indicador_4_valor',
         'indicador_4_titulo',
+        'empresa_ventajas',
+    ];
+
+    protected $casts = [
+        'empresa_ventajas' => 'array',
     ];
 }

@@ -123,6 +123,39 @@
 
                         <hr>
 
+                        <h5 class="mb-3">Ventajas de la Empresa</h5>
+
+                        @php
+                            $ventajas = $empresa->empresa_ventajas ?: [
+                                ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos entregas ágiles y seguras para que recibas tus productos en el menor tiempo posible.'],
+                                ['icono' => 'fas fa-shield-alt', 'titulo' => 'Compra 100% Segura', 'descripcion' => 'Protegemos cada transacción con métodos de pago confiables y seguridad avanzada.'],
+                                ['icono' => 'fab fa-whatsapp', 'titulo' => 'Atención Personalizada', 'descripcion' => 'Nuestro equipo está listo para ayudarte antes, durante y después de tu compra.'],
+                            ];
+                        @endphp
+
+                        <div class="row">
+                            @foreach($ventajas as $index => $ventaja)
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Ícono {{ $index + 1 }}</label>
+                                    <input type="text" name="ventajas[{{ $index }}][icono]" class="form-control"
+                                        value="{{ $ventaja['icono'] ?? '' }}" placeholder="fas fa-star">
+                                </div>
+                                <div class="form-group">
+                                    <label>Título</label>
+                                    <input type="text" name="ventajas[{{ $index }}][titulo]" class="form-control"
+                                        value="{{ $ventaja['titulo'] ?? '' }}" maxlength="150">
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <textarea name="ventajas[{{ $index }}][descripcion]" class="form-control" rows="4">{{ $ventaja['descripcion'] ?? '' }}</textarea>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <hr>
+
                         <h5 class="mb-3">Información Empresarial (Nosotros)</h5>
 
                         <div class="row">
