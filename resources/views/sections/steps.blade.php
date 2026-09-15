@@ -1,4 +1,4 @@
-section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-2" style="background: #f8fafc;">
+<section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-2" style="background: #f8fafc;">
     <div class="container">
 
         <!-- TITLE -->
