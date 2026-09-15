@@ -126,7 +126,7 @@
                                     <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                         target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                         <i class="fab fa-whatsapp"></i>
-                                        <span>{{ $numeroWhatsapp }}</span>
+                                        <span class="header-whatsapp-number">{{ $numeroWhatsapp }}</span>
                                     </a>
                                 </li>
                                 @endif
@@ -243,7 +243,7 @@
                                 <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                     target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
-                                    <span>{{ $numeroWhatsapp }}</span>
+                                    <span class="header-whatsapp-number">{{ $numeroWhatsapp }}</span>
                                 </a>
                             </li>
                             @endif

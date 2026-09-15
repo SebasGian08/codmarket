@@ -1316,6 +1316,36 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
     font-size: 21px;
 }
 
+.header-whatsapp-number {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    border-right: 2px solid currentColor;
+    animation: header-whatsapp-type 1.4s steps(18, end) .25s forwards,
+        header-whatsapp-caret .7s step-end infinite;
+}
+
+@keyframes header-whatsapp-type {
+    from {
+        max-width: 0;
+    }
+
+    to {
+        max-width: 180px;
+    }
+}
+
+@keyframes header-whatsapp-caret {
+    0%,
+    100% {
+        border-color: currentColor;
+    }
+
+    50% {
+        border-color: transparent;
+    }
+}
+
 .header-whatsapp:hover {
     color: #128c7e;
     transform: translateY(-1px);
