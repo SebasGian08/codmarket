@@ -4,34 +4,23 @@
 
 @section('content')
 
-{{-- =========================================================
-     HERO / SOBRE NOSOTROS
-========================================================= --}}
 <section class="about-hero" style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
-
     <div class="about-hero-overlay"></div>
-
     <div class="about-hero-container">
-
         <div class="about-hero-content">
-
             <span class="about-label">
                 <span></span>
                 QUIÉNES SOMOS
             </span>
-
             <h1>
                 Sobre <strong>Nosotros</strong>
             </h1>
-
             <div class="about-line"></div>
-
             <p>
-                Somos una empresa comprometida con brindar soluciones
-                profesionales, confiables y especializadas, orientadas al
-                crecimiento y desarrollo de nuestros clientes.
+                {!! $empresa->descripcion ??
+                'Somos una empresa comprometida con brindar soluciones profesionales de alta calidad, enfocadas en
+                generar valor y resultados sostenibles para nuestros clientes.' !!}
             </p>
-
             <a href="#nuestra-esencia" class="about-btn">
                 Conoce más
                 <i class="bi bi-arrow-right"></i>
@@ -39,25 +28,16 @@
 
         </div>
 
-        {{-- Elemento visual --}}
         <div class="about-hero-visual">
-
             <div class="visual-circle visual-circle-1"></div>
             <div class="visual-circle visual-circle-2"></div>
-
             <div class="visual-image">
-
                 @if(!empty($empresa->imagen_empresarial))
-
                 <img src="{{ asset($empresa->imagen_empresarial) }}" alt="Equipo profesional">
-
                 @else
-
                 <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
                     alt="Equipo profesional">
-
                 @endif
-
             </div>
 
             <div class="experience-badge">
@@ -71,27 +51,17 @@
 
 </section>
 
-
-{{-- =========================================================
-     SOBRE NOSOTROS
-========================================================= --}}
 <section class="about-section" id="nuestra-esencia">
-
     <div class="about-container">
-
         <div class="about-content">
-
             <span class="section-tag">
                 CONÓCENOS
             </span>
-
             <h2>
                 Comprometidos con la
                 <span>excelencia</span>
             </h2>
-
             <div class="section-decoration"></div>
-
             <div class="about-description">
                 {!! $empresa->descripcion_empresarial ??
                 'Somos una empresa comprometida con brindar soluciones profesionales de alta calidad, enfocadas en
@@ -198,34 +168,22 @@
      MISIÓN / VISIÓN / VALORES
 ========================================================= --}}
 <section class="mvv-section">
-
     <div class="mvv-container">
-
         <div class="mvv-heading">
-
             <span class="section-tag">
                 NUESTRA ESENCIA
             </span>
-
-            <h2>
-                Los pilares que
-                <span>nos definen</span>
-            </h2>
-
+            <h2>Los pilares que <span>nos definen</span></h2>
             <p>
                 Nuestro trabajo se construye sobre principios que nos
                 permiten ofrecer un servicio profesional, responsable
                 y orientado a resultados.
             </p>
-
         </div>
 
-
         <div class="mvv-grid">
-
             {{-- MISIÓN --}}
             <article class="mvv-card">
-
                 <div class="mvv-number">
                     01
                 </div>
@@ -305,7 +263,6 @@
 ========================================================= --}}
 <section class="about-cta"
     style="background-image: linear-gradient(rgba(10,15,20,.9), rgba(10,15,20,.9)), url('{{ asset($empresa->portada_empresarial ?? '') }}'); background-size: cover; background-position: center;">
-
     <div class="about-cta-overlay"></div>
 
     <div class="about-cta-content">
@@ -315,8 +272,8 @@
         </span>
 
         <h2>
-            ¿Necesitas una solución
-            <span>especializada?</span>
+            ¿Necesitas más información
+            <span>personalizada?</span>
         </h2>
 
         <p>
