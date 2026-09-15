@@ -104,7 +104,7 @@
 
                     <div>
                         <span>Formulario de contacto</span>
-                        <h3>Cuéntanos sobre tu proyecto</h3>
+                        <h3>Cuéntanos qué necesitas</h3>
                     </div>
 
                 </div>

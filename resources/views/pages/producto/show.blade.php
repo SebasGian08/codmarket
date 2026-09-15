@@ -261,51 +261,27 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         </li>
                     </ul>
 
+                    @php
+                        $ventajas = $empresa->empresa_ventajas ?: [
+                            ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos entregas ágiles y seguras.'],
+                            ['icono' => 'fas fa-shield-alt', 'titulo' => 'Compra 100% Segura', 'descripcion' => 'Protegemos cada transacción.'],
+                            ['icono' => 'fab fa-whatsapp', 'titulo' => 'Atención Personalizada', 'descripcion' => 'Estamos listos para ayudarte.'],
+                        ];
+                    @endphp
+
                     <div class="benefits-box mt-4">
-
+                        @foreach($ventajas as $ventaja)
                         <div class="benefit-card">
-                            <div class="benefit-icon shipping">
-                                <i class="fas fa-motorcycle"></i>
+                            <div class="benefit-icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'fast' : 'support') }}">
+                                <i class="{{ $ventaja['icono'] ?? '' }}"></i>
                             </div>
 
                             <div class="benefit-content">
-                                <h4>Envío a domicilio</h4>
-                                <span>Disponible en Lima y provincias</span>
+                                <h4>{{ $ventaja['titulo'] ?? '' }}</h4>
+                                <span>{{ $ventaja['descripcion'] ?? '' }}</span>
                             </div>
                         </div>
-
-                        <div class="benefit-card">
-                            <div class="benefit-icon fast">
-                                <i class="fas fa-shipping-fast"></i>
-                            </div>
-
-                            <div class="benefit-content">
-                                <h4>Entregas en 24h</h4>
-                                <span>Despacho rápido y seguro</span>
-                            </div>
-                        </div>
-
-                        <!--  <div class="benefit-card">
-                            <div class="benefit-icon secure">
-                                <i class="fas fa-shield-check"></i>
-                            </div>
-
-                            <div class="benefit-content">
-                                <h4>Compra segura</h4>
-                                <span>Pagos protegidos y confiables</span>
-                            </div>
-                        </div>
-
-                        <div class="benefit-card">
-                            <div class="benefit-icon support">
-                                <i class="fas fa-headset"></i>
-                            </div>
-
-                            <div class="benefit-content">
-                                <h4>Atención personalizada</h4>
-                                <span>Soporte directo por WhatsApp</span>
-                            </div>
-                        </div> -->
+                        @endforeach
 
                     </div>
                 </div>
