@@ -27,9 +27,7 @@
     @include('sections.banner')
 </div>
 
-<div class="scroll-reveal reveal-scale">{{-- Nosotros: hero institucional --}}
-    @include('sections.about')
-</div>
+
 
 @if($mostrarRubros == 1)
     <div class="scroll-reveal reveal-scale">{{-- Rubros: escala --}}
@@ -54,6 +52,10 @@
         @include('sections.clientes')
     </div>
 @endif
+
+<div class="scroll-reveal reveal-scale">{{-- Nosotros: hero institucional --}}
+    @include('sections.about')
+</div>
 
 @if($mostrarProductos == 1)
     <div class="scroll-reveal">{{-- Productos: fade up --}}
