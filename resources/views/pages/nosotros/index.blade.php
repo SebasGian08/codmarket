@@ -4,7 +4,7 @@
 
 @section('content')
 
-<section class="about-hero" style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
+<section class="about-hero scroll-reveal reveal-scale" style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
     <div class="about-hero-overlay"></div>
     <div class="about-hero-container">
         <div class="about-hero-content">
@@ -51,7 +51,7 @@
 
 </section>
 
-<section class="about-section" id="nuestra-esencia">
+<section class="about-section scroll-reveal" id="nuestra-esencia">
     <div class="about-container">
         <div class="about-content">
             <span class="section-tag">
@@ -115,7 +115,7 @@
 {{-- =========================================================
      INDICADORES
 ========================================================= --}}
-<section class="about-stats">
+<section class="about-stats scroll-reveal reveal-scale">
 
     <div class="stats-container">
         @foreach($indicadores as $indicador)
@@ -133,7 +133,7 @@
 {{-- =========================================================
      MISIÓN / VISIÓN / VALORES
 ========================================================= --}}
-<section class="mvv-section">
+<section class="mvv-section scroll-reveal reveal-left">
     <div class="mvv-container">
         <div class="mvv-heading">
             <span class="section-tag">
@@ -227,7 +227,7 @@
 {{-- =========================================================
      CTA
 ========================================================= --}}
-<section class="about-cta"
+<section class="about-cta scroll-reveal reveal-right"
     style="background-image: linear-gradient(rgba(10,15,20,.9), rgba(10,15,20,.9)), url('{{ asset($empresa->portada_empresarial ?? '') }}'); background-size: cover; background-position: center;">
     <div class="about-cta-overlay"></div>
 
@@ -257,3 +257,33 @@
 
 
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const reveals = document.querySelectorAll('.scroll-reveal');
+    if (!reveals.length) return;
+
+    const showReveal = (element) => element.classList.add('reveal-visible');
+
+    if (!('IntersectionObserver' in window)) {
+        reveals.forEach(showReveal);
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                showReveal(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    reveals.forEach(element => observer.observe(element));
+});
+</script>
+@endpush
