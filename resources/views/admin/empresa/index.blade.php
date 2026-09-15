@@ -138,8 +138,15 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ícono {{ $index + 1 }}</label>
-                                    <input type="text" name="ventajas[{{ $index }}][icono]" class="form-control"
-                                        value="{{ $ventaja['icono'] ?? '' }}" placeholder="fas fa-star">
+                                    <div class="input-group">
+                                        <input type="text" name="ventajas[{{ $index }}][icono]" class="form-control"
+                                            value="{{ $ventaja['icono'] ?? '' }}" placeholder="fa fa-star">
+                                        <span class="input-group-text" style="cursor: pointer;"
+                                            data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
+                                            onclick="prepararIcono(this)" title="Ver guía de iconos">
+                                            <i class="fa fa-th"></i>
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="form-group">
                                     <label>Título</label>
@@ -281,4 +288,5 @@
     </div>
 
 </div>
+@include('admin.services.partials.guia-iconos')
 @endsection
