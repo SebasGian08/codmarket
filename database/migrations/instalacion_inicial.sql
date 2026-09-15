@@ -214,7 +214,15 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `vision_empresarial` text DEFAULT NULL,
   `valores_empresariales` text DEFAULT NULL,
   `imagen_empresarial` varchar(255) DEFAULT NULL,
-  `portada_empresarial` varchar(255) DEFAULT NULL
+  `portada_empresarial` varchar(255) DEFAULT NULL,
+  `indicador_1_valor` varchar(50) NOT NULL DEFAULT '+10',
+  `indicador_1_titulo` varchar(150) NOT NULL DEFAULT 'Años de experiencia',
+  `indicador_2_valor` varchar(50) NOT NULL DEFAULT '100%',
+  `indicador_2_titulo` varchar(150) NOT NULL DEFAULT 'Compromiso profesional',
+  `indicador_3_valor` varchar(50) NOT NULL DEFAULT '360°',
+  `indicador_3_titulo` varchar(150) NOT NULL DEFAULT 'Soluciones integrales',
+  `indicador_4_valor` varchar(50) NOT NULL DEFAULT 'ISO',
+  `indicador_4_titulo` varchar(150) NOT NULL DEFAULT 'Estándares internacionales'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 CREATE TABLE IF NOT EXISTS `gastos` (
   `id_gasto` bigint(20) UNSIGNED NOT NULL,

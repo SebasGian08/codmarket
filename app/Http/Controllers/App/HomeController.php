@@ -139,7 +139,13 @@ class HomeController extends Controller
     public function nosotros()
     {
         $empresa = Empresa::first();
+        $indicadores = collect([
+            [$empresa->indicador_1_valor ?? '+10', $empresa->indicador_1_titulo ?? 'Años de experiencia'],
+            [$empresa->indicador_2_valor ?? '100%', $empresa->indicador_2_titulo ?? 'Compromiso profesional'],
+            [$empresa->indicador_3_valor ?? '360°', $empresa->indicador_3_titulo ?? 'Soluciones integrales'],
+            [$empresa->indicador_4_valor ?? 'ISO', $empresa->indicador_4_titulo ?? 'Estándares internacionales'],
+        ]);
 
-        return view('pages.nosotros.index', compact('empresa'));
+        return view('pages.nosotros.index', compact('empresa', 'indicadores'));
     }
 }

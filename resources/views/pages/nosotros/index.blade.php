@@ -118,46 +118,12 @@
 <section class="about-stats">
 
     <div class="stats-container">
-
+        @foreach($indicadores as $indicador)
         <div class="stat">
-
-            <span class="stat-number">+10</span>
-
-            <span class="stat-label">
-                Años de experiencia
-            </span>
-
+            <span class="stat-number">{{ $indicador[0] }}</span>
+            <span class="stat-label">{{ $indicador[1] }}</span>
         </div>
-
-        <div class="stat">
-
-            <span class="stat-number">100%</span>
-
-            <span class="stat-label">
-                Compromiso profesional
-            </span>
-
-        </div>
-
-        <div class="stat">
-
-            <span class="stat-number">360°</span>
-
-            <span class="stat-label">
-                Soluciones integrales
-            </span>
-
-        </div>
-
-        <div class="stat">
-
-            <span class="stat-number">ISO</span>
-
-            <span class="stat-label">
-                Estándares internacionales
-            </span>
-
-        </div>
+        @endforeach
 
     </div>
 

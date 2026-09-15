@@ -80,7 +80,7 @@ Route::get('/producto/{slug}', [ProductoController::class, 'show']) ->name('prod
 Route::get('/producto/{slug}/variante/{variante}', [ProductoController::class, 'variante'])->name('producto.variante');
 Route::get('/buscar-productos', [ProductoController::class, 'buscar'])->name('productos.buscar');
 Route::get('/productos/categoria/{slug}', [ProductoController::class, 'categoria'])->name('productos.categoria');
-Route::get('/nosotros', function () {return view('pages.nosotros.index');})->name('nosotros');
+Route::get('/nosotros', [HomeController::class, 'nosotros'])->name('nosotros');
 
 /*
 |--------------------------------------------------------------------------

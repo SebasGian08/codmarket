@@ -56,6 +56,14 @@ class EmpresaController extends Controller
                 'mision_empresarial' => $request->mision_empresarial,
                 'vision_empresarial' => $request->vision_empresarial,
                 'valores_empresariales' => $request->valores_empresariales,
+                'indicador_1_valor' => $request->indicador_1_valor,
+                'indicador_1_titulo' => $request->indicador_1_titulo,
+                'indicador_2_valor' => $request->indicador_2_valor,
+                'indicador_2_titulo' => $request->indicador_2_titulo,
+                'indicador_3_valor' => $request->indicador_3_valor,
+                'indicador_3_titulo' => $request->indicador_3_titulo,
+                'indicador_4_valor' => $request->indicador_4_valor,
+                'indicador_4_titulo' => $request->indicador_4_titulo,
 
                 // IMAGENES EMPRESARIALES (si las tienes como input file luego)
                 'imagen_empresarial' => $request->imagen_empresarial
@@ -129,6 +137,14 @@ class EmpresaController extends Controller
                 'mision_empresarial' => $request->mision_empresarial,
                 'vision_empresarial' => $request->vision_empresarial,
                 'valores_empresariales' => $request->valores_empresariales,
+                'indicador_1_valor' => $request->indicador_1_valor,
+                'indicador_1_titulo' => $request->indicador_1_titulo,
+                'indicador_2_valor' => $request->indicador_2_valor,
+                'indicador_2_titulo' => $request->indicador_2_titulo,
+                'indicador_3_valor' => $request->indicador_3_valor,
+                'indicador_3_titulo' => $request->indicador_3_titulo,
+                'indicador_4_valor' => $request->indicador_4_valor,
+                'indicador_4_titulo' => $request->indicador_4_titulo,
 
                 // IMAGENES
                 'imagen_empresarial' => $imagenEmp,

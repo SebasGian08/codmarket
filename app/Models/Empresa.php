@@ -32,5 +32,13 @@ class Empresa extends Model
         'valores_empresariales',
         'imagen_empresarial',
         'portada_empresarial',
+        'indicador_1_valor',
+        'indicador_1_titulo',
+        'indicador_2_valor',
+        'indicador_2_titulo',
+        'indicador_3_valor',
+        'indicador_3_titulo',
+        'indicador_4_valor',
+        'indicador_4_titulo',
     ];
 }

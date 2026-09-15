@@ -102,6 +102,27 @@
 
                         <hr>
 
+                        <h5 class="mb-3">Indicadores de Nosotros</h5>
+
+                        <div class="row">
+                            @for($i = 1; $i <= 4; $i++)
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Indicador {{ $i }} - Valor</label>
+                                    <input type="text" name="indicador_{{ $i }}_valor" class="form-control"
+                                        value="{{ $empresa->{'indicador_'.$i.'_valor'} ?? '' }}" maxlength="50">
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input type="text" name="indicador_{{ $i }}_titulo" class="form-control"
+                                        value="{{ $empresa->{'indicador_'.$i.'_titulo'} ?? '' }}" maxlength="150">
+                                </div>
+                            </div>
+                            @endfor
+                        </div>
+
+                        <hr>
+
                         <h5 class="mb-3">Información Empresarial (Nosotros)</h5>
 
                         <div class="row">
