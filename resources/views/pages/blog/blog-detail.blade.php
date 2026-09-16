@@ -9,7 +9,7 @@ $defaultBlogImage = asset('assets/images/tienda_virtual/default.png');
 $blogImage = imagenOrDefault($blog->image);
 @endphp
 
-<section class="details_section blog_details sec_ptb_140 clearfix">
+<section class="details_section blog_details clearfix">
     <div class="container">
 
         <div class="blog_detail_intro">
