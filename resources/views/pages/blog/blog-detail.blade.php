@@ -83,10 +83,8 @@ $blogImage = imagenOrDefault($blog->image);
                 {{-- CATEGORÍA --}}
                 @if($blog->category)
                 <div class="blog_category mb_35">
-                    <span class="category_label"><i class="fal fa-tag"></i> Categoría</span>
                     <a class="category_link" href="{{ route('blog.index', ['category' => $blog->category->id]) }}">
                         {{ $blog->category->name }}
-                        <i class="fal fa-arrow-up-right"></i>
                     </a>
                 </div>
                 @endif
