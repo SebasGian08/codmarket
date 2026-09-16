@@ -4,11 +4,23 @@
 
 @section('content')
 
-<section class="details_section blog_details sec_ptb_140 clearfix" style="padding-top: 120px;">
+@php
+$defaultBlogImage = asset('assets/images/tienda_virtual/default.png');
+$blogImage = imagenOrDefault($blog->image);
+@endphp
+
+<section class="details_section blog_details sec_ptb_140 clearfix">
     <div class="container">
 
+        <div class="blog_detail_intro">
+            <a class="blog_back_link" href="{{ route('blog.index') }}">
+                <i class="fal fa-long-arrow-left"></i>
+                Volver al blog
+            </a>
+            <span class="blog_detail_kicker">Conocimiento para tu negocio</span>
+        </div>
 
-        <div class="row justify-content-lg-between">
+        <div class="row justify-content-lg-between blog_detail_layout">
 
             {{-- =====================================================
             CONTENIDO PRINCIPAL
@@ -17,7 +29,9 @@
 
                 {{-- HERO / IMAGEN --}}
                 <div class="details_image mb_30">
-                    <img src="{{ asset($blog->image) }}" alt="{{ $blog->title }}" loading="eager">
+                    <img src="{{ $blogImage }}" alt="{{ $blog->title }}" loading="eager"
+                        onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
+                    <span class="blog_image_badge">Artículo</span>
                 </div>
 
                 {{-- INFORMACIÓN DEL ARTÍCULO --}}
@@ -175,7 +189,8 @@
 
                                 <a class="blog_image" href="{{ route('blog.show', $item->slug) }}"
                                     aria-label="{{ $item->title }}">
-                                    <img src="{{ asset($item->image) }}" alt="{{ $item->title }}" loading="lazy">
+                                    <img src="{{ imagenOrDefault($item->image) }}" alt="{{ $item->title }}" loading="lazy"
+                                        onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
                                 </a>
 
                                 <div class="blog_content">
@@ -264,7 +279,8 @@
                         <article class="small_blog">
 
                             <a href="{{ route('blog.show', $item->slug) }}" class="item_image">
-                                <img src="{{ asset($item->image) }}" alt="{{ $item->title }}" loading="lazy">
+                                <img src="{{ imagenOrDefault($item->image) }}" alt="{{ $item->title }}" loading="lazy"
+                                    onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
                             </a>
 
                             <div class="item_content">
