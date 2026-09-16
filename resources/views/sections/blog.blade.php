@@ -32,7 +32,7 @@
                         <div class="blog_content">
 
                             @if($blog->category)
-                            <a href="#" class="blog_category">
+                            <a href="{{ route('blog.index', ['category' => $blog->category->id_blogs_categories]) }}" class="blog_category">
                                 {{ $blog->category->name }}
                             </a>
                             @endif

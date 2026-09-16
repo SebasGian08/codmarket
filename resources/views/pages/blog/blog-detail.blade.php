@@ -162,7 +162,7 @@ $blogImage = imagenOrDefault($blog->image);
                 {{-- =====================================================
                 ARTÍCULOS RELACIONADOS
             ====================================================== --}}
-                @if($recentBlogs->count())
+                @if($relatedBlogs->count())
 
                 <div class="related_post_carousel position-relative mb_100">
 
@@ -179,7 +179,7 @@ $blogImage = imagenOrDefault($blog->image);
                     <div class="slideshow3_slider"
                         data-slick='{"dots": false, "arrows": true, "slidesToShow": 2, "slidesToScroll": 1}'>
 
-                        @foreach($recentBlogs as $item)
+                        @foreach($relatedBlogs as $item)
 
                         <div class="item">
 
@@ -191,7 +191,7 @@ $blogImage = imagenOrDefault($blog->image);
                                         onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
                                 </a>
 
-                                <div class="blog_content">
+                                    <div class="blog_content">
 
                                     <ul class="post_meta ul_li clearfix">
                                         <li>
@@ -200,7 +200,9 @@ $blogImage = imagenOrDefault($blog->image);
 
                                         @if($item->category)
                                         <li>
-                                            {{ $item->category->name }}
+                                            <a href="{{ route('blog.index', ['category' => $item->category->id_blogs_categories]) }}">
+                                                {{ $item->category->name }}
+                                            </a>
                                         </li>
                                         @endif
                                     </ul>

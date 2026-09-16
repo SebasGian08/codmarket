@@ -20,6 +20,10 @@ class BlogController extends Controller
             });
         }
 
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
         $blogs = $query->orderBy('id_blog', 'desc')->get();
 
         return view('pages.blog.index', compact('blogs'));
@@ -35,6 +39,26 @@ class BlogController extends Controller
             ->take(3)
             ->get();
 
-        return view('pages.blog.blog-detail', compact('blog', 'recentBlogs', 'services'));
+        $relatedBlogs = Blog::where('status', 1)
+            ->where('id_blog', '!=', $blog->id_blog)
+            ->when($blog->category_id, function ($query) use ($blog) {
+                $query->where('category_id', $blog->category_id);
+            })
+            ->latest()
+            ->take(6)
+            ->get();
+
+        if ($relatedBlogs->count() < 6) {
+            $additionalBlogs = Blog::where('status', 1)
+                ->where('id_blog', '!=', $blog->id_blog)
+                ->whereNotIn('id_blog', $relatedBlogs->pluck('id_blog'))
+                ->latest()
+                ->take(6 - $relatedBlogs->count())
+                ->get();
+
+            $relatedBlogs = $relatedBlogs->concat($additionalBlogs);
+        }
+
+        return view('pages.blog.blog-detail', compact('blog', 'recentBlogs', 'relatedBlogs', 'services'));
     }
 }
