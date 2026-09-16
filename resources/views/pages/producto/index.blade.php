@@ -104,7 +104,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                             @php
 
-                            $variante = $producto->variantes->first();
+                            $variante = $producto->primera_variante_con_imagen;
 
                             $imagen = null;
 
@@ -191,7 +191,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                             @foreach($productos as $producto)
 
                             @php
-                            $variante = $producto->variantes->first();
+                            $variante = $producto->primera_variante_con_imagen;
 
                             $imagenes = $variante && $variante->imagenes->count()
                             ? $variante->imagenes->sortBy('orden')

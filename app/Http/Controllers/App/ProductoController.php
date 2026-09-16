@@ -30,7 +30,9 @@ class ProductoController extends Controller
 
         $varianteActiva = $request->variante
             ? $variantes->firstWhere('id_variante', $request->variante)
-            : $variantes->first();
+            : $producto->primera_variante_con_imagen;
+
+        $varianteActiva = $varianteActiva ?: $variantes->first();
 
         $imagenes = $varianteActiva->imagenes()
             ->orderBy('orden')

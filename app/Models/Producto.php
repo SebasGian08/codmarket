@@ -59,4 +59,15 @@ class Producto extends Model
 
         return $img ? asset($img->url) : asset('assets/images/tienda_virtual/default.png');
     }
+
+    public function getPrimeraVarianteConImagenAttribute()
+    {
+        $variantes = $this->relationLoaded('variantes')
+            ? $this->variantes
+            : $this->variantes()->with('imagenes')->get();
+
+        return $variantes->first(function ($variante) {
+            return $variante->imagenes->isNotEmpty();
+        }) ?? $variantes->first();
+    }
 }

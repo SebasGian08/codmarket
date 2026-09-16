@@ -324,7 +324,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                 @foreach($relacionados as $producto)
 
                 @php
-                $variante = $producto->variantes->first();
+                $variante = $producto->primera_variante_con_imagen;
                 // Obtenemos las imágenes y tomamos solo las primeras 2 para el efecto hover
                 $imagenes = $variante && $variante->imagenes->count()
                 ? $variante->imagenes->sortBy('orden')->take(2)

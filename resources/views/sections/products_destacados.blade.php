@@ -62,7 +62,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                 <ul class="supermarket_product_columns has_3columns ul_li bg_white clearfix">
                     @foreach($productos as $producto)
                     @php
-                    $variante = $producto->variantes->first();
+                    $variante = $producto->primera_variante_con_imagen;
                     $imagenes = $variante && $variante->imagenes->count() ? $variante->imagenes->sortBy('orden') :
                     collect();
                     $imagenPrincipal = $imagenes->first() ? asset($imagenes->first()->url) :
@@ -136,7 +136,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                 <ul class="supermarket_product_columns has_3columns ul_li bg_white clearfix">
                     @forelse($categoria->productos as $producto)
                     @php
-                    $variante = $producto->variantes->first();
+                    $variante = $producto->primera_variante_con_imagen;
                     $imagenes = $variante && $variante->imagenes->count() ? $variante->imagenes->sortBy('orden') :
                     collect();
                     @endphp
