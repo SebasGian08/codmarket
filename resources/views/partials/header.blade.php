@@ -461,7 +461,9 @@
 
                     <li><a href="{{ route('home') }}">Inicio</a></li>
                     <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+                    @if($mostrarProductos == 1)
                     <li><a href="{{ route('productos.index') }}">Productos</a></li>
+                    @endif
 
 
                     @if($mostrarBlogs == 1)
@@ -471,6 +473,7 @@
                     <li><a href="{{ route('contact.index') }}">Contacto</a></li>
 
                     <!-- CATEGORÍAS -->
+                    @if($categorias->count() > 0)
                     <li class="menu_item_has_child">
                         <a href="#!">Categorías</a>
                         <ul class="submenu submenu_flat">
@@ -500,6 +503,7 @@
                             @endforeach
                         </ul>
                     </li>
+                    @endif
 
                     @if($mostrarServicios == 1)
                     <li class="menu_item_has_child">
