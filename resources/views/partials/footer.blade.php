@@ -156,8 +156,8 @@ break;
                             </a>
                             @endif
 
-                            @if($config['linkedin_url'] ?? false)
-                            <a href="{{ $config['linkedin_url'] }}" target="_blank" class="social_card social_linkedin">
+                            @if($empresa->linkedin ?? false)
+                            <a href="{{ $empresa->linkedin }}" target="_blank" class="social_card social_linkedin">
                                 <i class="fab fa-linkedin-in"></i>
                                 <span>LinkedIn</span>
                             </a>

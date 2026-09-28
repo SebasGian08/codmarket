@@ -70,9 +70,9 @@
                             </li>
                             @endif
 
-                            @if($config['linkedin_url'] ?? false)
+                            @if($empresa->linkedin ?? false)
                             <li>
-                                <a href="{{ $config['linkedin_url'] }}" target="_blank">
+                                <a href="{{ $empresa->linkedin }}" target="_blank">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </li>

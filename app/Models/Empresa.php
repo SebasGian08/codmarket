@@ -25,6 +25,7 @@ class Empresa extends Model
         'instagram',
         'whatsapp',
         'tiktok',
+        'linkedin',
         'estado',
         // NOSOTROS
         'descripcion_empresarial',

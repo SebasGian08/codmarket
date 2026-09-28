@@ -103,6 +103,12 @@
                                         value="{{ $empresa->whatsapp ?? '' }}">
                                 </div>
 
+                                <div class="form-group">
+                                    <label>LinkedIn</label>
+                                    <input type="text" name="linkedin" class="form-control"
+                                        value="{{ $empresa->linkedin ?? '' }}">
+                                </div>
+
                             </div>
 
                         </div>

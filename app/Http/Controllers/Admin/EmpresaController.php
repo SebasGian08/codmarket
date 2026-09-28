@@ -44,6 +44,7 @@ class EmpresaController extends Controller
                 'instagram' => $request->instagram,
                 'whatsapp' => $request->whatsapp,
                 'tiktok' => $request->tiktok,
+                'linkedin' => $request->linkedin,
 
                 // NOSOTROS
                 'descripcion_empresarial' => $request->descripcion_empresarial,
@@ -105,6 +106,7 @@ class EmpresaController extends Controller
                 'instagram' => $request->instagram,
                 'whatsapp' => $request->whatsapp,
                 'tiktok' => $request->tiktok,
+                'linkedin' => $request->linkedin,
 
                 // NOSOTROS
                 'descripcion_empresarial' => $request->descripcion_empresarial,
