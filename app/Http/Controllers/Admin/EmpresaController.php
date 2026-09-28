@@ -25,17 +25,11 @@ class EmpresaController extends Controller
         try {
             DB::beginTransaction();
 
-            $logoHeader = $request->file('logo_header')
-                ? uploadImageOptimized($request->file('logo_header'), 'empresa')
-                : null;
+            $logoHeader = $this->subirImagenEmpresa($request, 'logo_header', null);
 
-            $logoFooter = $request->file('logo_footer')
-                ? uploadImageOptimized($request->file('logo_footer'), 'empresa')
-                : null;
+            $logoFooter = $this->subirImagenEmpresa($request, 'logo_footer', null);
 
-            $favicon = $request->file('favicon')
-                ? uploadImageOptimized($request->file('favicon'), 'empresa')
-                : null;
+            $favicon = $this->subirImagenEmpresa($request, 'favicon', null);
 
             Empresa::create([
                 'nombre' => $request->nombre,
@@ -67,14 +61,10 @@ class EmpresaController extends Controller
                 'empresa_indicadores' => json_encode($this->indicadoresFromRequest($request), JSON_UNESCAPED_UNICODE),
                 'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
 
-                // IMAGENES EMPRESARIALES (si las tienes como input file luego)
-                'imagen_empresarial' => $request->imagen_empresarial
-                    ? uploadImageOptimized($request->file('imagen_empresarial'), 'empresa')
-                    : null,
+                // IMAGENES EMPRESARIALES
+                'imagen_empresarial' => $this->subirImagenEmpresa($request, 'imagen_empresarial', null),
 
-                'portada_empresarial' => $request->portada_empresarial
-                    ? uploadImageOptimized($request->file('portada_empresarial'), 'empresa')
-                    : null,
+                'portada_empresarial' => $this->subirImagenEmpresa($request, 'portada_empresarial', null),
 
                 'logo_header' => $logoHeader,
                 'logo_footer' => $logoFooter,
@@ -100,25 +90,15 @@ class EmpresaController extends Controller
 
             $empresa = Empresa::findOrFail($id);
 
-            $logoHeader = $request->file('logo_header')
-                ? uploadImageOptimized($request->file('logo_header'), 'empresa')
-                : $empresa->logo_header;
+            $logoHeader = $this->subirImagenEmpresa($request, 'logo_header', $empresa->logo_header);
 
-            $logoFooter = $request->file('logo_footer')
-                ? uploadImageOptimized($request->file('logo_footer'), 'empresa')
-                : $empresa->logo_footer;
+            $logoFooter = $this->subirImagenEmpresa($request, 'logo_footer', $empresa->logo_footer);
 
-            $favicon = $request->file('favicon')
-                ? uploadImageOptimized($request->file('favicon'), 'empresa')
-                : $empresa->favicon;
+            $favicon = $this->subirImagenEmpresa($request, 'favicon', $empresa->favicon);
 
-            $imagenEmp = $request->file('imagen_empresarial')
-                ? uploadImageOptimized($request->file('imagen_empresarial'), 'empresa')
-                : $empresa->imagen_empresarial;
+            $imagenEmp = $this->subirImagenEmpresa($request, 'imagen_empresarial', $empresa->imagen_empresarial);
 
-            $portadaEmp = $request->file('portada_empresarial')
-                ? uploadImageOptimized($request->file('portada_empresarial'), 'empresa')
-                : $empresa->portada_empresarial;
+            $portadaEmp = $this->subirImagenEmpresa($request, 'portada_empresarial', $empresa->portada_empresarial);
 
             $empresa->update([
                 'nombre' => $request->nombre,
@@ -167,6 +147,33 @@ class EmpresaController extends Controller
             DB::rollBack();
             return back()->with('error', $e->getMessage());
         }
+    }
+
+/**
+     * Procesa la subida de una imagen de empresa.
+     * Devuelve la ruta guardada, mantiene la anterior si no se subió archivo,
+     * y lanza un error claro si el archivo se rechazó (tamaño/formato).
+     */
+    private function subirImagenEmpresa(Request $request, string $campo, ?string $actual): ?string
+    {
+        if (!$request->hasFile($campo)) {
+            return $actual;
+        }
+
+        $file = $request->file($campo);
+
+        if (!$file->isValid()) {
+            $error = match ($file->getError()) {
+                UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'supera el límite de tamaño permitido por el servidor',
+                UPLOAD_ERR_PARTIAL => 'se subió de forma incompleta',
+                UPLOAD_ERR_EXTENSION => 'fue bloqueado por una extensión del servidor',
+                default => 'no se pudo procesar'
+            };
+
+            throw new \Exception("No se pudo guardar \"{$campo}\": el archivo {$error}. Reintenta con una imagen más pequeña o contacta al administrador.");
+        }
+
+        return uploadImageOptimized($file, 'empresa');
     }
 
     private function ventajasFromRequest(Request $request): array
