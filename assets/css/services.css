@@ -1,10 +1,50 @@
 .services_section {
     position: relative;
+    padding: 80px 0;
     background: #ffffff;
     overflow: hidden;
 }
 
+/* =========================================================
+   ANIMACIÓN DE FONDO & ORBES FLOTANTES
+========================================================= */
+
+/* Orbe luminoso superior derecho */
+.services_section::before {
+    content: '';
+    position: absolute;
+    top: -5%;
+    right: -5%;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-secundario) 12%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+    animation: floatOrbServices 10s infinite ease-in-out alternate;
+}
+
+/* Orbe luminoso inferior izquierdo */
+.services_section::after {
+    content: '';
+    position: absolute;
+    bottom: -5%;
+    left: -5%;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 10%, transparent) 0%, transparent 70%);
+    pointer-events: none;
+    animation: floatOrbServices 8s infinite ease-in-out alternate-reverse;
+}
+
+@keyframes floatOrbServices {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(35px) scale(1.1); }
+}
+
 .section_heading_description {
+    position: relative;
+    z-index: 2;
     font-size: 15px;
     line-height: 1.8;
     color: #64748b;
@@ -12,15 +52,21 @@
     margin: 0 auto;
 }
 
+
+/* =========================================================
+   TARJETA DE SERVICIO (SERVICE CARD)
+========================================================= */
+
 .service_card {
     position: relative;
+    z-index: 2;
     background: #ffffff;
     border-radius: 20px;
     overflow: hidden;
     height: 100%;
-    transition: all .45s ease;
+    transition: transform .45s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow .45s ease, border-color .45s ease;
     border: 1px solid #eef2f7;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
 }
@@ -28,10 +74,14 @@
 .service_card:hover {
     transform: translateY(-10px);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
-    border-color: color-mix(in srgb, var(--color-secundario) 30%, transparent);
+    border-color: color-mix(in srgb, var(--color-secundario) 40%, transparent);
 }
 
-/* portada */
+
+/* =========================================================
+   PORTADA Y OVERLAY CON ANIMACIONES
+========================================================= */
+
 .service_cover {
     position: relative;
     width: 100%;
@@ -43,11 +93,11 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform .6s ease;
+    transition: transform .7s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .service_card:hover .service_cover img {
-    transform: scale(1.08);
+    transform: scale(1.09);
 }
 
 .service_cover_overlay {
@@ -56,8 +106,13 @@
     background: linear-gradient(
         180deg,
         rgba(0, 0, 0, 0.10) 0%,
-        rgba(0, 0, 0, 0.65) 100%
+        rgba(0, 0, 0, 0.75) 100%
     );
+    transition: opacity .4s ease;
+}
+
+.service_card:hover .service_cover_overlay {
+    opacity: 0.9;
 }
 
 .service_cover_text {
@@ -70,11 +125,20 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 1.35;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     z-index: 1;
+    transition: transform .4s ease;
 }
 
-/* contenido */
+.service_card:hover .service_cover_text {
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CONTENIDO INTERNO Y TÍTULO ANIMADO
+========================================================= */
+
 .service_content {
     position: relative;
     padding: 24px 24px 28px;
@@ -93,28 +157,39 @@
     padding-bottom: 14px;
 }
 
+/* Línea decorativa bajo el título que se expande al hacer hover */
 .service_content h3::after {
     content: "";
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 60px;
+    width: 50px;
     height: 3px;
     border-radius: 20px;
     background: linear-gradient(to right,
             var(--color-primario),
             var(--color-secundario));
+    transition: width .4s ease;
+}
+
+.service_card:hover .service_content h3::after {
+    width: 85px;
 }
 
 .service_content p {
     color: #64748b;
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.7;
     margin-bottom: 22px;
 }
 
-/* boton */
+
+/* =========================================================
+   BOTÓN CON DESTELLO AUTOMÁTICO
+========================================================= */
+
 .service_btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     align-self: flex-start;
@@ -129,8 +204,28 @@
     font-size: 13px;
     font-weight: 600;
     text-decoration: none;
+    overflow: hidden;
     transition: all .35s ease;
     box-shadow: 0 8px 22px color-mix(in srgb, var(--color-primario) 30%, transparent);
+}
+
+/* Brillo automático animado para destacar la llamada a la acción */
+.service_btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 30%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.35);
+    transform: rotate(30deg);
+    animation: btnShine 4.5s infinite ease-in-out;
+}
+
+@keyframes btnShine {
+    0% { left: -60%; }
+    20% { left: 130%; }
+    100% { left: 130%; }
 }
 
 .service_btn:hover {
@@ -145,11 +240,18 @@
 }
 
 .service_btn:hover i {
-    transform: translateX(5px);
+    transform: translateX(6px);
 }
 
-/* responsive */
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
 @media(max-width:768px) {
+    .services_section {
+        padding: 50px 0;
+    }
 
     .service_cover {
         height: 200px;
@@ -170,5 +272,4 @@
     .service_cover_text {
         font-size: 18px;
     }
-
 }
