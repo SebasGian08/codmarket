@@ -610,6 +610,20 @@
     }
     ]
   });
+
+  // Resalte automático del cliente activo: la slide visible queda
+  // "seleccionada" con una animación llamativa, sin pasar el mouse.
+  function destacarClientesActivos() {
+    $('.cliente_card').removeClass('cliente-activo');
+    $('.clientes_slider .slick-slide.slick-active').find('.cliente_card').addClass('cliente-activo');
+  }
+  $('.clientes_slider')
+    .on('init afterChange', destacarClientesActivos)
+    .on('setPosition', function() {
+      if (!$(this).find('.cliente-activo').length) {
+        destacarClientesActivos();
+      }
+    });
   // clientes carousel - end
   // --------------------------------------------------
 
