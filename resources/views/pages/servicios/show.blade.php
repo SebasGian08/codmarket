@@ -5,7 +5,7 @@
 @section('content')
 
 <section class="service-hero"
-    style="background-image: url('{{ asset($service->portada ?: 'assets/images/tienda_virtual/1200x600px.png') }}');">
+    style="background-image: url('{{ asset($service->portada ?: 'assets/images/tienda_virtual/default.png') }}');">
 
 
     <div class="service-hero-overlay"></div>
