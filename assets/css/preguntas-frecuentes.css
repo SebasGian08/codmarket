@@ -1,26 +1,13 @@
-/* REMPLAZA LA CLASE .faq-section Y TUS TEXTOS DE CABECERA */
+/* SECTION */
 .faq-section {
-    padding: 90px 20px;
+    padding: 80px 20px;
     font-family: 'Inter', sans-serif;
-    background: #0f172a; /* Azul muy oscuro / Noche */
-    background-image: 
-        radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.35) 0%, transparent 60%),
-        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
-}
-
-/* Para que el texto resalte en el fondo oscuro */
-.faq-header h2 {
-    color: #ffffff !important;
-}
-
-.faq-header p {
-    color: #94a3b8 !important;
-}
-
-.faq-badge {
-    background: rgba(255, 255, 255, 0.1) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background-color: var(--color-secundario);
+    background-image: radial-gradient(
+        circle at 50% 30%, 
+        color-mix(in srgb, var(--color-primario) 18%, transparent) 0%, 
+        transparent 70%
+    );
 }
 
 /* CONTAINER */
