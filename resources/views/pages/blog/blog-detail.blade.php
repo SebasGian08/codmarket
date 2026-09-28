@@ -59,14 +59,17 @@ $blogImage = imagenOrDefault($blog->image);
                 {{-- RESUMEN --}}
                 @if($blog->excerpt)
                 <p class="blog_excerpt mb_35">
-                    {{ $blog->excerpt }}
+                    {{ html_entity_decode(strip_tags($blog->excerpt), ENT_QUOTES, 'UTF-8') }}
                 </p>
                 @endif
 
                 {{-- CONTENIDO --}}
                 <div class="blog_content mb_40">
+                    @php
+                        $blogContent = html_entity_decode($blog->content, ENT_QUOTES, 'UTF-8');
+                    @endphp
                     {!! strip_tags(
-                    $blog->content,
+                    $blogContent,
                     '<p><strong><b><em><i><br>
                                         <ul>
                                             <ol>
