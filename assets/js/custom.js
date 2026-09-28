@@ -611,18 +611,33 @@
     ]
   });
 
-  // Resalte automático del cliente activo: la slide visible queda
-  // "seleccionada" con una animación llamativa, sin pasar el mouse.
-  function destacarClientesActivos() {
-    $('.cliente_card').removeClass('cliente-activo');
-    $('.clientes_slider .slick-slide.slick-active').find('.cliente_card').addClass('cliente-activo');
+  // Resalte automático del cliente activo: se destaca UNA tarjeta a la vez,
+  // rotando dentro de la slide visible, sin pasar el mouse.
+  var clienteIndice = 0;
+  var clienteTimer = null;
+
+  function destacarCliente() {
+    var $visibles = $('.clientes_slider .slick-slide.slick-active .cliente_card');
+    if (!$visibles.length) return;
+
+    if (clienteIndice >= $visibles.length) clienteIndice = 0;
+
+    $visibles.removeClass('cliente-activo');
+    $visibles.eq(clienteIndice).addClass('cliente-activo');
+
+    clienteIndice++;
   }
+
   $('.clientes_slider')
-    .on('init afterChange', destacarClientesActivos)
-    .on('setPosition', function() {
-      if (!$(this).find('.cliente-activo').length) {
-        destacarClientesActivos();
-      }
+    .on('init', function() {
+      clienteIndice = 0;
+      destacarCliente();
+      if (clienteTimer) clearInterval(clienteTimer);
+      clienteTimer = setInterval(destacarCliente, 1500);
+    })
+    .on('afterChange', function() {
+      clienteIndice = 0;
+      destacarCliente();
     });
   // clientes carousel - end
   // --------------------------------------------------
