@@ -587,3 +587,136 @@
 
 }
 
+/* ==========================================================================
+   ANIMACIONES AUTOMÁTICAS Y EFECTOS ATRACTIVOS
+   ========================================================================== */
+
+/* 1. Fondo con degradado animado suave */
+.contact-premium {
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-bg {
+    background: linear-gradient(-45deg, #0f172a, #1e293b, #0284c7, #0f172a);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* 2. Micro-animación de pulso/flotación en el badge superior */
+.contact-eyebrow i {
+    display: inline-block;
+    animation: pulseIcon 2s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.25); opacity: 0.8; }
+}
+
+/* 3. Flotación suave en iconos de beneficios al pasar el cursor */
+.contact-benefit {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.contact-benefit:hover {
+    transform: translateY(-4px);
+}
+
+.contact-benefit-icon {
+    transition: transform 0.4s ease;
+}
+
+.contact-benefit:hover .contact-benefit-icon {
+    transform: rotate(10deg) scale(1.15);
+}
+
+/* 4. Efecto de "Glow" y pulso en el botón de WhatsApp */
+.contact-whatsapp {
+    position: relative;
+    overflow: hidden;
+}
+
+.whatsapp-button {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Destello automático en el botón de WhatsApp */
+.whatsapp-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 20%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(30deg);
+    animation: shineEffect 4s infinite;
+}
+
+@keyframes shineEffect {
+    0% { left: -60%; }
+    20% { left: 120%; }
+    100% { left: 120%; }
+}
+
+.whatsapp-button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+}
+
+/* 5. Transiciones suaves en la tarjeta del formulario y sus campos */
+.contact-form-card {
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.contact-form-card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.input-wrapper, 
+.textarea-wrapper,
+.select-wrapper {
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-wrapper:focus-within,
+.textarea-wrapper:focus-within,
+.select-wrapper:focus-within {
+    transform: translateY(-2px);
+}
+
+/* Iconos de inputs animados al enfocar */
+.input-wrapper i,
+.textarea-icon i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.input-wrapper:focus-within i,
+.textarea-wrapper:focus-within .textarea-icon i {
+    transform: scale(1.2);
+    color: #0284c7; /* Cambia al color primario de tu marca */
+}
+
+/* 6. Animación del flecha en el botón Submit */
+.contact-submit {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.contact-submit .submit-icon i {
+    transition: transform 0.3s ease;
+}
+
+.contact-submit:hover .submit-icon i {
+    transform: translateX(5px);
+}
