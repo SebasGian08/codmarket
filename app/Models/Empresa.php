@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Empresa extends Model
@@ -44,8 +45,40 @@ class Empresa extends Model
         'empresa_indicadores',
     ];
 
-    protected $casts = [
-        'empresa_ventajas' => 'array',
-        'empresa_indicadores' => 'array',
-    ];
+    /**
+     * Normaliza un valor JSON/texto a array de forma segura.
+     * Resiste cadenas vacías, JSON inválido o doble-codificado.
+     */
+    private function normalizarJson(mixed $valor): array
+    {
+        $data = $valor ?? [];
+
+        while (!is_array($data) && is_string($data) && $data !== '') {
+            $decoded = json_decode($data, true);
+
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return [];
+            }
+
+            $data = $decoded;
+        }
+
+        return is_array($data) ? array_values($data) : [];
+    }
+
+    protected function empresaVentajas(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->normalizarJson($value),
+            set: fn ($value) => is_string($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE),
+        );
+    }
+
+    protected function empresaIndicadores(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->normalizarJson($value),
+            set: fn ($value) => is_string($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE),
+        );
+    }
 }
