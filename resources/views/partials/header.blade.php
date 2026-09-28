@@ -6,6 +6,7 @@
     $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
     $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
     $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
+    $linkedinUrl = $config['linkedin_url'] ?? $empresa->linkedin ?? false;
     @endphp
 
     <header class="header_section fashion_minimal_header sticky_header clearfix"
@@ -70,9 +71,9 @@
                             </li>
                             @endif
 
-                            @if($config['linkedin_url'] ?? false)
+                            @if($linkedinUrl)
                             <li>
-                                <a href="{{ $config['linkedin_url'] }}" target="_blank">
+                                <a href="{{ $linkedinUrl }}" target="_blank">
                                     <i class="fab fa-linkedin-in"></i>
                                 </a>
                             </li>

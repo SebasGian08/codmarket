@@ -1,5 +1,6 @@
 @php
 $footerTheme = $config['footer_theme'] ?? 'dark';
+$linkedinUrl = $config['linkedin_url'] ?? $empresa->linkedin ?? false;
 
 switch ($footerTheme) {
 case 'light':
@@ -129,7 +130,8 @@ break;
                             @endif
 
                             @if($config['instagram_url'] ?? false)
-                            <a href="{{ $config['instagram_url'] }}" target="_blank" class="social_card social_instagram">
+                            <a href="{{ $config['instagram_url'] }}" target="_blank"
+                                class="social_card social_instagram">
                                 <i class="fab fa-instagram"></i>
                                 <span>Instagram</span>
                             </a>
@@ -156,8 +158,8 @@ break;
                             </a>
                             @endif
 
-                            @if($empresa->linkedin ?? false)
-                            <a href="{{ $empresa->linkedin }}" target="_blank" class="social_card social_linkedin">
+                            @if($linkedinUrl)
+                            <a href="{{ $linkedinUrl }}" target="_blank" class="social_card social_linkedin">
                                 <i class="fab fa-linkedin-in"></i>
                                 <span>LinkedIn</span>
                             </a>
@@ -302,12 +304,35 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
 }
 
 /* Colores por red social */
-.social_facebook:hover { background: rgba(59, 89, 152, 0.3); border-color: rgba(59, 89, 152, 0.5); }
-.social_instagram:hover { background: rgba(225, 48, 108, 0.3); border-color: rgba(225, 48, 108, 0.5); }
-.social_tiktok:hover { background: rgba(0, 0, 0, 0.4); border-color: rgba(255, 255, 255, 0.3); }
-.social_youtube:hover { background: rgba(255, 0, 0, 0.3); border-color: rgba(255, 0, 0, 0.5); }
-.social_twitter:hover { background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3); }
-.social_linkedin:hover { background: rgba(0, 119, 181, 0.3); border-color: rgba(0, 119, 181, 0.5); }
+.social_facebook:hover {
+    background: rgba(59, 89, 152, 0.3);
+    border-color: rgba(59, 89, 152, 0.5);
+}
+
+.social_instagram:hover {
+    background: rgba(225, 48, 108, 0.3);
+    border-color: rgba(225, 48, 108, 0.5);
+}
+
+.social_tiktok:hover {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.social_youtube:hover {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
+.social_twitter:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.social_linkedin:hover {
+    background: rgba(0, 119, 181, 0.3);
+    border-color: rgba(0, 119, 181, 0.5);
+}
 
 /* Light footer - tarjetas sociales */
 .light_footer .footer_social_cards .social_card {
@@ -321,10 +346,37 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
     border-color: rgba(0, 0, 0, 0.15);
 }
 
-.light_footer .social_facebook:hover { background: rgba(59, 89, 152, 0.12); border-color: rgba(59, 89, 152, 0.3); color: #3b5998; }
-.light_footer .social_instagram:hover { background: rgba(225, 48, 108, 0.12); border-color: rgba(225, 48, 108, 0.3); color: #e1306c; }
-.light_footer .social_tiktok:hover { background: rgba(0, 0, 0, 0.08); border-color: rgba(0, 0, 0, 0.15); }
-.light_footer .social_youtube:hover { background: rgba(255, 0, 0, 0.1); border-color: rgba(255, 0, 0, 0.3); color: #ff0000; }
-.light_footer .social_twitter:hover { background: rgba(0, 0, 0, 0.06); border-color: rgba(0, 0, 0, 0.12); }
-.light_footer .social_linkedin:hover { background: rgba(0, 119, 181, 0.1); border-color: rgba(0, 119, 181, 0.3); color: #0077b5; }
+.light_footer .social_facebook:hover {
+    background: rgba(59, 89, 152, 0.12);
+    border-color: rgba(59, 89, 152, 0.3);
+    color: #3b5998;
+}
+
+.light_footer .social_instagram:hover {
+    background: rgba(225, 48, 108, 0.12);
+    border-color: rgba(225, 48, 108, 0.3);
+    color: #e1306c;
+}
+
+.light_footer .social_tiktok:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
+}
+
+.light_footer .social_youtube:hover {
+    background: rgba(255, 0, 0, 0.1);
+    border-color: rgba(255, 0, 0, 0.3);
+    color: #ff0000;
+}
+
+.light_footer .social_twitter:hover {
+    background: rgba(0, 0, 0, 0.06);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.light_footer .social_linkedin:hover {
+    background: rgba(0, 119, 181, 0.1);
+    border-color: rgba(0, 119, 181, 0.3);
+    color: #0077b5;
+}
 </style>
