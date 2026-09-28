@@ -1,13 +1,13 @@
 .faq-section {
     padding: 80px 20px;
     font-family: 'Inter', sans-serif;
-    background-color: var(--color-secundario);
-    /* Malla + degradado de iluminación superior */
+    background-color: #ffffff; /* Fondo Blanco */
     background-image: 
-        radial-gradient(circle at 50% 15%, color-mix(in srgb, var(--color-primario) 30%, transparent) 0%, transparent 65%),
-        linear-gradient(to right, color-mix(in srgb, var(--color-primario) 12%, transparent) 1px, transparent 1px),
-        linear-gradient(to bottom, color-mix(in srgb, var(--color-primario) 12%, transparent) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
+        /* Resplandor suave superior con tu color primario */
+        radial-gradient(circle at 50% 15%, color-mix(in srgb, var(--color-primario) 15%, transparent) 0%, transparent 60%),
+        /* Patrón de puntos */
+        radial-gradient(color-mix(in srgb, var(--color-primario) 18%, transparent) 1.5px, transparent 1.5px);
+    background-size: 100% 100%, 24px 24px;
 }
 /* CONTAINER */
 .faq-container {
