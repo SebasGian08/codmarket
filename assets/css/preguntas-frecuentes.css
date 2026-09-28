@@ -2,13 +2,12 @@
     padding: 80px 20px;
     font-family: 'Inter', sans-serif;
     background-color: var(--color-secundario);
-    /* Aura luminosa concéntrica */
-    background-image: radial-gradient(
-        ellipse at 50% 40%, 
-        color-mix(in srgb, var(--color-primario) 28%, transparent) 0%, 
-        color-mix(in srgb, var(--color-primario) 8%, transparent) 50%, 
-        transparent 80%
-    );
+    /* Malla + degradado de iluminación superior */
+    background-image: 
+        radial-gradient(circle at 50% 15%, color-mix(in srgb, var(--color-primario) 30%, transparent) 0%, transparent 65%),
+        linear-gradient(to right, color-mix(in srgb, var(--color-primario) 12%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in srgb, var(--color-primario) 12%, transparent) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
 }
 /* CONTAINER */
 .faq-container {
