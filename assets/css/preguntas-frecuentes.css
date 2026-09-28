@@ -1,9 +1,24 @@
-/* SECTION - Actualizado con el nuevo fondo */
+/* REMPLAZA LA CLASE .faq-section EN TU CSS POR ESTA */
 .faq-section {
     padding: 80px 20px;
     font-family: 'Inter', sans-serif;
-    /* Fondo limpio con un brillo azul/violeta sutil en el centro */
-    background: radial-gradient(circle at 50% 10%, rgba(99, 102, 241, 0.05) 0%, rgba(248, 250, 252, 1) 80%);
+    position: relative;
+    background-color: #f8fafc;
+    /* Crear un degradado multicapa suave */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.25) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.2) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.25) 0px, transparent 50%);
+    background-size: 150% 150%;
+    animation: meshGradient 12s ease infinite alternate;
+    overflow: hidden;
+}
+
+@keyframes meshGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 /* CONTAINER */
@@ -47,17 +62,12 @@
     margin-bottom: 18px;
     overflow: hidden;
     border: 1px solid #e5e7eb;
-    transition: all .3s ease;
+    transition: .3s ease;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
 }
 
 .faq-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.06);
-}
-
-.faq-item.active {
-    border-color: #cbd5e1;
 }
 
 /* QUESTION */
@@ -73,8 +83,6 @@
     font-size: 18px;
     font-weight: 700;
     color: #111827;
-    text-align: left;
-    gap: 16px;
 }
 
 /* ICON */
@@ -82,7 +90,6 @@
     width: 24px;
     height: 24px;
     position: relative;
-    flex-shrink: 0;
     transition: .3s;
 }
 
@@ -113,7 +120,7 @@
 .faq-answer {
     max-height: 0;
     overflow: hidden;
-    transition: max-height .4s cubic-bezier(0, 1, 0, 1);
+    transition: all .4s ease;
 }
 
 .faq-answer p {
@@ -121,13 +128,11 @@
     color: #6b7280;
     line-height: 1.8;
     font-size: 16px;
-    margin: 0;
 }
 
 /* ACTIVE */
 .faq-item.active .faq-answer {
-    max-height: 1000px; /* Asegura respuestas largas sin cortarlas */
-    transition: max-height .4s cubic-bezier(1, 0, 1, 0);
+    max-height: 200px;
 }
 
 .faq-item.active .faq-icon {
@@ -140,6 +145,7 @@
 
 /* MOBILE */
 @media(max-width:768px) {
+
     .faq-header h2 {
         font-size: 32px;
     }
@@ -152,4 +158,5 @@
     .faq-answer p {
         font-size: 15px;
     }
+
 }
