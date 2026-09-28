@@ -1358,6 +1358,7 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
 
     .header-whatsapp i {
         font-size: 20px;
+        margin-top:10px;
     }
 }
 

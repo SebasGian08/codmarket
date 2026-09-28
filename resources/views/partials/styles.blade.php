@@ -10,7 +10,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{!! $config['seo_title'] ?? '' !!}">
 <meta name="twitter:description" content="{!! $config['seo_description'] ?? '' !!}">
-<meta name="twitter:image" content="{{ asset($config['seo_image'] ?? 'assets/images/og-image.jpg') }}">
+<meta name="twitter:image" content="{{ asset($config['seo_image'] ?? 'assets/images/logo-principal.png') }}">
 
 <meta name="robots" content="{{ $config['seo_robots'] ?? 'index, follow' }}">
 <meta name="theme-color" content="{{ $config['tema_color_primario'] ?? '#21c36c' }}">
@@ -19,7 +19,7 @@
 <!-- Open Graph -->
 <meta property="og:title" content="{!! $config['seo_title'] ?? '' !!}">
 <meta property="og:description" content="{!! $config['seo_description'] ?? '' !!}">
-<meta property="og:image" content="{{ asset($config['seo_image'] ?? 'assets/images/og-image.jpg') }}">
+<meta property="og:image" content="{{ asset($config['seo_image'] ?? 'assets/images/logo-principal.png') }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
 
@@ -96,7 +96,7 @@ window.addEventListener("load", function() {
 <div id="preloader">
     <div class="loader-wrapper">
         <div class="loader-logo">
-            <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo.png') }}" alt="Cargando...">
+            <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
         </div>
 
         <div class="loader-bar">

@@ -8,7 +8,7 @@
     <div id="adminPreloader">
         <div class="loader-wrapper">
             <div class="loader-logo">
-                <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo.png') }}" alt="Cargando...">
+                <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
             </div>
 
             <div class="loader-bar">

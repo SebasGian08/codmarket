@@ -24,11 +24,7 @@ class ConfiguracionController extends Controller
 
             if ($request->hasFile($clave)) {
 
-                $file = $request->file($clave);
-                $path = 'uploads/config/' . time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('uploads/config'), $path);
-
-                $valor = $path;
+                $valor = uploadImageOptimized($request->file($clave), 'config');
             }
 
             Configuracion::updateOrCreate(
