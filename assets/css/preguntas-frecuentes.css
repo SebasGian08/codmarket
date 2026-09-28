@@ -1,12 +1,23 @@
 .faq-section {
     padding: 80px 20px;
     font-family: 'Inter', sans-serif;
+    position: relative;
     background-color: var(--color-secundario);
+    /* Manchas de luz fluidas derivadas de tu color primario */
     background-image: 
-        radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--color-primario) 20%, transparent) 0%, transparent 75%),
-        linear-gradient(to right, color-mix(in srgb, var(--color-primario) 8%, transparent) 1px, transparent 1px),
-        linear-gradient(to bottom, color-mix(in srgb, var(--color-primario) 8%, transparent) 1px, transparent 1px);
-    background-size: 100% 100%, 32px 32px, 32px 32px;
+        radial-gradient(at 0% 0%, color-mix(in srgb, var(--color-primario) 30%, transparent) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, color-mix(in srgb, var(--color-primario) 15%, transparent) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, color-mix(in srgb, var(--color-primario) 25%, transparent) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, color-mix(in srgb, var(--color-primario) 20%, transparent) 0px, transparent 50%);
+    background-size: 140% 140%;
+    animation: moverFondo 12s ease infinite alternate;
+    overflow: hidden;
+}
+
+@keyframes moverFondo {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 /* CONTAINER */
 .faq-container {
