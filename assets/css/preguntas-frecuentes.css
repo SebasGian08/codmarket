@@ -1,24 +1,26 @@
-/* REMPLAZA LA CLASE .faq-section EN TU CSS POR ESTA */
+/* REMPLAZA LA CLASE .faq-section Y TUS TEXTOS DE CABECERA */
 .faq-section {
-    padding: 80px 20px;
+    padding: 90px 20px;
     font-family: 'Inter', sans-serif;
-    position: relative;
-    background-color: #f8fafc;
-    /* Crear un degradado multicapa suave */
+    background: #0f172a; /* Azul muy oscuro / Noche */
     background-image: 
-        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.25) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.2) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
-        radial-gradient(at 0% 100%, rgba(168, 85, 247, 0.25) 0px, transparent 50%);
-    background-size: 150% 150%;
-    animation: meshGradient 12s ease infinite alternate;
-    overflow: hidden;
+        radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.35) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.2) 0%, transparent 50%);
 }
 
-@keyframes meshGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Para que el texto resalte en el fondo oscuro */
+.faq-header h2 {
+    color: #ffffff !important;
+}
+
+.faq-header p {
+    color: #94a3b8 !important;
+}
+
+.faq-badge {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 /* CONTAINER */
