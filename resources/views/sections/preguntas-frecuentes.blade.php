@@ -2,10 +2,15 @@
 <div class="faq-section">
     <div class="faq-container">
 
-        <div class="faq-header">
-            <span class="faq-badge">{{ $config['seccion_preguntas_titulo'] ?? 'PREGUNTAS' }}</span>
-            <h2>Dudas Frecuentes</h2>
-            <p>{!! limpiarTextoEditor($config['seccion_preguntas_descripcion'] ?? 'Resolvemos las dudas más comunes sobre nuestros servicios.') !!}</p>
+        <div class="section_heading text-center mb_30">
+            <div class="section_heading_title">
+                <span></span>
+                <small>{{ $config['seccion_preguntas_titulo'] ?? 'PREGUNTAS' }}</small>
+                <span></span>
+            </div>
+            <p class="section_heading_description">
+                {!! limpiarTextoEditor($config['seccion_preguntas_descripcion'] ?? 'Resolvemos las dudas más comunes sobre nuestros servicios.') !!}
+            </p>
         </div>
 
         <div class="faq-list">
