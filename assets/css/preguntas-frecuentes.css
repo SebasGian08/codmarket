@@ -1,15 +1,13 @@
-/* SECTION */
 .faq-section {
     padding: 80px 20px;
     font-family: 'Inter', sans-serif;
     background-color: var(--color-secundario);
-    background-image: radial-gradient(
-        circle at 50% 30%, 
-        color-mix(in srgb, var(--color-primario) 18%, transparent) 0%, 
-        transparent 70%
-    );
+    background-image: 
+        radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--color-primario) 20%, transparent) 0%, transparent 75%),
+        linear-gradient(to right, color-mix(in srgb, var(--color-primario) 8%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in srgb, var(--color-primario) 8%, transparent) 1px, transparent 1px);
+    background-size: 100% 100%, 32px 32px, 32px 32px;
 }
-
 /* CONTAINER */
 .faq-container {
     max-width: 850px;
