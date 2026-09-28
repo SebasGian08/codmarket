@@ -3,7 +3,7 @@ body {
 }
 
 body.no-brand-ticker {
-    padding-top: 110px;
+    padding-top: 100px;
 }
 
 @media (max-width: 768px) {
