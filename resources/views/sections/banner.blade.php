@@ -42,7 +42,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                         @endif
 
                         @if($banner->descripcion)
-                        <p class="subtitle">{{ $banner->descripcion }}</p>
+                        <p class="subtitle">{!! $banner->descripcion !!}</p>
                         @endif
 
                         @if($banner->enlace)
@@ -122,7 +122,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                     @endif
 
                     @if($banner->descripcion)
-                    <p class="subtitle">{{ $banner->descripcion }}</p>
+                    <p class="subtitle">{!! $banner->descripcion !!}</p>
                     @endif
 
                     @if($banner->enlace)
