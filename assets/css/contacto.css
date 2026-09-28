@@ -1,13 +1,50 @@
-
 .contact-premium {
     position: relative;
     padding: 64px 0;
     overflow: hidden;
-    background: #fff;
+    background: #f8fafc; /* Fondo base claro y elegante */
 }
 
+/* =========================================================
+   ANIMACIÓN DE FONDO (FONDO DINÁMICO & ORBES DE LUZ)
+========================================================= */
+
 .contact-bg {
-    display: none;
+    display: block; /* Corregido: antes estaba en display: none */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(-45deg, rgba(248, 250, 252, 1), rgba(241, 245, 249, 1), rgba(226, 232, 240, 1), rgba(248, 250, 252, 1));
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+}
+
+/* Orbe flotante luminoso decorativo */
+.contact-bg::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-secundario) 18%, transparent) 0%, transparent 70%);
+    animation: floatOrb 8s infinite ease-in-out alternate;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes floatOrb {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(40px) scale(1.15); }
 }
 
 .contact-grid {
@@ -21,7 +58,7 @@
 
 
 /* =========================================================
-   INFORMACIÓN
+   INFORMACIÓN & BADGE ANIMADO
 ========================================================= */
 
 .contact-info {
@@ -38,6 +75,17 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1.5px;
+}
+
+/* Animación de pulso automático para el icono del badge */
+.contact-eyebrow i {
+    display: inline-block;
+    animation: pulseIcon 2s infinite ease-in-out;
+}
+
+@keyframes pulseIcon {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
 }
 
 .contact-info h2 {
@@ -78,6 +126,11 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.contact-benefit:hover {
+    transform: translateX(6px);
 }
 
 .contact-benefit-icon {
@@ -89,9 +142,16 @@
     justify-content: center;
     border: 1px solid #e5e7eb;
     border-radius: 13px;
-    background: #f8fafc;
+    background: #fff;
     color: var(--color-secundario);
     font-size: 19px;
+    transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.contact-benefit:hover .contact-benefit-icon {
+    transform: rotate(10deg) scale(1.1);
+    background: var(--color-secundario);
+    color: #fff;
 }
 
 .contact-benefit strong,
@@ -113,7 +173,7 @@
 
 
 /* =========================================================
-   WHATSAPP
+   WHATSAPP (ANIMACIONES AUTOMÁTICAS)
 ========================================================= */
 
 .contact-whatsapp {
@@ -124,6 +184,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     background: #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
 .whatsapp-icon {
@@ -137,6 +198,12 @@
     background: #25d366;
     color: #fff;
     font-size: 24px;
+    animation: wspPulse 3s infinite;
+}
+
+@keyframes wspPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+    50% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
 }
 
 .whatsapp-content {
@@ -160,6 +227,7 @@
 }
 
 .whatsapp-button {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -170,12 +238,33 @@
     text-decoration: none;
     font-size: 12px;
     font-weight: 800;
+    overflow: hidden;
     transition: .3s ease;
+}
+
+/* Brillo automático pasando por encima del botón de WhatsApp */
+.whatsapp-button::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 30%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.45);
+    transform: rotate(30deg);
+    animation: shineEffect 4s infinite ease-in-out;
+}
+
+@keyframes shineEffect {
+    0% { left: -60%; }
+    20% { left: 130%; }
+    100% { left: 130%; }
 }
 
 .whatsapp-button:hover {
     transform: translateY(-2px);
     color: #fff;
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
 }
 
 
@@ -189,6 +278,11 @@
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 12px 30px rgba(15, 23, 42, .07);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.contact-form-card:hover {
+    box-shadow: 0 20px 40px rgba(15, 23, 42, .12);
 }
 
 
@@ -212,9 +306,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background: linear-gradient(135deg,
-            var(--color-secundario),
-            var(--color-primario));
+    background: linear-gradient(135deg, var(--color-secundario), var(--color-primario));
     color: #fff;
     font-size: 12px;
     font-weight: 900;
@@ -270,13 +362,20 @@
 
 
 /* =========================================================
-   INPUTS
+   INPUTS CON INTERACCIÓN MEJORADA
 ========================================================= */
 
 .input-wrapper,
 .phone-wrapper,
 .textarea-wrapper {
     position: relative;
+    transition: transform 0.2s ease;
+}
+
+.input-wrapper:focus-within,
+.phone-wrapper:focus-within,
+.textarea-wrapper:focus-within {
+    transform: translateY(-2px);
 }
 
 .input-wrapper i {
@@ -288,6 +387,12 @@
     color: #94a3b8;
     font-size: 16px;
     pointer-events: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.input-wrapper:focus-within i {
+    color: var(--color-secundario);
+    transform: translateY(-50%) scale(1.15);
 }
 
 .input-wrapper input,
@@ -318,9 +423,7 @@
 .textarea-wrapper textarea:focus {
     border-color: var(--color-secundario);
     background: #fff;
-    box-shadow: 0 0 0 3px color-mix(in srgb,
-            var(--color-secundario) 10%,
-            transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secundario) 12%, transparent);
 }
 
 .input-wrapper input::placeholder,
@@ -395,11 +498,16 @@
     right: 14px;
     top: 14px;
     color: #cbd5e1;
+    transition: color 0.3s ease;
+}
+
+.textarea-wrapper:focus-within .textarea-icon {
+    color: var(--color-secundario);
 }
 
 
 /* =========================================================
-   RECAPTCHA
+   RECAPTCHA & HONEYPOT
 ========================================================= */
 
 .recaptcha-container {
@@ -407,11 +515,6 @@
     justify-content: center;
     padding: 4px 0;
 }
-
-
-/* =========================================================
-   HONEYPOT
-========================================================= */
 
 .honeypot {
     position: absolute !important;
@@ -423,10 +526,11 @@
 
 
 /* =========================================================
-   BOTÓN
+   BOTÓN SUBMIT CON DESTELLO AUTOMÁTICO
 ========================================================= */
 
 .contact-submit {
+    position: relative;
     width: 100%;
     min-height: 54px;
     display: flex;
@@ -435,24 +539,32 @@
     padding: 6px 7px 6px 22px;
     border: 0;
     border-radius: 12px;
-    background: linear-gradient(135deg,
-            var(--color-secundario),
-            var(--color-primario));
+    background: linear-gradient(135deg, var(--color-secundario), var(--color-primario));
     color: #fff;
     cursor: pointer;
     font-size: 13px;
     font-weight: 800;
-    box-shadow: 0 12px 30px color-mix(in srgb,
-            var(--color-primario) 22%,
-            transparent);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-primario) 22%, transparent);
+    overflow: hidden;
     transition: .3s ease;
+}
+
+/* Efecto de destello automático para captar la atención */
+.contact-submit::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 30%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(30deg);
+    animation: shineEffect 5s infinite ease-in-out 1s;
 }
 
 .contact-submit:hover {
     transform: translateY(-3px);
-    box-shadow: 0 18px 35px color-mix(in srgb,
-            var(--color-primario) 28%,
-            transparent);
+    box-shadow: 0 18px 35px color-mix(in srgb, var(--color-primario) 32%, transparent);
 }
 
 .submit-icon {
@@ -464,6 +576,12 @@
     border-radius: 9px;
     background: rgba(255, 255, 255, .15);
     font-size: 17px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.contact-submit:hover .submit-icon {
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, .25);
 }
 
 
@@ -488,11 +606,26 @@
 
 
 /* =========================================================
+   ANIMACIÓN DE ENTRADA AL HACER SCROLL (REVEAL)
+========================================================= */
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
    RESPONSIVE
 ========================================================= */
 
 @media(max-width:1000px) {
-
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 55px;
@@ -518,12 +651,9 @@
     .contact-whatsapp {
         text-align: left;
     }
-
 }
 
-
 @media(max-width:650px) {
-
     .contact-premium {
         padding: 48px 0;
     }
@@ -567,12 +697,9 @@
         width: 100%;
         justify-content: center;
     }
-
 }
 
-
 @media(max-width:400px) {
-
     .contact-info h2 {
         font-size: 33px;
     }
@@ -584,151 +711,4 @@
     .form-step {
         flex-shrink: 0;
     }
-
-}
-
-/* ==========================================================================
-   ANIMACIONES AUTOMÁTICAS Y EFECTOS ATRACTIVOS
-   ========================================================================== */
-
-/* 1. Fondo con degradado animado suave */
-.contact-premium {
-    position: relative;
-    overflow: hidden;
-}
-
-.contact-bg {
-    background: linear-gradient(-45deg, #0f172a, #1e293b, #0284c7, #0f172a);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* 2. Micro-animación de pulso/flotación en el badge superior */
-.contact-eyebrow i {
-    display: inline-block;
-    animation: pulseIcon 2s infinite ease-in-out;
-}
-
-@keyframes pulseIcon {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.25); opacity: 0.8; }
-}
-
-/* 3. Flotación suave en iconos de beneficios al pasar el cursor */
-.contact-benefit {
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-}
-
-.contact-benefit:hover {
-    transform: translateY(-4px);
-}
-
-.contact-benefit-icon {
-    transition: transform 0.4s ease;
-}
-
-.contact-benefit:hover .contact-benefit-icon {
-    transform: rotate(10deg) scale(1.15);
-}
-
-/* 4. Efecto de "Glow" y pulso en el botón de WhatsApp */
-.contact-whatsapp {
-    position: relative;
-    overflow: hidden;
-}
-
-.whatsapp-button {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-/* Destello automático en el botón de WhatsApp */
-.whatsapp-button::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -60%;
-    width: 20%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.4);
-    transform: rotate(30deg);
-    animation: shineEffect 4s infinite;
-}
-
-@keyframes shineEffect {
-    0% { left: -60%; }
-    20% { left: 120%; }
-    100% { left: 120%; }
-}
-
-.whatsapp-button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
-}
-
-/* 5. Transiciones suaves en la tarjeta del formulario y sus campos */
-.contact-form-card {
-    transition: box-shadow 0.4s ease, transform 0.4s ease;
-}
-
-.contact-form-card:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-.input-wrapper, 
-.textarea-wrapper,
-.select-wrapper {
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.input-wrapper:focus-within,
-.textarea-wrapper:focus-within,
-.select-wrapper:focus-within {
-    transform: translateY(-2px);
-}
-
-/* Iconos de inputs animados al enfocar */
-.input-wrapper i,
-.textarea-icon i {
-    transition: transform 0.3s ease, color 0.3s ease;
-}
-
-.input-wrapper:focus-within i,
-.textarea-wrapper:focus-within .textarea-icon i {
-    transform: scale(1.2);
-    color: #0284c7; /* Cambia al color primario de tu marca */
-}
-
-/* 6. Animación del flecha en el botón Submit */
-.contact-submit {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.contact-submit .submit-icon i {
-    transition: transform 0.3s ease;
-}
-
-.contact-submit:hover .submit-icon i {
-    transform: translateX(5px);
-}
-
-/* Estado inicial para elementos con reveal */
-.reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
-
-.reveal-on-scroll.is-visible {
-    opacity: 1;
-    transform: translateY(0);
 }
