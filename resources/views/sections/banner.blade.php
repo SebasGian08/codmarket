@@ -1,12 +1,12 @@
 @php
-$bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
+    $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 @endphp
 
 @if($bannerTipo === 'opcion_1')
 <section class="hero_banner_slider">
     <div class="container hero_container">
-        <button class="slider_btn prev">&#10094;</button>
-        <button class="slider_btn next">&#10095;</button>
+        <button class="slider_btn prev" aria-label="Anterior">&#10094;</button>
+        <button class="slider_btn next" aria-label="Siguiente">&#10095;</button>
 
         <div class="slider_wrapper">
 
@@ -15,19 +15,16 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
             @if($banner->solo_imagen)
 
             <div class="slider_item solo-banner {{ $key == 0 ? 'active' : '' }}">
-
                 <picture>
                     <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile ?: 'assets/images/tienda_virtual/1080x1350px.png') }}">
-
-                    <img src="{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}" class="banner_full_img">
+                    <img src="{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}" class="banner_full_img" alt="Banner">
                 </picture>
-
             </div>
 
             @else
 
             <div class="slider_item con-contenido {{ $key == 0 ? 'active' : '' }}"
-                style="background-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}'); border-radius:20px;">
+                style="background-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}');">
 
                 <div class="row align-items-center hero_card flex-column flex-lg-row">
 
@@ -42,7 +39,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                         @endif
 
                         @if($banner->descripcion)
-                        <p class="subtitle">{!! $banner->descripcion !!}</p>
+                        <div class="subtitle">{!! $banner->descripcion !!}</div>
                         @endif
 
                         @if($banner->enlace)
@@ -55,19 +52,15 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                     </div>
 
                     <div class="col-lg-6 image_box">
-
                         <picture>
-
                             @if($banner->imagen_mobile)
                             <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
                             @endif
 
                             @if($banner->imagen_referencial)
-                            <img src="{{ url($banner->imagen_referencial) }}" class="img-fluid hero_img">
+                            <img src="{{ url($banner->imagen_referencial) }}" class="img-fluid hero_img" alt="Imagen referencial">
                             @endif
-
                         </picture>
-
                     </div>
 
                 </div>
@@ -78,15 +71,13 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
             @endforeach
 
         </div>
-
     </div>
-
 </section>
 @else
 <section class="hero_banner_full">
 
-    <button class="slider_btn prev">&#10094;</button>
-    <button class="slider_btn next">&#10095;</button>
+    <button class="slider_btn prev" aria-label="Anterior">&#10094;</button>
+    <button class="slider_btn next" aria-label="Siguiente">&#10095;</button>
 
     <div class="slider_wrapper_full">
 
@@ -95,13 +86,10 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
         @if($banner->solo_imagen)
 
         <div class="slider_item solo-banner {{ $key == 0 ? 'active' : '' }}">
-
             <picture>
                 <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile ?: 'assets/images/tienda_virtual/1080x1350px.png') }}">
-
-                <img src="{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}" class="banner_full_img">
+                <img src="{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}" class="banner_full_img" alt="Banner Full">
             </picture>
-
         </div>
 
         @else
@@ -118,11 +106,11 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                     @endif
 
                     @if($banner->titulo)
-                    <h1 class="title" color>{!! nl2br(e($banner->titulo)) !!}</h1>
+                    <h1 class="title">{!! nl2br(e($banner->titulo)) !!}</h1>
                     @endif
 
                     @if($banner->descripcion)
-                    <p class="subtitle">{!! $banner->descripcion !!}</p>
+                    <div class="subtitle">{!! $banner->descripcion !!}</div>
                     @endif
 
                     @if($banner->enlace)
@@ -135,17 +123,15 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                 </div>
 
                 <div class="image_box">
-
                     <picture>
                         @if($banner->imagen_mobile)
                         <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
                         @endif
 
                         @if(!empty($banner->imagen_referencial))
-                        <img src="{{ url($banner->imagen_referencial) }}" class="hero_img">
+                        <img src="{{ url($banner->imagen_referencial) }}" class="hero_img" alt="Imagen referencial">
                         @endif
                     </picture>
-
                 </div>
 
             </div>
@@ -160,11 +146,11 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 
 </section>
 @endif
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
     const sliderSection = document.querySelector(".hero_banner_slider, .hero_banner_full");
-
     if (!sliderSection) return;
 
     const slides = sliderSection.querySelectorAll(".slider_item");
@@ -178,10 +164,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let autoSlide;
 
     function showSlide(i) {
-        slides.forEach(slide => {
-            slide.classList.remove("active");
-        });
-
+        slides.forEach(slide => slide.classList.remove("active"));
         slides[i].classList.add("active");
     }
 
@@ -195,13 +178,8 @@ document.addEventListener("DOMContentLoaded", function() {
         showSlide(index);
     }
 
-    if (nextBtn) {
-        nextBtn.addEventListener("click", nextSlide);
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener("click", prevSlide);
-    }
+    if (nextBtn) nextBtn.addEventListener("click", nextSlide);
+    if (prevBtn) prevBtn.addEventListener("click", prevSlide);
 
     function startAutoSlide() {
         autoSlide = setInterval(nextSlide, 10000);
@@ -212,9 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     startAutoSlide();
-
     sliderSection.addEventListener("mouseenter", stopAutoSlide);
-
     sliderSection.addEventListener("mouseleave", startAutoSlide);
 
 });
