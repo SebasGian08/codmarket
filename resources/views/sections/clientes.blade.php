@@ -1,6 +1,6 @@
 @if(($clientes ?? collect())->count())
 
-<section class="cliente_section sec_ptb_50 clearfix">
+<section class="cliente_section clearfix">
 
     <div class="container">
 
