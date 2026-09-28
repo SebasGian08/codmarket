@@ -39,7 +39,7 @@
 
                         @foreach($preguntas as $pf)
                         <tr>
-                            <td>{{ $pf->id }}</td>
+                            <td>{{ $pf->id_pregunta_frecuente }}</td>
                             <td>{{ $pf->pregunta }}</td>
                             <td>{{ $pf->orden }}</td>
 
@@ -53,11 +53,11 @@
 
                                 <button class="btn btn-sm btn-primary btn-round"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $pf->id }}">
+                                    data-bs-target="#edit{{ $pf->id_pregunta_frecuente }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
 
-                                <form action="{{ route('admin.preguntas.destroy', $pf->id) }}"
+                                <form action="{{ route('admin.preguntas.destroy', $pf->id_pregunta_frecuente) }}"
                                       method="POST"
                                       style="display:inline;">
                                     @csrf

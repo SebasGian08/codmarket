@@ -15,6 +15,19 @@
     position: relative;
     box-shadow: 0 18px 45px rgba(16, 24, 40, 0.08);
     border: 1px solid rgba(16, 24, 40, 0.04);
+    opacity: 0;
+    animation: heroReveal 1s cubic-bezier(.16, 1, .3, 1) .08s forwards;
+}
+
+@keyframes heroReveal {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* =========================================================
@@ -39,17 +52,33 @@
 
 .slider_item.active {
     display: block;
-    animation: fadeSlider .5s ease both;
+    animation: fadeSlider .9s cubic-bezier(.22, .61, .36, 1) both;
+}
+
+.slider_item.con-contenido.active {
+    animation: fadeSlider .9s cubic-bezier(.22, .61, .36, 1) both,
+        kenBurns 2.6s cubic-bezier(.22, .61, .36, 1) both;
 }
 
 @keyframes fadeSlider {
     from {
         opacity: 0;
-        transform: scale(1.005);
+        transform: scale(1.02);
+        filter: blur(5px);
     }
     to {
         opacity: 1;
         transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes kenBurns {
+    from {
+        background-position: 18% 22%;
+    }
+    to {
+        background-position: 50% 50%;
     }
 }
 
@@ -163,9 +192,11 @@
 }
 
 .hero_banner_slider .con-contenido::after {
-    background: radial-gradient(circle, var(--color-primario), transparent 70%);
-    left: -8%;
-    bottom: -35%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 55%, transparent), transparent 70%);
+    right: -10%;
+    left: auto;
+    bottom: -32%;
+    opacity: .45;
 }
 
 /* ===== VARIANTE FULL (fondo oscuro) ===== */
@@ -226,25 +257,6 @@
     width: fit-content;
 }
 
-.badge_text::before {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-    flex: none;
-    animation: badgePulse 2s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-    0%, 100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.18);
-    }
-    50% {
-        box-shadow: 0 0 0 5px rgba(0, 0, 0, 0);
-    }
-}
-
 /* normal */
 .hero_banner_slider .badge_text {
     color: #0c8a4d;
@@ -261,11 +273,6 @@
     border: 1px solid rgba(255, 255, 255, 0.28);
     backdrop-filter: blur(8px);
     box-shadow: none !important;
-}
-
-.hero_banner_full .badge_text::before {
-    background: var(--color-primario);
-    box-shadow: none;
 }
 
 .title {
@@ -340,6 +347,53 @@
     }
 }
 
+/* =========================================================
+   MARCO CORPORATIVO (imagen referencial - slider)
+========================================================= */
+
+.hero_banner_slider .hero_card .image_box {
+    position: relative;
+}
+
+.hero_banner_slider .hero_card .image_box picture {
+    display: block;
+    position: relative;
+    padding: 34px 30px 26px;
+    border-radius: 26px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.12)),
+        repeating-linear-gradient(45deg, rgba(16, 24, 40, 0.022) 0 9px, transparent 9px 18px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 34px 70px -18px rgba(16, 24, 40, 0.26);
+}
+
+.hero_banner_slider .hero_card .image_box::before,
+.hero_banner_slider .hero_card .image_box::after {
+    content: "";
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.hero_banner_slider .hero_card .image_box::before {
+    top: -9px;
+    left: -5px;
+    border-top: 3px solid var(--color-secundario);
+    border-left: 3px solid var(--color-secundario);
+    border-radius: 10px 0 0;
+}
+
+.hero_banner_slider .hero_card .image_box::after {
+    bottom: -9px;
+    right: -5px;
+    border-bottom: 3px solid var(--color-primario);
+    border-right: 3px solid var(--color-primario);
+    border-radius: 0 0 10px;
+}
+
 /* texto entra con retardo */
 .slider_item.active .badge_text {
     animation: fadeUpText .6s ease both .05s;
@@ -360,11 +414,46 @@
 @keyframes fadeUpText {
     from {
         opacity: 0;
-        transform: translateY(18px);
+        transform: translateY(26px);
+        filter: blur(5px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* =========================================================
+   ACENTO CORPORATIVO (barra bajo el título)
+========================================================= */
+
+.content_box .title {
+    position: relative;
+}
+
+.content_box .title::after {
+    content: "";
+    display: block;
+    width: 76px;
+    height: 4px;
+    margin-top: 16px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--color-primario), var(--color-secundario));
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.slider_item.active .content_box .title::after {
+    animation: growLine .8s cubic-bezier(.22, .61, .36, 1) .42s forwards;
+}
+
+@keyframes growLine {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
     }
 }
 
@@ -428,6 +517,8 @@
     color: #fff;
     box-shadow: 0 10px 22px color-mix(in srgb, var(--color-primario) 40%, transparent);
     transition: all .3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .hero_banner_slider .con-contenido .btn-principal:hover,
@@ -449,6 +540,35 @@
     transform: translateX(5px);
 }
 
+/* brillo tipo "shine" sobre el botón al cargar y al pasar el cursor */
+.hero_banner_slider .con-contenido .btn-principal::after,
+.hero_banner_full .con-contenido .btn-principal::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    transform: skewX(-20deg);
+    pointer-events: none;
+}
+
+.slider_item.active .con-contenido .btn-principal::after {
+    animation: shineSweep 1.3s ease .85s forwards;
+}
+
+.hero_banner_slider .con-contenido .btn-principal:hover::after,
+.hero_banner_full .con-contenido .btn-principal:hover::after {
+    animation: shineSweep 1.1s ease;
+}
+
+@keyframes shineSweep {
+    to {
+        left: 150%;
+    }
+}
+
 /* =========================================================
    HERO FULL
 ========================================================= */
@@ -457,6 +577,8 @@
     position: relative;
     width: 100%;
     overflow: hidden;
+    opacity: 0;
+    animation: heroReveal 1s cubic-bezier(.16, 1, .3, 1) .08s forwards;
 }
 
 /* SOLO IMAGEN FULL */
@@ -560,6 +682,13 @@ html[data-theme="dark"] .hero_banner_slider .con-contenido .badge_text {
     border-color: rgba(255, 255, 255, 0.22);
 }
 
+html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.03) 0 9px, transparent 9px 18px);
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
 /* =========================================================
    RESPONSIVE TABLET
 ========================================================= */
@@ -637,6 +766,10 @@ html[data-theme="dark"] .hero_banner_slider .con-contenido .badge_text {
         letter-spacing: -0.3px;
     }
 
+    .content_box .title::after {
+        margin: 16px auto 0;
+    }
+
     .subtitle {
         font-size: 14px;
         text-align: center;
@@ -673,6 +806,42 @@ html[data-theme="dark"] .hero_banner_slider .con-contenido .badge_text {
         margin-top: 6px;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .hero_banner_slider .hero_card .image_box picture {
+        padding: 20px 16px 14px;
+        border-radius: 20px;
+    }
+
+    .hero_banner_slider .hero_card .image_box::before,
+    .hero_banner_slider .hero_card .image_box::after {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero_container,
+    .hero_banner_full,
+    .slider_item.active,
+    .slider_item.con-contenido.active,
+    .slider_item.active .badge_text,
+    .slider_item.active .title,
+    .slider_item.active .subtitle,
+    .slider_item.active .btn-principal,
+    .slider_item.active .image_box,
+    .slider_item.active .content_box .title::after,
+    .hero_banner_slider .con-contenido .btn-principal::after,
+    .hero_banner_full .con-contenido .btn-principal::after,
+    .hero_img {
+        opacity: 1 !important;
+        animation: none !important;
+        transition: none !important;
     }
 }
 

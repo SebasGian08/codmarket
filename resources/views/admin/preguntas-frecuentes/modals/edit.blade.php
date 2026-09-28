@@ -1,7 +1,7 @@
-<div class="modal fade" id="edit{{ $pf->id }}">
+<div class="modal fade" id="edit{{ $pf->id_pregunta_frecuente }}">
     <div class="modal-dialog modal-lg">
 
-        <form action="{{ route('admin.preguntas.update', $pf->id) }}" method="POST">
+        <form action="{{ route('admin.preguntas.update', $pf->id_pregunta_frecuente) }}" method="POST">
             @csrf
             @method('PUT')
 
