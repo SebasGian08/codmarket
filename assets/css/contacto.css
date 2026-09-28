@@ -720,3 +720,15 @@
 .contact-submit:hover .submit-icon i {
     transform: translateX(5px);
 }
+
+/* Estado inicial para elementos con reveal */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

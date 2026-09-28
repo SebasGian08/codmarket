@@ -291,4 +291,26 @@
 
 </section>
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = {
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target); // Se ejecuta solo una vez
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.contact-info, .contact-form-card, .contact-benefit').forEach(el => {
+        el.classList.add('reveal-on-scroll');
+        observer.observe(el);
+    });
+});
+</script>
+
 {{-- CSS movido a assets/css/contacto.css --}}
