@@ -37,7 +37,9 @@ body.no-brand-ticker {
 }
 
 .loader-logo img {
-    width: 90px;
+    width: auto;
+    max-width: 220px;
+    height: 60px !important;
     margin-bottom: 18px;
     animation: floatLogo 1.8s ease-in-out infinite;
 }
