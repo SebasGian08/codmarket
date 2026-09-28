@@ -3,11 +3,8 @@
     font-family: 'Inter', sans-serif;
     background-color: #ffffff; /* Fondo Blanco */
     background-image: 
-        /* Resplandor suave superior con tu color primario */
-        radial-gradient(circle at 50% 15%, color-mix(in srgb, var(--color-primario) 15%, transparent) 0%, transparent 60%),
-        /* Patrón de puntos */
-        radial-gradient(color-mix(in srgb, var(--color-primario) 18%, transparent) 1.5px, transparent 1.5px);
-    background-size: 100% 100%, 24px 24px;
+        radial-gradient(at 10% 20%, color-mix(in srgb, var(--color-primario) 18%, transparent) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, color-mix(in srgb, var(--color-secundario) 25%, transparent) 0px, transparent 50%);
 }
 /* CONTAINER */
 .faq-container {
