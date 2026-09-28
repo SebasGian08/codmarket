@@ -1,653 +1,136 @@
-<body class="home_furniture">
+@php
+    // Definición de variables con valores por defecto o fallback
+    $logoHeader = $empresa->logo_header ?? 'assets/images/logo.png';
+    $height = $height ?? '45px';
+    $numeroWhatsapp = $numeroWhatsapp ?? null;
+    $numeroWhatsappUrl = $numeroWhatsappUrl ?? null;
+@endphp
 
-    @php
-    $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
-    $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
-    $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
-    $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
-    $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
-    @endphp
-
-    <header class="header_section fashion_minimal_header sticky_header clearfix"
-        style="background-color: {{ $config['tema_color_fondo'] }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        @if(($config['home_mostrar_brand_ticker'] ?? 1) == 1)
-        <div class="brand_ticker">
-            <div class="brand_ticker_track">
-                @for($i = 0; $i < 20; $i++) <span>
-                    {{ strtoupper($empresa->nombre ?? 'FALTA-NOMBRE') }}
-                    <i class="fas fa-circle"></i>
-                    </span>
-                    @endfor
-            </div>
-        </div>
-        @endif
-        <div class="header_top clearfix topbar_main">
-            <div class="container-fluid prl_100">
-
-                <div class="topbar_flex">
-
-                    <!-- IZQUIERDA: redes + texto -->
-                    <div class="topbar_left">
-
-                        <ul class="primary_social_links ul_li">
-                            @if($config['facebook_url'] ?? false)
-                            <li>
-                                <a href="{{ $config['facebook_url'] }}" target="_blank">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </li>
-                            @endif
-
-                            @if($config['instagram_url'] ?? false)
-                            <li>
-                                <a href="{{ $config['instagram_url'] }}" target="_blank">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </li>
-                            @endif
-
-                            @if($config['tiktok_url'] ?? false)
-                            <li>
-                                <a href="{{ $config['tiktok_url'] }}" target="_blank">
-                                    <i class="fab fa-tiktok"></i>
-                                </a>
-                            </li>
-                            @endif
-
-                            @if($config['youtube_url'] ?? false)
-                            <li>
-                                <a href="{{ $config['youtube_url'] }}" target="_blank">
-                                    <i class="fab fa-youtube"></i>
-                                </a>
-                            </li>
-                            @endif
-
-                            @if($config['twitter_url'] ?? false)
-                            <li>
-                                <a href="{{ $config['twitter_url'] }}" target="_blank">
-                                    <i class="fab fa-x-twitter"></i>
-                                </a>
-                            </li>
-                            @endif
-
-                            @if($config['linkedin_url'] ?? false)
-                            <li>
-                                <a href="{{ $config['linkedin_url'] }}" target="_blank">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </li>
-                            @endif
-                        </ul>
-                        <!-- <span style="color: #e1e1e1">|</span>
-                        <span class="topbar_text" id="topbar-text">
-                            ¡Ahora paga con Yape y Plin!
-                        </span> -->
-
+<header class="header_section header_type_1">
+    <div class="header_content_wrap">
+        <div class="container-fluid px-3 px-md-4">
+            <div class="row align-items-center justify-content-between">
+                
+                {{-- Bloque del Logo y Acciones Rápidas Mobile/Tablet --}}
+                <div class="col-6 col-lg-3">
+                    <div class="brand_logo d-flex align-items-center" style="padding: 0 !important; margin: 0 !important;">
+                        <a class="brand_link p-0 m-0 d-block" href="{{ route('home') }}">
+                            <img src="{{ asset($logoHeader) }}" 
+                                 alt="Logo {{ $empresa->nombre ?? config('app.name') }}"
+                                 style="height: {{ $height }} !important; width: auto; object-fit: contain; display: block;">
+                        </a>
                     </div>
-
-                    <!-- DERECHA: contacto -->
-                    <div class="topbar_right">
-                        <ul class="contact_info ul_li">
-                            <li><i class="fas fa-phone-alt mr-1"></i> {{ $empresa->telefono ?? '' }}</li>
-                            <li><i class="fas fa-envelope mr-1"></i> {{ $empresa->correo ?? '' }}</li>
-                        </ul>
-                    </div>
-
                 </div>
 
-            </div>
-        </div>
+                {{-- Menú de Navegación Principal --}}
+                <div class="col-lg-6 d-none d-lg-block">
+                    <nav class="main_menu">
+                        <ul class="ul_li_center clearfix">
+                            <li class="{{ request()->routeIs('home') ? 'active' : '' }}">
+                                <a href="{{ route('home') }}">Inicio</a>
+                            </li>
+                            <li class="{{ request()->routeIs('productos*') ? 'active' : '' }}">
+                                <a href="{{ route('home') }}">Productos</a>
+                            </li>
+                            <li class="{{ request()->routeIs('nosotros') ? 'active' : '' }}">
+                                <a href="{{ route('home') }}">Nosotros</a>
+                            </li>
+                            <li class="{{ request()->routeIs('contacto') ? 'active' : '' }}">
+                                <a href="{{ route('home') }}">Contacto</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
-        @php
-        $colorFondo = $config['header_color_fondo'] ?? $empresa->header_color_fondo ?? '#ffffff';
-        $height = $config['header_height'] ?? '70px';
-        @endphp
-
-        <div class="header_content_wrap d-flex align-items-center clearfix"
-            style="background-color: {{ $colorFondo }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08); height: 70px;">
-            <div class="container-fluid prl_90">
-                <div class="row align-items-center">
-
-                    <div class="col-lg-3">
-                        <div class="brand_logo">
-                            <a class="brand_link" href="{{ route('home') }}">
-                                <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
-                                    style="height: {{ $height }} !important; width: auto; object-fit: contain;">
-                            </a>
-                            <ul class="mh_action_btns ul_li clearfix">
-                                @if($numeroWhatsappUrl)
-                                <li class="header-whatsapp-item">
-                                    <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
-                                        target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-                                        <i class="fab fa-whatsapp"></i>
-                                        <span class="header-whatsapp-number" data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
-                                    </a>
-                                </li>
-                                @endif
-                                <li>
-                                    <button type="button" class="search_btn" data-toggle="collapse"
-                                        data-target="#search_body_collapse">
-                                        <i class="fal fa-search"></i>
-                                    </button>
-                                </li>
-
-                                <!--  <li>
-                                    <button type="button" class="cart_btn">
-                                        <i class="fal fa-shopping-cart"></i>
-                                        <span class="btn_badge">0</span>
-                                    </button>
-                                </li> -->
-
-                                <li>
-                                    <button type="button" class="mobile_menu_btn">
-                                        <i class="far fa-bars"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <nav class="main_menu clearfix">
-                            <ul class="ul_li_center clearfix">
-
-                                <li><a href="{{ route('home') }}"
-                                        class="{{ request()->routeIs('home') ? 'active-menu' : '' }}">Inicio</a></li>
-                                <li><a href="{{ route('nosotros') }}"
-                                        class="{{ request()->routeIs('nosotros') ? 'active-menu' : '' }}">Nosotros</a>
-                                </li>
-                                <!-- <li>
-                                    <a href="{{ route('productos.index') }}"
-                                        class="{{ request()->routeIs('productos.index') ? 'active-menu' : '' }}">
-                                        Productos
-                                    </a>
-                                </li> -->
-
-                                @if($mostrarProductos == 1)
-                                <li class="menu_item_has_child">
-                                    <a href="#!"
-                                        class="{{ request()->routeIs('productos.categoria*') ? 'active-menu' : '' }}">
-                                        Productos
-                                        <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
-                                    </a>
-
-                                    <ul class="submenu submenu_flat">
-                                        @foreach($categorias as $categoria)
-                                        <li>
-                                            <a href="{{ route('productos.categoria', $categoria->slug) }}">
-                                                @if($categoria->icono)
-                                                <i class="{{ $categoria->icono }} menu_subcat_icon"></i>
-                                                @endif
-                                                {{ $categoria->nombre }}
-                                            </a>
-                                            @if($categoria->hijos && $categoria->hijos->count())
-                                            <ul class="submenu_flat_children">
-                                                @foreach($categoria->hijos as $hijo)
-                                                <li>
-                                                    <a href="{{ route('productos.categoria', $hijo->slug) }}">
-                                                        @if($hijo->icono)
-                                                        <i class="{{ $hijo->icono }} menu_subcat_icon"></i>
-                                                        @endif
-                                                        {{ $hijo->nombre }}
-                                                    </a>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-                                            @endif
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                                @endif
-
-                                @if($mostrarServicios == 1)
-                                <li class="menu_item_has_child">
-                                    <a href="#!" class="{{ request()->routeIs('services*') ? 'active-menu' : '' }}">
-                                        Servicios
-                                        <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
-                                    </a>
-
-                                    <ul class="submenu">
-                                        @foreach($services as $service)
-                                        <li>
-                                            <a href="{{ route('services.show', $service->slug) }}">
-                                                {{ $service->nombre }}
-                                            </a>
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                                @endif
-
-                                @if($mostrarBlogs == 1)
-                                <li><a href="{{ route('blog.index') }}"
-                                        class="{{ request()->routeIs('blog.index') ? 'active-menu' : '' }}">Blog</a>
-                                </li>
-                                @endif
-
-                                <li><a href="{{ route('contact.index') }}"
-                                        class="{{ request()->routeIs('contact.index') ? 'active-menu' : '' }}">Contacto</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div class="col-lg-3">
-                        <ul class="action_btns_group ul_li_right clearfix">
-                            @if($numeroWhatsappUrl)
-                            <li class="header-whatsapp-item">
-                                <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
-                                    target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
-                                    <i class="fab fa-whatsapp"></i>
-                                    <span class="header-whatsapp-number" data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
+                {{-- Botones de Acción (Búsqueda, WhatsApp, Menú Móvil) --}}
+                <div class="col-6 col-lg-3 text-right">
+                    <ul class="mh_action_btns ul_li_right clearfix d-flex align-items-center justify-content-end mb-0">
+                        @if($numeroWhatsappUrl)
+                            <li class="header-whatsapp-item mr-2">
+                                <a href="https://wa.me/{{ $numeroWhatsappUrl }}" 
+                                   class="header-whatsapp d-inline-flex align-items-center btn btn-success btn-sm rounded-pill px-3"
+                                   target="_blank" 
+                                   rel="noopener noreferrer" 
+                                   aria-label="Contactar por WhatsApp">
+                                    <i class="fab fa-whatsapp mr-1"></i>
+                                    <span class="header-whatsapp-number font-weight-bold" data-number="{{ $numeroWhatsapp }}">
+                                        Escríbenos
+                                    </span>
                                 </a>
                             </li>
-                            @endif
-                            @auth
+                        @endif
 
-                            <li>
-                                <!-- <button type="button" class="user_btn" data-toggle="collapse"
-                                    data-target="#user_dropdown" aria-expanded="false">
-
-                                    <i class="fal fa-user"></i>
-                                </button> -->
-
-                                <div id="user_dropdown" class="collapse_dropdown collapse">
-
-                                    <div class="dropdown_content">
-
-                                        <div class="profile_info clearfix">
-                                            <div class="user_thumbnail">
-                                                <i class="fas fa-user"></i>
-                                            </div>
-
-
-                                            <div class="user_content">
-                                                <h4 class="user_name">{{ Auth::user()->nombres }}</h4>
-                                                <span class="user_title">{{ Auth::user()->email }}</span>
-                                            </div>
-                                        </div>
-
-                                        <ul class="settings_options ul_li_block clearfix">
-
-                                            <!-- <li>
-                                                <a href="{{ route('profile') }}">
-                                                    <i class="fal fa-user-cog"></i> Mi perfil
-                                                </a>
-                                            </li> -->
-
-                                            <li>
-                                                <a href="#"
-                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    <i class="fal fa-sign-out-alt"></i> Cerrar sesión
-                                                </a>
-
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                    style="display:none;">
-                                                    @csrf
-                                                </form>
-                                            </li>
-
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-                            </li>
-
-                            @else
-
-                            <li>
-                                <!-- <button type="button" class="user_btn" data-toggle="collapse"
-                                    data-target="#guest_dropdown" aria-expanded="false">
-
-                                    <i class="fal fa-user"></i>
-                                </button> -->
-
-                                <div id="guest_dropdown" class="collapse_dropdown collapse">
-
-                                    <div class="dropdown_content">
-
-                                        <div class="profile_info clearfix">
-                                            <div class="user_thumbnail">
-                                                <i class="fas fa-user"></i>
-                                            </div>
-
-                                            <div class="user_content">
-                                                <h4 class="user_name">Bienvenido</h4>
-                                                <span class="user_title">Accede a tu cuenta</span>
-                                            </div>
-                                        </div>
-
-                                        <ul class="settings_options ul_li_block clearfix">
-
-                                            <li>
-                                                <a href="{{ route('admin.login') }}">
-                                                    <i class="fal fa-sign-in-alt"></i> Iniciar sesión
-                                                </a>
-                                            </li>
-
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-                            </li>
-
-                            @endauth
-                            <li>
-                                <button type="button" class="search_btn" data-toggle="collapse"
-                                    data-target="#search_body_collapse">
-                                    <i class="fal fa-search"></i>
-                                </button>
-                            </li>
-                            <!-- <li>
-                                <button type="button" class="cart_btn">
-                                    <i class="fal fa-shopping-cart"></i>
-                                    <span class="btn_badge">0</span>
-                                </button>
-                            </li> -->
-
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div id="search_body_collapse" class="search_body_collapse collapse search_overlay">
-            <div class="search_body">
-                <div class="container-fluid prl_90">
-
-                    <form action="{{ route('productos.buscar') }}" method="GET" class="search_form">
-
-                        <div class="search_inline">
-
-                            <input type="search" name="search" placeholder="¿Qué estás buscando?"
-                                value="{{ request('search') }}" required>
-
-                            <button type="submit">
+                        <li class="mr-2">
+                            <button type="button" 
+                                    class="search_btn btn btn-light rounded-circle" 
+                                    data-toggle="collapse" 
+                                    data-target="#search_body_collapse"
+                                    aria-expanded="false" 
+                                    aria-controls="search_body_collapse"
+                                    aria-label="Buscar">
                                 <i class="fal fa-search"></i>
                             </button>
+                        </li>
 
-                        </div>
-
-                    </form>
-
+                        <li class="d-lg-none">
+                            <button type="button" 
+                                    class="mobile_menu_btn btn btn-light rounded-circle"
+                                    aria-label="Abrir menú">
+                                <i class="far fa-bars"></i>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-
-    </header>
-
-    <div class="sidebar-menu-wrapper">
-        <div class="cart_sidebar">
-            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
-
-            <ul class="cart_items_list ul_li_block mb_30 clearfix">
-                <li>
-                    <div class="item_image">
-                        <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
-                    </div>
-                    <div class="item_content">
-                        <h4 class="item_title">Yellow Blouse</h4>
-                        <span class="item_price">$30.00</span>
-                    </div>
-                    <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                </li>
-                <li>
-                    <div class="item_image">
-                        <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
-                    </div>
-                    <div class="item_content">
-                        <h4 class="item_title">Yellow Blouse</h4>
-                        <span class="item_price">$30.00</span>
-                    </div>
-                    <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                </li>
-                <li>
-                    <div class="item_image">
-                        <img src="assets/images/cart/img_01.jpg" alt="image_not_found">
-                    </div>
-                    <div class="item_content">
-                        <h4 class="item_title">Yellow Blouse</h4>
-                        <span class="item_price">$30.00</span>
-                    </div>
-                    <button type="button" class="remove_btn"><i class="fal fa-trash-alt"></i></button>
-                </li>
-            </ul>
-
-            <ul class="total_price ul_li_block mb_30 clearfix">
-                <li>
-                    <span>Subtotal:</span>
-                    <span>$90</span>
-                </li>
-                <li>
-                    <span>Vat 5%:</span>
-                    <span>$4.5</span>
-                </li>
-                <li>
-                    <span>Discount 20%:</span>
-                    <span>- $18.9</span>
-                </li>
-                <li>
-                    <span>Total:</span>
-                    <span>$75.6</span>
-                </li>
-            </ul>
-
-            <ul class="btns_group ul_li_block clearfix">
-                <li><a href="shop_cart.html">View Cart</a></li>
-                <li><a href="shop_checkout.html">Checkout</a></li>
-            </ul>
-        </div>
-
-        <div class="sidebar_mobile_menu">
-            <button type="button" class="close_btn"><i class="fal fa-times"></i></button>
-
-            <!-- LOGO -->
-            <div class="msb_widget brand_logo text-center" style="padding-bottom: 0px !important;">
-                <a href="{{ route('home') }}">
-                    <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
-                        style="max-width: 50%; margin: 0 auto;">
-                </a>
-            </div>
-
-            <!-- MENU -->
-            <div class="msb_widget mobile_menu_list clearfix">
-                <h3 class="title_text mb_15 text-uppercase">
-                    <i class="far fa-bars mr-2"></i> Menú
-                </h3>
-
-                <ul class="ul_li_block clearfix">
-
-                    <li><a href="{{ route('home') }}">Inicio</a></li>
-                    <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
-                    <li><a href="{{ route('productos.index') }}">Productos</a></li>
-
-
-                    @if($mostrarBlogs == 1)
-                    <li><a href="{{ route('blog.index') }}">Blog</a></li>
-                    @endif
-
-                    <li><a href="{{ route('contact.index') }}">Contacto</a></li>
-
-                    <!-- CATEGORÍAS -->
-                    <li class="menu_item_has_child">
-                        <a href="#!">Categorías</a>
-                        <ul class="submenu submenu_flat">
-                            @foreach($categorias as $categoria)
-                            <li>
-                                <a href="{{ route('productos.categoria', $categoria->slug) }}">
-                                    @if($categoria->icono)
-                                    <i class="{{ $categoria->icono }} menu_subcat_icon"></i>
-                                    @endif
-                                    {{ $categoria->nombre }}
-                                </a>
-                                @if($categoria->hijos && $categoria->hijos->count())
-                                <ul class="submenu_flat_children">
-                                    @foreach($categoria->hijos as $hijo)
-                                    <li>
-                                        <a href="{{ route('productos.categoria', $hijo->slug) }}">
-                                            @if($hijo->icono)
-                                            <i class="{{ $hijo->icono }} menu_subcat_icon"></i>
-                                            @endif
-                                            {{ $hijo->nombre }}
-                                        </a>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                                @endif
-                            </li>
-                            @endforeach
-                        </ul>
-                    </li>
-
-                    @if($mostrarServicios == 1)
-                    <li class="menu_item_has_child">
-                        <a href="#!">
-                            Servicios
-                            <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
-                        </a>
-
-                        <ul class="submenu">
-                            @foreach($services as $service)
-                            <li>
-                                <a href="{{ route('services.show', $service->slug) }}">
-                                    {{ $service->nombre }}
-                                </a>
-                            </li>
-                            @endforeach
-                        </ul>
-                    </li>
-                    @endif
-
-                </ul>
-            </div>
-
-            <!-- USER INFO -->
-            <div class="user_info">
-
-                <h3 class="title_text mb_30 text-uppercase">
-                    <i class="fas fa-user mr-2"></i> Usuario
-                </h3>
-
-                @auth
-                <div class="profile_info clearfix">
-                    <div class="user_thumbnail">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="user_content">
-                        <h4 class="user_name">{{ Auth::user()->nombres }}</h4>
-                        <span class="user_title">{{ Auth::user()->email }}</span>
-                    </div>
-                </div>
-
-                <ul class="settings_options ul_li_block clearfix">
-                    <!-- <li>
-                        <a href="{{ route('profile') }}">
-                            <i class="fal fa-user-circle"></i> Perfil
-                        </a>
-                    </li>
- -->
-                    <li>
-                        <a href="#"
-                            onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
-                            <i class="fal fa-sign-out-alt"></i> Cerrar sesión
-                        </a>
-
-                        <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST"
-                            style="display:none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-                @else
-                <div class="profile_info clearfix">
-                    <div class="user_thumbnail">
-                        <i class="fas fa-user"></i>
-                    </div>
-
-                    <div class="user_content">
-                        <h4 class="user_name">Bienvenido</h4>
-                        <span class="user_title">Accede a tu cuenta</span>
-                    </div>
-                </div>
-
-                <ul class="settings_options ul_li_block clearfix">
-                    <li>
-                        <a href="{{ route('admin.login') }}">
-                            <i class="fal fa-sign-in-alt"></i> Iniciar sesión
-                        </a>
-                    </li>
-                </ul>
-                @endauth
 
             </div>
         </div>
-
-        <div class="overlay"></div>
     </div>
 
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const messages = [
-            /* "¡AHORA PAGA CON YAPE Y PLIN!", */
-            "ENTREGAS EN MENOS DE 24 HORAS",
-            "ENVÍOS A TODO EL PERÚ",
-            "OFERTAS EXCLUSIVAS CADA SEMANA",
-            "COMPRA SEGURA Y GARANTIZADA"
-        ];
+    {{-- Buscador Desplegable --}}
+    <div class="collapse search_body_collapse" id="search_body_collapse">
+        <div class="card card-body border-0 rounded-0 bg-light">
+            <div class="container">
+                <form action="{{ route('home') }}" method="GET" class="search_form">
+                    <div class="input-group">
+                        <input type="text" 
+                               name="q" 
+                               class="form-control border-right-0" 
+                               placeholder="¿Qué estás buscando?..." 
+                               value="{{ request('q') }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fal fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
 
-        let index = 0;
-        const text = document.getElementById("topbar-text");
+<style>
+    /* Estilos de ajuste para eliminar espacios en blanco innecesarios en el logo */
+    .brand_logo .brand_link {
+        padding: 0 !important;
+        margin: 0 !important;
+        line-height: 1;
+    }
 
-        if (!text) return;
+    .brand_logo img {
+        max-width: 100%;
+        height: auto;
+    }
 
-        setInterval(() => {
-            text.classList.remove("show");
+    /* Estilo personalizado para el botón de WhatsApp si no usas una clase CSS externa */
+    .header-whatsapp {
+        background-color: #25d366;
+        color: #ffffff !important;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
 
-            setTimeout(() => {
-                index = (index + 1) % messages.length;
-                text.innerText = messages[index];
-                text.classList.add("show");
-            }, 400);
-
-        }, 3000);
-
-    });
-    </script>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.header-whatsapp-number').forEach((element) => {
-            const messages = ['Escríbenos', element.dataset.number];
-            let messageIndex = 0;
-            let characterIndex = messages[0].length;
-            let deleting = true;
-
-            const type = () => {
-                const message = messages[messageIndex];
-
-                if (deleting) {
-                    characterIndex--;
-                } else {
-                    characterIndex++;
-                }
-
-                element.textContent = message.slice(0, characterIndex);
-
-                if (deleting && characterIndex === 0) {
-                    messageIndex = (messageIndex + 1) % messages.length;
-                    deleting = false;
-                } else if (!deleting && characterIndex === message.length) {
-                    deleting = true;
-                    setTimeout(type, 1800);
-                    return;
-                }
-
-                setTimeout(type, deleting ? 55 : 90);
-            };
-
-            setTimeout(type, 1800);
-        });
-    });
-    </script>
+    .header-whatsapp:hover {
+        background-color: #128c7e;
+    }
+</style>
