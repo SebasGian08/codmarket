@@ -3,8 +3,8 @@
     font-family: 'Inter', sans-serif;
     background-color: #ffffff; /* Fondo Blanco */
     background-image: 
-        radial-gradient(at 10% 20%, color-mix(in srgb, var(--color-primario) 18%, transparent) 0px, transparent 50%),
-        radial-gradient(at 90% 80%, color-mix(in srgb, var(--color-secundario) 25%, transparent) 0px, transparent 50%);
+        linear-gradient(135deg, color-mix(in srgb, var(--color-primario) 10%, transparent) 0%, transparent 40%),
+        linear-gradient(-45deg, color-mix(in srgb, var(--color-secundario) 20%, transparent) 0%, transparent 40%);
 }
 /* CONTAINER */
 .faq-container {
