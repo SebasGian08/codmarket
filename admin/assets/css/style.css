@@ -749,3 +749,23 @@ html[data-theme="dark"] .toggle-web-text {
     color: var(--bs-body-color);
 }
 /* ============ FIN PRODUCTOS ============ */
+
+/* ============ PREVIEW IMÁGENES ============ */
+.preview-img-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+.preview-img-wrap img {
+    max-height: 110px;
+    width: auto;
+    object-fit: cover;
+    border-radius: .5rem;
+}
+html[data-theme="dark"] .preview-img-wrap img {
+    border-color: var(--ka-border, #3a4658);
+}
+.preview-img-wrap .img-thumbnail {
+    margin-bottom: 0;
+}
+/* ============ FIN PREVIEW IMÁGENES ============ */

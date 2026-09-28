@@ -26,9 +26,23 @@ class PortafolioController extends Controller
 
     private function uploadImage($file, $folder = 'portafolios')
     {
-        $fileName = time() . '_' . $file->getClientOriginalName();
         $destinationPath = base_path('uploads/' . $folder);
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);
+        }
+
+        // Nombre base = nombre original del archivo (sin extensión), slugificado para SEO
+        $nombreBase = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $baseName = Str::slug($nombreBase);
+        if (empty($baseName)) {
+            $baseName = 'imagen';
+        }
+
+        $ext = strtolower($file->getClientOriginalExtension());
+        $fileName = generarNombreDisponible($destinationPath, $baseName, $ext);
         $file->move($destinationPath, $fileName);
+
         return 'uploads/' . $folder . '/' . $fileName;
     }
 

@@ -152,6 +152,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
  -->
+<!-- Preview global de imágenes en el admin -->
+<script>
+$(function() {
+    // Muestra el preview de la imagen seleccionada (y la ya guardada como
+    // "precargada") junto a cada input[type=file] de imagen del admin.
+    $(document).on('change', 'input[type="file"]:not([onchange]):not(#inputImagen):not([name="archivo"])[accept*="image"], input[type="file"]:not([onchange]):not(#inputImagen):not([name="archivo"])[name*="imagen"], input[type="file"]:not([onchange]):not(#inputImagen):not([name="archivo"])[name*="image"], input[type="file"]:not([onchange]):not(#inputImagen):not([name="archivo"])[name*="logo"], input[type="file"]:not([onchange]):not(#inputImagen):not([name="archivo"])[name*="portada"], input[type="file"]:not([onchange]):not(#inputImagen):not([name="archivo"])[name*="favicon"]', function() {
+        var input = this;
+        var nombre = $(input).attr('name') || '';
+        if (nombre === 'archivo') return;
+
+        var $col = $(input).closest('.col, .form-group, .card-body');
+        // Buscar un <img> precargado hermano (imagen ya guardada) para reutilizarlo
+        var $img = $col.find('img').filter(function() {
+            return this.id.indexOf('preview') !== 0;
+        }).first();
+
+        // Si no hay imagen precargada, crear el contenedor de preview
+        if (!$img.length) {
+            var $prev = $(input).next('.preview-img-wrap');
+            if (!$prev.length) {
+                $prev = $('<div class="preview-img-wrap mt-2"></div>');
+                $(input).after($prev);
+            }
+            $img = $prev.find('img');
+            if (!$img.length) {
+                $img = $('<img class="img-thumbnail" style="max-height:110px;">');
+                $img.hide();
+                $prev.append($img);
+            }
+        }
+
+        // Preview de la imagen recién seleccionada (o mantiene la precargada)
+        if (input.files && input.files.length) {
+            var file = input.files[0];
+            if (file && file.type.indexOf('image/') === 0) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $img.attr('src', e.target.result);
+                    $img.show();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+});
+</script>
+
 @push('scripts')
 
 @if(session('success'))

@@ -86,6 +86,26 @@ if (!function_exists('limpiarTextoPlano')) {
     }
 }
 
+if (!function_exists('generarNombreDisponible')) {
+
+    /**
+     * Devuelve un nombre de archivo libre en la carpeta destino, basado en un
+     * nombre base. Si ya existe, agrega sufijo numérico: "-1", "-2", etc.
+     */
+    function generarNombreDisponible($carpeta, $baseName, $ext)
+    {
+        $fileName = $baseName . '.' . $ext;
+        $i = 1;
+
+        while (file_exists($carpeta . '/' . $fileName)) {
+            $fileName = $baseName . '-' . $i . '.' . $ext;
+            $i++;
+        }
+
+        return $fileName;
+    }
+}
+
 if (!function_exists('uploadImageOptimized')) {
 
     function uploadImageOptimized($file, $folder = 'general', $width = 1200, $quality = 80, $maxKb = 100)
@@ -98,15 +118,23 @@ if (!function_exists('uploadImageOptimized')) {
 
         $extension = strtolower($file->getClientOriginalExtension());
 
+        // Nombre base = nombre original del archivo (sin extensión), slugificado
+        // para SEO: "Mi Imagen.png" -> "mi-imagen".
+        $nombreBase = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $baseName = \Illuminate\Support\Str::slug($nombreBase);
+        if (empty($baseName)) {
+            $baseName = 'imagen';
+        }
+
         // SVG: GD no puede convertirlo, se guarda tal cual
         if ($extension === 'svg') {
-            $fileName = time() . '_' . uniqid() . '.svg';
+            $fileName = generarNombreDisponible($destinationPath, $baseName, 'svg');
             $file->move($destinationPath, $fileName);
 
             return 'uploads/' . $folder . '/' . $fileName;
         }
 
-        $fileName = time() . '_' . uniqid() . '.webp';
+        $fileName = generarNombreDisponible($destinationPath, $baseName, 'webp');
 
         $img = Image::gd()->read($file->getPathname());
 

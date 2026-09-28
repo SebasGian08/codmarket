@@ -25,7 +25,7 @@
 
                     <div class="col-md-12 mt-2">
                         <label>Respuesta</label>
-                        <textarea name="respuesta" class="form-control editor" rows="4" required></textarea>
+                        <textarea name="respuesta" class="form-control editor" rows="4"></textarea>
                     </div>
 
                     <div class="col-md-6 mt-2">
