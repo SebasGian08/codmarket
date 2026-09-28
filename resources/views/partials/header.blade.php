@@ -112,7 +112,7 @@
                         <div class="brand_logo">
                             <a class="brand_link" href="{{ route('home') }}">
                                 <img src="{{ asset($empresa->logo_header ?? 'assets/images/logo.png') }}" alt="logo"
-                                    style="height: {{ $height }}; width: auto; object-fit: contain;">
+                                    style="{{ $height }} !important; width: auto; object-fit: contain;">
                             </a>
                             <ul class="mh_action_btns ul_li clearfix">
                                 @if($numeroWhatsappUrl)
