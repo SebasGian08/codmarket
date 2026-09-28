@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RolController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\Admin\BlogTagController;
 use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\PortafolioController as AdminPortafolioController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
@@ -277,6 +278,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [AdminBlogController::class, 'store'])->name('admin.blogs.store');
         Route::put('/{blog}/actualizar', [AdminBlogController::class, 'update'])->name('admin.blogs.update');
         Route::delete('/{blog}/eliminar', [AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');
+    });
+
+    // MÓDULO: TAGS DEL BLOG
+    Route::prefix('tags')->group(function () {
+        Route::get('/', [BlogTagController::class, 'index'])->name('admin.tags.index');
+        Route::post('/guardar', [BlogTagController::class, 'store'])->name('admin.tags.store');
+        Route::put('/{id}/actualizar', [BlogTagController::class, 'update'])->name('admin.tags.update');
+        Route::delete('/{id}/eliminar', [BlogTagController::class, 'destroy'])->name('admin.tags.destroy');
     });
 
     // MÓDULO: SERVICIOS

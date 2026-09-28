@@ -368,20 +368,28 @@
                     </div>
                 </li>
 
-                {{-- SECCIÓN: WEB --}}
-                <li class="nav-item {{ Request::is('admin/blogs*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
+{{-- SECCIÓN: WEB --}}
+                <li class="nav-item {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#tiendaVirtual">
                         <i class="fas fa-store"></i>
                         <p>Web</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/blogs*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}" id="tiendaVirtual">
+                    <div class="collapse {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}" id="tiendaVirtual">
                         <ul class="nav nav-collapse">
                             @permiso('blogs.ver')
                             <li class="{{ Request::is('admin/blogs*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.blogs.index') }}">
                                     <span class="sub-item">Blog</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
+                            @permiso('tags.ver')
+                            <li class="{{ Request::is('admin/tags*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.tags.index') }}">
+                                    <span class="sub-item">Tags</span>
                                 </a>
                             </li>
                             @endpermiso

@@ -15,4 +15,14 @@ class BlogTag extends Model
     ];
 
     public $timestamps = true;
+
+    public function blogs()
+    {
+        return $this->belongsToMany(
+            Blog::class,
+            'blogs_blog_tag',
+            'tag_id',
+            'blog_id'
+        );
+    }
 }
