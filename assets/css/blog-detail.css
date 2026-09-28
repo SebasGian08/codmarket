@@ -289,6 +289,13 @@ RELATED ARTICLES
     transform: translateY(-3px);
 }
 
+/* Da espacio vertical a las tarjetas: el hover las eleva con sombra
+   y el .slick-list (overflow hidden) las recortaba */
+.blog_details .related_post_carousel .slideshow3_slider .slick-list {
+    padding: 18px 0;
+    margin: -18px 0;
+}
+
 .related_post_carousel .blog_image {
     display: block;
     overflow: hidden;
