@@ -63,6 +63,7 @@
 <link rel="stylesheet" href="{{ asset('assets/css/steps.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/blog-detail.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/servicios-show.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">

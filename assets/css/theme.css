@@ -1,0 +1,260 @@
+:root {
+    color-scheme: light;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --theme-page: #15181c;
+    --theme-surface: #1e2329;
+    --theme-surface-raised: #252b32;
+    --theme-border: #363e47;
+    --theme-text: #e5e7eb;
+    --theme-muted: #a8b0ba;
+}
+
+html[data-theme="dark"] body {
+    color: var(--theme-text);
+    background-color: var(--theme-page);
+    transition: color .2s ease, background-color .2s ease;
+}
+
+html[data-theme="dark"] h1,
+html[data-theme="dark"] h2,
+html[data-theme="dark"] h3,
+html[data-theme="dark"] h4,
+html[data-theme="dark"] h5,
+html[data-theme="dark"] h6,
+html[data-theme="dark"] .section_heading_title,
+html[data-theme="dark"] .section_heading_title a,
+html[data-theme="dark"] .section_heading_description,
+html[data-theme="dark"] .item_title,
+html[data-theme="dark"] .category_carousel_card h5,
+html[data-theme="dark"] .faq-header h2,
+html[data-theme="dark"] .faq-question,
+html[data-theme="dark"] .card-mvv h3 {
+    color: var(--theme-text);
+}
+
+html[data-theme="dark"] .section_heading_description,
+html[data-theme="dark"] .faq-header p,
+html[data-theme="dark"] .service_card p,
+html[data-theme="dark"] .medical_product_item p,
+html[data-theme="dark"] .blog_card p,
+html[data-theme="dark"] .card-mvv p,
+html[data-theme="dark"] .contact-benefit span,
+html[data-theme="dark"] .rubro_desc,
+html[data-theme="dark"] .cliente_nombre,
+html[data-theme="dark"] .service-description {
+    color: var(--theme-muted);
+}
+
+html[data-theme="dark"] .page-wrapper {
+    background-color: var(--theme-page);
+}
+
+html[data-theme="dark"] #preloader {
+    background-color: var(--theme-page);
+}
+
+html[data-theme="dark"] .bg-white,
+html[data-theme="dark"] .bg-light,
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .modal-content,
+html[data-theme="dark"] .dropdown-menu,
+html[data-theme="dark"] .list-group-item,
+html[data-theme="dark"] .accordion-item {
+    color: var(--theme-text);
+    background-color: var(--theme-surface) !important;
+    border-color: var(--theme-border);
+}
+
+html[data-theme="dark"] .header_section,
+html[data-theme="dark"] .header_section .header_top,
+html[data-theme="dark"] .header_section .header_bottom,
+html[data-theme="dark"] .dropdown_content,
+html[data-theme="dark"] .search_body_collapse,
+html[data-theme="dark"] .search_body,
+html[data-theme="dark"] .mobile_menu,
+html[data-theme="dark"] .main_menu .submenu,
+html[data-theme="dark"] .main_menu .submenu_flat {
+    background-color: var(--theme-surface) !important;
+}
+
+html[data-theme="dark"] .fashion_minimal_header .header_content_wrap {
+    background-color: var(--theme-surface) !important;
+}
+
+html[data-theme="dark"] .header_section,
+html[data-theme="dark"] .header_section .main_menu > ul > li > a,
+html[data-theme="dark"] .fashion_minimal_header .action_btns_group button,
+html[data-theme="dark"] .fashion_minimal_header .primary_social_links a,
+html[data-theme="dark"] .fashion_minimal_header .contact_info > li,
+html[data-theme="dark"] .main_menu .submenu > li > a,
+html[data-theme="dark"] .main_menu .submenu_flat > li > a {
+    color: var(--theme-text) !important;
+}
+
+html[data-theme="dark"] .services_section,
+html[data-theme="dark"] .deals_section,
+html[data-theme="dark"] .product_section,
+html[data-theme="dark"] .blog_section,
+html[data-theme="dark"] .cliente_section,
+html[data-theme="dark"] .faq-section,
+html[data-theme="dark"] .category_grid_section {
+    background-color: var(--theme-page);
+}
+
+html[data-theme="dark"] .service_card,
+html[data-theme="dark"] .medical_product_item,
+html[data-theme="dark"] .blog_card,
+html[data-theme="dark"] .faq-item,
+html[data-theme="dark"] .category_circle,
+html[data-theme="dark"] .category_grid_card,
+html[data-theme="dark"] .cliente_card,
+html[data-theme="dark"] .card-mvv,
+html[data-theme="dark"] .contact-form-card,
+html[data-theme="dark"] .contact-whatsapp,
+html[data-theme="dark"] .contact-benefit-icon,
+html[data-theme="dark"] .attribute-chip,
+html[data-theme="dark"] .banner-contact-card,
+html[data-theme="dark"] .service-detail-card,
+html[data-theme="dark"] .benefit-card,
+html[data-theme="dark"] .plan-card,
+html[data-theme="dark"] .portfolio-card,
+html[data-theme="dark"] .rubro_card_premium {
+    color: var(--theme-text);
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+html[data-theme="dark"] .category_grid_content {
+    background-color: var(--color-secundario);
+}
+
+html[data-theme="dark"] .service_card h3,
+html[data-theme="dark"] .service_card h4,
+html[data-theme="dark"] .medical_product_item h3,
+html[data-theme="dark"] .medical_product_item h4,
+html[data-theme="dark"] .blog_card h3,
+html[data-theme="dark"] .blog_card h4,
+html[data-theme="dark"] .blog_card a,
+html[data-theme="dark"] .contact-benefit strong,
+html[data-theme="dark"] .faq-question {
+    color: var(--theme-text);
+}
+
+html[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .nice-select,
+html[data-theme="dark"] .search_form input {
+    color: var(--theme-text);
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder,
+html[data-theme="dark"] .form-control::placeholder {
+    color: #929ba6;
+}
+
+html[data-theme="dark"] .table {
+    --bs-table-color: var(--theme-text);
+    --bs-table-bg: var(--theme-surface);
+    --bs-table-border-color: var(--theme-border);
+    --bs-table-striped-bg: var(--theme-surface-raised);
+    --bs-table-striped-color: var(--theme-text);
+    --bs-table-hover-bg: var(--theme-surface-raised);
+    --bs-table-hover-color: var(--theme-text);
+}
+
+html[data-theme="dark"] .footer_section,
+html[data-theme="dark"] .footer_bottom {
+    background-color: #101316;
+    color: var(--theme-muted);
+}
+
+html[data-theme="dark"] .hero_banner_slider {
+    background: var(--theme-page);
+}
+
+html[data-theme="dark"] .hero_banner_slider .con-contenido::before {
+    background: linear-gradient(to right,
+            rgba(21, 24, 28, 0.96) 0%,
+            rgba(21, 24, 28, 0.88) 42%,
+            rgba(21, 24, 28, 0.58) 78%,
+            rgba(21, 24, 28, 0.18) 100%);
+}
+
+html[data-theme="dark"] .hero_banner_slider .con-contenido .title,
+html[data-theme="dark"] .hero_banner_slider .con-contenido .subtitle {
+    color: var(--theme-text);
+}
+
+.fashion_minimal_header .action_btns_group .theme_toggle_btn {
+    display: inline-flex;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(127, 127, 127, .25);
+    border-radius: 50%;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--header_color);
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.fashion_minimal_header .action_btns_group .theme_toggle_btn:hover,
+.fashion_minimal_header .action_btns_group .theme_toggle_btn:focus-visible {
+    color: var(--color-secundario);
+    background-color: rgba(127, 127, 127, .1);
+}
+
+.fashion_minimal_header .action_btns_group .theme_toggle_btn .fa-sun {
+    display: none;
+}
+
+.fashion_minimal_header .mh_action_btns .theme_toggle_btn {
+    border: 1px solid rgba(127, 127, 127, .25);
+}
+
+.fashion_minimal_header .mh_action_btns .theme_toggle_btn .fa-sun {
+    display: none;
+}
+
+html[data-theme="dark"] .fashion_minimal_header .action_btns_group .theme_toggle_btn {
+    color: var(--theme-text);
+    border-color: var(--theme-border);
+}
+
+html[data-theme="dark"] .fashion_minimal_header .mh_action_btns .theme_toggle_btn {
+    color: var(--theme-text);
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+html[data-theme="dark"] .fashion_minimal_header .action_btns_group .theme_toggle_btn .fa-moon {
+    display: none;
+}
+
+html[data-theme="dark"] .fashion_minimal_header .action_btns_group .theme_toggle_btn .fa-sun {
+    display: inline-block;
+}
+
+html[data-theme="dark"] .fashion_minimal_header .mh_action_btns .theme_toggle_btn .fa-moon {
+    display: none;
+}
+
+html[data-theme="dark"] .fashion_minimal_header .mh_action_btns .theme_toggle_btn .fa-sun {
+    display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html[data-theme="dark"] body {
+        transition: none;
+    }
+}

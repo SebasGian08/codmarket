@@ -5,6 +5,22 @@
     <meta charset="utf-8">
     <title>@yield('title', 'Infusiones Gales')</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        (function () {
+            var theme = 'light';
+
+            try {
+                var savedTheme = localStorage.getItem('site-theme');
+                if (savedTheme === 'dark' || savedTheme === 'light') {
+                    theme = savedTheme;
+                }
+            } catch (error) {
+                console.warn('No se pudo leer la preferencia de tema guardada.', error);
+            }
+
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 
     @include('partials.styles')
 

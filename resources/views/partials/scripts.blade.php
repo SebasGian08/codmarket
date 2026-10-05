@@ -36,6 +36,7 @@
 
 <!-- Custom -->
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+<script src="{{ asset('assets/js/theme.js') }}"></script>
 
 <!-- Extras -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
