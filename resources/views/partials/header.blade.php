@@ -125,6 +125,7 @@
                                     </a>
                                 </li>
                                 @endif
+                                @if(($config['web_mostrar_selector_tema'] ?? 0) == 1)
                                 <li>
                                     <button type="button" class="theme_toggle_btn" aria-label="Activar modo oscuro"
                                         aria-pressed="false" title="Activar modo oscuro">
@@ -132,6 +133,7 @@
                                         <i class="fas fa-sun" aria-hidden="true"></i>
                                     </button>
                                 </li>
+                                @endif
                                 <li>
                                     <button type="button" class="search_btn" data-toggle="collapse"
                                         data-target="#search_body_collapse">
@@ -240,13 +242,6 @@
                     </div>
                     <div class="col-lg-3">
                         <ul class="action_btns_group ul_li_right clearfix">
-                            <li>
-                                <button type="button" class="theme_toggle_btn" aria-label="Activar modo oscuro"
-                                    aria-pressed="false" title="Activar modo oscuro">
-                                    <i class="fas fa-moon" aria-hidden="true"></i>
-                                    <i class="fas fa-sun" aria-hidden="true"></i>
-                                </button>
-                            </li>
                             @if($numeroWhatsappUrl)
                             <li class="header-whatsapp-item">
                                 <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
@@ -348,6 +343,15 @@
                             </li>
 
                             @endauth
+                            @if(($config['web_mostrar_selector_tema'] ?? 0) == 1)
+                            <li>
+                                <button type="button" class="theme_toggle_btn" aria-label="Activar modo oscuro"
+                                    aria-pressed="false" title="Activar modo oscuro">
+                                    <i class="fas fa-moon" aria-hidden="true"></i>
+                                    <i class="fas fa-sun" aria-hidden="true"></i>
+                                </button>
+                            </li>
+                            @endif
                             <li>
                                 <button type="button" class="search_btn" data-toggle="collapse"
                                     data-target="#search_body_collapse">

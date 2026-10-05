@@ -7,7 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         (function () {
+            var themeToggleEnabled = @json(($config['web_mostrar_selector_tema'] ?? 0) == 1);
             var theme = 'light';
+
+            if (!themeToggleEnabled) {
+                document.documentElement.setAttribute('data-theme', theme);
+                return;
+            }
 
             try {
                 var savedTheme = localStorage.getItem('site-theme');
