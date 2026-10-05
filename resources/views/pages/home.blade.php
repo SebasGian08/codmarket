@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const bounds = element.getBoundingClientRect();
 
         if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
-            const delay = loadRevealIndex * 120;
+            const delay = loadRevealIndex * 65;
             loadRevealIndex++;
             window.setTimeout(() => {
                 const currentBounds = element.getBoundingClientRect();
