@@ -3067,3 +3067,23 @@ html[data-theme="dark"] .clientes_carousel_wrap .right_arrow_clientes {
 }
 
 /* ============ FIN TITULOS DE SECCION (HOMOLOGADOS) ============ */
+
+.heading-last-word {
+    display: inline-block;
+    position: relative;
+    z-index: 0;
+}
+
+.heading-last-word::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.08em;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-primario);
+    transform: rotate(-2deg);
+    transform-origin: left center;
+    pointer-events: none;
+}
