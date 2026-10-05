@@ -203,10 +203,10 @@
 /* ===== VARIANTE FULL (fondo oscuro) ===== */
 .hero_banner_full .con-contenido::before {
     background: linear-gradient(90deg,
-            rgba(8, 12, 16, 0.94) 0%,
-            rgba(8, 12, 16, 0.88) 42%,
-            rgba(8, 12, 16, 0.76) 72%,
-            rgba(8, 12, 16, 0.66) 100%);
+            rgba(8, 12, 16, 0.86) 0%,
+            rgba(8, 12, 16, 0.76) 42%,
+            rgba(8, 12, 16, 0.6) 72%,
+            rgba(8, 12, 16, 0.48) 100%);
 }
 
 .hero_banner_full .con-contenido::after {
