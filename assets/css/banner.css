@@ -831,6 +831,10 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
         background-position: center top;
     }
 
+    .hero_banner_slider .hero_card .image_box {
+        display: none;
+    }
+
     .hero_banner_full .hero_full_content {
         text-align: center;
     }
