@@ -89,7 +89,7 @@
 
 
 @if($mostrarSteps == 1)
-    <div class="scroll-reveal reveal-right">{{-- Steps: derecha --}}
+    <div class="scroll-reveal reveal-right-- Steps: derecha --}}
         @include('sections.steps')
     </div>
 @endif

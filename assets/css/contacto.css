@@ -442,6 +442,27 @@
     cursor: pointer;
 }
 
+.form-grid .select-wrapper {
+    width: 100%;
+    min-width: 0;
+}
+
+.form-grid .select-wrapper select {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.form-grid .form-field:focus-within {
+    position: relative;
+    z-index: 5;
+}
+
 .select-arrow {
     position: absolute;
     z-index: 2;
