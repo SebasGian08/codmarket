@@ -178,7 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 showReveal(entry.target);
-                observer.unobserve(entry.target);
+            } else {
+                entry.target.classList.remove('reveal-visible');
             }
         });
     }, {
@@ -194,7 +195,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
             const delay = loadRevealIndex * 120;
             loadRevealIndex++;
-            window.setTimeout(() => showReveal(element), delay);
+            window.setTimeout(() => {
+                const currentBounds = element.getBoundingClientRect();
+                if (currentBounds.top < window.innerHeight * 0.92 && currentBounds.bottom > 0) {
+                    showReveal(element);
+                }
+                observer.observe(element);
+            }, delay);
         } else {
             observer.observe(element);
         }
