@@ -27,16 +27,7 @@
     @include('sections.banner')
 </div>
 
-<section class="about-stats scroll-reveal reveal-scale">
-    <div class="stats-container">
-        @foreach($indicadores as $indicador)
-        <div class="stat">
-            <span class="stat-number" data-value="{{ $indicador['valor'] ?? '' }}" aria-label="{{ $indicador['valor'] ?? '' }}">{{ $indicador['valor'] ?? '' }}</span>
-            <span class="stat-label">{{ $indicador['titulo'] ?? '' }}</span>
-        </div>
-        @endforeach
-    </div>
-</section>
+@include('sections.indicadores')
 
 @if($mostrarRubros == 1)
     <div class="scroll-reveal reveal-scale">{{-- Rubros: escala --}}
@@ -139,10 +130,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const reveals = document.querySelectorAll('.scroll-reveal');
     if (!reveals.length) return;
 
+    const typeIndicator = (element) => {
+        if (element.dataset.animated === 'true') return;
+
+        element.dataset.animated = 'true';
+        const value = element.dataset.value || '';
+        let position = 0;
+
+        const write = () => {
+            element.textContent = value.slice(0, position);
+            position++;
+
+            if (position <= value.length) {
+                setTimeout(write, 100);
+            }
+        };
+
+        write();
+    };
+
+    const showReveal = (element) => {
+        element.classList.add('reveal-visible');
+
+        if (element.classList.contains('about-stats')) {
+            element.querySelectorAll('.stat-number').forEach((stat, index) => {
+                setTimeout(() => typeIndicator(stat), index * 180);
+            });
+        }
+    };
+
+    if (!('IntersectionObserver' in window)) {
+        reveals.forEach(showReveal);
+        return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('reveal-visible');
+                showReveal(entry.target);
                 observer.unobserve(entry.target);
             }
         });
