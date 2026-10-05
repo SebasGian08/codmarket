@@ -27,7 +27,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
             @else
 
             <div class="slider_item con-contenido {{ $key == 0 ? 'active' : '' }}"
-                style="background-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}'); border-radius:20px;">
+                style="--banner-desktop-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}'); --banner-mobile-image: url('{{ url($banner->imagen_mobile ?: $banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}'); border-radius:20px;">
 
                 <div class="row align-items-center hero_card flex-column flex-lg-row">
 
@@ -57,11 +57,6 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                     <div class="col-lg-6 image_box">
 
                         <picture>
-
-                            @if($banner->imagen_mobile)
-                            <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
-                            @endif
-
                             @if($banner->imagen_referencial)
                             <img src="{{ url($banner->imagen_referencial) }}" class="img-fluid hero_img">
                             @endif
@@ -109,7 +104,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
         @else
 
         <div class="slider_item con-contenido {{ $key == 0 ? 'active' : '' }}"
-            style="background-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}');">
+            style="--banner-desktop-image: url('{{ url($banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}'); --banner-mobile-image: url('{{ url($banner->imagen_mobile ?: $banner->imagen ?: 'assets/images/tienda_virtual/2076x757px.png') }}');">
 
             <div class="hero_full_content">
 
@@ -139,10 +134,6 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                 <div class="image_box">
 
                     <picture>
-                        @if($banner->imagen_mobile)
-                        <source media="(max-width: 768px)" srcset="{{ url($banner->imagen_mobile) }}">
-                        @endif
-
                         @if(!empty($banner->imagen_referencial))
                         <img src="{{ url($banner->imagen_referencial) }}" class="hero_img">
                         @endif

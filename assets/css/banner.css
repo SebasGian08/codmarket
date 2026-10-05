@@ -152,6 +152,7 @@
 ========================================================= */
 
 .con-contenido {
+    background-image: var(--banner-desktop-image);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -819,8 +820,13 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_card {
-        padding: 55px 30px;
+        padding: 55px 32px;
         text-align: center;
+    }
+
+    .hero_banner_slider .con-contenido,
+    .hero_banner_full .con-contenido {
+        background-image: var(--banner-mobile-image);
     }
 
     .hero_banner_full .hero_full_content {
@@ -897,7 +903,7 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_banner_full .hero_full_content {
-        padding: 40px 24px;
+        padding: 40px 30px;
     }
 }
 
@@ -926,6 +932,6 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_card {
-        padding: 40px 20px;
+        padding: 40px 28px;
     }
 }
