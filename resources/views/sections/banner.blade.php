@@ -1,9 +1,14 @@
 @php
 $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
+$firstBanner = $banners->first();
+$firstBannerHasContent = $firstBanner && !$firstBanner->solo_imagen;
+$hasContentBanner = $banners->contains(function ($banner) {
+    return !$banner->solo_imagen;
+});
 @endphp
 
 @if($bannerTipo === 'opcion_1')
-<section class="hero_banner_slider">
+<section class="hero_banner_slider {{ $hasContentBanner ? 'has-banner-contact' : '' }}">
     <div class="container hero_container">
         <button class="slider_btn prev">&#10094;</button>
         <button class="slider_btn next">&#10095;</button>
@@ -65,11 +70,15 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 
         <div class="slider_indicators" aria-label="Indicadores del banner"></div>
 
+        @if($hasContentBanner)
+        @include('sections.banner-contact-form')
+        @endif
+
     </div>
 
 </section>
 @else
-<section class="hero_banner_full">
+<section class="hero_banner_full {{ $hasContentBanner ? 'has-banner-contact' : '' }}">
 
     <button class="slider_btn prev">&#10094;</button>
     <button class="slider_btn next">&#10095;</button>
@@ -142,6 +151,10 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 
     <div class="slider_indicators" aria-label="Indicadores del banner"></div>
 
+    @if($hasContentBanner)
+    @include('sections.banner-contact-form')
+    @endif
+
 </section>
 @endif
 <script>
@@ -155,6 +168,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const nextBtn = sliderSection.querySelector(".next");
     const prevBtn = sliderSection.querySelector(".prev");
     const indicators = sliderSection.querySelector(".slider_indicators");
+    const contactPanel = sliderSection.querySelector(".banner-contact-panel");
 
     if (slides.length === 0) return;
 
@@ -182,6 +196,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         slides[i].classList.add("active");
+
+        if (contactPanel) {
+            const showContact = slides[i].classList.contains("con-contenido");
+            contactPanel.hidden = !showContact;
+            sliderSection.classList.toggle("has-banner-contact-active", showContact);
+        }
 
         if (indicators) {
             indicators.querySelectorAll(".slider_indicator").forEach((dot, dotIndex) => {
