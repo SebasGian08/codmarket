@@ -4,6 +4,7 @@
 
 @section('content')
 
+<div class="home-page">
 @php
     $mostrarCategorias = $config['home_mostrar_categorias'] ?? 1;
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
@@ -89,7 +90,7 @@
 
 
 @if($mostrarSteps == 1)
-    <div class="scroll-reveal reveal-right-- Steps: derecha --}}
+    <div class="scroll-reveal reveal-right">{{-- Steps: derecha --}}
         @include('sections.steps')
     </div>
 @endif
@@ -129,13 +130,14 @@
         @include('sections.blog')
     </div>
 @endif
+    </div>
 
 @endsection
 
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const reveals = document.querySelectorAll('.scroll-reveal');
+    const reveals = document.querySelectorAll('.home-page .scroll-reveal');
     if (!reveals.length) return;
 
     const typeIndicator = (element) => {
@@ -184,7 +186,19 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -40px 0px'
     });
 
-    reveals.forEach(el => observer.observe(el));
+    let loadRevealIndex = 0;
+
+    reveals.forEach(element => {
+        const bounds = element.getBoundingClientRect();
+
+        if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
+            const delay = loadRevealIndex * 120;
+            loadRevealIndex++;
+            window.setTimeout(() => showReveal(element), delay);
+        } else {
+            observer.observe(element);
+        }
+    });
 });
 </script>
 @endpush
