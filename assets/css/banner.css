@@ -1220,6 +1220,69 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 }
 
+@media (max-width: 650px) {
+    .banner-contact-card {
+        background: rgba(255, 255, 255, .94);
+        border-color: rgba(15, 23, 42, .12);
+    }
+
+    .banner-contact-grid .input-wrapper input,
+    .banner-contact-grid .input-wrapper select,
+    .banner-contact-grid .phone-wrapper input,
+    .banner-contact-grid .textarea-wrapper textarea {
+        border-color: #d8dee5;
+        background: rgba(255, 255, 255, .96);
+        color: #263244;
+    }
+
+    .banner-contact-grid .input-wrapper input::placeholder,
+    .banner-contact-grid .textarea-wrapper textarea::placeholder,
+    .banner-contact-grid .phone-wrapper input::placeholder {
+        color: #7b8794;
+    }
+
+    .banner-contact-grid .input-wrapper input:focus,
+    .banner-contact-grid .input-wrapper select:focus,
+    .banner-contact-grid .phone-wrapper input:focus,
+    .banner-contact-grid .textarea-wrapper textarea:focus {
+        border-color: var(--color-secundario);
+        background: #fff;
+        color: #263244;
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secundario) 14%, transparent);
+    }
+
+    .banner-contact-grid .phone-prefix {
+        border-color: #d8dee5;
+        background: #f1f5f9;
+        color: #475569;
+    }
+
+    .banner-contact-panel .select-wrapper .nice-select.service-select {
+        border-color: #d8dee5;
+        background-color: rgba(255, 255, 255, .96);
+        color: #263244;
+    }
+
+    .banner-contact-panel .select-wrapper .nice-select.service-select::after {
+        border-color: #64748b;
+    }
+
+    .banner-contact-panel .select-wrapper .nice-select.service-select .list {
+        border-color: #d8dee5;
+        background: #fff;
+    }
+
+    .banner-contact-panel .select-wrapper .nice-select.service-select .option {
+        color: #263244;
+    }
+
+    .banner-contact-panel .select-wrapper .nice-select.service-select .option:hover,
+    .banner-contact-panel .select-wrapper .nice-select.service-select .option.focus,
+    .banner-contact-panel .select-wrapper .nice-select.service-select .option.selected.focus {
+        background: #edf1f5 !important;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .banner-contact-grid .contact-submit::after {
         animation: none;
