@@ -9,11 +9,12 @@ $hasContentBanner = $banners->contains(function ($banner) {
 
 @if($bannerTipo === 'opcion_1')
 <section class="hero_banner_slider {{ $hasContentBanner ? 'has-banner-contact' : '' }}">
-    <div class="container hero_container">
-        <button class="slider_btn prev">&#10094;</button>
-        <button class="slider_btn next">&#10095;</button>
+    <div class="banner-hero-stage">
+        <div class="container hero_container">
 
-        <div class="slider_wrapper">
+            <div class="slider_wrapper">
+                <button class="slider_btn prev">&#10094;</button>
+                <button class="slider_btn next">&#10095;</button>
 
             @foreach($banners as $key => $banner)
 
@@ -69,21 +70,19 @@ $hasContentBanner = $banners->contains(function ($banner) {
         </div>
 
         <div class="slider_indicators" aria-label="Indicadores del banner"></div>
+        </div>
 
         @if($hasContentBanner)
         @include('sections.banner-contact-form')
         @endif
-
     </div>
-
 </section>
 @else
 <section class="hero_banner_full {{ $hasContentBanner ? 'has-banner-contact' : '' }}">
-
-    <button class="slider_btn prev">&#10094;</button>
-    <button class="slider_btn next">&#10095;</button>
-
-    <div class="slider_wrapper_full">
+    <div class="hero_banner_full_stage">
+        <div class="slider_wrapper_full">
+            <button class="slider_btn prev">&#10094;</button>
+            <button class="slider_btn next">&#10095;</button>
 
         @foreach($banners as $key => $banner)
 
@@ -147,13 +146,13 @@ $hasContentBanner = $banners->contains(function ($banner) {
 
         @endforeach
 
+        <div class="slider_indicators" aria-label="Indicadores del banner"></div>
+        </div>
+
+        @if($hasContentBanner)
+        @include('sections.banner-contact-form')
+        @endif
     </div>
-
-    <div class="slider_indicators" aria-label="Indicadores del banner"></div>
-
-    @if($hasContentBanner)
-    @include('sections.banner-contact-form')
-    @endif
 
 </section>
 @endif
