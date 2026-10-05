@@ -492,7 +492,7 @@
                     <li><a href="{{ route('contact.index') }}">Contacto</a></li>
 
                     <!-- CATEGORÍAS -->
-                    @if($categorias->count() > 0)
+                    @if($mostrarProductos == 1 && $categorias->count() > 0)
                     <li class="menu_item_has_child">
                         <a href="#!">Categorías</a>
                         <ul class="submenu submenu_flat">
