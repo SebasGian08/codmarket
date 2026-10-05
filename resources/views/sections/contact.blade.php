@@ -159,7 +159,7 @@
                             </label>
 
                             <div class="input-wrapper select-wrapper">
-                                <select name="servicio" required>
+                                <select name="servicio" class="service-select" required>
                                     <option value="">
                                         Seleccione un servicio
                                     </option>

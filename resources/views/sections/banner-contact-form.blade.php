@@ -33,7 +33,7 @@
                 <div class="form-field">
                     <label for="banner-servicio">Servicio <span>*</span></label>
                     <div class="input-wrapper select-wrapper">
-                        <select id="banner-servicio" name="servicio" required>
+                        <select id="banner-servicio" name="servicio" class="service-select" required>
                             <option value="">Seleccione un servicio</option>
                             @foreach($services as $service)
                             <option value="{{ $service->id_service }}" {{ old('servicio') == $service->id_service ? 'selected' : '' }}>{{ $service->nombre }}</option>
