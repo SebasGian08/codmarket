@@ -20,6 +20,7 @@
     $mostrarClientes = $config['home_mostrar_clientes'] ?? 0;
     $mostrarCtaAyuda = $config['home_mostrar_cta_ayuda'] ?? 1;
     $mostrarTestimonios = $config['home_mostrar_testimonios'] ?? 1;
+    $mostrarContacto = $config['home_mostrar_contacto'] ?? 1;
 @endphp
 
 
@@ -94,9 +95,11 @@
 </div>
 @endif
 
-<div class="scroll-reveal reveal-right">{{-- Contacto --}}
-    @include('sections.contact')
-</div>
+@if($mostrarContacto == 1)
+    <div class="scroll-reveal reveal-right">{{-- Contacto --}}
+        @include('sections.contact')
+    </div>
+@endif
 
 @if($mostrarSuscripcion == 1)
     <div class="scroll-reveal">{{-- Suscripción: fade up --}}
