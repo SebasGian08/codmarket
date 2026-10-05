@@ -304,6 +304,11 @@
     margin-bottom: 30px;
 }
 
+.hero_banner_slider .con-contenido .subtitle,
+.hero_banner_full .con-contenido .subtitle {
+    text-align: justify;
+}
+
 /* resalta textos manuales dentro de la descripción */
 .subtitle strong {
     color: var(--color-texto);
@@ -915,7 +920,7 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_banner_full .hero_full_content {
-        padding: 130px 64px !important;
+        padding: 100px 64px !important;
     }
 }
 
