@@ -473,7 +473,6 @@
     box-sizing: border-box;
     padding: 0 34px 0 12px;
     line-height: 36px;
-    overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -490,6 +489,7 @@
     max-height: 180px;
     overflow-x: hidden;
     overflow-y: auto;
+    z-index: 50;
 }
 
 .select-wrapper .nice-select.service-select .option {
