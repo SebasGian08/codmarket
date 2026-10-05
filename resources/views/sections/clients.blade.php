@@ -1,4 +1,4 @@
-<section class="clients-one">
+<section class="clients-one sec_ptb_50 scroll-reveal reveal-scale" aria-label="Clientes satisfechos">
     <div class="auto-container">
         <div class="row clearfix">
 
