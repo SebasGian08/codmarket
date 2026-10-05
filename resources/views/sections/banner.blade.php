@@ -1,8 +1,9 @@
 @php
 $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
+$mostrarFormularioBanner = ($config['home_banner_mostrar_formulario'] ?? 1) == 1;
 $firstBanner = $banners->first();
-$firstBannerHasContent = $firstBanner && !$firstBanner->solo_imagen;
-$hasContentBanner = $banners->contains(function ($banner) {
+$firstBannerHasContent = $mostrarFormularioBanner && $firstBanner && !$firstBanner->solo_imagen;
+$hasContentBanner = $mostrarFormularioBanner && $banners->contains(function ($banner) {
     return !$banner->solo_imagen;
 });
 @endphp
