@@ -1,6 +1,6 @@
 @if(($clientes ?? collect())->count())
 
-<section class="cliente_section clearfix">
+<section class="cliente_section clearfix sec_ptb_50 scroll-reveal reveal-scale" aria-label="Clientes satisfechos">
 
     <div class="container">
 
