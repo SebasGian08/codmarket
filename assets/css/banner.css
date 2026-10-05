@@ -1163,7 +1163,7 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
 
 .hero_banner_full.has-banner-contact .con-contenido,
 .hero_banner_full.has-banner-contact .hero_full_content {
-    min-height: 620px;
+    min-height: 550px;
 }
 
 .hero_banner_full.has-banner-contact .hero_full_content > .content_box {
