@@ -824,8 +824,13 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_card {
-        padding: 55px 32px;
+        padding: 55px 64px;
         text-align: center;
+    }
+
+    .hero_banner_full .hero_full_content {
+        padding-left: 64px;
+        padding-right: 64px;
     }
 
     .hero_banner_slider .con-contenido,
@@ -909,7 +914,7 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_banner_full .hero_full_content {
-        padding: 130px 30px !important;
+        padding: 130px 64px !important;
     }
 }
 
@@ -938,6 +943,6 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     }
 
     .hero_card {
-        padding: 40px 28px;
+        padding: 40px 64px;
     }
 }
