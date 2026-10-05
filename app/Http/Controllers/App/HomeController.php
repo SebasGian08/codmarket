@@ -114,6 +114,9 @@ class HomeController extends Controller
             ->orderBy('orden', 'asc')
             ->get();
 
+        $empresa = Empresa::first();
+        $indicadores = $this->indicadoresEmpresa($empresa);
+
         return view('pages.home', compact(
             'services',
             'blogs',
@@ -127,7 +130,8 @@ class HomeController extends Controller
             'trabajosRealizados',
             'rubros',
             'clientes',
-            'preguntas'
+            'preguntas',
+            'indicadores'
         ));
     }
 
@@ -139,13 +143,18 @@ class HomeController extends Controller
     public function nosotros()
     {
         $empresa = Empresa::first();
-        $indicadores = $empresa->empresa_indicadores ?: [
+        $indicadores = $this->indicadoresEmpresa($empresa);
+
+        return view('pages.nosotros.index', compact('empresa', 'indicadores'));
+    }
+
+    private function indicadoresEmpresa(Empresa $empresa): array
+    {
+        return $empresa->empresa_indicadores ?: [
             ['valor' => $empresa->indicador_1_valor ?? '+10', 'titulo' => $empresa->indicador_1_titulo ?? 'Años de experiencia'],
             ['valor' => $empresa->indicador_2_valor ?? '100%', 'titulo' => $empresa->indicador_2_titulo ?? 'Compromiso profesional'],
             ['valor' => $empresa->indicador_3_valor ?? '360°', 'titulo' => $empresa->indicador_3_titulo ?? 'Soluciones integrales'],
             ['valor' => $empresa->indicador_4_valor ?? 'ISO', 'titulo' => $empresa->indicador_4_titulo ?? 'Estándares internacionales'],
         ];
-
-        return view('pages.nosotros.index', compact('empresa', 'indicadores'));
     }
 }
