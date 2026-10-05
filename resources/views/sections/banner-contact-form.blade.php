@@ -69,7 +69,7 @@
                 </div>
 
                 <div class="form-field full banner-contact-captcha">
-                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    <div class="banner-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
                 </div>
 
                 <div class="form-field full">

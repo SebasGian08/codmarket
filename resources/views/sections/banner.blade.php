@@ -168,12 +168,30 @@ document.addEventListener("DOMContentLoaded", function() {
     const prevBtn = sliderSection.querySelector(".prev");
     const indicators = sliderSection.querySelector(".slider_indicators");
     const contactPanel = sliderSection.querySelector(".banner-contact-panel");
+    const contactRecaptcha = sliderSection.querySelector(".banner-recaptcha");
+    let contactRecaptchaId = null;
 
     if (slides.length === 0) return;
 
     let index = 0;
     const total = slides.length;
     let autoSlide;
+
+    function renderContactRecaptcha() {
+        if (!contactPanel || contactPanel.hidden || !contactRecaptcha || contactRecaptchaId !== null) return;
+        if (!contactRecaptcha.dataset.sitekey.trim()) return;
+        if (!window.grecaptcha || typeof window.grecaptcha.render !== "function") return;
+
+        window.grecaptcha.ready(() => {
+            if (contactPanel.hidden || contactRecaptchaId !== null) return;
+
+            contactRecaptchaId = window.grecaptcha.render(contactRecaptcha, {
+                sitekey: contactRecaptcha.dataset.sitekey
+            });
+        });
+    }
+
+    window.addEventListener("load", renderContactRecaptcha, { once: true });
 
     if (indicators) {
         slides.forEach((slide, i) => {
@@ -200,6 +218,10 @@ document.addEventListener("DOMContentLoaded", function() {
             const showContact = slides[i].classList.contains("con-contenido");
             contactPanel.hidden = !showContact;
             sliderSection.classList.toggle("has-banner-contact-active", showContact);
+
+            if (showContact) {
+                renderContactRecaptcha();
+            }
         }
 
         if (indicators) {
