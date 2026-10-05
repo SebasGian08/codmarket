@@ -203,16 +203,17 @@
 /* ===== VARIANTE FULL (fondo oscuro) ===== */
 .hero_banner_full .con-contenido::before {
     background: linear-gradient(90deg,
-            rgba(8, 15, 22, 0.78) 0%,
-            rgba(8, 15, 22, 0.52) 42%,
-            rgba(8, 15, 22, 0.28) 72%,
-            rgba(8, 15, 22, 0.12) 100%);
+            rgba(8, 12, 16, 0.94) 0%,
+            rgba(8, 12, 16, 0.88) 42%,
+            rgba(8, 12, 16, 0.76) 72%,
+            rgba(8, 12, 16, 0.66) 100%);
 }
 
 .hero_banner_full .con-contenido::after {
-    background: radial-gradient(circle, var(--color-secundario), transparent 70%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--color-secundario) 20%, #7b858f), transparent 70%);
     right: -5%;
     bottom: -40%;
+    opacity: .24;
 }
 
 /* =========================================================
