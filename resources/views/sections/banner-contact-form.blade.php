@@ -1,7 +1,7 @@
 <div class="banner-contact-panel" aria-label="Formulario de contacto" @unless($firstBannerHasContent) hidden @endunless>
     <div class="banner-contact-card">
         <div class="banner-contact-heading">
-            <span>Hablemos de tu proyecto</span>
+            <span>Formulario de contacto</span>
             <h2>Solicita información</h2>
         </div>
 

@@ -1034,8 +1034,31 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
 .banner-contact-grid .input-wrapper input,
 .banner-contact-grid .input-wrapper select {
     padding-left: 12px;
+    border-color: rgba(255, 255, 255, .24);
     border-radius: 6px;
-    background: rgba(255, 255, 255, .94);
+    background: rgba(8, 15, 22, .58);
+    color: #fff;
+}
+
+.banner-contact-grid .input-wrapper input::placeholder,
+.banner-contact-grid .textarea-wrapper textarea::placeholder,
+.banner-contact-grid .phone-wrapper input::placeholder {
+    color: rgba(255, 255, 255, .64);
+}
+
+.banner-contact-grid .input-wrapper input:focus,
+.banner-contact-grid .input-wrapper select:focus,
+.banner-contact-grid .phone-wrapper input:focus,
+.banner-contact-grid .textarea-wrapper textarea:focus {
+    border-color: rgba(255, 255, 255, .62);
+    background: rgba(8, 15, 22, .82);
+    color: #fff;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .1);
+}
+
+.banner-contact-grid .input-wrapper select option {
+    background: #17212b;
+    color: #fff;
 }
 
 .banner-contact-grid .phone-wrapper {
@@ -1044,23 +1067,29 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
 
 .banner-contact-grid .phone-prefix {
     padding: 0 9px;
+    border-color: rgba(255, 255, 255, .24);
     border-radius: 6px 0 0 6px;
-    background: rgba(255, 255, 255, .94);
+    background: rgba(8, 15, 22, .72);
+    color: rgba(255, 255, 255, .9);
     font-size: 10px;
 }
 
 .banner-contact-grid .phone-wrapper input {
     min-width: 0;
     padding: 0 8px;
+    border-color: rgba(255, 255, 255, .24);
     border-radius: 0 6px 6px 0;
-    background: rgba(255, 255, 255, .94);
+    background: rgba(8, 15, 22, .58);
+    color: #fff;
 }
 
 .banner-contact-grid .textarea-wrapper textarea {
     min-height: 64px;
     padding: 9px 11px;
+    border-color: rgba(255, 255, 255, .24);
     border-radius: 6px;
-    background: rgba(255, 255, 255, .94);
+    background: rgba(8, 15, 22, .58);
+    color: #fff;
     font-size: 11px;
 }
 
