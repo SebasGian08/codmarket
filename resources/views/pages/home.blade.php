@@ -21,6 +21,7 @@
     $mostrarCtaAyuda = $config['home_mostrar_cta_ayuda'] ?? 1;
     $mostrarTestimonios = $config['home_mostrar_testimonios'] ?? 1;
     $mostrarContacto = $config['home_mostrar_contacto'] ?? 1;
+    $mostrarNosotros = $config['home_mostrar_nosotros'] ?? 1;
 @endphp
 
 
@@ -48,6 +49,12 @@
     </div>
 @endif
 
+@if($mostrarNosotros == 1)
+    <div class="scroll-reveal reveal-scale">{{-- Nosotros: hero institucional --}}
+        @include('sections.about')
+    </div>
+@endif
+
 @if($mostrarMarcas == 1)
     <div class="scroll-reveal reveal-left">{{-- Marcas: deslizar desde izquierda --}}
         @include('sections.marcas')
@@ -60,9 +67,7 @@
     </div>
 @endif
 
-<div class="scroll-reveal reveal-scale">{{-- Nosotros: hero institucional --}}
-    @include('sections.about')
-</div>
+
 
 @if($mostrarProductos == 1)
     <div class="scroll-reveal">{{-- Productos: fade up --}}
