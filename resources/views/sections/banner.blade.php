@@ -31,7 +31,7 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 
                 <div class="row align-items-center hero_card flex-column flex-lg-row">
 
-                    <div class="col-lg-6 content_box">
+                    <div class="col-12 content_box">
 
                         @if($banner->subtitulo)
                         <span class="badge_text">{{ $banner->subtitulo }}</span>
@@ -51,17 +51,6 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
                             <i class="fas fa-arrow-right"></i>
                         </a>
                         @endif
-
-                    </div>
-
-                    <div class="col-lg-6 image_box">
-
-                        <picture>
-                            @if($banner->imagen_referencial)
-                            <img src="{{ url($banner->imagen_referencial) }}" class="img-fluid hero_img">
-                            @endif
-
-                        </picture>
 
                     </div>
 

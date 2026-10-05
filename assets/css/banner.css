@@ -674,7 +674,11 @@
 }
 
 @media (min-width: 993px) {
-    .hero_banner_slider .hero_card .content_box,
+    .hero_banner_slider .hero_card .content_box {
+        max-width: 760px;
+        margin: 0 auto;
+    }
+
     .hero_banner_full .hero_full_content > .content_box {
         margin-left: 64px;
     }
@@ -829,10 +833,6 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
         background-image: var(--banner-mobile-image);
         background-size: contain;
         background-position: center top;
-    }
-
-    .hero_banner_slider .hero_card .image_box {
-        display: none;
     }
 
     .hero_banner_full .hero_full_content {
