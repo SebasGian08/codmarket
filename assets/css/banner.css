@@ -827,6 +827,8 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     .hero_banner_slider .con-contenido,
     .hero_banner_full .con-contenido {
         background-image: var(--banner-mobile-image);
+        background-size: contain;
+        background-position: center top;
     }
 
     .hero_banner_full .hero_full_content {
