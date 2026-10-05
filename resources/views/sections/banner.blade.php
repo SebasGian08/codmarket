@@ -79,6 +79,8 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 
         </div>
 
+        <div class="slider_indicators" aria-label="Indicadores del banner"></div>
+
     </div>
 
 </section>
@@ -158,6 +160,8 @@ $bannerTipo = $config['banner_tipo'] ?? 'opcion_1';
 
     </div>
 
+    <div class="slider_indicators" aria-label="Indicadores del banner"></div>
+
 </section>
 @endif
 <script>
@@ -170,6 +174,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const slides = sliderSection.querySelectorAll(".slider_item");
     const nextBtn = sliderSection.querySelector(".next");
     const prevBtn = sliderSection.querySelector(".prev");
+    const indicators = sliderSection.querySelector(".slider_indicators");
 
     if (slides.length === 0) return;
 
@@ -177,12 +182,34 @@ document.addEventListener("DOMContentLoaded", function() {
     const total = slides.length;
     let autoSlide;
 
+    if (indicators) {
+        slides.forEach((slide, i) => {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "slider_indicator";
+            dot.setAttribute("aria-label", `Ir al banner ${i + 1} de ${total}`);
+            dot.addEventListener("click", () => {
+                index = i;
+                showSlide(index);
+            });
+            indicators.appendChild(dot);
+        });
+    }
+
     function showSlide(i) {
         slides.forEach(slide => {
             slide.classList.remove("active");
         });
 
         slides[i].classList.add("active");
+
+        if (indicators) {
+            indicators.querySelectorAll(".slider_indicator").forEach((dot, dotIndex) => {
+                const isActive = dotIndex === i;
+                dot.classList.toggle("active", isActive);
+                dot.setAttribute("aria-current", isActive ? "true" : "false");
+            });
+        }
     }
 
     function nextSlide() {
@@ -202,6 +229,8 @@ document.addEventListener("DOMContentLoaded", function() {
     if (prevBtn) {
         prevBtn.addEventListener("click", prevSlide);
     }
+
+    showSlide(index);
 
     function startAutoSlide() {
         autoSlide = setInterval(nextSlide, 10000);
