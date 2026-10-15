@@ -134,12 +134,14 @@
                                     </button>
                                 </li>
                                 @endif
+                                @if(($config['web_mostrar_buscador'] ?? 1) == 1)
                                 <li>
                                     <button type="button" class="search_btn" data-toggle="collapse"
                                         data-target="#search_body_collapse">
                                         <i class="fal fa-search"></i>
                                     </button>
                                 </li>
+                                @endif
 
                                 <!--  <li>
                                     <button type="button" class="cart_btn">
@@ -352,12 +354,14 @@
                                 </button>
                             </li>
                             @endif
+                            @if(($config['web_mostrar_buscador'] ?? 1) == 1)
                             <li>
                                 <button type="button" class="search_btn" data-toggle="collapse"
                                     data-target="#search_body_collapse">
                                     <i class="fal fa-search"></i>
                                 </button>
                             </li>
+                            @endif
                             <!-- <li>
                                 <button type="button" class="cart_btn">
                                     <i class="fal fa-shopping-cart"></i>
@@ -372,6 +376,7 @@
             </div>
         </div>
 
+        @if(($config['web_mostrar_buscador'] ?? 1) == 1)
         <div id="search_body_collapse" class="search_body_collapse collapse search_overlay">
             <div class="search_body">
                 <div class="container-fluid prl_90">
@@ -394,6 +399,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
     </header>
 

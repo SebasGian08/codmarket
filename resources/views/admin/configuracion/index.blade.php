@@ -179,7 +179,6 @@
         <div class="card-header d-flex justify-content-between align-items-center">
             <div>
                 <h5 class="mb-0"><i class="fa fa-certificate me-1"></i> Logos del Footer</h5>
-                <small class="text-muted">Certificaciones, ministerios o sellos que se muestran debajo de "Síguenos"</small>
             </div>
 
             <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalFooterLogo">
