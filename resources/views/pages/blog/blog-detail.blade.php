@@ -177,55 +177,61 @@ $blogImage = imagenOrDefault($blog->image);
                         </h2>
                     </div>
 
-                    <div class="slideshow3_slider"
-                        data-slick='{"dots": false, "arrows": true, "slidesToShow": 2, "slidesToScroll": 1}'>
+                    <!-- SWIPER (igual al carrusel de blog del inicio) -->
+                    <div class="swiper relatedBlogSwiper">
 
-                        @foreach($relatedBlogs as $item)
+                        <div class="swiper-wrapper">
 
-                        <div class="item">
+                            @foreach($relatedBlogs as $item)
+                            <div class="swiper-slide">
 
-                            <article class="blog_grid">
+                                <article class="blog_card">
 
-                                <a class="blog_image" href="{{ route('blog.show', $item->slug) }}"
-                                    aria-label="{{ $item->title }}">
-                                    <img src="{{ imagenOrDefault($item->image) }}" alt="{{ $item->title }}" loading="lazy"
-                                        onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
-                                </a>
+                                    <a href="{{ route('blog.show', $item->slug) }}" class="blog_image"
+                                        aria-label="{{ $item->title }}">
+                                        <img src="{{ imagenOrDefault($item->image) }}" alt="{{ $item->title }}"
+                                            loading="lazy"
+                                            onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
+                                        <span class="blog_date">
+                                            {{ $item->created_at->format('d M Y') }}
+                                        </span>
+                                    </a>
 
                                     <div class="blog_content">
 
-                                    <ul class="post_meta ul_li clearfix">
-                                        <li>
-                                            {{ $item->created_at->format('d M Y') }}
-                                        </li>
-
                                         @if($item->category)
-                                        <li>
-                                            <a href="{{ route('blog.index', ['category' => $item->category->id_blogs_categories]) }}">
-                                                {{ $item->category->name }}
-                                            </a>
-                                        </li>
-                                        @endif
-                                    </ul>
-
-                                    <h3 class="blog_title">
-                                        <a href="{{ route('blog.show', $item->slug) }}">
-                                            {{ $item->title }}
+                                        <a href="{{ route('blog.index', ['category' => $item->category->id_blogs_categories]) }}"
+                                            class="blog_category">
+                                            {{ $item->category->name }}
                                         </a>
-                                    </h3>
+                                        @endif
 
-                                    <a class="text_btn" href="{{ route('blog.show', $item->slug) }}">
-                                        <span>Leer artículo</span>
-                                        <i class="fal fa-long-arrow-right"></i>
-                                    </a>
+                                        <h3 class="blog_title">
+                                            <a href="{{ route('blog.show', $item->slug) }}">
+                                                {{ $item->title }}
+                                            </a>
+                                        </h3>
 
-                                </div>
+                                        <p class="blog_excerpt">
+                                            {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($item->excerpt ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 140) }}
+                                        </p>
 
-                            </article>
+                                        <a class="blog_btn" href="{{ route('blog.show', $item->slug) }}">
+                                            Leer más →
+                                        </a>
+
+                                    </div>
+
+                                </article>
+
+                            </div>
+                            @endforeach
 
                         </div>
 
-                        @endforeach
+                        <!-- FLECHAS -->
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
 
                     </div>
 
@@ -378,3 +384,42 @@ CONTACTO
 </div>
 
 @endsection
+
+@push('scripts')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (typeof Swiper === 'undefined' || !document.querySelector('.relatedBlogSwiper')) {
+        return;
+    }
+
+    new Swiper('.relatedBlogSwiper', {
+        slidesPerView: 2,
+        spaceBetween: 25,
+        speed: 700,
+        loop: true,
+        autoplay: {
+            delay: 4000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.related_post_carousel .swiper-button-next',
+            prevEl: '.related_post_carousel .swiper-button-prev',
+        },
+        breakpoints: {
+            0: {
+                slidesPerView: 1
+            },
+            768: {
+                slidesPerView: 2
+            },
+            1200: {
+                slidesPerView: 3
+            }
+        }
+    });
+});
+</script>
+@endpush
