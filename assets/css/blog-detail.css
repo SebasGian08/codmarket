@@ -310,11 +310,8 @@ RELATED ARTICLES
     transition: transform .45s ease;
 }
 
-/* En hover: la imagen se agranda de forma medida y se muestra completa
-   (object-fit contain evita el recorte del cover) */
 .related_post_carousel .blog_grid:hover .blog_image img {
-    object-fit: contain;
-    transform: scale(1.04);
+    transform: scale(1.03);
 }
 
 .related_post_carousel .blog_content {
@@ -888,9 +885,9 @@ SMALL MOBILE
     color: #426553;
 }
 
-.blog_details .blog_content a {
-    color: var(--color-secundario, #0ea5e9);
-}
+/* .blog_details .blog_content a {
+    color: black;
+} */
 
 .blog_details .blog_category {
     display: block;
