@@ -358,7 +358,7 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     margin-top: 18px;
     padding-top: 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -368,51 +368,26 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 46px;
-    height: 46px;
-    padding: 6px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .footer_logo_item img {
-    max-width: 100%;
-    max-height: 100%;
+    display: block;
     width: auto;
     height: auto;
+    max-height: 46px;
+    max-width: 100px;
     object-fit: contain;
-    display: block;
-    filter: grayscale(100%);
-    opacity: 0.8;
-    transition: all 0.3s ease;
 }
 
 .footer_logo_item:hover {
+    opacity: 0.85;
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.footer_logo_item:hover img {
-    filter: grayscale(0%);
-    opacity: 1;
 }
 
 /* Light footer - logos */
 .light_footer .footer_logos {
     border-top-color: rgba(0, 0, 0, 0.08);
-}
-
-.light_footer .footer_logo_item {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.08);
-}
-
-.light_footer .footer_logo_item:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.15);
 }
 
 /* Light footer - tarjetas sociales */
