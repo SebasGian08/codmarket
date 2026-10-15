@@ -173,6 +173,79 @@
         </div>
     </div>
 
+    {{-- LOGOS / CERTIFICACIONES DEL FOOTER --}}
+    <div class="card mt-4">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="mb-0"><i class="fa fa-certificate me-1"></i> Logos del Footer</h5>
+                <small class="text-muted">Certificaciones, ministerios o sellos que se muestran debajo de "Síguenos"</small>
+            </div>
+
+            <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalFooterLogo">
+                <i class="fa fa-plus"></i> Nuevo Logo
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            @if($footerLogos->count())
+
+            <div class="footer-logos-admin-grid">
+
+                @foreach($footerLogos as $logo)
+
+                <div class="footer-logo-admin-item {{ $logo->estado ? '' : 'is-inactive' }}">
+
+                    <div class="footer-logo-admin-img">
+                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                    </div>
+
+                    <div class="footer-logo-admin-info">
+                        <strong>{{ $logo->titulo ?: 'Sin título' }}</strong>
+                        @if($logo->url)
+                        <a href="{{ $logo->url }}" target="_blank" rel="noopener"
+                            class="small text-truncate d-block">{{ $logo->url }}</a>
+                        @else
+                        <small class="text-muted d-block">Sin enlace</small>
+                        @endif
+                        <small class="text-muted">Orden: {{ $logo->orden }}</small>
+                    </div>
+
+                    <div class="footer-logo-admin-actions">
+                        <button class="btn btn-sm btn-primary btn-round" data-bs-toggle="modal"
+                            data-bs-target="#editFooterLogo{{ $logo->id }}">
+                            <i class="fa fa-edit"></i>
+                        </button>
+
+                        <form action="{{ route('admin.footer-logos.destroy', $logo->id) }}" method="POST"
+                            style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger btn-round btn-delete">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+                @include('admin.configuracion.modals.footer-logo-edit')
+
+                @endforeach
+
+            </div>
+
+            @else
+
+            <p class="text-muted mb-0">Aún no hay logos. Agrega el primero.</p>
+
+            @endif
+
+        </div>
+
+    </div>
+
 </div>
 
 
@@ -187,5 +260,7 @@ document.getElementById('searchConfig').addEventListener('keyup', function() {
 </script>
 
 @include('admin.configuracion.modals.create')
+
+@include('admin.configuracion.modals.footer-logo-create')
 
 @endsection

@@ -9,6 +9,7 @@ use App\Models\Service;
 use App\Models\Empresa;
 use App\Models\Configuracion;
 use App\Models\Categoria;
+use App\Models\FooterLogo;
 use Illuminate\Support\Facades\Blade;
 use App\Repositories\MarcaRepository;
 use App\Repositories\MarcaRepositoryInterface;
@@ -42,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('servicesMenu', Service::where('estado', 1)->get());
             $view->with('empresa', Empresa::first());
             $view->with('config', $config);
+            $view->with('footerLogos', \Schema::hasTable('footer_logos')
+                ? FooterLogo::where('estado', 1)->orderBy('orden', 'asc')->get()
+                : collect());
             $view->with('categorias', Categoria::whereNull('id_categoria_padre')
                 ->with(['hijos' => function ($q) {
                     $q->where('estado', 1)->orderBy('orden', 'asc');

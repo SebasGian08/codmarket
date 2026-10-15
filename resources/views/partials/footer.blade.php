@@ -167,6 +167,25 @@ break;
 
                         </div>
 
+                        @if(isset($footerLogos) && $footerLogos->count())
+                        <div class="footer_logos">
+                            @foreach($footerLogos as $logo)
+                                @if($logo->imagen)
+                                    @if($logo->url)
+                                    <a href="{{ $logo->url }}" target="_blank" rel="noopener"
+                                        class="footer_logo_item" title="{{ $logo->titulo }}">
+                                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                                    </a>
+                                    @else
+                                    <span class="footer_logo_item" title="{{ $logo->titulo }}">
+                                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                                    </span>
+                                    @endif
+                                @endif
+                            @endforeach
+                        </div>
+                        @endif
+
                     </div>
 
                 </div>
@@ -332,6 +351,68 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
 .social_linkedin:hover {
     background: rgba(0, 119, 181, 0.3);
     border-color: rgba(0, 119, 181, 0.5);
+}
+
+/* ============ LOGOS / CERTIFICACIONES FOOTER ============ */
+.footer_logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer_logo_item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 6px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s ease;
+}
+
+.footer_logo_item img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    filter: grayscale(100%);
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.footer_logo_item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.footer_logo_item:hover img {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* Light footer - logos */
+.light_footer .footer_logos {
+    border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+.light_footer .footer_logo_item {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+.light_footer .footer_logo_item:hover {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.15);
 }
 
 /* Light footer - tarjetas sociales */

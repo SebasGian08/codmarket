@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuracion;
+use App\Models\FooterLogo;
 use Illuminate\Http\Request;
 
 class ConfiguracionController extends Controller
@@ -15,7 +16,11 @@ class ConfiguracionController extends Controller
             ->get()
             ->groupBy('categoria');
 
-        return view('admin.configuracion.index', compact('configs'));
+        $footerLogos = \Schema::hasTable('footer_logos')
+            ? FooterLogo::orderBy('orden', 'asc')->get()
+            : collect();
+
+        return view('admin.configuracion.index', compact('configs', 'footerLogos'));
     }
 
     public function update(Request $request)

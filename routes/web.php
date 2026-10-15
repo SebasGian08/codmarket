@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\PortafolioController as AdminPortafolioController
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
 use App\Http\Controllers\Admin\EmpresaController;
 use App\Http\Controllers\Admin\ConfiguracionController;
+use App\Http\Controllers\Admin\FooterLogoController;
 use App\Http\Controllers\Admin\BannerPrincipalController;
 use App\Http\Controllers\Admin\CategoriaController as AdminCategoriaController;
 use App\Http\Controllers\Admin\MarcaController as AdminMarcaController;
@@ -322,6 +323,13 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/', [ConfiguracionController::class, 'index'])->name('admin.configuracion.index');
         Route::post('/actualizar', [ConfiguracionController::class, 'update'])->name('admin.config.update');
         Route::post('/store', [ConfiguracionController::class, 'store'])->name('admin.config.store');
+
+        // Logos / certificaciones del footer
+        Route::prefix('footer-logos')->group(function () {
+            Route::post('/guardar', [FooterLogoController::class, 'store'])->name('admin.footer-logos.store');
+            Route::put('/{id}/actualizar', [FooterLogoController::class, 'update'])->name('admin.footer-logos.update');
+            Route::delete('/{id}/eliminar', [FooterLogoController::class, 'destroy'])->name('admin.footer-logos.destroy');
+        });
     });
 
     Route::prefix('banners-principales')->group(function () {

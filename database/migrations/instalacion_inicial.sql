@@ -227,6 +227,16 @@ CREATE TABLE IF NOT EXISTS `empresa` (
   `empresa_ventajas` longtext DEFAULT NULL,
   `empresa_indicadores` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE IF NOT EXISTS `footer_logos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `titulo` varchar(150) DEFAULT NULL,
+  `imagen` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `orden` int(11) DEFAULT 0,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE IF NOT EXISTS `gastos` (
   `id_gasto` bigint(20) UNSIGNED NOT NULL,
   `numero` varchar(30) NOT NULL,
@@ -367,6 +377,8 @@ ALTER TABLE `destinos_pago`
   ADD UNIQUE KEY `destinos_pago_codigo_unique` (`codigo`);
 ALTER TABLE `empresa`
   ADD PRIMARY KEY (`id_empresa`);
+ALTER TABLE `footer_logos`
+  ADD PRIMARY KEY (`id`);
 ALTER TABLE `gastos`
   ADD PRIMARY KEY (`id_gasto`),
   ADD UNIQUE KEY `gastos_numero_unique` (`numero`),
@@ -591,6 +603,8 @@ ALTER TABLE `destinos_pago`
   MODIFY `id_destino_pago` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `empresa`
   MODIFY `id_empresa` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `footer_logos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `gastos`
   MODIFY `id_gasto` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ingresos`
