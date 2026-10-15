@@ -1,12 +1,10 @@
 <div class="services_section sec_ptb_50 clearfix">
 
-    {{-- FONDO DECORATIVO CORPORATIVO --}}
+    {{-- FONDO DECORATIVO CORPORATIVO (BLOBS ORGÁNICOS) --}}
     <div class="services_decor" aria-hidden="true">
-        <span class="services_decor_dots"></span>
-        <span class="services_decor_ring services_decor_ring--1"></span>
-        <span class="services_decor_ring services_decor_ring--2"></span>
-        <span class="services_decor_ring services_decor_ring--3"></span>
-        <span class="services_decor_ring services_decor_ring--4"></span>
+        <span class="services_blob services_blob--1"></span>
+        <span class="services_blob services_blob--2"></span>
+        <span class="services_blob services_blob--3"></span>
     </div>
 
     <div class="container maxw_1430">
