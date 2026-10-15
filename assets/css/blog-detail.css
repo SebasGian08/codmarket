@@ -22,8 +22,9 @@ ARTICLE IMAGE
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
+    max-width: 100%;
+    aspect-ratio: auto;
+    object-fit: contain;
 }
 
 /* =========================================================
@@ -694,7 +695,7 @@ MOBILE
     }
 
     .blog_details .details_image img {
-        aspect-ratio: 4 / 3;
+        aspect-ratio: auto;
     }
 
     .blog_details .item_title {
