@@ -375,7 +375,7 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
     display: block;
     width: auto;
     height: auto;
-    max-height: 46px;
+    max-height: 100px;
     max-width: 100px;
     object-fit: contain;
 }
