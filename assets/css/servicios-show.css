@@ -110,6 +110,11 @@
     animation: heroText .9s ease both;
 }
 
+/* Sin imagen de portada: el texto ocupa todo el ancho */
+.service-hero-content--no-image {
+    grid-template-columns: 1fr;
+}
+
 .service-eyebrow {
     display: inline-flex;
     align-items: center;
