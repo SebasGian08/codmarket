@@ -42,6 +42,98 @@
     100% { transform: translateY(35px) scale(1.1); }
 }
 
+/* =========================================================
+   FONDO DECORATIVO CORPORATIVO (PUNTOS + ANILLOS)
+======================================================== */
+
+.services_decor {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.services_section > .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Patrón de puntos sutil */
+.services_decor_dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+        color-mix(in srgb, var(--color-secundario) 30%, transparent) 1.6px,
+        transparent 1.7px
+    );
+    background-size: 26px 26px;
+    opacity: .35;
+    -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, #000 0%, transparent 78%);
+    mask-image: radial-gradient(ellipse 70% 65% at 50% 40%, #000 0%, transparent 78%);
+}
+
+/* Anillos corporativos */
+.services_decor_ring {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    border: 1.5px solid color-mix(in srgb, var(--color-primario) 22%, transparent);
+    pointer-events: none;
+}
+
+.services_decor_ring--1 {
+    width: 240px;
+    height: 240px;
+    top: 6%;
+    left: -90px;
+    border-color: color-mix(in srgb, var(--color-secundario) 26%, transparent);
+    border-style: dashed;
+    animation: floatOrbServices 12s infinite ease-in-out alternate;
+}
+
+.services_decor_ring--2 {
+    width: 130px;
+    height: 130px;
+    top: 22%;
+    left: 40px;
+    border-color: color-mix(in srgb, var(--color-primario) 18%, transparent);
+    animation: floatOrbServices 9s infinite ease-in-out alternate-reverse;
+}
+
+.services_decor_ring--3 {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    right: -110px;
+    border-color: color-mix(in srgb, var(--color-primario) 20%, transparent);
+    border-style: dashed;
+    animation: floatOrbServices 14s infinite ease-in-out alternate;
+}
+
+.services_decor_ring--4 {
+    width: 150px;
+    height: 150px;
+    bottom: 12%;
+    right: 60px;
+    border-color: color-mix(in srgb, var(--color-secundario) 18%, transparent);
+    animation: floatOrbServices 10s infinite ease-in-out alternate-reverse;
+}
+
+/* Modo oscuro: anillos y puntos más tenues */
+html[data-theme="dark"] .services_decor_dots {
+    opacity: .22;
+}
+
+html[data-theme="dark"] .services_decor_ring {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .services_decor_ring--1,
+html[data-theme="dark"] .services_decor_ring--4 {
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
 .section_heading_description {
     position: relative;
     z-index: 2;
@@ -271,5 +363,20 @@
 
     .service_cover_text {
         font-size: 18px;
+    }
+
+    .services_decor_ring--2,
+    .services_decor_ring--4 {
+        display: none;
+    }
+
+    .services_decor_ring--1,
+    .services_decor_ring--3 {
+        opacity: .6;
+    }
+
+    .services_decor_dots {
+        opacity: .22;
+        background-size: 22px 22px;
     }
 }

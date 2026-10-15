@@ -1,4 +1,14 @@
 <div class="services_section sec_ptb_50 clearfix">
+
+    {{-- FONDO DECORATIVO CORPORATIVO --}}
+    <div class="services_decor" aria-hidden="true">
+        <span class="services_decor_dots"></span>
+        <span class="services_decor_ring services_decor_ring--1"></span>
+        <span class="services_decor_ring services_decor_ring--2"></span>
+        <span class="services_decor_ring services_decor_ring--3"></span>
+        <span class="services_decor_ring services_decor_ring--4"></span>
+    </div>
+
     <div class="container maxw_1430">
 
         <div class="section_heading text-center mb_30">
