@@ -15,39 +15,39 @@
                 <div class="modal-body">
 
                     <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Nombres <span class="text-danger">*</span></label>
-                            <input type="text" name="nombres" id="ct-nombres" class="form-control">
-                        </div>
-
-                        <div class="col-md-6 form-group">
-                            <label>Apellidos</label>
-                            <input type="text" name="apellidos" class="form-control">
-                        </div>
-
                         <div class="col-md-12 form-group">
-                            <label>Razón social</label>
-                            <input type="text" name="razon_social" id="ct-razon-social" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label>Tipo de documento</label>
+                            <label>Tipo de documento <span class="text-danger">*</span></label>
                             <select name="id_documento_tipo" id="ct-documento-tipo" class="form-control">
                                 <option value="">Seleccionar</option>
                                 @foreach($documentosTipos ?? [] as $dt)
-                                <option value="{{ $dt->id_documento_tipo }}" data-longitud="{{ $dt->longitud }}">
+                                <option value="{{ $dt->id_documento_tipo }}" data-codigo="{{ $dt->codigo }}" data-longitud="{{ $dt->longitud }}">
                                     {{ $dt->nombre }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
+                    </div>
 
-                        <div class="col-md-6 form-group">
-                            <label>Número de documento</label>
+                    <div class="row">
+                        <div class="col-md-6 form-group" data-doc="persona" style="display:none;">
+                            <label>Nombres <span class="text-danger">*</span></label>
+                            <input type="text" name="nombres" id="ct-nombres" class="form-control">
+                        </div>
+
+                        <div class="col-md-6 form-group" data-doc="persona" style="display:none;">
+                            <label>Apellidos <span class="text-danger">*</span></label>
+                            <input type="text" name="apellidos" class="form-control">
+                        </div>
+
+                        <div class="col-md-6 form-group" data-doc="empresa" style="display:none;">
+                            <label>RUC <span class="text-danger">*</span></label>
                             <input type="text" name="documento_numero" id="ct-documento-numero"
-                                class="form-control" maxlength="11" inputmode="numeric" placeholder="Número de documento">
+                                class="form-control" maxlength="11" inputmode="numeric" placeholder="RUC">
+                        </div>
+
+                        <div class="col-md-6 form-group" data-doc="empresa" style="display:none;">
+                            <label>Razón social <span class="text-danger">*</span></label>
+                            <input type="text" name="razon_social" id="ct-razon-social" class="form-control">
                         </div>
                     </div>
 
@@ -116,24 +116,38 @@
         if (!modal) return;
 
         const docTipo = modal.querySelector('#ct-documento-tipo');
+        const camposPersona = modal.querySelectorAll('[data-doc="persona"]');
+        const camposEmpresa = modal.querySelectorAll('[data-doc="empresa"]');
         const docNumero = modal.querySelector('#ct-documento-numero');
 
-        function aplicarLongitud() {
-            if (!docTipo || !docNumero) return;
+        function aplicarTipoDocumento() {
+            if (!docTipo) return;
 
             const opt = docTipo.options[docTipo.selectedIndex];
-            const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+            const codigo = (opt?.dataset?.codigo || '').toUpperCase();
+            const esEmpresa = codigo === 'RUC';
+            const vacio = codigo === '';
 
-            if (longitud > 0) {
-                docNumero.maxLength = longitud;
-                docNumero.placeholder = 'Número de documento (' + longitud + ' dígitos)';
-            } else {
-                docNumero.maxLength = 11;
-                docNumero.placeholder = 'Número de documento';
+            camposPersona.forEach(el => {
+                const visible = !vacio && !esEmpresa;
+                el.style.display = visible ? '' : 'none';
+                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+            });
+
+            camposEmpresa.forEach(el => {
+                const visible = !vacio && esEmpresa;
+                el.style.display = visible ? '' : 'none';
+                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+            });
+
+            if (docNumero) {
+                const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+                docNumero.maxLength = longitud > 0 ? longitud : 11;
+                docNumero.placeholder = 'RUC';
             }
         }
 
-        if (docTipo) docTipo.addEventListener('change', aplicarLongitud);
-        aplicarLongitud();
+        if (docTipo) docTipo.addEventListener('change', aplicarTipoDocumento);
+        aplicarTipoDocumento();
     })();
 </script>

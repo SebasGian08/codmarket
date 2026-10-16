@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Contact;
+use App\Models\DocumentoTipo;
 use App\Models\Service;
 use App\Models\ContactStatus;
 use App\Models\Priority;
@@ -99,11 +100,7 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombres' => 'required|string|max:200',
-            'apellidos' => 'nullable|string|max:200',
-            'id_documento_tipo' => 'nullable|exists:documentos_tipo,id_documento_tipo',
-            'documento_numero' => 'nullable|string|max:20',
-            'razon_social' => 'nullable|string|max:200',
+            'id_documento_tipo' => 'required|exists:documentos_tipo,id_documento_tipo',
             'email' => 'nullable|email|max:200',
             'telefono' => 'nullable|string|max:20',
             'service_id' => 'nullable|exists:services,id_service',
@@ -111,12 +108,37 @@ class ContactController extends Controller
             'mensaje' => 'nullable|string',
         ]);
 
+        $documentoTipo = DocumentoTipo::find($request->id_documento_tipo);
+        $esEmpresa = $documentoTipo && strtoupper((string) $documentoTipo->codigo) === 'RUC';
+
+        if ($esEmpresa) {
+            $request->validate([
+                'razon_social' => 'required|string|max:200',
+                'documento_numero' => 'required|string|max:20',
+            ]);
+
+            $nombres = $request->razon_social;
+            $apellidos = '';
+            $razonSocial = $request->razon_social;
+            $documentoNumero = $request->documento_numero;
+        } else {
+            $request->validate([
+                'nombres' => 'required|string|max:200',
+                'apellidos' => 'required|string|max:200',
+            ]);
+
+            $nombres = $request->nombres;
+            $apellidos = $request->apellidos;
+            $razonSocial = null;
+            $documentoNumero = null;
+        }
+
         Contact::create([
-            'nombres' => $request->nombres,
-            'apellidos' => $request->apellidos ?? '',
+            'nombres' => $nombres,
+            'apellidos' => $apellidos,
             'id_documento_tipo' => $request->id_documento_tipo,
-            'razon_social' => $request->razon_social,
-            'documento_numero' => $request->documento_numero,
+            'razon_social' => $razonSocial,
+            'documento_numero' => $documentoNumero,
             'email' => $request->email ?? '',
             'telefono' => $request->telefono ?? '',
             'id_service' => $request->service_id,

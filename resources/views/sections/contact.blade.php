@@ -114,72 +114,22 @@
 
                     <div class="form-grid">
 
-                        {{-- NOMBRES --}}
-                        <div class="form-field">
-
-                            <label>
-                                Nombres
-                                <span>*</span>
-                            </label>
-
-                            <div class="input-wrapper">
-                                <i class="bi bi-person"></i>
-
-                                <input type="text" name="nombre" placeholder="Nombres completos" maxlength="100"
-                                    autocomplete="given-name" required>
-                            </div>
-
-                        </div>
-
-
-                        {{-- APELLIDOS --}}
-                        <div class="form-field">
-
-                            <label>
-                                Apellidos
-                                <span>*</span>
-                            </label>
-
-                            <div class="input-wrapper">
-                                <i class="bi bi-person"></i>
-
-                                <input type="text" name="apellidos" placeholder="Apellidos completos" maxlength="100"
-                                    autocomplete="family-name" required>
-                            </div>
-
-                        </div>
-
-
-                        {{-- RAZÓN SOCIAL --}}
+                        {{-- TIPO DE DOCUMENTO --}}
                         <div class="form-field full">
 
                             <label>
-                                Razón social
-                            </label>
-
-                            <div class="input-wrapper">
-                                <i class="bi bi-building"></i>
-
-                                <input type="text" name="razon_social" placeholder="Solo si es empresa"
-                                    maxlength="200" autocomplete="organization">
-                            </div>
-
-                        </div>
-
-
-                        {{-- TIPO DE DOCUMENTO --}}
-                        <div class="form-field">
-
-                            <label>
                                 Tipo de documento
+                                <span>*</span>
                             </label>
 
                             <div class="input-wrapper select-wrapper">
-                                <select name="id_documento_tipo" id="id_documento_tipo" class="service-select">
+                                <select name="id_documento_tipo" id="id_documento_tipo" class="service-select" required>
                                     <option value="">Seleccione</option>
                                     @foreach($documentosTipos ?? [] as $dt)
                                     <option value="{{ $dt->id_documento_tipo }}"
-                                        data-longitud="{{ $dt->longitud }}">
+                                        data-codigo="{{ $dt->codigo }}"
+                                        data-longitud="{{ $dt->longitud }}"
+                                        {{ old('id_documento_tipo') == $dt->id_documento_tipo ? 'selected' : '' }}>
                                         {{ $dt->nombre }}
                                     </option>
                                     @endforeach
@@ -189,19 +139,74 @@
                         </div>
 
 
-                        {{-- NÚMERO DE DOCUMENTO --}}
-                        <div class="form-field">
+                        {{-- PERSONA (DNI): NOMBRES --}}
+                        <div class="form-field" data-doc="persona" style="display:none;">
 
                             <label>
-                                Número de documento
+                                Nombres
+                                <span>*</span>
+                            </label>
+
+                            <div class="input-wrapper">
+                                <i class="bi bi-person"></i>
+
+                                <input type="text" name="nombre" value="{{ old('nombre') }}"
+                                    placeholder="Nombres completos" maxlength="100" autocomplete="given-name">
+                            </div>
+
+                        </div>
+
+
+                        {{-- PERSONA (DNI): APELLIDOS --}}
+                        <div class="form-field" data-doc="persona" style="display:none;">
+
+                            <label>
+                                Apellidos
+                                <span>*</span>
+                            </label>
+
+                            <div class="input-wrapper">
+                                <i class="bi bi-person"></i>
+
+                                <input type="text" name="apellidos" value="{{ old('apellidos') }}"
+                                    placeholder="Apellidos completos" maxlength="100" autocomplete="family-name">
+                            </div>
+
+                        </div>
+
+
+                        {{-- EMPRESA (RUC): NÚMERO --}}
+                        <div class="form-field" data-doc="empresa" style="display:none;">
+
+                            <label>
+                                RUC
+                                <span>*</span>
                             </label>
 
                             <div class="input-wrapper">
                                 <i class="bi bi-card-text"></i>
 
                                 <input type="text" name="documento_numero" id="documento_numero"
-                                    placeholder="Número de documento" maxlength="11" inputmode="numeric"
-                                    pattern="[0-9]{6,11}">
+                                    value="{{ old('documento_numero') }}" placeholder="RUC" maxlength="11"
+                                    inputmode="numeric" pattern="[0-9]{6,11}">
+                            </div>
+
+                        </div>
+
+
+                        {{-- EMPRESA (RUC): RAZÓN SOCIAL --}}
+                        <div class="form-field" data-doc="empresa" style="display:none;">
+
+                            <label>
+                                Razón social
+                                <span>*</span>
+                            </label>
+
+                            <div class="input-wrapper">
+                                <i class="bi bi-building"></i>
+
+                                <input type="text" name="razon_social" value="{{ old('razon_social') }}"
+                                    placeholder="Nombre de la empresa" maxlength="200" autocomplete="organization">
                             </div>
 
                         </div>
@@ -368,26 +373,40 @@
         observer.observe(el);
     });
 
-    // ---- Tipo de documento: ajusta longitud del número ----
+    // ---- Tipo de documento: muestra campos según DNI (persona) o RUC (empresa) ----
     const docTipo = document.getElementById('id_documento_tipo');
+    const camposPersona = document.querySelectorAll('[data-doc="persona"]');
+    const camposEmpresa = document.querySelectorAll('[data-doc="empresa"]');
     const docNumero = document.getElementById('documento_numero');
 
-    if (docTipo && docNumero) {
-        const aplicarLongitud = () => {
+    if (docTipo) {
+        const aplicarTipoDocumento = () => {
             const opt = docTipo.options[docTipo.selectedIndex];
-            const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+            const codigo = (opt?.dataset?.codigo || '').toUpperCase();
+            const esEmpresa = codigo === 'RUC';
+            const vacio = codigo === '';
 
-            if (longitud > 0) {
-                docNumero.maxLength = longitud;
-                docNumero.placeholder = 'Número de documento (' + longitud + ' dígitos)';
-            } else {
-                docNumero.maxLength = 11;
-                docNumero.placeholder = 'Número de documento';
+            camposPersona.forEach(el => {
+                const visible = !vacio && !esEmpresa;
+                el.style.display = visible ? '' : 'none';
+                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+            });
+
+            camposEmpresa.forEach(el => {
+                const visible = !vacio && esEmpresa;
+                el.style.display = visible ? '' : 'none';
+                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+            });
+
+            if (docNumero) {
+                const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+                docNumero.maxLength = longitud > 0 ? longitud : 11;
+                docNumero.placeholder = 'RUC';
             }
         };
 
-        docTipo.addEventListener('change', aplicarLongitud);
-        aplicarLongitud();
+        docTipo.addEventListener('change', aplicarTipoDocumento);
+        aplicarTipoDocumento();
     }
 });
 </script>

@@ -16,43 +16,43 @@
         <form method="POST" action="{{ route('contact.store') }}">
             @csrf
             <div class="form-grid banner-contact-grid">
-                <div class="form-field">
-                    <label for="banner-nombre">Nombres <span>*</span></label>
-                    <div class="input-wrapper">
-                        <input id="banner-nombre" type="text" name="nombre" value="{{ old('nombre') }}" placeholder="Nombres completos" maxlength="100" autocomplete="given-name" required>
-                    </div>
-                </div>
-
-                <div class="form-field">
-                    <label for="banner-apellidos">Apellidos <span>*</span></label>
-                    <div class="input-wrapper">
-                        <input id="banner-apellidos" type="text" name="apellidos" value="{{ old('apellidos') }}" placeholder="Apellidos completos" maxlength="100" autocomplete="family-name" required>
-                    </div>
-                </div>
-
                 <div class="form-field full">
-                    <label for="banner-razon-social">Razón social</label>
-                    <div class="input-wrapper">
-                        <input id="banner-razon-social" type="text" name="razon_social" value="{{ old('razon_social') }}" placeholder="Solo si es empresa" maxlength="200" autocomplete="organization">
-                    </div>
-                </div>
-
-                <div class="form-field">
-                    <label for="banner-documento-tipo">Tipo de documento</label>
+                    <label for="banner-documento-tipo">Tipo de documento <span>*</span></label>
                     <div class="input-wrapper select-wrapper">
-                        <select id="banner-documento-tipo" name="id_documento_tipo" class="service-select">
+                        <select id="banner-documento-tipo" name="id_documento_tipo" class="service-select" required>
                             <option value="">Seleccione</option>
                             @foreach($documentosTipos ?? [] as $dt)
-                            <option value="{{ $dt->id_documento_tipo }}" data-longitud="{{ $dt->longitud }}" {{ old('id_documento_tipo') == $dt->id_documento_tipo ? 'selected' : '' }}>{{ $dt->nombre }}</option>
+                            <option value="{{ $dt->id_documento_tipo }}" data-codigo="{{ $dt->codigo }}" data-longitud="{{ $dt->longitud }}" {{ old('id_documento_tipo') == $dt->id_documento_tipo ? 'selected' : '' }}>{{ $dt->nombre }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
-                <div class="form-field">
-                    <label for="banner-documento-numero">Número de documento</label>
+                <div class="form-field" data-doc="persona" style="display:none;">
+                    <label for="banner-nombre">Nombres <span>*</span></label>
                     <div class="input-wrapper">
-                        <input id="banner-documento-numero" type="text" name="documento_numero" value="{{ old('documento_numero') }}" placeholder="Número de documento" maxlength="11" inputmode="numeric" pattern="[0-9]{6,11}">
+                        <input id="banner-nombre" type="text" name="nombre" value="{{ old('nombre') }}" placeholder="Nombres completos" maxlength="100" autocomplete="given-name">
+                    </div>
+                </div>
+
+                <div class="form-field" data-doc="persona" style="display:none;">
+                    <label for="banner-apellidos">Apellidos <span>*</span></label>
+                    <div class="input-wrapper">
+                        <input id="banner-apellidos" type="text" name="apellidos" value="{{ old('apellidos') }}" placeholder="Apellidos completos" maxlength="100" autocomplete="family-name">
+                    </div>
+                </div>
+
+                <div class="form-field" data-doc="empresa" style="display:none;">
+                    <label for="banner-documento-numero">RUC <span>*</span></label>
+                    <div class="input-wrapper">
+                        <input id="banner-documento-numero" type="text" name="documento_numero" value="{{ old('documento_numero') }}" placeholder="RUC" maxlength="11" inputmode="numeric" pattern="[0-9]{6,11}">
+                    </div>
+                </div>
+
+                <div class="form-field" data-doc="empresa" style="display:none;">
+                    <label for="banner-razon-social">Razón social <span>*</span></label>
+                    <div class="input-wrapper">
+                        <input id="banner-razon-social" type="text" name="razon_social" value="{{ old('razon_social') }}" placeholder="Nombre de la empresa" maxlength="200" autocomplete="organization">
                     </div>
                 </div>
 
@@ -115,24 +115,38 @@
         if (!root) return;
 
         const docTipo = root.querySelector('#banner-documento-tipo');
+        const camposPersona = root.querySelectorAll('[data-doc="persona"]');
+        const camposEmpresa = root.querySelectorAll('[data-doc="empresa"]');
         const docNumero = root.querySelector('#banner-documento-numero');
 
-        function aplicarLongitud() {
-            if (!docTipo || !docNumero) return;
+        function aplicarTipoDocumento() {
+            if (!docTipo) return;
 
             const opt = docTipo.options[docTipo.selectedIndex];
-            const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+            const codigo = (opt?.dataset?.codigo || '').toUpperCase();
+            const esEmpresa = codigo === 'RUC';
+            const vacio = codigo === '';
 
-            if (longitud > 0) {
-                docNumero.maxLength = longitud;
-                docNumero.placeholder = 'Número de documento (' + longitud + ' dígitos)';
-            } else {
-                docNumero.maxLength = 11;
-                docNumero.placeholder = 'Número de documento';
+            camposPersona.forEach(el => {
+                const visible = !vacio && !esEmpresa;
+                el.style.display = visible ? '' : 'none';
+                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+            });
+
+            camposEmpresa.forEach(el => {
+                const visible = !vacio && esEmpresa;
+                el.style.display = visible ? '' : 'none';
+                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+            });
+
+            if (docNumero) {
+                const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+                docNumero.maxLength = longitud > 0 ? longitud : 11;
+                docNumero.placeholder = 'RUC';
             }
         }
 
-        if (docTipo) docTipo.addEventListener('change', aplicarLongitud);
-        aplicarLongitud();
+        if (docTipo) docTipo.addEventListener('change', aplicarTipoDocumento);
+        aplicarTipoDocumento();
     })();
 </script>

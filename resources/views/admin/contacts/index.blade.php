@@ -49,7 +49,7 @@
                             <!-- INFO -->
                             <div class="d-flex align-items-center gap-1">
                                 <span class="fw-semibold text-dark text-truncate">
-                                    {{ trim($contact->nombres . ' ' . $contact->apellidos) }}
+                                    {{ $contact->razon_social ?: trim($contact->nombres . ' ' . $contact->apellidos) }}
                                 </span>
 
                                 @if($contact->razon_social)
@@ -58,13 +58,6 @@
                                 </span>
                                 @endif
                             </div>
-
-                            @if($contact->razon_social)
-                            <div class="text-muted small text-truncate">
-                                <i class="fa fa-building"></i>
-                                {{ $contact->razon_social }}
-                            </div>
-                            @endif
 
                             @if($contact->documento_numero)
                             <div class="text-muted small text-truncate">

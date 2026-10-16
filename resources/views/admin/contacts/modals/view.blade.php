@@ -15,7 +15,7 @@
                     <div class="col-md-6">
                         <label class="text-muted small">Nombre completo</label>
                         <div class="fw-semibold text-dark">
-                            {{ $contact->nombres }} {{ $contact->apellidos }}
+                            {{ $contact->razon_social ? '-' : trim($contact->nombres . ' ' . $contact->apellidos) }}
                         </div>
                     </div>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contact;
+use App\Models\DocumentoTipo;
 use App\Models\Service;
 use App\Models\ContactSource;
 use App\Models\Priority;
@@ -25,17 +26,38 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-            'apellidos' => 'required',
-            'id_documento_tipo' => 'nullable|exists:documentos_tipo,id_documento_tipo',
-            'documento_numero' => 'nullable|digits_between:6,11',
-            'razon_social' => 'nullable|string|max:200',
+            'id_documento_tipo' => 'required|exists:documentos_tipo,id_documento_tipo',
             'email' => 'required|email',
             'telefono' => 'required',
             'message' => 'required',
             'servicio' => 'required|exists:services,id_service',
             'g-recaptcha-response' => 'required'
         ]);
+
+        $documentoTipo = DocumentoTipo::find($request->id_documento_tipo);
+        $esEmpresa = $documentoTipo && strtoupper((string) $documentoTipo->codigo) === 'RUC';
+
+        if ($esEmpresa) {
+            $request->validate([
+                'razon_social' => 'required|string|max:200',
+                'documento_numero' => 'required|digits_between:6,11',
+            ]);
+
+            $nombres = $request->razon_social;
+            $apellidos = '';
+            $razonSocial = $request->razon_social;
+            $documentoNumero = $request->documento_numero;
+        } else {
+            $request->validate([
+                'nombre' => 'required|string|max:100',
+                'apellidos' => 'required|string|max:100',
+            ]);
+
+            $nombres = $request->nombre;
+            $apellidos = $request->apellidos;
+            $razonSocial = null;
+            $documentoNumero = null;
+        }
 
         if ($request->website != null) {
             return back()->withErrors(['error' => 'Bot detectado']);
@@ -55,11 +77,11 @@ class ContactController extends Controller
         }
 
         Contact::create([
-            'nombres' => $request->nombre,
-            'apellidos' => $request->apellidos,
+            'nombres' => $nombres,
+            'apellidos' => $apellidos,
             'id_documento_tipo' => $request->id_documento_tipo,
-            'razon_social' => $request->razon_social,
-            'documento_numero' => $request->documento_numero,
+            'razon_social' => $razonSocial,
+            'documento_numero' => $documentoNumero,
             'email' => $request->email,
             'telefono' => $request->telefono,
             'id_service' => $request->servicio,
