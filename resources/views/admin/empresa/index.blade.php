@@ -98,6 +98,12 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>TikTok</label>
+                                    <input type="text" name="tiktok" class="form-control"
+                                        value="{{ $empresa->tiktok ?? '' }}">
+                                </div>
+
+                                <div class="form-group">
                                     <label>WhatsApp</label>
                                     <input type="text" name="whatsapp" class="form-control"
                                         value="{{ $empresa->whatsapp ?? '' }}">

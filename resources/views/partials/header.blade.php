@@ -6,7 +6,10 @@
     $mostrarProductos = $config['home_mostrar_productos'] ?? 1;
     $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
     $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
-    $linkedinUrl = $config['linkedin_url'] ?? $empresa->linkedin ?? false;
+    $facebookUrl = $empresa->facebook ?? false;
+    $instagramUrl = $empresa->instagram ?? false;
+    $tiktokUrl = $empresa->tiktok ?? false;
+    $linkedinUrl = $empresa->linkedin ?? false;
     @endphp
 
     <header class="header_section fashion_minimal_header sticky_header clearfix"
@@ -31,25 +34,25 @@
                     <div class="topbar_left">
 
                         <ul class="primary_social_links ul_li">
-                            @if($config['facebook_url'] ?? false)
+                            @if($facebookUrl)
                             <li>
-                                <a href="{{ $config['facebook_url'] }}" target="_blank">
+                                <a href="{{ $facebookUrl }}" target="_blank">
                                     <i class="fab fa-facebook-f"></i>
                                 </a>
                             </li>
                             @endif
 
-                            @if($config['instagram_url'] ?? false)
+                            @if($instagramUrl)
                             <li>
-                                <a href="{{ $config['instagram_url'] }}" target="_blank">
+                                <a href="{{ $instagramUrl }}" target="_blank">
                                     <i class="fab fa-instagram"></i>
                                 </a>
                             </li>
                             @endif
 
-                            @if($config['tiktok_url'] ?? false)
+                            @if($tiktokUrl)
                             <li>
-                                <a href="{{ $config['tiktok_url'] }}" target="_blank">
+                                <a href="{{ $tiktokUrl }}" target="_blank">
                                     <i class="fab fa-tiktok"></i>
                                 </a>
                             </li>

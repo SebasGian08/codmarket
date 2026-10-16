@@ -1,6 +1,9 @@
 @php
 $footerTheme = $config['footer_theme'] ?? 'dark';
-$linkedinUrl = $config['linkedin_url'] ?? $empresa->linkedin ?? false;
+$facebookUrl = $empresa->facebook ?? false;
+$instagramUrl = $empresa->instagram ?? false;
+$tiktokUrl = $empresa->tiktok ?? false;
+$linkedinUrl = $empresa->linkedin ?? false;
 
 switch ($footerTheme) {
 case 'light':
@@ -122,23 +125,23 @@ break;
 
                         <div class="footer_social_cards">
 
-                            @if($config['facebook_url'] ?? false)
-                            <a href="{{ $config['facebook_url'] }}" target="_blank" class="social_card social_facebook">
+                            @if($facebookUrl)
+                            <a href="{{ $facebookUrl }}" target="_blank" class="social_card social_facebook">
                                 <i class="fab fa-facebook-f"></i>
                                 <span>Facebook</span>
                             </a>
                             @endif
 
-                            @if($config['instagram_url'] ?? false)
-                            <a href="{{ $config['instagram_url'] }}" target="_blank"
+                            @if($instagramUrl)
+                            <a href="{{ $instagramUrl }}" target="_blank"
                                 class="social_card social_instagram">
                                 <i class="fab fa-instagram"></i>
                                 <span>Instagram</span>
                             </a>
                             @endif
 
-                            @if($config['tiktok_url'] ?? false)
-                            <a href="{{ $config['tiktok_url'] }}" target="_blank" class="social_card social_tiktok">
+                            @if($tiktokUrl)
+                            <a href="{{ $tiktokUrl }}" target="_blank" class="social_card social_tiktok">
                                 <i class="fab fa-tiktok"></i>
                                 <span>TikTok</span>
                             </a>
