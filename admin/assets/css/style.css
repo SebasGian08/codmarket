@@ -851,3 +851,35 @@ html[data-theme="dark"] .footer-logo-admin-img {
     background: rgba(255, 255, 255, .06);
 }
 /* ============ FIN FOOTER LOGOS (CONFIGURACIÓN) ============ */
+
+/* ============ CONTACTOS (TIPO DE DOCUMENTO) ============ */
+.contacto-counter-wrap {
+    position: relative;
+}
+
+.contacto-counter-wrap .input-counter {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: color .25s ease;
+}
+
+.contacto-counter-wrap .has-counter {
+    padding-right: 58px;
+}
+
+.contacto-counter-wrap:focus-within .input-counter {
+    color: var(--bs-primary);
+}
+
+html[data-theme="dark"] .contacto-counter-wrap .input-counter {
+    color: #94a3b8;
+}
+/* ============ FIN CONTACTOS (TIPO DE DOCUMENTO) ============ */

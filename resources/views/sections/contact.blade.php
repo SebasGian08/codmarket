@@ -186,9 +186,10 @@
                             <div class="input-wrapper">
                                 <i class="bi bi-card-text"></i>
 
-                                <input type="text" name="documento_numero" id="documento_numero"
+                                <input type="text" name="documento_numero" id="documento_numero" class="has-counter"
                                     value="{{ old('documento_numero') }}" placeholder="RUC" maxlength="11"
                                     inputmode="numeric" pattern="[0-9]{6,11}">
+                                <span class="input-counter" data-counter-for="documento_numero">0/11</span>
                             </div>
 
                         </div>
@@ -387,6 +388,13 @@
             const camposPersona = docForm.querySelectorAll('[data-doc="persona"]');
             const camposEmpresa = docForm.querySelectorAll('[data-doc="empresa"]');
             const docNumero = docForm.querySelector('#documento_numero');
+            const docContador = docForm.querySelector('[data-counter-for="documento_numero"]');
+
+            function actualizarContador() {
+                if (!docNumero || !docContador) return;
+                const max = docNumero.maxLength > 0 ? docNumero.maxLength : 11;
+                docContador.textContent = (docNumero.value || '').length + '/' + max;
+            }
 
             function aplicar() {
                 const opt = docTipo.options[docTipo.selectedIndex];
@@ -412,6 +420,12 @@
                     docNumero.maxLength = longitud > 0 ? longitud : 11;
                     docNumero.placeholder = esEmpresa ? 'RUC' : 'Número de documento';
                 }
+
+                actualizarContador();
+            }
+
+            if (docNumero) {
+                docNumero.addEventListener('input', actualizarContador);
             }
 
             // nice-select (usado por $('select').niceSelect()) oculta el <select> y

@@ -769,3 +769,33 @@
         flex-shrink: 0;
     }
 }
+
+/* =========================================================
+   CONTADOR DE DÍGITOS (TIPO DE DOCUMENTO)
+   ========================================================= */
+
+.input-wrapper .input-counter {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    color: #94a3b8;
+    pointer-events: none;
+    transition: color .25s ease;
+}
+
+.input-wrapper:focus-within .input-counter {
+    color: var(--color-secundario);
+}
+
+.input-wrapper input.has-counter {
+    padding-right: 58px;
+}
+
+html[data-theme="dark"] .input-wrapper .input-counter {
+    color: #94a3b8;
+}

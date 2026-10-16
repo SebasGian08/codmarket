@@ -41,8 +41,11 @@
 
                         <div class="col-md-6 form-group" data-doc="empresa" style="display:none;">
                             <label>RUC <span class="text-danger">*</span></label>
-                            <input type="text" name="documento_numero" id="ct-documento-numero"
-                                class="form-control" maxlength="11" inputmode="numeric" placeholder="RUC">
+                            <div class="contacto-counter-wrap">
+                                <input type="text" name="documento_numero" id="ct-documento-numero"
+                                    class="form-control has-counter" maxlength="11" inputmode="numeric" placeholder="RUC">
+                                <span class="input-counter" data-counter-for="ct-documento-numero">0/11</span>
+                            </div>
                         </div>
 
                         <div class="col-md-6 form-group" data-doc="empresa" style="display:none;">
@@ -122,6 +125,13 @@
         const camposPersona = modal.querySelectorAll('[data-doc="persona"]');
         const camposEmpresa = modal.querySelectorAll('[data-doc="empresa"]');
         const docNumero = modal.querySelector('#ct-documento-numero');
+        const docContador = modal.querySelector('[data-counter-for="ct-documento-numero"]');
+
+        function actualizarContador() {
+            if (!docNumero || !docContador) return;
+            const max = docNumero.maxLength > 0 ? docNumero.maxLength : 11;
+            docContador.textContent = (docNumero.value || '').length + '/' + max;
+        }
 
         function aplicarTipoDocumento() {
             if (!docTipo) return;
@@ -149,6 +159,12 @@
                 docNumero.maxLength = longitud > 0 ? longitud : 11;
                 docNumero.placeholder = esEmpresa ? 'RUC' : 'Número de documento';
             }
+
+            actualizarContador();
+        }
+
+        if (docNumero) {
+            docNumero.addEventListener('input', actualizarContador);
         }
 
         if (window.jQuery) {

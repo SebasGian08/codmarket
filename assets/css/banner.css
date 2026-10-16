@@ -1288,3 +1288,28 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
         animation: none;
     }
 }
+/* =========================================================
+   CONTADOR DE DÍGITOS (BANNER)
+   ========================================================= */
+
+.banner-contact-grid .input-wrapper .input-counter {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    z-index: 2;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    color: rgba(255, 255, 255, .64);
+    pointer-events: none;
+    transition: color .25s ease;
+}
+
+.banner-contact-grid .input-wrapper:focus-within .input-counter {
+    color: #fff;
+}
+
+.banner-contact-grid .input-wrapper input.has-counter {
+    padding-right: 48px;
+}

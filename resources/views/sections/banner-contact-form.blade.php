@@ -45,7 +45,8 @@
                 <div class="form-field" data-doc="empresa" style="display:none;">
                     <label for="banner-documento-numero">RUC <span>*</span></label>
                     <div class="input-wrapper">
-                        <input id="banner-documento-numero" type="text" name="documento_numero" value="{{ old('documento_numero') }}" placeholder="RUC" maxlength="11" inputmode="numeric" pattern="[0-9]{6,11}">
+                        <input id="banner-documento-numero" type="text" name="documento_numero" class="has-counter" value="{{ old('documento_numero') }}" placeholder="RUC" maxlength="11" inputmode="numeric" pattern="[0-9]{6,11}">
+                        <span class="input-counter" data-counter-for="banner-documento-numero">0/11</span>
                     </div>
                 </div>
 
@@ -122,6 +123,13 @@
             const camposPersona = root.querySelectorAll('[data-doc="persona"]');
             const camposEmpresa = root.querySelectorAll('[data-doc="empresa"]');
             const docNumero = root.querySelector('#banner-documento-numero');
+            const docContador = root.querySelector('[data-counter-for="banner-documento-numero"]');
+
+            function actualizarContador() {
+                if (!docNumero || !docContador) return;
+                const max = docNumero.maxLength > 0 ? docNumero.maxLength : 11;
+                docContador.textContent = (docNumero.value || '').length + '/' + max;
+            }
 
             function aplicarTipoDocumento() {
                 const opt = docTipo.options[docTipo.selectedIndex];
@@ -147,6 +155,12 @@
                     docNumero.maxLength = longitud > 0 ? longitud : 11;
                     docNumero.placeholder = esEmpresa ? 'RUC' : 'Número de documento';
                 }
+
+                actualizarContador();
+            }
+
+            if (docNumero) {
+                docNumero.addEventListener('input', actualizarContador);
             }
 
             // nice-select notifica cambios con jQuery .trigger('change')
