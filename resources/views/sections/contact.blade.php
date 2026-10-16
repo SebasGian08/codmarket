@@ -207,7 +207,7 @@
                                 <i class="bi bi-building"></i>
 
                                 <input type="text" name="razon_social" value="{{ old('razon_social') }}"
-                                    placeholder="Nombre de la empresa" maxlength="200" autocomplete="organization">
+                                    placeholder="Razon Social" maxlength="200" autocomplete="organization">
                             </div>
 
                         </div>
