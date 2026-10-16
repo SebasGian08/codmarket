@@ -27,6 +27,9 @@ class ContactController extends Controller
         $request->validate([
             'nombre' => 'required',
             'apellidos' => 'required',
+            'id_documento_tipo' => 'nullable|exists:documentos_tipo,id_documento_tipo',
+            'documento_numero' => 'nullable|digits_between:6,11',
+            'razon_social' => 'nullable|string|max:200',
             'email' => 'required|email',
             'telefono' => 'required',
             'message' => 'required',
@@ -54,6 +57,9 @@ class ContactController extends Controller
         Contact::create([
             'nombres' => $request->nombre,
             'apellidos' => $request->apellidos,
+            'id_documento_tipo' => $request->id_documento_tipo,
+            'razon_social' => $request->razon_social,
+            'documento_numero' => $request->documento_numero,
             'email' => $request->email,
             'telefono' => $request->telefono,
             'id_service' => $request->servicio,

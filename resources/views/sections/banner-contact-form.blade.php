@@ -30,6 +30,32 @@
                     </div>
                 </div>
 
+                <div class="form-field full">
+                    <label for="banner-razon-social">Razón social</label>
+                    <div class="input-wrapper">
+                        <input id="banner-razon-social" type="text" name="razon_social" value="{{ old('razon_social') }}" placeholder="Solo si es empresa" maxlength="200" autocomplete="organization">
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="banner-documento-tipo">Tipo de documento</label>
+                    <div class="input-wrapper select-wrapper">
+                        <select id="banner-documento-tipo" name="id_documento_tipo" class="service-select">
+                            <option value="">Seleccione</option>
+                            @foreach($documentosTipos ?? [] as $dt)
+                            <option value="{{ $dt->id_documento_tipo }}" data-longitud="{{ $dt->longitud }}" {{ old('id_documento_tipo') == $dt->id_documento_tipo ? 'selected' : '' }}>{{ $dt->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="banner-documento-numero">Número de documento</label>
+                    <div class="input-wrapper">
+                        <input id="banner-documento-numero" type="text" name="documento_numero" value="{{ old('documento_numero') }}" placeholder="Número de documento" maxlength="11" inputmode="numeric" pattern="[0-9]{6,11}">
+                    </div>
+                </div>
+
                 <div class="form-field">
                     <label for="banner-servicio">Servicio <span>*</span></label>
                     <div class="input-wrapper select-wrapper">
@@ -82,3 +108,31 @@
         </form>
     </div>
 </div>
+
+<script>
+    (function () {
+        const root = document.querySelector('.banner-contact-panel');
+        if (!root) return;
+
+        const docTipo = root.querySelector('#banner-documento-tipo');
+        const docNumero = root.querySelector('#banner-documento-numero');
+
+        function aplicarLongitud() {
+            if (!docTipo || !docNumero) return;
+
+            const opt = docTipo.options[docTipo.selectedIndex];
+            const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+
+            if (longitud > 0) {
+                docNumero.maxLength = longitud;
+                docNumero.placeholder = 'Número de documento (' + longitud + ' dígitos)';
+            } else {
+                docNumero.maxLength = 11;
+                docNumero.placeholder = 'Número de documento';
+            }
+        }
+
+        if (docTipo) docTipo.addEventListener('change', aplicarLongitud);
+        aplicarLongitud();
+    })();
+</script>

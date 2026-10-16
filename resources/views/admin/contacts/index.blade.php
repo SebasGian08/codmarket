@@ -47,9 +47,31 @@
                         <div class="card-body p-2 d-flex flex-column">
 
                             <!-- INFO -->
-                            <div class="fw-semibold text-dark text-truncate">
-                                {{ $contact->nombres }} {{ $contact->apellidos }}
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="fw-semibold text-dark text-truncate">
+                                    {{ trim($contact->nombres . ' ' . $contact->apellidos) }}
+                                </span>
+
+                                @if($contact->razon_social)
+                                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill">
+                                    Empresa
+                                </span>
+                                @endif
                             </div>
+
+                            @if($contact->razon_social)
+                            <div class="text-muted small text-truncate">
+                                <i class="fa fa-building"></i>
+                                {{ $contact->razon_social }}
+                            </div>
+                            @endif
+
+                            @if($contact->documento_numero)
+                            <div class="text-muted small text-truncate">
+                                <i class="fa fa-id-card"></i>
+                                {{ $contact->documentoTipo->nombre ?? '' }} {{ $contact->documento_numero }}
+                            </div>
+                            @endif
 
                             <div class="text-muted small text-truncate">
                                 {{ $contact->email }}

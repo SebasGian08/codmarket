@@ -126,6 +126,9 @@ CREATE TABLE IF NOT EXISTS `contacts` (
   `id_contact` bigint(20) UNSIGNED NOT NULL,
   `nombres` varchar(200) NOT NULL,
   `apellidos` varchar(200) NOT NULL,
+  `id_documento_tipo` bigint(20) UNSIGNED DEFAULT NULL,
+  `razon_social` varchar(200) DEFAULT NULL,
+  `documento_numero` varchar(20) DEFAULT NULL,
   `email` varchar(200) NOT NULL,
   `telefono` varchar(20) NOT NULL,
   `id_service` bigint(20) UNSIGNED DEFAULT NULL,
@@ -187,6 +190,15 @@ CREATE TABLE IF NOT EXISTS `destinos_pago` (
   `codigo` varchar(30) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `estado` tinyint(4) NOT NULL DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS `documentos_tipo` (
+  `id_documento_tipo` bigint(20) UNSIGNED NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `codigo` varchar(20) DEFAULT NULL,
+  `longitud` int(11) DEFAULT 0,
+  `estado` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -375,6 +387,8 @@ ALTER TABLE `cuentas_tipo_cuenta`
 ALTER TABLE `destinos_pago`
   ADD PRIMARY KEY (`id_destino_pago`),
   ADD UNIQUE KEY `destinos_pago_codigo_unique` (`codigo`);
+ALTER TABLE `documentos_tipo`
+  ADD PRIMARY KEY (`id_documento_tipo`);
 ALTER TABLE `empresa`
   ADD PRIMARY KEY (`id_empresa`);
 ALTER TABLE `footer_logos`
@@ -601,6 +615,8 @@ ALTER TABLE `cuentas_tipo_cuenta`
   MODIFY `id_tipo_cuenta` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 ALTER TABLE `destinos_pago`
   MODIFY `id_destino_pago` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `documentos_tipo`
+  MODIFY `id_documento_tipo` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `empresa`
   MODIFY `id_empresa` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `footer_logos`

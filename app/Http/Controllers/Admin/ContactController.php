@@ -26,6 +26,7 @@ class ContactController extends Controller
             'status',
             'priority',
             'source',
+            'documentoTipo',
             'seguimientos.tipo',
             'seguimientos.user'
         ])
@@ -97,15 +98,32 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nombres' => 'required|string|max:200',
+            'apellidos' => 'nullable|string|max:200',
+            'id_documento_tipo' => 'nullable|exists:documentos_tipo,id_documento_tipo',
+            'documento_numero' => 'nullable|string|max:20',
+            'razon_social' => 'nullable|string|max:200',
+            'email' => 'nullable|email|max:200',
+            'telefono' => 'nullable|string|max:20',
+            'service_id' => 'nullable|exists:services,id_service',
+            'source_id' => 'nullable|exists:contact_sources,id_source',
+            'mensaje' => 'nullable|string',
+        ]);
+
         Contact::create([
             'nombres' => $request->nombres,
-            'apellidos' => $request->apellidos,
-            'email' => $request->email,
-            'telefono' => $request->telefono,
-            'service_id' => $request->service_id,
-            'source_id' => $request->source_id,
-            'mensaje' => $request->mensaje,
-            'id_status' => 1
+            'apellidos' => $request->apellidos ?? '',
+            'id_documento_tipo' => $request->id_documento_tipo,
+            'razon_social' => $request->razon_social,
+            'documento_numero' => $request->documento_numero,
+            'email' => $request->email ?? '',
+            'telefono' => $request->telefono ?? '',
+            'id_service' => $request->service_id,
+            'id_source' => $request->source_id,
+            'mensaje' => $request->mensaje ?? '',
+            'id_status' => 1,
+            'id_priority' => 2,
         ]);
 
         return back();

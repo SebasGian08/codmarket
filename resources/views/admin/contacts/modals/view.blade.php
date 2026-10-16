@@ -20,6 +20,24 @@
                     </div>
 
                     <div class="col-md-6">
+                        <label class="text-muted small">Razón social</label>
+                        <div class="fw-semibold text-dark">
+                            {{ $contact->razon_social ?: '-' }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="text-muted small">Documento</label>
+                        <div class="fw-semibold text-dark">
+                            @if($contact->documentoTipo || $contact->documento_numero)
+                                {{ $contact->documentoTipo->nombre ?? '' }} {{ $contact->documento_numero }}
+                            @else
+                                -
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
                         <label class="text-muted small">Correo electrónico</label>
                         <div class="fw-semibold text-dark">
                             {{ $contact->email }}

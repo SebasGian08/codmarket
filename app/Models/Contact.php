@@ -14,6 +14,9 @@ class Contact extends Model
     protected $fillable = [
         'nombres',
         'apellidos',
+        'id_documento_tipo',
+        'razon_social',
+        'documento_numero',
         'email',
         'telefono',
         'id_service',
@@ -24,6 +27,11 @@ class Contact extends Model
         'ip',
         'user_agent'
     ];
+
+    public function documentoTipo()
+    {
+        return $this->belongsTo(DocumentoTipo::class, 'id_documento_tipo', 'id_documento_tipo');
+    }
 
     public function service()
     {

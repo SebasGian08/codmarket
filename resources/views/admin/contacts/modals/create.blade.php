@@ -14,14 +14,41 @@
 
                 <div class="modal-body">
 
-                    <div class="form-group">
-                        <label>Nombres <span class="text-danger">*</span></label>
-                        <input type="text" name="nombres" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Nombres <span class="text-danger">*</span></label>
+                            <input type="text" name="nombres" id="ct-nombres" class="form-control">
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label>Apellidos</label>
+                            <input type="text" name="apellidos" class="form-control">
+                        </div>
+
+                        <div class="col-md-12 form-group">
+                            <label>Razón social</label>
+                            <input type="text" name="razon_social" id="ct-razon-social" class="form-control">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Apellidos</label>
-                        <input type="text" name="apellidos" class="form-control">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Tipo de documento</label>
+                            <select name="id_documento_tipo" id="ct-documento-tipo" class="form-control">
+                                <option value="">Seleccionar</option>
+                                @foreach($documentosTipos ?? [] as $dt)
+                                <option value="{{ $dt->id_documento_tipo }}" data-longitud="{{ $dt->longitud }}">
+                                    {{ $dt->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label>Número de documento</label>
+                            <input type="text" name="documento_numero" id="ct-documento-numero"
+                                class="form-control" maxlength="11" inputmode="numeric" placeholder="Número de documento">
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -82,3 +109,31 @@
     </div>
 
 </div>
+
+<script>
+    (function () {
+        const modal = document.getElementById('modalCreateContact');
+        if (!modal) return;
+
+        const docTipo = modal.querySelector('#ct-documento-tipo');
+        const docNumero = modal.querySelector('#ct-documento-numero');
+
+        function aplicarLongitud() {
+            if (!docTipo || !docNumero) return;
+
+            const opt = docTipo.options[docTipo.selectedIndex];
+            const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+
+            if (longitud > 0) {
+                docNumero.maxLength = longitud;
+                docNumero.placeholder = 'Número de documento (' + longitud + ' dígitos)';
+            } else {
+                docNumero.maxLength = 11;
+                docNumero.placeholder = 'Número de documento';
+            }
+        }
+
+        if (docTipo) docTipo.addEventListener('change', aplicarLongitud);
+        aplicarLongitud();
+    })();
+</script>

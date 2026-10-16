@@ -150,6 +150,63 @@
                         </div>
 
 
+                        {{-- RAZÓN SOCIAL --}}
+                        <div class="form-field full">
+
+                            <label>
+                                Razón social
+                            </label>
+
+                            <div class="input-wrapper">
+                                <i class="bi bi-building"></i>
+
+                                <input type="text" name="razon_social" placeholder="Solo si es empresa"
+                                    maxlength="200" autocomplete="organization">
+                            </div>
+
+                        </div>
+
+
+                        {{-- TIPO DE DOCUMENTO --}}
+                        <div class="form-field">
+
+                            <label>
+                                Tipo de documento
+                            </label>
+
+                            <div class="input-wrapper select-wrapper">
+                                <select name="id_documento_tipo" id="id_documento_tipo" class="service-select">
+                                    <option value="">Seleccione</option>
+                                    @foreach($documentosTipos ?? [] as $dt)
+                                    <option value="{{ $dt->id_documento_tipo }}"
+                                        data-longitud="{{ $dt->longitud }}">
+                                        {{ $dt->nombre }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        {{-- NÚMERO DE DOCUMENTO --}}
+                        <div class="form-field">
+
+                            <label>
+                                Número de documento
+                            </label>
+
+                            <div class="input-wrapper">
+                                <i class="bi bi-card-text"></i>
+
+                                <input type="text" name="documento_numero" id="documento_numero"
+                                    placeholder="Número de documento" maxlength="11" inputmode="numeric"
+                                    pattern="[0-9]{6,11}">
+                            </div>
+
+                        </div>
+
+
                         {{-- SERVICIO --}}
                         <div class="form-field">
 
@@ -310,6 +367,28 @@
         el.classList.add('reveal-on-scroll');
         observer.observe(el);
     });
+
+    // ---- Tipo de documento: ajusta longitud del número ----
+    const docTipo = document.getElementById('id_documento_tipo');
+    const docNumero = document.getElementById('documento_numero');
+
+    if (docTipo && docNumero) {
+        const aplicarLongitud = () => {
+            const opt = docTipo.options[docTipo.selectedIndex];
+            const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+
+            if (longitud > 0) {
+                docNumero.maxLength = longitud;
+                docNumero.placeholder = 'Número de documento (' + longitud + ' dígitos)';
+            } else {
+                docNumero.maxLength = 11;
+                docNumero.placeholder = 'Número de documento';
+            }
+        };
+
+        docTipo.addEventListener('change', aplicarLongitud);
+        aplicarLongitud();
+    }
 });
 </script>
 

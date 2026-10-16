@@ -10,6 +10,7 @@ use App\Models\Empresa;
 use App\Models\Configuracion;
 use App\Models\Categoria;
 use App\Models\FooterLogo;
+use App\Models\DocumentoTipo;
 use Illuminate\Support\Facades\Blade;
 use App\Repositories\MarcaRepository;
 use App\Repositories\MarcaRepositoryInterface;
@@ -45,6 +46,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('config', $config);
             $view->with('footerLogos', \Schema::hasTable('footer_logos')
                 ? FooterLogo::where('estado', 1)->orderBy('orden', 'asc')->get()
+                : collect());
+            $view->with('documentosTipos', \Schema::hasTable('documentos_tipo')
+                ? DocumentoTipo::where('estado', 1)->orderBy('id_documento_tipo')->get()
                 : collect());
             $view->with('categorias', Categoria::whereNull('id_categoria_padre')
                 ->with(['hijos' => function ($q) {
