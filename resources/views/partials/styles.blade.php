@@ -2,6 +2,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
+@if(!empty($config['google_tag_manager_id'] ?? null))
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{{ $config['google_tag_manager_id'] }}');</script>
+<!-- End Google Tag Manager -->
+@endif
+
+@if(!empty($config['google_analytics_id'] ?? null))
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ $config['google_analytics_id'] }}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '{{ $config['google_analytics_id'] }}');
+</script>
+@endif
+
 <title>{!! $config['seo_title'] ?? 'Mi tienda online' !!}</title>
 <meta name="description" content="{!! $config['seo_description'] ?? '' !!}">
 <meta name="keywords" content="{{ $config['seo_keywords'] ?? '' }}">
@@ -16,12 +33,66 @@
 <meta name="theme-color" content="{{ $config['tema_color_primario'] ?? '#21c36c' }}">
 <link rel="canonical" href="{{ url()->current() }}">
 
+@if(!empty($config['google_site_verification'] ?? null))
+<meta name="google-site-verification" content="{{ $config['google_site_verification'] }}">
+@endif
+@if(!empty($config['bing_site_verification'] ?? null))
+<meta name="msvalidate.01" content="{{ $config['bing_site_verification'] }}">
+@endif
+
 <!-- Open Graph -->
 <meta property="og:title" content="{!! $config['seo_title'] ?? '' !!}">
 <meta property="og:description" content="{!! $config['seo_description'] ?? '' !!}">
 <meta property="og:image" content="{{ asset($config['seo_image'] ?? 'assets/images/logo-principal.png') }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ url()->current() }}">
+<meta property="og:locale" content="es_PE">
+
+@php
+    $seoLogo = asset($config['seo_image'] ?? 'assets/images/logo-principal.png');
+    $seoSameAs = collect([
+        $empresa->facebook ?? null,
+        $empresa->instagram ?? null,
+        $empresa->tiktok ?? null,
+        $empresa->linkedin ?? null,
+        $config['youtube_url'] ?? null,
+        $config['twitter_url'] ?? null,
+    ])->filter()->values()->all();
+
+    $seoOrganization = array_filter([
+        '@context' => 'https://schema.org',
+        '@type' => 'Organization',
+        'name' => $config['seo_author'] ?? ($empresa->nombre ?? null),
+        'url' => url('/'),
+        'logo' => $seoLogo,
+        'image' => $seoLogo,
+        'email' => $empresa->correo ?? null,
+        'telephone' => $empresa->telefono ?? null,
+        'address' => !empty($empresa->direccion ?? null)
+            ? ['@type' => 'PostalAddress', 'streetAddress' => $empresa->direccion]
+            : null,
+        'sameAs' => $seoSameAs,
+    ]);
+
+    $seoWebsite = [
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => $config['seo_author'] ?? 'Mi tienda online',
+        'url' => url('/'),
+        'potentialAction' => [
+            '@type' => 'SearchAction',
+            'target' => [
+                '@type' => 'EntryPoint',
+                'urlTemplate' => route('productos.buscar') . '?search={search_term_string}',
+            ],
+            'query-input' => 'required name=search_term_string',
+        ],
+    ];
+@endphp
+
+<!-- Datos estructurados -->
+<script type="application/ld+json">{!! json_encode($seoOrganization, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/ld+json">{!! json_encode($seoWebsite, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
 
 <!-- Favicon -->
 <link rel="shortcut icon" href="{{ asset($empresa->favicon ?? 'assets/images/logo/a.png') }}">

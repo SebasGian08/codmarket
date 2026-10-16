@@ -11,6 +11,7 @@ use App\Http\Controllers\App\BlogController;
 use App\Http\Controllers\App\ServiceController;
 use App\Http\Controllers\App\PortafolioController;
 use App\Http\Controllers\App\ProductoController;
+use App\Http\Controllers\App\SitemapController;
 
 /* SISTEMA ADMIN */
 use App\Http\Controllers\Admin\DashboardController;
@@ -83,6 +84,14 @@ Route::get('/producto/{slug}/variante/{variante}', [ProductoController::class, '
 Route::get('/buscar-productos', [ProductoController::class, 'buscar'])->name('productos.buscar');
 Route::get('/productos/categoria/{slug}', [ProductoController::class, 'categoria'])->name('productos.categoria');
 Route::get('/nosotros', [HomeController::class, 'nosotros'])->name('nosotros');
+
+/*
+|--------------------------------------------------------------------------
+| SEO (SITEMAP / ROBOTS)
+|--------------------------------------------------------------------------
+*/
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots');
 
 /*
 |--------------------------------------------------------------------------

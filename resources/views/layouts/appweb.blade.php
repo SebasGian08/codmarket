@@ -34,6 +34,13 @@
 
 <body class="@if(($config['home_mostrar_brand_ticker'] ?? 1) != 1) no-brand-ticker @endif">
 
+    @if(!empty($config['google_tag_manager_id'] ?? null))
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ $config['google_tag_manager_id'] }}"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    @endif
+
     <div class="page-wrapper">
 
         @include('partials.header')
