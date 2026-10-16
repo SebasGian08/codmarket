@@ -11,7 +11,7 @@
         <div class="row g-0">
 
             <!-- * CARRUSEL -->
-            <div class="col-lg-6 login-media">
+            <div class="col-lg-auto login-media">
                 <div id="loginCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel"
                     data-bs-interval="5000">
 
@@ -54,7 +54,7 @@
             </div>
 
             <!-- * PANEL LOGIN -->
-            <div class="col-lg-6 login-panel">
+            <div class="col login-panel">
                 <div class="login-panel-inner">
 
                     <!-- * LOGO -->
