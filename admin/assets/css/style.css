@@ -887,22 +887,24 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 /* ============ LOGIN ============ */
 .login-page {
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 24px 20px;
     background: #f5f7fb;
 }
 
 /* Card contenedor (imagen + formulario) */
 .login-card {
     width: 100%;
-    max-width: 1660px;
+    max-width: 1280px;
 }
 
 /* --- Carrusel --- */
+/* Alto = 1350px como máximo, pero nunca más que la pantalla.
+   El ancho se calcula solo con aspect-ratio 1080/1350 (4:5). */
 .login-media {
     position: relative;
-    flex: 0 0 1080px;
-    width: 1080px;
-    height: 1350px;
+    flex: 0 0 auto;
+    height: min(1350px, calc(100vh - 48px));
+    aspect-ratio: 1080 / 1350;
     overflow: hidden;
     background: #0f172a;
 }
@@ -970,7 +972,8 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 44px 40px;
+    min-width: 0;
+    padding: 40px 36px;
 }
 
 .login-panel-inner {
@@ -979,47 +982,27 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 }
 
 /* --- Responsive --- */
-@media (max-width: 1659.98px) {
-    .login-media {
-        flex-basis: 864px;
-        width: 864px;
-        height: 1080px;
-    }
-}
-
-@media (max-width: 1439.98px) {
-    .login-media {
-        flex-basis: 648px;
-        width: 648px;
-        height: 810px;
-    }
-}
-
 @media (max-width: 1199.98px) {
-    .login-media {
-        flex-basis: 540px;
-        width: 540px;
-        height: 675px;
-    }
-
     .login-panel {
-        padding: 36px 28px;
+        padding: 32px 28px;
     }
 }
 
 @media (max-width: 991.98px) {
     .login-page {
-        padding: 24px 16px;
+        min-height: auto;
+        padding: 20px 16px;
     }
 
     .login-media {
         flex: none;
         width: 100%;
-        height: 210px;
+        height: 220px;
+        aspect-ratio: auto;
     }
 
     .login-panel {
-        padding: 32px 24px 36px;
+        padding: 28px 24px 32px;
     }
 
     .login-media-control {
