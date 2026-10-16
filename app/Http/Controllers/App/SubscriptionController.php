@@ -12,7 +12,7 @@ class SubscriptionController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:subscriptions,email',
-            'g-recaptcha-response' => 'required'
+            'cf-turnstile-response' => 'required'
         ]);
 
         // Honeypot anti-bot
@@ -23,10 +23,10 @@ class SubscriptionController extends Controller
         // Verificación reCAPTCHA
         $client = new \GuzzleHttp\Client();
 
-        $response = $client->post('https://www.google.com/recaptcha/api/siteverify', [
+        $response = $client->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
             'form_params' => [
-                'secret' => env('RECAPTCHA_SECRET_KEY'),
-                'response' => $request->input('g-recaptcha-response'),
+                'secret' => env('TURNSTILE_SECRET_KEY'),
+                'response' => $request->input('cf-turnstile-response'),
                 'remoteip' => $request->ip()
             ]
         ]);

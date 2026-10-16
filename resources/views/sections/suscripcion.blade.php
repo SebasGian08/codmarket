@@ -33,9 +33,9 @@
 
                 </div>
 
-                <!-- reCAPTCHA -->
+                <!-- Cloudflare Turnstile -->
                 <div class="recaptcha_wrapper">
-                    <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    <div class="cf-turnstile" data-sitekey="{{ env('TURNSTILE_SITE_KEY') }}" data-theme="auto" data-size="normal"></div>
                 </div>
 
                 <small>

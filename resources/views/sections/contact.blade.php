@@ -310,9 +310,11 @@
 
                         {{-- RECAPTCHA --}}
                         <div class="form-field full">
-
                             <div class="recaptcha-container">
-                                <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}">
+                                <div class="cf-turnstile"
+                                     data-sitekey="{{ env('TURNSTILE_SITE_KEY') }}"
+                                     data-theme="auto"
+                                     data-size="normal">
                                 </div>
                             </div>
 

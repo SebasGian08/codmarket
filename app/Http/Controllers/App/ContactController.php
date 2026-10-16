@@ -31,7 +31,7 @@ class ContactController extends Controller
             'telefono' => 'required',
             'message' => 'required',
             'servicio' => 'required|exists:services,id_service',
-            'g-recaptcha-response' => 'required'
+            'cf-turnstile-response' => 'required'
         ]);
 
         $documentoTipo = DocumentoTipo::find($request->id_documento_tipo);
@@ -65,9 +65,9 @@ class ContactController extends Controller
 
         $response = Http::asForm()
             ->timeout(10)
-            ->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret' => env('RECAPTCHA_SECRET_KEY'),
-                'response' => $request->input('g-recaptcha-response'),
+            ->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                'secret' => env('TURNSTILE_SECRET_KEY'),
+                'response' => $request->input('cf-turnstile-response'),
                 'remoteip' => $request->ip(),
             ])
             ->json();

@@ -96,7 +96,11 @@
                 </div>
 
                 <div class="form-field full banner-contact-captcha">
-                    <div class="banner-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                    <div class="cf-turnstile"
+                         data-sitekey="{{ env('TURNSTILE_SITE_KEY') }}"
+                         data-theme="auto"
+                         data-size="normal">
+                    </div>
                 </div>
 
                 <div class="form-field full">
