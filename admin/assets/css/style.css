@@ -894,16 +894,16 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 /* Card contenedor (imagen + formulario) */
 .login-card {
     width: 100%;
-    max-width: 1280px;
+    max-width: 940px;
 }
 
 /* --- Carrusel --- */
-/* Alto = 1350px como máximo, pero nunca más que la pantalla.
+/* Alto máximo 640px, pero nunca más que la pantalla.
    El ancho se calcula solo con aspect-ratio 1080/1350 (4:5). */
 .login-media {
     position: relative;
     flex: 0 0 auto;
-    height: min(1350px, calc(100vh - 48px));
+    height: min(640px, calc(100vh - 48px));
     aspect-ratio: 1080 / 1350;
     overflow: hidden;
     background: #0f172a;
