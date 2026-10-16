@@ -20,7 +20,7 @@
                             <select name="id_documento_tipo" id="ct-documento-tipo" class="form-control">
                                 <option value="">Seleccionar</option>
                                 @foreach($documentosTipos ?? [] as $dt)
-                                <option value="{{ $dt->id_documento_tipo }}" data-codigo="{{ $dt->codigo }}" data-longitud="{{ $dt->longitud }}">
+                                <option value="{{ $dt->id_documento_tipo }}" data-codigo="{{ $dt->codigo ?: $dt->nombre }}" data-longitud="{{ $dt->longitud }}">
                                     {{ $dt->nombre }}
                                 </option>
                                 @endforeach
@@ -124,26 +124,27 @@
             if (!docTipo) return;
 
             const opt = docTipo.options[docTipo.selectedIndex];
-            const codigo = (opt?.dataset?.codigo || '').toUpperCase();
-            const esEmpresa = codigo === 'RUC';
-            const vacio = codigo === '';
+            const valor = opt ? (opt.value || '') : '';
+            const vacio = valor === '';
+            const etiqueta = ((opt && (opt.getAttribute('data-codigo') || opt.textContent)) || '').trim().toUpperCase();
+            const esEmpresa = etiqueta.indexOf('RUC') !== -1;
 
-            camposPersona.forEach(el => {
+            camposPersona.forEach(function (el) {
                 const visible = !vacio && !esEmpresa;
                 el.style.display = visible ? '' : 'none';
-                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+                el.querySelectorAll('input, select, textarea').forEach(function (i) { i.required = visible; });
             });
 
-            camposEmpresa.forEach(el => {
+            camposEmpresa.forEach(function (el) {
                 const visible = !vacio && esEmpresa;
                 el.style.display = visible ? '' : 'none';
-                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
+                el.querySelectorAll('input, select, textarea').forEach(function (i) { i.required = visible; });
             });
 
             if (docNumero) {
-                const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
+                const longitud = parseInt((opt && opt.getAttribute('data-longitud')) || '0', 10);
                 docNumero.maxLength = longitud > 0 ? longitud : 11;
-                docNumero.placeholder = 'RUC';
+                docNumero.placeholder = esEmpresa ? 'RUC' : 'Número de documento';
             }
         }
 

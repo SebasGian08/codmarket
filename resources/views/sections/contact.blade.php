@@ -127,7 +127,7 @@
                                     <option value="">Seleccione</option>
                                     @foreach($documentosTipos ?? [] as $dt)
                                     <option value="{{ $dt->id_documento_tipo }}"
-                                        data-codigo="{{ $dt->codigo }}"
+                                        data-codigo="{{ $dt->codigo ?: $dt->nombre }}"
                                         data-longitud="{{ $dt->longitud }}"
                                         {{ old('id_documento_tipo') == $dt->id_documento_tipo ? 'selected' : '' }}>
                                         {{ $dt->nombre }}
@@ -354,61 +354,76 @@
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-    const observerOptions = {
-        threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target); // Se ejecuta solo una vez
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.contact-info, .contact-form-card, .contact-benefit').forEach(el => {
-        el.classList.add('reveal-on-scroll');
-        observer.observe(el);
-    });
-
-    // ---- Tipo de documento: muestra campos según DNI (persona) o RUC (empresa) ----
-    const docTipo = document.getElementById('id_documento_tipo');
-    const camposPersona = document.querySelectorAll('[data-doc="persona"]');
-    const camposEmpresa = document.querySelectorAll('[data-doc="empresa"]');
-    const docNumero = document.getElementById('documento_numero');
-
-    if (docTipo) {
-        const aplicarTipoDocumento = () => {
-            const opt = docTipo.options[docTipo.selectedIndex];
-            const codigo = (opt?.dataset?.codigo || '').toUpperCase();
-            const esEmpresa = codigo === 'RUC';
-            const vacio = codigo === '';
-
-            camposPersona.forEach(el => {
-                const visible = !vacio && !esEmpresa;
-                el.style.display = visible ? '' : 'none';
-                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
-            });
-
-            camposEmpresa.forEach(el => {
-                const visible = !vacio && esEmpresa;
-                el.style.display = visible ? '' : 'none';
-                el.querySelectorAll('input, select, textarea').forEach(i => i.required = visible);
-            });
-
-            if (docNumero) {
-                const longitud = parseInt(opt?.dataset?.longitud || '0', 10);
-                docNumero.maxLength = longitud > 0 ? longitud : 11;
-                docNumero.placeholder = 'RUC';
-            }
+    document.addEventListener('DOMContentLoaded', function () {
+        const observerOptions = {
+            threshold: 0.15
         };
 
-        docTipo.addEventListener('change', aplicarTipoDocumento);
-        aplicarTipoDocumento();
-    }
-});
+        const observer = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target); // Se ejecuta solo una vez
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.contact-info, .contact-form-card, .contact-benefit').forEach(function (el) {
+            el.classList.add('reveal-on-scroll');
+            observer.observe(el);
+        });
+    });
+</script>
+
+<script>
+    (function () {
+        function initTipoDocumento() {
+            const docTipo = document.getElementById('id_documento_tipo');
+            const docForm = docTipo ? docTipo.closest('form') : null;
+
+            if (!docTipo || !docForm || docTipo.dataset.bound === '1') return;
+            docTipo.dataset.bound = '1';
+
+            const camposPersona = docForm.querySelectorAll('[data-doc="persona"]');
+            const camposEmpresa = docForm.querySelectorAll('[data-doc="empresa"]');
+            const docNumero = docForm.querySelector('#documento_numero');
+
+            function aplicar() {
+                const opt = docTipo.options[docTipo.selectedIndex];
+                const valor = opt ? (opt.value || '') : '';
+                const vacio = valor === '';
+                const etiqueta = ((opt && (opt.getAttribute('data-codigo') || opt.textContent)) || '').trim().toUpperCase();
+                const esEmpresa = etiqueta.indexOf('RUC') !== -1;
+
+                camposPersona.forEach(function (el) {
+                    const visible = !vacio && !esEmpresa;
+                    el.style.display = visible ? '' : 'none';
+                    el.querySelectorAll('input, select, textarea').forEach(function (i) { i.required = visible; });
+                });
+
+                camposEmpresa.forEach(function (el) {
+                    const visible = !vacio && esEmpresa;
+                    el.style.display = visible ? '' : 'none';
+                    el.querySelectorAll('input, select, textarea').forEach(function (i) { i.required = visible; });
+                });
+
+                if (docNumero) {
+                    const longitud = parseInt((opt && opt.getAttribute('data-longitud')) || '0', 10);
+                    docNumero.maxLength = longitud > 0 ? longitud : 11;
+                    docNumero.placeholder = esEmpresa ? 'RUC' : 'Número de documento';
+                }
+            }
+
+            docTipo.addEventListener('change', aplicar);
+            aplicar();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTipoDocumento);
+        } else {
+            initTipoDocumento();
+        }
+    })();
 </script>
 
 {{-- CSS movido a assets/css/contacto.css --}}
