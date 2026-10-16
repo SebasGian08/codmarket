@@ -414,7 +414,17 @@
                 }
             }
 
-            docTipo.addEventListener('change', aplicar);
+            // nice-select (usado por $('select').niceSelect()) oculta el <select> y
+            // notifica cambios con jQuery .trigger('change'), por eso enlazamos con jQuery.
+            if (window.jQuery) {
+                window.jQuery(docTipo).off('change.tipoDoc').on('change.tipoDoc', aplicar);
+                window.jQuery(document).off('click.tipoDoc').on('click.tipoDoc', '.nice-select .option', function () {
+                    setTimeout(aplicar, 0);
+                });
+            } else {
+                docTipo.addEventListener('change', aplicar);
+            }
+
             aplicar();
         }
 

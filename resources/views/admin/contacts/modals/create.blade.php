@@ -112,10 +112,13 @@
 
 <script>
     (function () {
+        function initTipoDocumento() {
         const modal = document.getElementById('modalCreateContact');
         if (!modal) return;
 
         const docTipo = modal.querySelector('#ct-documento-tipo');
+        if (!docTipo) return;
+
         const camposPersona = modal.querySelectorAll('[data-doc="persona"]');
         const camposEmpresa = modal.querySelectorAll('[data-doc="empresa"]');
         const docNumero = modal.querySelector('#ct-documento-numero');
@@ -148,7 +151,19 @@
             }
         }
 
-        if (docTipo) docTipo.addEventListener('change', aplicarTipoDocumento);
+        if (window.jQuery) {
+            window.jQuery(docTipo).off('change.tipoDoc').on('change.tipoDoc', aplicarTipoDocumento);
+        } else {
+            docTipo.addEventListener('change', aplicarTipoDocumento);
+        }
+
         aplicarTipoDocumento();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTipoDocumento);
+        } else {
+            initTipoDocumento();
+        }
     })();
 </script>
