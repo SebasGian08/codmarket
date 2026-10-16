@@ -7,7 +7,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5>Nuevo Servicio</h5>
+                    <h5 class="modal-title">Nuevo Servicio</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -30,34 +30,50 @@
                         <!-- GENERAL -->
                         <div class="tab-pane fade show active" id="tab-general">
 
-                            <label>Nombre</label>
-                            <input type="text" name="nombre" class="form-control mb-2"
-                                placeholder="Ingrese nombre del servicio">
+                            <div class="row">
 
-                            <label>Descripción</label>
-                            <textarea name="descripcion" class="form-control mb-2 editor" rows="3"
-                                placeholder="Ingrese descripción del servicio"></textarea>
+                                <!-- IZQUIERDA -->
+                                <div class="col-md-6">
 
-                            <label>Contenido</label>
-                            <textarea name="content" id="editor" class="form-control mb-2 editor"></textarea>
+                                    <label>Nombre del Servicio</label>
+                                    <input type="text" name="nombre" class="form-control mb-2"
+                                        placeholder="Ingrese nombre del servicio">
 
-                            <!-- PORTADA -->
-                            <label>Portada (Imagen)</label>
-                            <input type="file" name="portada" class="form-control mb-2">
+                                    <label>Descripción</label>
+                                    <textarea name="descripcion" class="form-control mb-2 editor" rows="3"
+                                        placeholder="Ingrese descripción del servicio"></textarea>
 
-                            <label>Descripción Portada</label>
-                            <input type="text" name="descripcion_portada" class="form-control mb-2"
-                                placeholder="Texto para portada">
+                                    <label>Descripción Portada</label>
+                                    <input type="text" name="descripcion_portada" class="form-control mb-2"
+                                        placeholder="Texto para portada">
 
-                            <label>Descripción Breve Portada</label>
-                            <input type="text" name="descripcion_breve_portada" class="form-control mb-2"
-                                placeholder="Resumen corto">
+                                    <label>Descripción Breve Portada</label>
+                                    <input type="text" name="descripcion_breve_portada" class="form-control mb-2"
+                                        placeholder="Resumen corto">
 
-                            <label>Imagen Portada</label>
-                            <input type="file" name="imagen_portada" class="form-control mb-2">
+                                </div>
 
-                            <label>Imagen Referencial</label>
-                            <input type="file" name="imagen_referencial" class="form-control mb-2">
+                                <!-- DERECHA -->
+                                <div class="col-md-6">
+
+                                    <label>Portada</label>
+                                    <input type="file" name="portada" class="form-control mb-3">
+
+                                    <label>Imagen Portada</label>
+                                    <input type="file" name="imagen_portada" class="form-control mb-3">
+
+                                    <label>Imagen Referencial</label>
+                                    <input type="file" name="imagen_referencial" class="form-control mb-2">
+
+                                </div>
+
+                            </div>
+
+                            <!-- CONTENIDO FULL WIDTH -->
+                            <div class="mt-3">
+                                <label>Contenido</label>
+                                <textarea name="content" id="editor" class="form-control editor"></textarea>
+                            </div>
 
                         </div>
 
@@ -68,22 +84,19 @@
                                 <div class="row mb-2 align-items-center">
 
                                     <div class="col-md-3">
-                                        <label class="small fw-bold">Título</label>
                                         <input type="text" name="beneficios[0][titulo]" class="form-control"
-                                            placeholder="Ej: Garantía">
+                                            placeholder="Título">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="small fw-bold">Descripción</label>
                                         <input type="text" name="beneficios[0][descripcion]" class="form-control"
                                             placeholder="Descripción">
                                     </div>
 
                                     <div class="col-md-4">
-                                        <label class="small fw-bold">Icono</label>
                                         <div class="input-group">
                                             <input type="text" name="beneficios[0][icono]" class="form-control"
-                                                placeholder="fa fa-check">
+                                                placeholder="Icono">
                                             <span class="input-group-text" style="cursor: pointer;"
                                                 data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
                                                 onclick="prepararIcono(this)" title="Ver guía de iconos">
@@ -92,11 +105,17 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-md-1 text-end">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            onclick="this.closest('.row').remove()"><i class="fa fa-times"></i></button>
+                                    </div>
+
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-primary btn-sm" onclick="addBeneficio()">
-                                <i class="fa fa-plus"></i> Agregar Beneficio
+                            <button type="button" class="btn btn-primary btn-border btn-round btn-sm"
+                                onclick="addBeneficio()">
+                                + Agregar Beneficio
                             </button>
 
                         </div>
@@ -107,6 +126,12 @@
                             <div id="planes-container">
 
                                 <div class="card p-3 mb-3 border shadow-sm">
+
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-bold text-primary"></h6>
+                                        <button type="button" class="btn btn-danger btn-xs"
+                                            onclick="this.closest('.card').remove()">Eliminar Plan</button>
+                                    </div>
 
                                     <div class="row">
                                         <div class="col-md-8">
@@ -133,7 +158,7 @@
                                             <div class="input-group mb-1">
                                                 <input type="text" name="planes[0][features][]"
                                                     class="form-control form-control-sm" placeholder="Característica">
-                                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                                <button class="btn btn-outline-danger btn-sm" type="button"
                                                     onclick="this.closest('.input-group').remove()">×</button>
                                             </div>
 
@@ -151,7 +176,7 @@
                                             value="1" id="destacado0">
 
                                         <label class="form-check-label" for="destacado0">
-                                            Plan Destacado
+                                            Marcar como Plan Destacado
                                         </label>
                                     </div>
 
@@ -159,7 +184,8 @@
 
                             </div>
 
-                            <button type="button" class="btn btn-primary btn-sm" onclick="addPlan()">
+                            <button type="button" class="btn btn-primary btn-border btn-round btn-sm"
+                                onclick="addPlan()">
                                 <i class="fa fa-plus"></i> Agregar Otro Plan
                             </button>
 

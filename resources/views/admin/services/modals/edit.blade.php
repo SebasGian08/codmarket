@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="edit{{ $service->id_service }}">
+<div class="modal fade" id="edit{{ $service->id_service }}">
     <div class="modal-dialog modal-xl">
         <form action="{{ route('admin.servicios.update', $service->id_service) }}" method="POST"
             enctype="multipart/form-data">
@@ -38,15 +38,15 @@
                                     <input type="text" name="nombre" value="{{ $service->nombre }}"
                                         class="form-control mb-2">
 
-                                    <label>DescripciÃ³n</label>
+                                    <label>Descripción</label>
                                     <textarea name="descripcion"
                                         class="form-control mb-2 editor">{{ $service->descripcion }}</textarea>
 
-                                    <label>DescripciÃ³n Portada</label>
+                                    <label>Descripción Portada</label>
                                     <input type="text" name="descripcion_portada"
                                         value="{{ $service->descripcion_portada }}" class="form-control mb-2">
 
-                                    <label>DescripciÃ³n Breve Portada</label>
+                                    <label>Descripción Breve Portada</label>
                                     <input type="text" name="descripcion_breve_portada"
                                         value="{{ $service->descripcion_breve_portada }}" class="form-control mb-2">
 
@@ -105,12 +105,12 @@
                                 <div class="row mb-2 align-items-center">
                                     <div class="col-md-3">
                                         <input type="text" name="beneficios[{{ $index }}][titulo]"
-                                            value="{{ $ben->titulo }}" class="form-control" placeholder="TÃ­tulo">
+                                            value="{{ $ben->titulo }}" class="form-control" placeholder="Título">
                                     </div>
                                     <div class="col-md-4">
                                         <input type="text" name="beneficios[{{ $index }}][descripcion]"
                                             value="{{ $ben->descripcion }}" class="form-control"
-                                            placeholder="DescripciÃ³n">
+                                            placeholder="Descripción">
                                     </div>
                                     <div class="col-md-4">
                                         <div class="input-group">
@@ -118,7 +118,7 @@
                                                 value="{{ $ben->icono }}" class="form-control" placeholder="Icono">
                                             <span class="input-group-text" style="cursor: pointer;"
                                                 data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
-                                                onclick="prepararIcono(this)" title="Ver guÃ­a de iconos">
+                                                onclick="prepararIcono(this)" title="Ver guía de iconos">
                                                 <i class="fa fa-th"></i>
                                             </span>
                                         </div>
@@ -158,7 +158,7 @@
                                         </div>
                                     </div>
 
-                                    <label class="small">DescripciÃ³n Corta</label>
+                                    <label class="small">Descripción Corta</label>
                                     <textarea name="planes[{{ $pIdx }}][descripcion]" class="form-control mb-2 editor"
                                         rows="2">{{ $plan->descripcion }}</textarea>
 
@@ -170,13 +170,13 @@
                                                     value="{{ $feat->descripcion }}"
                                                     class="form-control form-control-sm">
                                                 <button class="btn btn-outline-danger btn-sm" type="button"
-                                                    onclick="this.closest('.input-group').remove()">Ã—</button>
+                                                    onclick="this.closest('.input-group').remove()">×</button>
                                             </div>
                                             @endforeach
                                         </div>
                                         <button type="button" class="btn btn-outline-success btn-xs mt-1"
                                             onclick="addFeatureEdit({{ $service->id_service }}, {{ $pIdx }})">
-                                            <i class="fa fa-plus"></i> AÃ±adir caracterÃ­stica
+                                            <i class="fa fa-plus"></i> Añadir característica
                                         </button>
                                     </div>
 
