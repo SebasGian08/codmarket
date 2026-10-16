@@ -994,19 +994,13 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
         padding: 20px 16px;
     }
 
+    /* En móvil no se muestra la imagen */
     .login-media {
-        flex: none;
-        width: 100%;
-        height: 220px;
-        aspect-ratio: auto;
+        display: none;
     }
 
     .login-panel {
         padding: 28px 24px 32px;
-    }
-
-    .login-media-control {
-        display: none;
     }
 }
 
