@@ -15,8 +15,7 @@
             <div class="about-line"></div>
 
             <p>
-                {!! $empresa->descripcion ??
-                    'Somos una empresa comprometida con brindar soluciones profesionales de alta calidad, enfocadas en generar valor y resultados sostenibles para nuestros clientes.' !!}
+                {!! $empresa->descripcion ?? 'Somos una empresa comprometida con brindar soluciones profesionales de alta calidad, enfocadas en generar valor y resultados sostenibles para nuestros clientes.' !!}
             </p>
 
             <a href="{{ route('nosotros') }}" class="about-btn">

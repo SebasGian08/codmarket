@@ -1,6 +1,7 @@
 <section class="deals_section sec_ptb_50 clearfix">
     <div class="container maxw_1460">
 
+        @if(($config['seccion_categorias_mostrar_encabezado'] ?? 1) == 1)
         <div class="section_heading text-center mb_30">
 
             <div class="section_heading_title">
@@ -14,6 +15,7 @@
             </p>
 
         </div>
+        @endif
         @php
         $categoriasTipo = $config['categorias_tipo'] ?? 'opcion_1';
         @endphp

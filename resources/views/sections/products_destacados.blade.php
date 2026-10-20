@@ -8,6 +8,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
         <div class="row mb_50 align-items-center justify-content-between">
 
             <!-- TÍTULO -->
+            @if(($config['seccion_destacados_mostrar_encabezado'] ?? 1) == 1)
             <div class="col-lg-4 col-md-12 mb-3 mb-lg-0">
 
                 <div class="section_heading mb-0">
@@ -27,10 +28,11 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                 </div>
 
             </div>
+            @endif
 
 
             <!-- CATEGORÍAS -->
-            <div class="col-lg-8">
+            <div class="{{ ($config['seccion_destacados_mostrar_encabezado'] ?? 1) == 1 ? 'col-lg-8' : 'col-12' }}">
 
                 <ul class="supermarket_tab_nav ul_li_right nav clearfix flex-wrap" role="tablist">
 

@@ -81,7 +81,7 @@ class BannerPrincipalController extends Controller
         $request->validate([
             'titulo' => $request->solo_imagen == 0 ? 'required|string|max:150' : 'nullable',
             'subtitulo' => 'nullable|string|max:150',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
             'imagen_mobile' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
@@ -91,27 +91,25 @@ class BannerPrincipalController extends Controller
             $banner = BannerPrincipal::findOrFail($id);
 
             $imagen = $banner->imagen;
+            $imagenAnterior = $banner->imagen;
             $imagenMobile = $banner->imagen_mobile;
+            $imagenMobileAnterior = $banner->imagen_mobile;
 
             if ($request->hasFile('imagen')) {
-                $this->deleteImage($banner->imagen);
-
                 $imagen = uploadImageOptimized(
                     $request->file('imagen'),
                     'banners',
                     1920
                 );
             }
-
             if ($request->hasFile('imagen_mobile')) {
-                $this->deleteImage($banner->imagen_mobile); 
                 $imagenMobile = uploadImageOptimized($request->file('imagen_mobile'));
             }
 
             $imagenReferencial = $banner->imagen_referencial;
+            $imagenReferencialAnterior = $banner->imagen_referencial;
 
             if ($request->hasFile('imagen_referencial')) {
-                $this->deleteImage($banner->imagen_referencial);
                 $imagenReferencial = uploadImageOptimized($request->file('imagen_referencial'), 'banners', 800);
             }
 
@@ -132,6 +130,18 @@ class BannerPrincipalController extends Controller
             ]);
 
             DB::commit();
+
+            if ($request->hasFile('imagen')) {
+                $this->deleteImage($imagenAnterior);
+            }
+
+            if ($request->hasFile('imagen_mobile')) {
+                $this->deleteImage($imagenMobileAnterior);
+            }
+
+            if ($request->hasFile('imagen_referencial')) {
+                $this->deleteImage($imagenReferencialAnterior);
+            }
 
             return redirect()->route('admin.banners.index')
                 ->with('success', 'Banner actualizado correctamente');
@@ -156,8 +166,10 @@ class BannerPrincipalController extends Controller
 
     private function deleteImage($path)
     {
-        if ($path && file_exists(public_path($path))) {
-            unlink(public_path($path));
+        $imagePath = $path ? base_path($path) : null;
+
+        if ($imagePath && file_exists($imagePath)) {
+            unlink($imagePath);
         }
     }
 }

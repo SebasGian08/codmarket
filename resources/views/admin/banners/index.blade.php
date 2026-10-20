@@ -28,6 +28,9 @@
                 </ul>
             </div>
             @endif
+            @if (session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+            @endif
             <div class="table-responsive">
                 <table class="table table-striped table-hover" id="basic-datatables">
 
@@ -81,8 +84,6 @@
                             </td>
                         </tr>
 
-                        @include('admin.banners.modals.edit')
-
                         @endforeach
                     </tbody>
 
@@ -93,6 +94,10 @@
     </div>
 
 </div>
+
+@foreach($banners as $banner)
+    @include('admin.banners.modals.edit')
+@endforeach
 
 @include('admin.banners.modals.create')
 

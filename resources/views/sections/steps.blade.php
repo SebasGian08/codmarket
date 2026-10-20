@@ -1,6 +1,7 @@
 <section class="gadget_feature_section ecommerce_features sec_ptb_50 clearfix mt-2" style="background: #f8fafc;">
     <div class="container">
 
+        @if(($config['seccion_steps_mostrar_encabezado'] ?? 1) == 1)
         <!-- TITLE -->
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
@@ -15,6 +16,7 @@
                 {!! limpiarTextoEditor($config['seccion_steps_descripcion'] ?? 'Diseñamos una experiencia moderna, rápida y segura para que compres con total confianza.') !!}
             </p>
         </div>
+        @endif
 
         @php
             $ventajas = $empresa->empresa_ventajas ?: [

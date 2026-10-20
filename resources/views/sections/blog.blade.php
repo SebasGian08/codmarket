@@ -1,6 +1,7 @@
 <section class="blog_section sec_ptb_50 clearfix">
     <div class="container">
 
+        @if(($config['seccion_blog_mostrar_encabezado'] ?? 1) == 1)
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
@@ -11,6 +12,7 @@
                 {!! limpiarTextoEditor($config['seccion_blog_descripcion'] ?? 'Explora nuestras novedades') !!}
             </p>
         </div>
+        @endif
 
         <!-- SWIPER -->
         <div class="swiper blogSwiper">

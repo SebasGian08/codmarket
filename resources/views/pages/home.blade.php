@@ -23,6 +23,7 @@
     $mostrarTestimonios = $config['home_mostrar_testimonios'] ?? 1;
     $mostrarContacto = $config['home_mostrar_contacto'] ?? 1;
     $mostrarNosotros = $config['home_mostrar_nosotros'] ?? 1;
+    $mostrarIndicadores = $config['home_mostrar_indicadores'] ?? 1;
 @endphp
 
 
@@ -30,7 +31,9 @@
     @include('sections.banner')
 </div>
 
-@include('sections.indicadores')
+@if($mostrarIndicadores == 1)
+    @include('sections.indicadores')
+@endif
 
 @if($mostrarRubros == 1)
     <div class="scroll-reveal reveal-scale">{{-- Rubros: escala --}}

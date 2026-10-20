@@ -2,6 +2,7 @@
 <div class="faq-section">
     <div class="faq-container">
 
+        @if(($config['seccion_preguntas_mostrar_encabezado'] ?? 1) == 1)
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
@@ -12,6 +13,7 @@
                 {!! limpiarTextoEditor($config['seccion_preguntas_descripcion'] ?? 'Resolvemos las dudas más comunes sobre nuestros servicios.') !!}
             </p>
         </div>
+        @endif
 
         <div class="faq-list">
             @foreach($preguntas as $item)

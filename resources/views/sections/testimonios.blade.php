@@ -4,6 +4,7 @@
 
     <div class="container maxw_1460">
 
+        @if(($config['seccion_testimonios_mostrar_encabezado'] ?? 1) == 1)
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
@@ -14,6 +15,7 @@
                 {!! limpiarTextoEditor($config['seccion_testimonios_descripcion'] ?? 'Algunos de nuestros proyectos realizados.') !!}
             </p>
         </div>
+        @endif
 
         @php
             $casosExitoTipo = $config['casos_exito_tipo'] ?? 'opcion_1';

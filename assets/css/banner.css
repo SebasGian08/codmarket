@@ -161,6 +161,10 @@
     isolation: isolate;
 }
 
+.hero_banner_slider .con-contenido {
+    aspect-ratio: 2076 / 757;
+}
+
 /* overlay base */
 .con-contenido::before {
     content: "";
@@ -186,14 +190,15 @@
 /* ===== VARIANTE SLIDER (fondo claro / gris) ===== */
 .hero_banner_slider .con-contenido::before {
     background: linear-gradient(to right,
-            rgba(244, 246, 248, 0.96) 0%,
-            rgba(231, 234, 237, 0.9) 38%,
-            rgba(218, 221, 225, 0.62) 68%,
-            rgba(218, 221, 225, 0.08) 100%);
+            rgba(255, 255, 255, 0.78) 0%,
+            rgba(255, 255, 255, 0.68) 30%,
+            rgba(255, 255, 255, 0.38) 45%,
+            rgba(255, 255, 255, 0.12) 58%,
+            rgba(255, 255, 255, 0) 70%);
 }
 
 .hero_banner_slider .con-contenido::after {
-    background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 55%, transparent), transparent 70%);
+    /* background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 55%, transparent), transparent 70%); */
     right: -10%;
     left: auto;
     bottom: -32%;
@@ -261,11 +266,17 @@
 
 /* normal */
 .hero_banner_slider .badge_text {
-    color: #0c8a4d;
-    background: rgba(255, 255, 255, 0.66);
+    color: var(--color-primario);
+    text-transform: none !important;
+    letter-spacing: 0px !important;
+    padding: 1px 1px !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    /* background: rgba(255, 255, 255, 0.66);
     border: 1px solid rgba(143, 150, 159, 0.3);
-    box-shadow: 0 4px 14px rgba(16, 24, 40, 0.08);
-    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(16, 24, 40, 0.08); */
+    /* backdrop-filter: blur(6px); */
+    
 }
 
 /* full */
@@ -681,7 +692,7 @@
 
 @media (min-width: 993px) {
     .hero_banner_slider .hero_card .content_box {
-        max-width: 760px;
+        max-width: 1260px;
         margin: 0 auto;
     }
 
@@ -846,6 +857,10 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
         background-position: center top;
     }
 
+    .hero_banner_slider .con-contenido {
+        aspect-ratio: 1080 / 1350;
+    }
+
     .hero_banner_full .hero_full_content {
         text-align: center;
     }
@@ -956,7 +971,7 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
 /* FORMULARIO COMPACTO DEL BANNER */
 .banner-hero-stage {
     position: relative;
-    width: min(1320px, 100%);
+    width: min(1920px, 100%);
     margin: 0 auto;
 }
 

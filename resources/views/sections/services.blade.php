@@ -9,6 +9,7 @@
 
     <div class="container maxw_1430">
 
+        @if(($config['seccion_servicios_mostrar_encabezado'] ?? 1) == 1)
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
@@ -20,6 +21,7 @@
                 potenciar tu empresa') !!}
             </p>
         </div>
+        @endif
 
         <div class="row">
 

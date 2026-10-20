@@ -4,6 +4,7 @@
 
     <div class="container">
 
+        @if(($config['seccion_clientes_mostrar_encabezado'] ?? 1) == 1)
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
@@ -14,6 +15,7 @@
                 {!! limpiarTextoEditor($config['seccion_clientes_descripcion'] ?? 'Empresas y personas que confían en nosotros.') !!}
             </p>
         </div>
+        @endif
 
         @php
             $clientesCarousel = ($clientes ?? collect())->values();
