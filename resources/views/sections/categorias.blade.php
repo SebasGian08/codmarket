@@ -99,6 +99,38 @@
 
         </div>
 
+        @elseif($categoriasTipo === 'opcion_3')
+
+        {{-- ========================================= --}}
+        {{-- GRID DE CATEGORÍAS CON ICONOS --}}
+        {{-- ========================================= --}}
+
+        <div class="row justify-content-center category_icon_grid">
+
+            @foreach($categorias as $cat)
+
+            @php
+            $imagenCategoria = imagenOrDefault($cat->imagen);
+            @endphp
+
+            <div class="col-6 col-md-4 col-lg-2 mb-3">
+
+                <a href="{{ route('productos.categoria', $cat->slug) }}" class="category_icon_card">
+
+                    <div class="category_icon_image">
+                        <img src="{{ $imagenCategoria }}" alt="" aria-hidden="true">
+                    </div>
+
+                    <h5>{{ $cat->nombre }}</h5>
+
+                </a>
+
+            </div>
+
+            @endforeach
+
+        </div>
+
         @else
 
         {{-- ========================================= --}}

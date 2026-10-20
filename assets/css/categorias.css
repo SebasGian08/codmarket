@@ -93,6 +93,71 @@
     font-weight:700;
     color: #fff;
 }
+
+/* ========================================= */
+/* OPCION 3 - GRID CON ICONOS */
+/* ========================================= */
+
+.category_icon_grid > div{
+    display:flex;
+}
+
+.category_icon_card{
+    display:flex;
+    width:100%;
+    min-height:118px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:12px;
+    color:#222;
+    text-align:center;
+    text-decoration:none;
+    background:#fff;
+    border:1px solid #eee;
+    border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,0,0,.12);
+    transition:transform .25s ease, box-shadow .25s ease;
+}
+
+.category_icon_card:hover{
+    color:#222;
+    transform:translateY(-3px);
+    box-shadow:0 7px 16px rgba(0,0,0,.16);
+}
+
+.category_icon_image{
+    display:flex;
+    width:44px;
+    height:48px;
+    align-items:center;
+    justify-content:center;
+}
+
+.category_icon_image img{
+    max-width:100%;
+    max-height:100%;
+    object-fit:contain;
+}
+
+.category_icon_card h5{
+    margin:0;
+    font-size:16px;
+    font-weight:400;
+    line-height:1.25;
+}
+
+html[data-theme="dark"] .category_icon_card{
+    color:var(--theme-text);
+    background-color:var(--theme-surface);
+    border-color:var(--theme-border);
+}
+
+html[data-theme="dark"] .category_icon_card:hover{
+    color:var(--theme-text);
+}
+
 .heading_line{
     display:flex;
     align-items:center;
