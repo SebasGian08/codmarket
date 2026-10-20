@@ -1011,6 +1011,60 @@
   // barnd carousel - end
   // --------------------------------------------------
 
+  // Home brand carousel
+  var marcasTotal = $('.marcas_carousel .marcas_item').length;
+  var marcasMaxVisibles = Math.max(marcasTotal, 1);
+  var ajustarMarcasVisibles = function (cantidad) {
+    return Math.min(cantidad, marcasMaxVisibles);
+  };
+
+  $('.marcas_carousel').slick({
+    dots: false,
+    arrows: false,
+    speed: 600,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 2500,
+    pauseOnHover: true,
+    pauseOnFocus: true,
+    slidesToShow: ajustarMarcasVisibles(5),
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: ajustarMarcasVisibles(5)
+        }
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: ajustarMarcasVisibles(4)
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: ajustarMarcasVisibles(3)
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: ajustarMarcasVisibles(2)
+        }
+      }
+    ]
+  });
+
+  $('.marcas_prev').on('click', function () {
+    $('.marcas_carousel').slick('slickPrev');
+  });
+
+  $('.marcas_next').on('click', function () {
+    $('.marcas_carousel').slick('slickNext');
+  });
+
 
   // electronic feature carousel - start
   // --------------------------------------------------

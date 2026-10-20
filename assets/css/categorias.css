@@ -118,13 +118,15 @@
     border:1px solid #eee;
     border-radius:12px;
     box-shadow:0 3px 10px rgba(0,0,0,.12);
-    transition:transform .25s ease, box-shadow .25s ease;
+    transition:transform .25s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease, color .25s ease;
 }
 
 .category_icon_card:hover{
-    color:#222;
+    color:var(--color-secundario);
     transform:translateY(-3px);
-    box-shadow:0 7px 16px rgba(0,0,0,.16);
+    background-color:color-mix(in srgb, var(--color-secundario) 9%, #fff);
+    border-color:color-mix(in srgb, var(--color-secundario) 55%, #eee);
+    box-shadow:0 8px 20px color-mix(in srgb, var(--color-secundario) 22%, transparent);
 }
 
 .category_icon_image{
@@ -155,7 +157,9 @@ html[data-theme="dark"] .category_icon_card{
 }
 
 html[data-theme="dark"] .category_icon_card:hover{
-    color:var(--theme-text);
+    color:var(--color-secundario);
+    background-color:color-mix(in srgb, var(--color-secundario) 14%, var(--theme-surface));
+    border-color:color-mix(in srgb, var(--color-secundario) 55%, var(--theme-border));
 }
 
 .heading_line{

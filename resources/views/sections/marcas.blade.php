@@ -1,4 +1,4 @@
-<div class="barnd_section sec_ptb_50 clearfix">
+<div class="sec_ptb_50 clearfix">
     <div class="container">
 
         <div class="marcas_row">
@@ -17,20 +17,25 @@
             </div>
             @endif
 
-            <!-- DERECHA: logos marquee -->
-            <div class="marcas_marquee">
-                <div class="marcas_track">
-                    @foreach($marcas as $marca)
-                    <div class="marcas_item">
-                        <img src="{{ imagenOrDefault($marca->logo) }}" alt="{{ $marca->nombre }}">
+            <!-- Carrusel de marcas -->
+            <div class="marcas_carousel_wrap">
+                <button type="button" class="marcas_arrow marcas_prev" aria-label="Marca anterior">
+                    <i class="fal fa-angle-left" aria-hidden="true"></i>
+                </button>
+
+                <div class="marcas_marquee">
+                    <div class="marcas_carousel">
+                        @foreach($marcas as $marca)
+                        <div class="marcas_item">
+                            <img src="{{ imagenOrDefault($marca->logo) }}" alt="{{ $marca->nombre }}">
+                        </div>
+                        @endforeach
                     </div>
-                    @endforeach
-                    @foreach($marcas as $marca)
-                    <div class="marcas_item">
-                        <img src="{{ imagenOrDefault($marca->logo) }}" alt="{{ $marca->nombre }}">
-                    </div>
-                    @endforeach
                 </div>
+
+                <button type="button" class="marcas_arrow marcas_next" aria-label="Marca siguiente">
+                    <i class="fal fa-angle-right" aria-hidden="true"></i>
+                </button>
             </div>
 
         </div>

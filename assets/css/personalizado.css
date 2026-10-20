@@ -2394,7 +2394,7 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
     }
 }
 
-/* ============ MARCAS MARQUEE ============ */
+/* ============ CARRUSEL DE MARCAS ============ */
 .marcas_row {
     display: flex;
     flex-direction: column;
@@ -2420,60 +2420,98 @@ html[data-theme="dark"] .submenu_flat_children > li:hover > a {
     margin: 0;
 }
 
-.marcas_marquee {
-    flex: 1;
-    width: 100%;
-    overflow: hidden;
-    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-}
-
-.marcas_track {
+.marcas_carousel_wrap {
     display: flex;
     align-items: center;
-    width: max-content;
-    animation: marcasScroll 30s linear infinite;
+    gap: 18px;
+    width: 100%;
+}
+
+.marcas_marquee {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.marcas_carousel {
+    margin: 0;
 }
 
 .marcas_item {
-    flex: 0 0 auto;
-    width: 200px;
-    height: 110px;
     display: flex;
+    height: 150px;
     align-items: center;
     justify-content: center;
-    padding: 15px 30px;
+    padding: 20px 28px;
 }
 
 .marcas_item img {
+    display: block;
+    width: auto;
     max-width: 100%;
-    max-height: 100%;
+    max-height: 105px;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    opacity: .68;
+    transition: transform .3s ease, opacity .3s ease;
 }
 
 .marcas_item img:hover {
-    transform: scale(1.08);
+    opacity: 1;
+    transform: scale(1.07);
 }
 
-@keyframes marcasScroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+.marcas_arrow {
+    display: flex;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    color: #777;
+    background: transparent;
+    border: 0;
+    border-radius: 6px;
+    font-size: 24px;
+    transition: color .2s ease, background-color .2s ease;
+}
+
+.marcas_arrow:hover,
+.marcas_arrow:focus-visible {
+    color: var(--color-secundario);
+    background-color: color-mix(in srgb, var(--color-secundario) 9%, #fff);
+    outline: none;
 }
 
 @media (max-width: 768px) {
     .marcas_item {
-        width: 150px;
-        height: 85px;
-        padding: 12px 20px;
+        height: 125px;
+        padding: 16px 20px;
     }
 
-    .marcas_track {
-        animation-duration: 18s;
+    .marcas_item img {
+        max-height: 85px;
+    }
+
+    .marcas_carousel_wrap {
+        gap: 8px;
+    }
+
+    .marcas_arrow {
+        flex-basis: 28px;
+        width: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .marcas_item {
+        height: 110px;
+        padding: 12px;
+    }
+
+    .marcas_item img {
+        max-height: 72px;
     }
 }
 
