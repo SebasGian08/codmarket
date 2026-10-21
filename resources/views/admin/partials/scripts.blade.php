@@ -229,6 +229,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 @endif
 
+@if(session('error'))
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    Swal.fire({
+        title: 'No se pudo completar la operación',
+        text: @json(session('error')),
+        icon: 'error',
+        confirmButtonText: 'Entendido'
+    });
+});
+</script>
+@endif
+
 @if ($errors->any())
 <script>
 document.addEventListener('DOMContentLoaded', function() {

@@ -35,7 +35,7 @@
 <script src="{{ asset('assets/js/jquery-ui.js') }}"></script>
 
 <!-- Custom -->
-<script src="{{ asset('assets/js/custom.js') }}"></script>
+<script src="{{ asset('assets/js/custom.js') }}?v={{ filemtime(base_path('assets/js/custom.js')) }}"></script>
 <script src="{{ asset('assets/js/theme.js') }}"></script>
 
 <!-- Extras -->

@@ -573,6 +573,42 @@
     ]
   });
 
+  $('.casos_testimonial_slider').each(function () {
+    var $slider = $(this);
+    var slideCount = $slider.children().length;
+
+    $slider.slick({
+      dots: false,
+      arrows: false,
+      infinite: slideCount > 1,
+      autoplay: slideCount > 1,
+      autoplaySpeed: 4000,
+      pauseOnHover: true,
+      slidesToShow: Math.min(3.5, slideCount),
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 1200,
+          settings: {
+            slidesToShow: Math.min(3, slideCount)
+          }
+        },
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: Math.min(2, slideCount)
+          }
+        },
+        {
+          breakpoint: 640,
+          settings: {
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+  });
+
   // clientes carousel - start
   // --------------------------------------------------
   $('.clientes_slider').slick({

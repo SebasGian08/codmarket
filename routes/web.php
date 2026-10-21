@@ -429,7 +429,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::prefix('trabajos-realizados')->group(function () {
         Route::get('/', [TrabajoRealizadoController::class, 'index'])->name('admin.trabajos.index');
         Route::post('/guardar', [TrabajoRealizadoController::class, 'store'])->name('admin.trabajos.store');
-       /*  Route::put('/{id}/actualizar', [TrabajoRealizadoController::class, 'update'])->name('admin.trabajos.update'); */
+        Route::put('/{id}/actualizar', [TrabajoRealizadoController::class, 'update'])->name('admin.trabajos.update');
         Route::delete('/{id}/eliminar', [TrabajoRealizadoController::class, 'destroy'])->name('admin.trabajos.destroy');
     });
 

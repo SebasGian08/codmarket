@@ -1,8 +1,8 @@
-<div class="modal fade" id="edit{{ $trabajo->id_trabajo }}">
+<div class="modal fade" id="edit{{ $trabajo->getKey() }}">
 
     <div class="modal-dialog modal-lg">
 
-        <form action="{{ route('admin.trabajos.update', $trabajo->id_trabajo) }}" method="POST"
+        <form action="{{ route('admin.trabajos.update', $trabajo->getKey()) }}" method="POST"
             enctype="multipart/form-data">
 
             @csrf

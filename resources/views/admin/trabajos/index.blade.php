@@ -49,7 +49,7 @@
 
                         <tr>
 
-                            <td>{{ $trabajo->id_trabajo }}</td>
+                            <td>{{ $trabajo->getKey() }}</td>
 
                             <td>
                                 @if($trabajo->imagen)
@@ -72,14 +72,13 @@
                             <td>
 
                                 <button class="btn btn-sm btn-primary btn-border btn-round" data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $trabajo->id_trabajo }}">
+                                    data-bs-target="#edit{{ $trabajo->getKey() }}">
 
                                     <i class="fa fa-edit"></i>
 
                                 </button>
 
-                                <form action="{{ route('admin.trabajos.update', $trabajo->id_trabajo) }}" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action="{{ route('admin.trabajos.destroy', $trabajo->getKey()) }}" method="POST">
 
                                     @csrf
                                     @method('DELETE')

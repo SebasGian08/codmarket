@@ -31,6 +31,90 @@ break;
     {{-- FOOTER TOP --}}
     <div class="footer_widget_area">
         <div class="container">
+            @if($footerTheme === 'light')
+            <div class="footer_light_top">
+                <div class="footer_light_brand_block">
+                    <a class="footer_light_brand" href="{{ route('home') }}">
+                        <img src="{{ asset($empresa->logo_footer ?? $empresa->logo_header ?? 'assets/images/logo.png') }}"
+                            alt="{{ $empresa->nombre ?? 'Logo' }}">
+                    </a>
+                    <div class="footer_light_description">
+                        {!! $empresa->descripcion ?? '
+                        <p>
+                            Encuentra productos exclusivos, promociones especiales
+                            y una experiencia de compra rápida y segura.
+                        </p>' !!}
+                    </div>
+                </div>
+
+                <div class="footer_light_column">
+                    <h3 class="footer_widget_title">Menú</h3>
+                    <ul class="footer_links">
+                        <li><a href="{{ route('home') }}">Inicio</a></li>
+                        <li><a href="{{ route('productos.index') }}">Productos</a></li>
+                        <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+                        <li><a href="{{ route('blog.index') }}">Novedades</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer_light_column">
+                    <h3 class="footer_widget_title">Recursos y contacto</h3>
+                    <ul class="footer_links">
+                        <li><a href="{{ route('contact.index') }}">Contáctanos</a></li>
+                        <li><a href="{{ route('blog.index') }}">Novedades</a></li>
+                        @if($empresa->correo)
+                        <li><a href="mailto:{{ $empresa->correo }}">Correo electrónico</a></li>
+                        @endif
+                        @if($empresa->telefono)
+                        <li><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->telefono) }}">WhatsApp</a></li>
+                        @endif
+                    </ul>
+                </div>
+
+                <div class="footer_light_certifications">
+                    @if(isset($footerLogos) && $footerLogos->count())
+                    @foreach($footerLogos as $logo)
+                        @if($logo->imagen)
+                            @if($logo->url)
+                            <a href="{{ $logo->url }}" target="_blank" rel="noopener noreferrer"
+                                class="footer_logo_item" title="{{ $logo->titulo }}">
+                                <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                            </a>
+                            @else
+                            <span class="footer_logo_item" title="{{ $logo->titulo }}">
+                                <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                            </span>
+                            @endif
+                        @endif
+                    @endforeach
+                    @endif
+                </div>
+
+                <div class="footer_light_column footer_light_contact">
+                    <h3 class="footer_widget_title">Contáctanos</h3>
+                    <ul class="footer_links">
+                        @if($empresa->direccion)
+                        <li>
+                            <i class="far fa-map-marker-alt" aria-hidden="true"></i>
+                            <span><strong>Dirección:</strong> {!! $empresa->direccion !!}</span>
+                        </li>
+                        @endif
+                        @if($empresa->telefono)
+                        <li>
+                            <i class="far fa-phone" aria-hidden="true"></i>
+                            <span><strong>Asesoría en línea:</strong> {{ $empresa->telefono }}</span>
+                        </li>
+                        @endif
+                        @if($empresa->correo)
+                        <li>
+                            <i class="far fa-envelope" aria-hidden="true"></i>
+                            <span><strong>Email:</strong> {{ $empresa->correo }}</span>
+                        </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+            @else
             <div class="row gy-5 justify-content-between">
 
                 {{-- LOGO + DESCRIPCIÓN --}}
@@ -194,6 +278,7 @@ break;
                 </div>
 
             </div>
+            @endif
         </div>
     </div>
 
@@ -201,15 +286,56 @@ break;
     <div class="footer_bottom">
         <div class="container">
 
-            <div class="footer_bottom_content">
-
+            @if($footerTheme === 'light')
+            <div class="footer_bottom_content footer_light_bottom">
                 <p class="copyright_text">
                     © {{ date('Y') }}
                     <strong>{{ $empresa->nombre ?? 'falta-nombre' }}</strong>.
                     Todos los derechos reservados.
                 </p>
 
+                <div class="footer_light_socials" aria-label="Redes sociales">
+                    @if($config['youtube_url'] ?? false)
+                    <a href="{{ $config['youtube_url'] }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <i class="fab fa-youtube" aria-hidden="true"></i>
+                    </a>
+                    @endif
+                    @if($facebookUrl)
+                    <a href="{{ $facebookUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                    </a>
+                    @endif
+                    @if($instagramUrl)
+                    <a href="{{ $instagramUrl }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                    </a>
+                    @endif
+                    @if($linkedinUrl)
+                    <a href="{{ $linkedinUrl }}" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                    </a>
+                    @endif
+                    @if($tiktokUrl)
+                    <a href="{{ $tiktokUrl }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                        <i class="fab fa-tiktok" aria-hidden="true"></i>
+                    </a>
+                    @endif
+                    @if($config['twitter_url'] ?? false)
+                    <a href="{{ $config['twitter_url'] }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+                        <i class="fab fa-x-twitter" aria-hidden="true"></i>
+                    </a>
+                    @endif
+                </div>
             </div>
+            @else
+            <div class="footer_bottom_content">
+                <p class="copyright_text">
+                    © {{ date('Y') }}
+                    <strong>{{ $empresa->nombre ?? 'falta-nombre' }}</strong>.
+                    Todos los derechos reservados.
+                </p>
+            </div>
+            @endif
 
         </div>
     </div>
@@ -224,218 +350,3 @@ $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.')
 <a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" class="whatsapp-float" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
-
-<style>
-.light_footer {
-    background: #ffffff;
-    color: #222 !important;
-    border-top: 1px solid #e5e5e5 !important;
-}
-
-/* títulos */
-.light_footer .footer_widget_title {
-    color: #111 !important;
-    font-weight: 600;
-}
-
-/* textos generales */
-.light_footer p,
-.light_footer li,
-.light_footer span {
-    color: #444 !important;
-}
-
-/* links */
-.light_footer a {
-    color: #333 !important;
-    transition: 0.3s;
-}
-
-.light_footer a:hover {
-    color: #000 !important;
-}
-
-/* widgets */
-.light_footer .footer_widget {
-    border-color: rgba(0, 0, 0, 0.08) !important;
-}
-
-/* icons in contact */
-.footer_links li i {
-    margin-right: 8px;
-    font-size: 13px;
-    opacity: 0.7;
-}
-
-.light_footer .footer_links li i {
-    color: #444 !important;
-}
-
-/* redes sociales */
-.light_footer .footer_social i {
-    color: #111 !important;
-}
-
-/* back to top */
-.light_footer .backtotop {
-    filter: none;
-}
-
-/* whatsapp flotante */
-.whatsapp-float {
-    background: #25d366;
-    color: #fff !important;
-}
-
-.light_footer .footer_description {
-    margin-bottom: 0;
-    color: #000000 !important;
-}
-
-/* ============ REDES SOCIALES - TARJETAS ============ */
-.footer_social_cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.footer_social_cards .social_card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: #fff;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.footer_social_cards .social_card i {
-    font-size: 16px;
-    width: 20px;
-    text-align: center;
-}
-
-.footer_social_cards .social_card:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Colores por red social */
-.social_facebook:hover {
-    background: rgba(59, 89, 152, 0.3);
-    border-color: rgba(59, 89, 152, 0.5);
-}
-
-.social_instagram:hover {
-    background: rgba(225, 48, 108, 0.3);
-    border-color: rgba(225, 48, 108, 0.5);
-}
-
-.social_tiktok:hover {
-    background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.social_youtube:hover {
-    background: rgba(255, 0, 0, 0.3);
-    border-color: rgba(255, 0, 0, 0.5);
-}
-
-.social_twitter:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-.social_linkedin:hover {
-    background: rgba(0, 119, 181, 0.3);
-    border-color: rgba(0, 119, 181, 0.5);
-}
-
-/* ============ LOGOS / CERTIFICACIONES FOOTER ============ */
-.footer_logos {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px;
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.footer_logo_item {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.footer_logo_item img {
-    display: block;
-    width: auto;
-    height: auto;
-    max-height: 100px;
-    max-width: 100px;
-    object-fit: contain;
-}
-
-.footer_logo_item:hover {
-    opacity: 0.85;
-    transform: translateY(-2px);
-}
-
-/* Light footer - logos */
-.light_footer .footer_logos {
-    border-top-color: rgba(0, 0, 0, 0.08);
-}
-
-/* Light footer - tarjetas sociales */
-.light_footer .footer_social_cards .social_card {
-    background: rgba(0, 0, 0, 0.04);
-    border-color: rgba(0, 0, 0, 0.08);
-    color: #333;
-}
-
-.light_footer .footer_social_cards .social_card:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-
-.light_footer .social_facebook:hover {
-    background: rgba(59, 89, 152, 0.12);
-    border-color: rgba(59, 89, 152, 0.3);
-    color: #3b5998;
-}
-
-.light_footer .social_instagram:hover {
-    background: rgba(225, 48, 108, 0.12);
-    border-color: rgba(225, 48, 108, 0.3);
-    color: #e1306c;
-}
-
-.light_footer .social_tiktok:hover {
-    background: rgba(0, 0, 0, 0.08);
-    border-color: rgba(0, 0, 0, 0.15);
-}
-
-.light_footer .social_youtube:hover {
-    background: rgba(255, 0, 0, 0.1);
-    border-color: rgba(255, 0, 0, 0.3);
-    color: #ff0000;
-}
-
-.light_footer .social_twitter:hover {
-    background: rgba(0, 0, 0, 0.06);
-    border-color: rgba(0, 0, 0, 0.12);
-}
-
-.light_footer .social_linkedin:hover {
-    background: rgba(0, 119, 181, 0.1);
-    border-color: rgba(0, 119, 181, 0.3);
-    color: #0077b5;
-}
-</style>

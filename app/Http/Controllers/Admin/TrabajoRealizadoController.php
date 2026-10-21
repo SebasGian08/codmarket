@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TrabajoRealizado;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TrabajoRealizadoController extends Controller
 {
@@ -22,7 +23,7 @@ class TrabajoRealizadoController extends Controller
             'titulo'      => 'required|string|max:200',
             'cliente'     => 'nullable|string|max:150',
             'descripcion' => 'nullable',
-            'imagen'      => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'imagen'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         try {
@@ -60,7 +61,9 @@ class TrabajoRealizadoController extends Controller
 
             DB::rollBack();
 
-            return back()->with('error', $e->getMessage());
+            Log::error('No se pudo registrar el trabajo realizado.', ['exception' => $e]);
+
+            return back()->with('error', 'No se pudo guardar el trabajo. Revisa los datos e inténtalo nuevamente.');
         }
     }
 
@@ -112,7 +115,12 @@ class TrabajoRealizadoController extends Controller
 
             DB::rollBack();
 
-            return back()->with('error', $e->getMessage());
+            Log::error('No se pudo actualizar el trabajo realizado.', [
+                'trabajo_id' => $id,
+                'exception' => $e,
+            ]);
+
+            return back()->with('error', 'No se pudo actualizar el trabajo. Inténtalo nuevamente.');
         }
     }
 

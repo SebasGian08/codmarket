@@ -33,11 +33,11 @@
                     </div>
 
                     <div class="col-md-6 mt-2">
-                        <label>Imagen</label>
+                        <label>Imagen (opcional)</label>
                         <input type="file"
                             name="imagen"
                             class="form-control"
-                            required>
+                            accept="image/jpeg,image/png,image/webp">
                     </div>
 
                     <div class="col-md-12 mt-2">

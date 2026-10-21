@@ -1,10 +1,23 @@
 @if($trabajosRealizados->count())
 
-<section class="success_cases_section sec_ptb_50 clearfix">
+@php
+    $casosExitoTipo = $config['casos_exito_tipo'] ?? 'opcion_1';
+@endphp
+
+<section class="sec_ptb_50 clearfix {{ $casosExitoTipo === 'opcion_1' ? 'success_cases_testimonial' : '' }}">
 
     <div class="container maxw_1460">
 
         @if(($config['seccion_testimonios_mostrar_encabezado'] ?? 1) == 1)
+        @if($casosExitoTipo === 'opcion_1')
+        <div class="casos_testimonial_header">
+            <div class="section_heading_title casos_testimonial_heading">
+                <span></span>
+                <small>{{ $config['seccion_testimonios_titulo'] ?? 'CASOS DE ÉXITO' }}</small>
+                <span></span>
+            </div>
+        </div>
+        @else
         <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
@@ -16,95 +29,25 @@
             </p>
         </div>
         @endif
-
-        @php
-            $casosExitoTipo = $config['casos_exito_tipo'] ?? 'opcion_1';
-        @endphp
+        @endif
 
         @if($casosExitoTipo === 'opcion_1')
 
-            <div class="row align-items-center mb-4">
-
-                <div class="col-lg-10"></div>
-
-                <div class="col-lg-2">
-
-                    <div class="carousel_nav align_right">
-
-                        <button type="button" class="left_arrow_casos">
-                            <i class="fal fa-arrow-left"></i>
-                        </button>
-
-                        <button type="button" class="right_arrow_casos">
-                            <i class="fal fa-arrow-right"></i>
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="casos_slider row clearfix"
-                data-slick='{
-                    "dots": false,
-                    "arrows": true,
-                    "infinite": true,
-                    "autoplay": true,
-                    "autoplaySpeed": 4000,
-                    "slidesToShow": 3,
-                    "slidesToScroll": 1,
-                    "prevArrow": ".left_arrow_casos",
-                    "nextArrow": ".right_arrow_casos",
-                    "responsive": [
-                        {
-                            "breakpoint": 992,
-                            "settings": {
-                                "slidesToShow": 2
-                            }
-                        },
-                        {
-                            "breakpoint": 576,
-                            "settings": {
-                                "slidesToShow": 1
-                            }
-                        }
-                    ]
-                }'>
-
+            <div class="casos_testimonial_slider">
                 @foreach($trabajosRealizados as $trabajo)
-
-                <div class="item px-2">
-
-                    <div class="success_case_card">
-
-                        <div class="success_case_image">
-                            <img src="{{ asset($trabajo->imagen) }}"
-                                alt="{{ $trabajo->titulo }}">
-                        </div>
-
-                        <div class="success_case_content">
-
-                            @if(!empty($trabajo->cliente))
-                                <span class="case_client">
-                                    {{ $trabajo->cliente }}
-                                </span>
-                            @endif
-
-                            <h4>{{ $trabajo->titulo }}</h4>
-
-                            <p>
-                                {{ limpiarTextoPlano($trabajo->descripcion, 100) }}
-                            </p>
-
-                        </div>
-
-                    </div>
-
+                <div class="casos_testimonial_slide">
+                    <article class="casos_testimonial_card">
+                        <span class="casos_testimonial_quote" aria-hidden="true">&rdquo;</span>
+                        <h3>{{ $trabajo->titulo }}</h3>
+                        @if($trabajo->descripcion)
+                        <p>{{ limpiarTextoPlano($trabajo->descripcion, 180) }}</p>
+                        @endif
+                        @if($trabajo->cliente)
+                        <strong>{{ $trabajo->cliente }}</strong>
+                        @endif
+                    </article>
                 </div>
-
                 @endforeach
-
             </div>
 
         @else
