@@ -44,6 +44,7 @@ class Empresa extends Model
         'indicador_4_titulo',
         'empresa_ventajas',
         'empresa_indicadores',
+        'empresa_beneficios',
     ];
 
     /**
@@ -76,6 +77,14 @@ class Empresa extends Model
     }
 
     protected function empresaIndicadores(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->normalizarJson($value),
+            set: fn ($value) => is_string($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE),
+        );
+    }
+
+    protected function empresaBeneficios(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $this->normalizarJson($value),

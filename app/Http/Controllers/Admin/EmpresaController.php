@@ -20,6 +20,16 @@ class EmpresaController extends Controller
         $request->validate([
             'nombre' => 'required|max:200',
             'correo' => 'nullable|email',
+            'beneficios' => 'nullable|array|max:4',
+            'beneficios.*.titulo' => 'nullable|string|max:150',
+            'beneficios.*.descripcion' => 'nullable|string|max:1000',
+            'beneficios.*.enlace' => 'nullable|string|max:2048',
+            'beneficios.*.texto_boton' => 'nullable|string|max:80',
+            'beneficios.*.imagen' => 'nullable|image|max:5120',
+            'ventajas' => 'nullable|array|max:4',
+            'ventajas.*.icono' => 'nullable|string|max:100',
+            'ventajas.*.titulo' => 'nullable|string|max:150',
+            'ventajas.*.descripcion' => 'nullable|string|max:1000',
         ]);
 
         try {
@@ -53,6 +63,7 @@ class EmpresaController extends Controller
 'valores_empresariales' => $request->valores_empresariales,
                 'empresa_indicadores' => json_encode($this->indicadoresFromRequest($request), JSON_UNESCAPED_UNICODE),
                 'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
+                'empresa_beneficios' => json_encode($this->beneficiosFromRequest($request), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES EMPRESARIALES
                 'imagen_empresarial' => $this->subirImagenEmpresa($request, 'imagen_empresarial', null),
@@ -78,6 +89,19 @@ class EmpresaController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'beneficios' => 'nullable|array|max:4',
+            'beneficios.*.titulo' => 'nullable|string|max:150',
+            'beneficios.*.descripcion' => 'nullable|string|max:1000',
+            'beneficios.*.enlace' => 'nullable|string|max:2048',
+            'beneficios.*.texto_boton' => 'nullable|string|max:80',
+            'beneficios.*.imagen' => 'nullable|image|max:5120',
+            'ventajas' => 'nullable|array|max:4',
+            'ventajas.*.icono' => 'nullable|string|max:100',
+            'ventajas.*.titulo' => 'nullable|string|max:150',
+            'ventajas.*.descripcion' => 'nullable|string|max:1000',
+        ]);
+
         try {
             DB::beginTransaction();
 
@@ -115,6 +139,7 @@ class EmpresaController extends Controller
 'valores_empresariales' => $request->valores_empresariales,
                 'empresa_indicadores' => json_encode($this->indicadoresFromRequest($request), JSON_UNESCAPED_UNICODE),
                 'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
+                'empresa_beneficios' => json_encode($this->beneficiosFromRequest($request, $empresa), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES
                 'imagen_empresarial' => $imagenEmp,
@@ -165,6 +190,7 @@ class EmpresaController extends Controller
     private function ventajasFromRequest(Request $request): array
     {
         return collect($request->input('ventajas', []))
+            ->take(4)
             ->map(function ($ventaja) {
                 return [
                     'icono' => $ventaja['icono'] ?? '',
@@ -185,6 +211,36 @@ class EmpresaController extends Controller
                     'titulo' => $indicador['titulo'] ?? '',
                 ];
             })
+            ->values()
+            ->all();
+    }
+
+    private function beneficiosFromRequest(Request $request, ?Empresa $empresa = null): array
+    {
+        $beneficiosAnteriores = $empresa?->empresa_beneficios ?? [];
+
+        return collect($request->input('beneficios', []))
+            ->take(4)
+            ->map(function ($beneficio, $index) use ($request, $beneficiosAnteriores) {
+                $imagen = $beneficiosAnteriores[$index]['imagen'] ?? null;
+                $archivo = $request->file("beneficios.{$index}.imagen");
+
+                if ($archivo) {
+                    $imagen = uploadImageOptimized($archivo, 'empresa');
+                }
+
+                return [
+                    'titulo' => trim($beneficio['titulo'] ?? ''),
+                    'descripcion' => trim($beneficio['descripcion'] ?? ''),
+                    'imagen' => $imagen,
+                    'texto_boton' => trim($beneficio['texto_boton'] ?? ''),
+                    'enlace' => trim($beneficio['enlace'] ?? ''),
+                ];
+            })
+            ->filter(fn ($beneficio) => $beneficio['titulo'] !== ''
+                || $beneficio['descripcion'] !== ''
+                || $beneficio['imagen']
+                || $beneficio['enlace'] !== '')
             ->values()
             ->all();
     }

@@ -24,6 +24,7 @@
     $mostrarContacto = $config['home_mostrar_contacto'] ?? 1;
     $mostrarNosotros = $config['home_mostrar_nosotros'] ?? 1;
     $mostrarIndicadores = $config['home_mostrar_indicadores'] ?? 1;
+    $mostrarBeneficios = $config['home_mostrar_beneficios'] ?? 1;
 @endphp
 
 
@@ -34,6 +35,13 @@
 @if($mostrarIndicadores == 1)
     @include('sections.indicadores')
 @endif
+
+@if($mostrarBeneficios == 1)
+    <div class="scroll-reveal">
+        @include('sections.beneficios')
+    </div>
+@endif
+
 
 @if($mostrarRubros == 1)
     <div class="scroll-reveal reveal-scale">{{-- Rubros: escala --}}
@@ -47,6 +55,12 @@
     </div>
 @endif
 
+@if($mostrarPromociones == 1)
+    <div class="scroll-reveal reveal-scale">{{-- Promociones: escala --}}
+        @include('sections.promociones')
+    </div>
+@endif
+
 @if($mostrarServicios == 1)
     <div class="scroll-reveal">{{-- Servicios: fade up --}}
         @include('sections.services')
@@ -56,6 +70,12 @@
 @if($mostrarNosotros == 1)
     <div class="scroll-reveal reveal-scale">{{-- Nosotros: hero institucional --}}
         @include('sections.about')
+    </div>
+@endif
+
+@if($mostrarSteps == 1)
+    <div class="scroll-reveal reveal-right">{{-- Steps: derecha --}}
+        @include('sections.steps')
     </div>
 @endif
 
@@ -72,18 +92,12 @@
 @endif
 
 
-
 @if($mostrarProductos == 1)
     <div class="scroll-reveal">{{-- Productos: fade up --}}
         @include('sections.products')
     </div>
 @endif
 
-@if($mostrarPromociones == 1)
-    <div class="scroll-reveal reveal-scale">{{-- Promociones: escala --}}
-        @include('sections.promociones')
-    </div>
-@endif
 
 @if($mostrarProductosDestacados == 1)
     <div class="scroll-reveal reveal-left">{{-- Productos destacados: izquierda --}}
@@ -92,11 +106,7 @@
 @endif
 
 
-@if($mostrarSteps == 1)
-    <div class="scroll-reveal reveal-right">{{-- Steps: derecha --}}
-        @include('sections.steps')
-    </div>
-@endif
+
 
 @if($mostrarCtaAyuda == 1)
 <div class="scroll-reveal">{{-- CTA Ayuda --}}

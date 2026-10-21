@@ -17,6 +17,15 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
     @endif
+    @if($errors->any())
+    <div class="alert alert-danger" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
     <div class="row">
         <div class="col-md-12">
@@ -151,19 +160,88 @@
 
                         <hr>
 
-                        <h5 class="mb-3">Ventajas de la Empresa</h5>
+                        <h5 class="mb-2">Beneficios de la Empresa</h5>
+                        <p class="text-muted">Agrega hasta 4 beneficios. Cada uno puede incluir una imagen, título, descripción y enlace.</p>
 
                         @php
-                            $ventajas = $empresa->empresa_ventajas ?: [
+                            $beneficiosEmpresa = collect($empresa->empresa_beneficios ?? [])->take(4);
+                            $beneficiosEmpresa = $beneficiosEmpresa->concat(
+                                array_fill(0, max(0, 4 - $beneficiosEmpresa->count()), [])
+                            );
+                        @endphp
+
+                        <div class="row">
+                            @foreach($beneficiosEmpresa as $index => $beneficio)
+                            <div class="col-lg-6">
+                                <div class="card border mb-3">
+                                    <div class="card-header">
+                                        <strong>Beneficio {{ $index + 1 }}</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label>Título</label>
+                                            <input type="text" name="beneficios[{{ $index }}][titulo]"
+                                                class="form-control" maxlength="150"
+                                                value="{{ $beneficio['titulo'] ?? '' }}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <textarea name="beneficios[{{ $index }}][descripcion]"
+                                                class="form-control" rows="3" maxlength="1000">{{ $beneficio['descripcion'] ?? '' }}</textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Imagen</label>
+                                            <input type="file" name="beneficios[{{ $index }}][imagen]"
+                                                class="form-control" accept="image/*">
+                                            @if(!empty($beneficio['imagen']))
+                                            <img src="{{ asset($beneficio['imagen']) }}" alt="Beneficio {{ $index + 1 }}"
+                                                class="img-fluid rounded mt-2 empresa-beneficio-preview">
+                                            @endif
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Texto del botón (opcional)</label>
+                                            <input type="text" name="beneficios[{{ $index }}][texto_boton]"
+                                                class="form-control" maxlength="80"
+                                                value="{{ $beneficio['texto_boton'] ?? '' }}">
+                                        </div>
+
+                                        <div class="form-group mb-0">
+                                            <label>Enlace (opcional)</label>
+                                            <input type="text" name="beneficios[{{ $index }}][enlace]"
+                                                class="form-control" maxlength="2048"
+                                                value="{{ $beneficio['enlace'] ?? '' }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <hr>
+
+                        <h5 class="mb-3">Ventajas de la Empresa (máximo 4)</h5>
+
+                        @php
+                            $ventajasPredeterminadas = [
                                 ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos entregas ágiles y seguras para que recibas tus productos en el menor tiempo posible.'],
                                 ['icono' => 'fas fa-shield-alt', 'titulo' => 'Compra 100% Segura', 'descripcion' => 'Protegemos cada transacción con métodos de pago confiables y seguridad avanzada.'],
                                 ['icono' => 'fab fa-whatsapp', 'titulo' => 'Atención Personalizada', 'descripcion' => 'Nuestro equipo está listo para ayudarte antes, durante y después de tu compra.'],
+                                ['icono' => 'fas fa-balance-scale', 'titulo' => 'Precio-beneficio', 'descripcion' => 'Contamos con productos a precio justo, seguros y eficaces, sin comprometer la calidad.'],
                             ];
+                            $ventajas = collect($empresa->empresa_ventajas ?: $ventajasPredeterminadas)
+                                ->take(4)
+                                ->values();
+                            while ($ventajas->count() < 4) {
+                                $ventajas->push($ventajasPredeterminadas[$ventajas->count()]);
+                            }
                         @endphp
 
                         <div class="row">
                             @foreach($ventajas as $index => $ventaja)
-                            <div class="col-md-4">
+                            <div class="col-lg-3 col-md-6">
                                 <div class="form-group">
                                     <label>Ícono {{ $index + 1 }}</label>
                                     <div class="input-group">

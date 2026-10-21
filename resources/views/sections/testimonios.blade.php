@@ -33,21 +33,24 @@
 
         @if($casosExitoTipo === 'opcion_1')
 
-            <div class="casos_testimonial_slider">
-                @foreach($trabajosRealizados as $trabajo)
-                <div class="casos_testimonial_slide">
-                    <article class="casos_testimonial_card">
-                        <span class="casos_testimonial_quote" aria-hidden="true">&rdquo;</span>
-                        <h3>{{ $trabajo->titulo }}</h3>
-                        @if($trabajo->descripcion)
-                        <p>{{ limpiarTextoPlano($trabajo->descripcion, 180) }}</p>
-                        @endif
-                        @if($trabajo->cliente)
-                        <strong>{{ $trabajo->cliente }}</strong>
-                        @endif
-                    </article>
+            <div class="casos_testimonial_carousel">
+                <div class="casos_testimonial_slider" id="casos-testimonial-slider">
+                    @foreach($trabajosRealizados as $trabajo)
+                    <div class="casos_testimonial_slide">
+                        <article class="casos_testimonial_card">
+                            <span class="casos_testimonial_quote" aria-hidden="true">&rdquo;</span>
+                            <h3>{{ $trabajo->titulo }}</h3>
+                            @if($trabajo->descripcion)
+                            <p>{{ limpiarTextoPlano($trabajo->descripcion, 180) }}</p>
+                            @endif
+                            @if($trabajo->cliente)
+                            <strong>{{ $trabajo->cliente }}</strong>
+                            @endif
+                        </article>
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
+                <input class="casos_testimonial_scrollbar" type="range" min="0" max="{{ max($trabajosRealizados->count() - 1, 0) }}" value="0" aria-label="Desplazar testimonios" aria-controls="casos-testimonial-slider">
             </div>
 
         @else

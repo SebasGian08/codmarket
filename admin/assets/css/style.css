@@ -1009,3 +1009,8 @@ html[data-theme="dark"] .login-page {
     background: var(--ka-bg);
 }
 /* ============ FIN LOGIN ============ */
+
+/* ============ EMPRESA ============ */
+.empresa-beneficio-preview {
+    max-height: 160px;
+}

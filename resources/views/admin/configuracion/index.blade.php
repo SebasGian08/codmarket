@@ -118,7 +118,7 @@
                                             @foreach(explode(',', $config->opciones ?? '') as $opcion)
                                             <option value="{{ $opcion }}"
                                                 {{ $config->valor == $opcion ? 'selected' : '' }}>
-                                                {{ ucfirst($opcion) }}
+                                                {{ preg_replace('/^opcion_(\d+)$/i', 'Opción $1', $opcion) ?: ucfirst(str_replace('_', ' ', $opcion)) }}
                                             </option>
                                             @endforeach
                                         </select>

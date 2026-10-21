@@ -2897,11 +2897,8 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
     margin-bottom: 18px;
 }
 
-.section_heading_title span {
-    width: 54px;
-    height: 3px;
-    background: var(--color-secundario);
-    border-radius: 10px;
+.home-page .section_heading_title span {
+    display: none;
 }
 
 .section_heading_title small {
@@ -2942,11 +2939,6 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
 
     .section_heading_title {
         gap: 10px;
-    }
-
-    .section_heading_title span {
-        width: 28px;
-        height: 2px;
     }
 
     .section_heading_title small {
@@ -3225,13 +3217,111 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
     background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-secundario) 20%, transparent), transparent);
 }
 
+/* ============ BENEFICIOS EMPRESA ============ */
+.empresa-beneficios-section {
+    padding: 48px 0;
+    background: #fff;
+}
+
+.empresa-beneficio-item {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    gap: 48px;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 0;
+}
+
+.empresa-beneficio-item:nth-child(even) .empresa-beneficio-content {
+    order: 2;
+}
+
+.empresa-beneficio-item:nth-child(even) .empresa-beneficio-image {
+    order: 1;
+}
+
+.empresa-beneficio-content h2 {
+    margin: 0 0 12px;
+    color: #111;
+    font-size: clamp(22px, 2.2vw, 27px);
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.empresa-beneficio-content p {
+    margin: 0 0 16px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.empresa-beneficio-link {
+    display: inline-block;
+    padding: 12px 22px;
+    border-radius: 28px;
+    background: var(--color-primario);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.empresa-beneficio-link:hover {
+    color: #fff;
+    filter: brightness(.92);
+}
+
+.empresa-beneficio-image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.12;
+    border-radius: 9px;
+    object-fit: cover;
+}
+
+@media (max-width: 767px) {
+    .empresa-beneficios-section {
+        padding: 28px 0;
+    }
+
+    .empresa-beneficio-item {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 0;
+    }
+
+    .empresa-beneficio-item:nth-child(even) .empresa-beneficio-content,
+    .empresa-beneficio-item:nth-child(even) .empresa-beneficio-image {
+        order: initial;
+    }
+}
+
 /* ============ PROMOCIONES ============ */
 .offer_section {
-    background: linear-gradient(135deg,
+    /* background: linear-gradient(135deg,
         color-mix(in srgb, var(--color-secundario) 5%, transparent) 0%,
         color-mix(in srgb, var(--color-primario) 10%, transparent) 50%,
-        color-mix(in srgb, var(--color-secundario) 5%, transparent) 100%);
+        color-mix(in srgb, var(--color-secundario) 5%, transparent) 100%); */
     position: relative;
+}
+
+.offer_section.promociones-banner-ancho {
+    left: 50%;
+    position: relative;
+    width: 100vw;
+    margin-left: -50vw;
+    overflow: hidden;
+}
+
+.offer_section.promociones-banner-ancho .fm_offer_item,
+.offer_section.promociones-banner-ancho a {
+    display: block;
+    width: 100%;
+}
+
+.offer_section.promociones-banner-ancho img {
+    width: 100vw !important;
+    max-width: none !important;
+    height: auto;
 }
 
 /* ============ PRODUCTOS DESTACADOS ============ */

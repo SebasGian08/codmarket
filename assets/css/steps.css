@@ -137,3 +137,38 @@
         padding-top: 45px;
     }
 }
+
+/* ============ OPCIÓN 2: TARJETAS COMPACTAS ============ */
+.steps-opcion-2 {
+    align-items: stretch;
+}
+
+.steps-opcion-2-card {
+    height: 100%;
+    padding: 18px 16px 14px;
+    border: 1px solid #dedede;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.steps-opcion-2-icon {
+    margin-bottom: 8px;
+    color: var(--color-secundario);
+    font-size: 32px;
+    line-height: 1;
+}
+
+.steps-opcion-2-card h3 {
+    margin: 0 0 6px;
+    color: #111;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.steps-opcion-2-card p {
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+}

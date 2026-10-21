@@ -5996,7 +5996,7 @@ button {
 /* fashion minimal offer - start */
 .fm_offer_item {
   overflow: hidden;
-  margin-top: 30px;
+  /* margin-top: 30px; */
   position: relative;
 }
 .fm_offer_item.has_border {

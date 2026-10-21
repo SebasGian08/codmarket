@@ -576,6 +576,7 @@
   $('.casos_testimonial_slider').each(function () {
     var $slider = $(this);
     var slideCount = $slider.children().length;
+    var scrollbar = $slider.closest('.casos_testimonial_carousel').find('.casos_testimonial_scrollbar')[0];
 
     $slider.slick({
       dots: false,
@@ -606,6 +607,40 @@
           }
         }
       ]
+    });
+
+    if (!scrollbar) {
+      return;
+    }
+
+    var getMaxSlide = function (slick) {
+      return Math.max(Math.ceil(slick.slideCount - slick.options.slidesToShow), 0);
+    };
+
+    var updateScrollbar = function (event, slick, currentSlide) {
+      slick = slick || $slider.slick('getSlick');
+      var maxSlide = getMaxSlide(slick);
+      var thumbWidth = Math.min(slick.options.slidesToShow / slick.slideCount, 1) * 100;
+      var slide = typeof currentSlide === 'number' ? currentSlide : slick.currentSlide;
+
+      scrollbar.max = maxSlide;
+      scrollbar.value = Math.min(slide, maxSlide);
+      scrollbar.style.setProperty('--casos-scrollbar-thumb-width', thumbWidth + '%');
+      scrollbar.classList.toggle('is-hidden', maxSlide === 0);
+    };
+
+    $slider.on('afterChange.casosScrollbar breakpoint.casosScrollbar reInit.casosScrollbar', updateScrollbar);
+    updateScrollbar(null, $slider.slick('getSlick'));
+
+    scrollbar.addEventListener('input', function () {
+      $slider.slick('slickPause');
+      $slider.slick('slickGoTo', Number(scrollbar.value));
+    });
+
+    scrollbar.addEventListener('change', function () {
+      if ($slider.slick('slickGetOption', 'autoplay')) {
+        $slider.slick('slickPlay');
+      }
     });
   });
 
