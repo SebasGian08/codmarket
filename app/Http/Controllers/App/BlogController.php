@@ -5,6 +5,7 @@ namespace App\Http\Controllers\App;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use App\Models\BlogsCategory;
 use App\Models\Service;
 
 class BlogController extends Controller
@@ -24,9 +25,19 @@ class BlogController extends Controller
             $query->where('category_id', $request->category);
         }
 
-        $blogs = $query->orderBy('id_blog', 'desc')->get();
+        $blogs = $query
+            ->with('category')
+            ->orderBy('id_blog', 'desc')
+            ->paginate(9)
+            ->withQueryString();
 
-        return view('pages.blog.index', compact('blogs'));
+        $blogCategories = BlogsCategory::whereHas('blogs', function ($query) {
+            $query->where('status', 1);
+        })
+            ->orderBy('name')
+            ->get();
+
+        return view('pages.blog.index', compact('blogs', 'blogCategories'));
     }
 
     public function show($slug)

@@ -196,8 +196,22 @@
                                             <input type="file" name="beneficios[{{ $index }}][imagen]"
                                                 class="form-control" accept="image/*">
                                             @if(!empty($beneficio['imagen']))
-                                            <img src="{{ asset($beneficio['imagen']) }}" alt="Beneficio {{ $index + 1 }}"
-                                                class="img-fluid rounded mt-2 empresa-beneficio-preview">
+                                            <div class="d-flex align-items-center gap-2 mt-2 empresa-image-removal-control">
+                                                <img src="{{ asset($beneficio['imagen']) }}"
+                                                    alt="Beneficio {{ $index + 1 }}"
+                                                    class="img-fluid rounded empresa-beneficio-preview empresa-removable-image">
+                                                <input type="checkbox" class="btn-check empresa-image-remove-checkbox"
+                                                    id="eliminar-beneficio-imagen-{{ $index }}"
+                                                    name="beneficios[{{ $index }}][eliminar_imagen]" value="1">
+                                                <label class="btn btn-sm btn-outline-danger"
+                                                    for="eliminar-beneficio-imagen-{{ $index }}" data-delete-label="Eliminar"
+                                                    data-undo-label="Deshacer">
+                                                    <i class="fa fa-trash"></i> <span>Eliminar</span>
+                                                </label>
+                                                <span class="empresa-image-removal-message" role="status" hidden>
+                                                    Se eliminará al guardar
+                                                </span>
+                                            </div>
                                             @endif
                                         </div>
 
@@ -319,8 +333,19 @@
                                     <input type="file" name="imagen_empresarial" class="form-control">
 
                                     @if($empresa && $empresa->imagen_empresarial)
-                                    <img src="{{ asset($empresa->imagen_empresarial) }}" width="160"
-                                        class="mt-2 rounded">
+                                    <div class="d-flex align-items-center gap-2 mt-2 empresa-image-removal-control">
+                                        <img src="{{ asset($empresa->imagen_empresarial) }}" width="160"
+                                            class="rounded empresa-removable-image">
+                                        <input type="checkbox" class="btn-check empresa-image-remove-checkbox" id="eliminar-imagen-empresarial"
+                                            name="eliminar_imagen_empresarial" value="1">
+                                        <label class="btn btn-sm btn-outline-danger" for="eliminar-imagen-empresarial"
+                                            data-delete-label="Eliminar" data-undo-label="Deshacer">
+                                            <i class="fa fa-trash"></i> <span>Eliminar</span>
+                                        </label>
+                                        <span class="empresa-image-removal-message" role="status" hidden>
+                                            Se eliminará al guardar
+                                        </span>
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -332,8 +357,20 @@
                                     <input type="file" name="portada_empresarial" class="form-control">
 
                                     @if($empresa && $empresa->portada_empresarial)
-                                    <img src="{{ asset($empresa->portada_empresarial) }}" width="160"
-                                        class="mt-2 rounded">
+                                    <div class="d-flex align-items-center gap-2 mt-2 empresa-image-removal-control">
+                                        <img src="{{ asset($empresa->portada_empresarial) }}" width="160"
+                                            class="rounded empresa-removable-image">
+                                        <input type="checkbox" class="btn-check empresa-image-remove-checkbox" id="eliminar-portada-empresarial"
+                                            name="eliminar_portada_empresarial" value="1">
+                                        <label class="btn btn-sm btn-outline-danger"
+                                            for="eliminar-portada-empresarial" data-delete-label="Eliminar"
+                                            data-undo-label="Deshacer">
+                                            <i class="fa fa-trash"></i> <span>Eliminar</span>
+                                        </label>
+                                        <span class="empresa-image-removal-message" role="status" hidden>
+                                            Se eliminará al guardar
+                                        </span>
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -349,7 +386,19 @@
                                     <label>Logo Header</label>
                                     <input type="file" name="logo_header" class="form-control">
                                     @if($empresa && $empresa->logo_header)
-                                    <img src="{{ asset($empresa->logo_header) }}" width="120" class="mt-2">
+                                    <div class="d-flex align-items-center gap-2 mt-2 empresa-image-removal-control">
+                                        <img src="{{ asset($empresa->logo_header) }}" width="120"
+                                            class="empresa-removable-image">
+                                        <input type="checkbox" class="btn-check empresa-image-remove-checkbox" id="eliminar-logo-header"
+                                            name="eliminar_logo_header" value="1">
+                                        <label class="btn btn-sm btn-outline-danger" for="eliminar-logo-header"
+                                            data-delete-label="Eliminar" data-undo-label="Deshacer">
+                                            <i class="fa fa-trash"></i> <span>Eliminar</span>
+                                        </label>
+                                        <span class="empresa-image-removal-message" role="status" hidden>
+                                            Se eliminará al guardar
+                                        </span>
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -359,7 +408,19 @@
                                     <label>Logo Footer</label>
                                     <input type="file" name="logo_footer" class="form-control">
                                     @if($empresa && $empresa->logo_footer)
-                                    <img src="{{ asset($empresa->logo_footer) }}" width="120" class="mt-2">
+                                    <div class="d-flex align-items-center gap-2 mt-2 empresa-image-removal-control">
+                                        <img src="{{ asset($empresa->logo_footer) }}" width="120"
+                                            class="empresa-removable-image">
+                                        <input type="checkbox" class="btn-check empresa-image-remove-checkbox" id="eliminar-logo-footer"
+                                            name="eliminar_logo_footer" value="1">
+                                        <label class="btn btn-sm btn-outline-danger" for="eliminar-logo-footer"
+                                            data-delete-label="Eliminar" data-undo-label="Deshacer">
+                                            <i class="fa fa-trash"></i> <span>Eliminar</span>
+                                        </label>
+                                        <span class="empresa-image-removal-message" role="status" hidden>
+                                            Se eliminará al guardar
+                                        </span>
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -369,7 +430,19 @@
                                     <label>Favicon</label>
                                     <input type="file" name="favicon" class="form-control">
                                     @if($empresa && $empresa->favicon)
-                                    <img src="{{ asset($empresa->favicon) }}" width="50" class="mt-2">
+                                    <div class="d-flex align-items-center gap-2 mt-2 empresa-image-removal-control">
+                                        <img src="{{ asset($empresa->favicon) }}" width="50"
+                                            class="empresa-removable-image">
+                                        <input type="checkbox" class="btn-check empresa-image-remove-checkbox" id="eliminar-favicon"
+                                            name="eliminar_favicon" value="1">
+                                        <label class="btn btn-sm btn-outline-danger" for="eliminar-favicon"
+                                            data-delete-label="Eliminar" data-undo-label="Deshacer">
+                                            <i class="fa fa-trash"></i> <span>Eliminar</span>
+                                        </label>
+                                        <span class="empresa-image-removal-message" role="status" hidden>
+                                            Se eliminará al guardar
+                                        </span>
+                                    </div>
                                     @endif
                                 </div>
                             </div>
@@ -395,4 +468,25 @@
 
 </div>
 @include('admin.services.partials.guia-iconos')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.empresa-image-remove-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var control = checkbox.closest('.empresa-image-removal-control');
+            var image = control.querySelector('.empresa-removable-image');
+            var label = control.querySelector('label[for="' + checkbox.id + '"]');
+            var labelText = label.querySelector('span');
+            var message = control.querySelector('.empresa-image-removal-message');
+
+            image.hidden = checkbox.checked;
+            message.hidden = !checkbox.checked;
+            labelText.textContent = checkbox.checked
+                ? label.dataset.undoLabel
+                : label.dataset.deleteLabel;
+            label.classList.toggle('btn-outline-danger', !checkbox.checked);
+            label.classList.toggle('btn-outline-secondary', checkbox.checked);
+        });
+    });
+});
+</script>
 @endsection

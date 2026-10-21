@@ -12,8 +12,15 @@ class CategoriaController extends Controller
 {
     public function index()
     {
-        $categorias = Categoria::with('padre')
-            ->orderBy('orden', 'asc')
+        $categorias = Categoria::query()
+            ->leftJoin('categorias as categoria_padre', 'categorias.id_categoria_padre', '=', 'categoria_padre.id_categoria')
+            ->select('categorias.*')
+            ->with('padre')
+            ->orderByRaw('COALESCE(categoria_padre.orden, categorias.orden) ASC')
+            ->orderByRaw('COALESCE(categoria_padre.id_categoria, categorias.id_categoria) ASC')
+            ->orderByRaw('CASE WHEN categorias.id_categoria_padre IS NULL THEN 0 ELSE 1 END ASC')
+            ->orderBy('categorias.orden', 'asc')
+            ->orderBy('categorias.id_categoria', 'asc')
             ->get();
 
         // Categorías disponibles para ser "padre" (solo categorías raíz)

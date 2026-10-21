@@ -26,6 +26,12 @@ class EmpresaController extends Controller
             'beneficios.*.enlace' => 'nullable|string|max:2048',
             'beneficios.*.texto_boton' => 'nullable|string|max:80',
             'beneficios.*.imagen' => 'nullable|image|max:5120',
+            'beneficios.*.eliminar_imagen' => 'nullable|boolean',
+            'eliminar_imagen_empresarial' => 'nullable|boolean',
+            'eliminar_portada_empresarial' => 'nullable|boolean',
+            'eliminar_logo_header' => 'nullable|boolean',
+            'eliminar_logo_footer' => 'nullable|boolean',
+            'eliminar_favicon' => 'nullable|boolean',
             'ventajas' => 'nullable|array|max:4',
             'ventajas.*.icono' => 'nullable|string|max:100',
             'ventajas.*.titulo' => 'nullable|string|max:150',
@@ -96,26 +102,35 @@ class EmpresaController extends Controller
             'beneficios.*.enlace' => 'nullable|string|max:2048',
             'beneficios.*.texto_boton' => 'nullable|string|max:80',
             'beneficios.*.imagen' => 'nullable|image|max:5120',
+            'beneficios.*.eliminar_imagen' => 'nullable|boolean',
+            'eliminar_imagen_empresarial' => 'nullable|boolean',
+            'eliminar_portada_empresarial' => 'nullable|boolean',
+            'eliminar_logo_header' => 'nullable|boolean',
+            'eliminar_logo_footer' => 'nullable|boolean',
+            'eliminar_favicon' => 'nullable|boolean',
             'ventajas' => 'nullable|array|max:4',
             'ventajas.*.icono' => 'nullable|string|max:100',
             'ventajas.*.titulo' => 'nullable|string|max:150',
             'ventajas.*.descripcion' => 'nullable|string|max:1000',
         ]);
 
+        $transaccionConfirmada = false;
+
         try {
             DB::beginTransaction();
 
+            $imagenesParaEliminar = [];
             $empresa = Empresa::findOrFail($id);
 
-            $logoHeader = $this->subirImagenEmpresa($request, 'logo_header', $empresa->logo_header);
+            $logoHeader = $this->subirImagenEmpresa($request, 'logo_header', $empresa->logo_header, $imagenesParaEliminar);
 
-            $logoFooter = $this->subirImagenEmpresa($request, 'logo_footer', $empresa->logo_footer);
+            $logoFooter = $this->subirImagenEmpresa($request, 'logo_footer', $empresa->logo_footer, $imagenesParaEliminar);
 
-            $favicon = $this->subirImagenEmpresa($request, 'favicon', $empresa->favicon);
+            $favicon = $this->subirImagenEmpresa($request, 'favicon', $empresa->favicon, $imagenesParaEliminar);
 
-            $imagenEmp = $this->subirImagenEmpresa($request, 'imagen_empresarial', $empresa->imagen_empresarial);
+            $imagenEmp = $this->subirImagenEmpresa($request, 'imagen_empresarial', $empresa->imagen_empresarial, $imagenesParaEliminar);
 
-            $portadaEmp = $this->subirImagenEmpresa($request, 'portada_empresarial', $empresa->portada_empresarial);
+            $portadaEmp = $this->subirImagenEmpresa($request, 'portada_empresarial', $empresa->portada_empresarial, $imagenesParaEliminar);
 
             $empresa->update([
                 'nombre' => $request->nombre,
@@ -139,7 +154,7 @@ class EmpresaController extends Controller
 'valores_empresariales' => $request->valores_empresariales,
                 'empresa_indicadores' => json_encode($this->indicadoresFromRequest($request), JSON_UNESCAPED_UNICODE),
                 'empresa_ventajas' => json_encode($this->ventajasFromRequest($request), JSON_UNESCAPED_UNICODE),
-                'empresa_beneficios' => json_encode($this->beneficiosFromRequest($request, $empresa), JSON_UNESCAPED_UNICODE),
+                'empresa_beneficios' => json_encode($this->beneficiosFromRequest($request, $empresa, $imagenesParaEliminar), JSON_UNESCAPED_UNICODE),
 
                 // IMAGENES
                 'imagen_empresarial' => $imagenEmp,
@@ -151,12 +166,24 @@ class EmpresaController extends Controller
             ]);
 
             DB::commit();
+            $transaccionConfirmada = true;
+
+            foreach (array_unique($imagenesParaEliminar) as $imagen) {
+                $this->eliminarImagenEmpresa($imagen, $empresa);
+            }
 
             return back()->with('success', 'Empresa actualizada correctamente');
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            if (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
+
+            $mensaje = $transaccionConfirmada
+                ? 'La empresa se actualizó, pero no se pudo eliminar una imagen anterior: ' . $e->getMessage()
+                : $e->getMessage();
+
+            return back()->with('error', $mensaje);
         }
     }
 
@@ -165,10 +192,19 @@ class EmpresaController extends Controller
      * Devuelve la ruta guardada, mantiene la anterior si no se subió archivo,
      * y lanza un error claro si el archivo se rechazó (tamaño/formato).
      */
-    private function subirImagenEmpresa(Request $request, string $campo, ?string $actual): ?string
+    private function subirImagenEmpresa(Request $request, string $campo, ?string $actual, array &$imagenesParaEliminar = []): ?string
     {
+        if ($request->boolean("eliminar_{$campo}") && $actual) {
+            $imagenesParaEliminar[] = $actual;
+            $actual = null;
+        }
+
         if (!$request->hasFile($campo)) {
             return $actual;
+        }
+
+        if ($actual) {
+            $imagenesParaEliminar[] = $actual;
         }
 
         $file = $request->file($campo);
@@ -215,18 +251,24 @@ class EmpresaController extends Controller
             ->all();
     }
 
-    private function beneficiosFromRequest(Request $request, ?Empresa $empresa = null): array
+    private function beneficiosFromRequest(Request $request, ?Empresa $empresa = null, array &$imagenesParaEliminar = []): array
     {
         $beneficiosAnteriores = $empresa?->empresa_beneficios ?? [];
 
         return collect($request->input('beneficios', []))
             ->take(4)
-            ->map(function ($beneficio, $index) use ($request, $beneficiosAnteriores) {
+            ->map(function ($beneficio, $index) use ($request, $beneficiosAnteriores, &$imagenesParaEliminar) {
                 $imagen = $beneficiosAnteriores[$index]['imagen'] ?? null;
                 $archivo = $request->file("beneficios.{$index}.imagen");
 
                 if ($archivo) {
+                    if ($imagen) {
+                        $imagenesParaEliminar[] = $imagen;
+                    }
                     $imagen = uploadImageOptimized($archivo, 'empresa');
+                } elseif (!empty($beneficio['eliminar_imagen']) && $imagen) {
+                    $imagenesParaEliminar[] = $imagen;
+                    $imagen = null;
                 }
 
                 return [
@@ -243,5 +285,35 @@ class EmpresaController extends Controller
                 || $beneficio['enlace'] !== '')
             ->values()
             ->all();
+    }
+
+    private function eliminarImagenEmpresa(string $ruta, Empresa $empresa): void
+    {
+        $imagenesActuales = [
+            $empresa->imagen_empresarial,
+            $empresa->portada_empresarial,
+            $empresa->logo_header,
+            $empresa->logo_footer,
+            $empresa->favicon,
+        ];
+
+        foreach ($empresa->empresa_beneficios ?? [] as $beneficio) {
+            $imagenesActuales[] = $beneficio['imagen'] ?? null;
+        }
+
+        if (in_array($ruta, $imagenesActuales, true)) {
+            return;
+        }
+
+        $rutaPublica = realpath(public_path($ruta));
+        $directorioPublico = realpath(public_path());
+
+        if ($rutaPublica && $directorioPublico
+            && str_starts_with($rutaPublica, $directorioPublico . DIRECTORY_SEPARATOR)
+            && is_file($rutaPublica)) {
+            if (!unlink($rutaPublica)) {
+                throw new \RuntimeException("No se pudo eliminar el archivo \"{$ruta}\".");
+            }
+        }
     }
 }

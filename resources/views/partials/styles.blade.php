@@ -132,7 +132,7 @@ gtag('config', '{{ $config['google_analytics_id'] }}');
 <link rel="stylesheet" href="{{ asset('assets/css/products-destacados.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/contacto.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/steps.css') }}">
-<link rel="stylesheet" href="{{ asset('assets/css/blog-detail.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/blog-detail.css') }}?v={{ filemtime(base_path('assets/css/blog-detail.css')) }}">
 <link rel="stylesheet" href="{{ asset('assets/css/servicios-show.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
 

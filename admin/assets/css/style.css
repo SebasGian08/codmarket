@@ -1014,3 +1014,13 @@ html[data-theme="dark"] .login-page {
 .empresa-beneficio-preview {
     max-height: 160px;
 }
+
+.empresa-image-removal-control {
+    flex-wrap: wrap;
+}
+
+.empresa-image-removal-message {
+    flex-basis: 100%;
+    color: #b02a37;
+    font-size: 12px;
+}

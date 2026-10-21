@@ -17,7 +17,7 @@ $blogImage = imagenOrDefault($blog->image);
                 <i class="fal fa-long-arrow-left"></i>
                 Volver al blog
             </a>
-            <span class="blog_detail_kicker">Conocimiento para tu negocio</span>
+            <!-- <span class="blog_detail_kicker">Conocimiento para tu negocio</span> -->
         </div>
 
         <div class="row justify-content-lg-between blog_detail_layout">
@@ -66,7 +66,7 @@ $blogImage = imagenOrDefault($blog->image);
                 {{-- CONTENIDO --}}
                 <div class="blog_content mb_40">
                     @php
-                        $blogContent = html_entity_decode($blog->content, ENT_QUOTES, 'UTF-8');
+                    $blogContent = html_entity_decode($blog->content, ENT_QUOTES, 'UTF-8');
                     @endphp
                     {!! strip_tags(
                     $blogContent,
@@ -86,7 +86,8 @@ $blogImage = imagenOrDefault($blog->image);
                 {{-- CATEGORÍA --}}
                 @if($blog->category)
                 <div class="blog_category mb_35">
-                    <a class="category_link" href="{{ route('blog.index', ['category' => $blog->category->id]) }}">
+                    <a class="category_link"
+                        href="{{ route('blog.index', ['category' => $blog->category->id_blogs_categories]) }}">
                         {{ $blog->category->name }}
                     </a>
                 </div>
@@ -199,12 +200,12 @@ $blogImage = imagenOrDefault($blog->image);
 
                                     <div class="blog_content">
 
-                                        @if($item->category)
+                                        <!-- @if($item->category)
                                         <a href="{{ route('blog.index', ['category' => $item->category->id_blogs_categories]) }}"
                                             class="blog_category">
                                             {{ $item->category->name }}
                                         </a>
-                                        @endif
+                                        @endif -->
 
                                         <h3 class="blog_title">
                                             <a href="{{ route('blog.show', $item->slug) }}">
@@ -212,13 +213,13 @@ $blogImage = imagenOrDefault($blog->image);
                                             </a>
                                         </h3>
 
-                                        <p class="blog_excerpt">
-                                            {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($item->excerpt ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 140) }}
-                                        </p>
+                                            <p class="blog_excerpt">
+                                                {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($item->excerpt ?? ''), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 140) }}
+                                            </p>
 
-                                        <a class="blog_btn" href="{{ route('blog.show', $item->slug) }}">
-                                            Leer más →
-                                        </a>
+                                            <a class="blog_btn" href="{{ route('blog.show', $item->slug) }}">
+                                                Leer más →
+                                            </a>
 
                                     </div>
 
@@ -325,7 +326,8 @@ $blogImage = imagenOrDefault($blog->image);
                         <ul class="ul_li_block clearfix">
 
                             <li>
-                                <a href="{{ route('blog.index', ['category' => $blog->category->id]) }}">
+                                <a
+                                    href="{{ route('blog.index', ['category' => $blog->category->id_blogs_categories]) }}">
                                     <span>
                                         {{ $blog->category->name }}
                                     </span>
@@ -390,7 +392,7 @@ CONTACTO
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     if (typeof Swiper === 'undefined' || !document.querySelector('.relatedBlogSwiper')) {
         return;
     }

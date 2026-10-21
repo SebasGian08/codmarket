@@ -23,7 +23,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-hover" id="basic-datatables">
+                <table class="table table-hover" id="basic-datatables" data-initial-order="[]" data-page-length="25">
 
                     <thead>
                         <tr>

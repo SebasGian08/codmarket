@@ -1,8 +1,9 @@
-<section class="blog_section sec_ptb_50 clearfix {{ ($config['blog_tipo'] ?? 'opcion_1') === 'opcion_2' ? 'blog_editorial_section' : '' }}">
+<section
+    class="blog_section sec_ptb_50 clearfix {{ ($config['blog_tipo'] ?? 'opcion_1') === 'opcion_2' ? 'blog_editorial_section' : '' }}">
     <div class="container">
 
         @php
-            $blogTipo = $config['blog_tipo'] ?? 'opcion_1';
+        $blogTipo = $config['blog_tipo'] ?? 'opcion_1';
         @endphp
 
         @if($blogTipo === 'opcion_2')
@@ -24,7 +25,7 @@
         @if($blogs->isNotEmpty())
         <div class="blog_editorial_grid">
             @php
-                $blogDestacado = $blogs->first();
+            $blogDestacado = $blogs->first();
             @endphp
 
             <article class="blog_editorial_card blog_editorial_featured">
@@ -98,7 +99,8 @@
                         <div class="blog_content">
 
                             @if($blog->category)
-                            <a href="{{ route('blog.index', ['category' => $blog->category->id_blogs_categories]) }}" class="blog_category">
+                            <a href="{{ route('blog.index', ['category' => $blog->category->id_blogs_categories]) }}"
+                                class="blog_category">
                                 {{ $blog->category->name }}
                             </a>
                             @endif

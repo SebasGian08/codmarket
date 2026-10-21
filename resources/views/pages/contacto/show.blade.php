@@ -10,8 +10,8 @@
         $mostrarSteps = $config['home_mostrar_steps'] ?? 1;
     @endphp
 
-    @if($mostrarSteps)
+   <!--  @if($mostrarSteps)
         @include('sections.steps')
-    @endif
+    @endif -->
     
 @endsection

@@ -18,6 +18,9 @@
         @endif
         @php
         $categoriasTipo = $config['categorias_tipo'] ?? 'opcion_1';
+        $categoriasSeccion = $allCategorias
+            ->filter(fn ($categoria) => !is_null($categoria->id_categoria_padre))
+            ->values();
         @endphp
 
         @if($categoriasTipo === 'opcion_1')
@@ -73,7 +76,7 @@
                 ]
             }'>
 
-            @foreach($categorias as $cat)
+            @foreach($categoriasSeccion as $cat)
 
             @php
             $imagenCategoria = imagenOrDefault($cat->imagen);
@@ -107,7 +110,7 @@
 
         <div class="row justify-content-center category_icon_grid">
 
-            @foreach($categorias as $cat)
+            @foreach($categoriasSeccion as $cat)
 
             @php
             $imagenCategoria = imagenOrDefault($cat->imagen);
@@ -139,7 +142,7 @@
 
         <div class="row">
 
-            @foreach($categorias as $cat)
+            @foreach($categoriasSeccion as $cat)
 
             @php
             $imagenCategoria = imagenOrDefault($cat->imagen);

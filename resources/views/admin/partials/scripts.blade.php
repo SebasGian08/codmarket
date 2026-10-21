@@ -43,7 +43,9 @@ tinymce.init({
 </script>
 <script>
 $(document).ready(function() {
-    $('#basic-datatables').DataTable({        "pageLength": 10,
+    var $basicDataTable = $('#basic-datatables');
+    var dataTableOptions = {
+        "pageLength": 10,
         "autoWidth": false,
         "language": {
             "sProcessing": "Procesando...",
@@ -61,7 +63,18 @@ $(document).ready(function() {
                 "sPrevious": "Anterior"
             }
         }
-    });
+    };
+    var initialOrder = $basicDataTable.data('initial-order');
+    var pageLength = parseInt($basicDataTable.attr('data-page-length'), 10);
+
+    if (Array.isArray(initialOrder)) {
+        dataTableOptions.order = initialOrder;
+    }
+    if (!Number.isNaN(pageLength) && pageLength > 0) {
+        dataTableOptions.pageLength = pageLength;
+    }
+
+    $basicDataTable.DataTable(dataTableOptions);
 
 });
 
