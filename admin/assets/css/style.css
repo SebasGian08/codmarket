@@ -884,16 +884,6 @@ html[data-theme="dark"] #seleccionadasWrap {
     background: #fff0ef;
     color: #cf3f36;
 }
-.kardex-pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    margin-top: 16px;
-}
-.kardex-pagination .pagination {
-    margin: 0;
-}
 html[data-theme="dark"] .kardex-card-header,
 html[data-theme="dark"] .kardex-table-summary {
     background: var(--ka-surface, #273243);
@@ -931,13 +921,6 @@ html[data-theme="dark"] .kardex-sku {
     }
     .kardex-card-body {
         padding: 0 12px 14px;
-    }
-    .kardex-pagination {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-    .kardex-pagination .pagination {
-        flex-wrap: wrap;
     }
 }
 /* ============ TRANSFERENCIAS ============ */

@@ -91,22 +91,6 @@
                         <input type="date" name="fecha_hasta" class="form-control" value="{{ $filtros['fechaHasta'] }}">
                     </div>
                 </div>
-                <div class="col-12 col-xl-6">
-                    <label class="form-label fw-semibold mb-1">Buscar movimiento</label>
-                    <input type="search" name="buscar" class="form-control"
-                        value="{{ $filtros['buscar'] }}" placeholder="Producto, SKU, tienda, tipo, documento..."
-                        autocomplete="off">
-                </div>
-                <div class="col-6 col-xl-3">
-                    <label class="form-label fw-semibold mb-1">Mostrar</label>
-                    <select name="por_pagina" class="form-control" onchange="this.form.submit()">
-                        @foreach($perPageOptions as $cantidad)
-                        <option value="{{ $cantidad }}" {{ $filtros['perPage'] === $cantidad ? 'selected' : '' }}>
-                            {{ $cantidad }} por página
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
                 <div class="col-6 col-xl-3 d-flex justify-content-xl-end gap-2">
                     <button type="submit" class="btn btn-primary btn-round flex-grow-1">
                         <i class="fa fa-filter"></i> Filtrar
@@ -139,12 +123,12 @@
                     <strong>Historial de movimientos</strong>
                 </div>
                 <span class="text-muted">
-                    {{ $movimientosPag->total() }} {{ $movimientosPag->total() === 1 ? 'movimiento' : 'movimientos' }}
+                    {{ $movimientosPag->count() }} {{ $movimientosPag->count() === 1 ? 'movimiento' : 'movimientos' }}
                 </span>
             </div>
 
             <div class="table-responsive kardex-table-wrap">
-                <table class="table kardex-table mb-0" id="kardex-movimientos">
+                <table class="table kardex-table mb-0" id="basic-datatables" data-page-length="30">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -233,17 +217,6 @@
                 </table>
             </div>
 
-            <div class="kardex-pagination">
-                <small class="text-muted">
-                    @if($movimientosPag->total() > 0)
-                        Mostrando {{ $movimientosPag->firstItem() }}–{{ $movimientosPag->lastItem() }}
-                        de {{ $movimientosPag->total() }} movimientos
-                    @else
-                        No hay movimientos para mostrar
-                    @endif
-                </small>
-                {{ $movimientosPag->onEachSide(1)->links('pagination::bootstrap-5') }}
-            </div>
         </div>
     </div>
 

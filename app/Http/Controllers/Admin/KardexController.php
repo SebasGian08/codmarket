@@ -9,7 +9,6 @@ use App\Models\Producto;
 use App\Models\ProductoVariante;
 use App\Models\Tienda;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
 
 class KardexController extends Controller
 {
@@ -24,10 +23,6 @@ class KardexController extends Controller
         $idTipo = $request->get('id_tipo_movimiento');
         $fechaDesde = $request->get('fecha_desde');
         $fechaHasta = $request->get('fecha_hasta');
-        $buscar = trim((string) $request->get('buscar', ''));
-        $perPageOptions = [10, 30, 50, 100];
-        $requestedPerPage = (int) $request->get('por_pagina', 30);
-        $perPage = in_array($requestedPerPage, $perPageOptions, true) ? $requestedPerPage : 30;
 
         // ============ SALDO ACUMULADO (sobre el historial de variante+tienda) ============
         // El saldo en cada fila refleja el stock resultante tras ese movimiento, por
@@ -60,7 +55,7 @@ class KardexController extends Controller
         }
 
         // Aplicar filtros de tipo y rango de fechas sobre las filas ya saldadas
-        $filas = collect($filas)->filter(function ($fila) use ($idTipo, $fechaDesde, $fechaHasta, $buscar) {
+        $filas = collect($filas)->filter(function ($fila) use ($idTipo, $fechaDesde, $fechaHasta) {
             /** @var \App\Models\Movimiento $m */
             $m = $fila['mov'];
 
@@ -74,42 +69,10 @@ class KardexController extends Controller
                 return false;
             }
 
-            if ($buscar !== '') {
-                $atributos = $m->variante
-                    ? $m->variante->atributos->map(function ($atributo) {
-                        return ($atributo->atributo->nombre ?? '') . ' ' . $atributo->valor;
-                    })->implode(' ')
-                    : '';
-                $texto = implode(' ', [
-                    $m->variante->producto->nombre ?? '',
-                    $m->variante->sku ?? '',
-                    $atributos,
-                    $m->tienda->nombre ?? '',
-                    $m->tipoMovimiento->nombre ?? '',
-                    $m->observacion ?? '',
-                    $m->id_referencia ?? '',
-                ]);
-
-                if (mb_stripos($texto, $buscar) === false) {
-                    return false;
-                }
-            }
-
             return true;
         })->values();
 
-        // Paginación manual del resultado
-        $page = max(1, (int) $request->get('page', 1));
-        $total = $filas->count();
-        $items = $filas->slice(($page - 1) * $perPage, $perPage)->values();
-
-        $movimientosPag = new LengthAwarePaginator(
-            $items,
-            $total,
-            $perPage,
-            $page,
-            ['path' => $request->url(), 'query' => $request->query()]
-        );
+        $movimientosPag = $filas;
 
         // ============ DATOS PARA FILTROS ============
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
@@ -126,7 +89,7 @@ class KardexController extends Controller
             ? ProductoVariante::with('producto', 'atributos.atributo')->find($idVariante)
             : null;
 
-        $filtros = compact('idVariante', 'idProducto', 'idTienda', 'idTipo', 'fechaDesde', 'fechaHasta', 'buscar', 'perPage');
+        $filtros = compact('idVariante', 'idProducto', 'idTienda', 'idTipo', 'fechaDesde', 'fechaHasta');
 
         return view('admin.kardex.index', compact(
             'movimientosPag',
@@ -134,8 +97,7 @@ class KardexController extends Controller
             'tiposMovimiento',
             'productos',
             'varianteSeleccionada',
-            'filtros',
-            'perPageOptions'
+            'filtros'
         ));
     }
 }
