@@ -665,18 +665,280 @@ html[data-theme="dark"] #seleccionadasWrap {
 /* ============ FIN VENDEDORES ============ */
 
 /* ============ KARDEX ============ */
-.kardex-filtros .form-control {
-    height: 38px;
+.kardex-card {
+    border: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(28, 39, 60, .06);
+}
+.kardex-card-header {
+    padding: 20px 22px;
+    background: #fff;
+    border-bottom: 1px solid #edf0f4;
+}
+.kardex-filtros-heading {
+    margin-bottom: 18px;
+}
+.kardex-filtros-heading h5 {
+    color: #202b3c;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.kardex-filtros .form-control,
+.kardex-filtros .input-group-text {
+    min-height: 40px;
+    border-color: #e2e7ee;
+    border-radius: 7px;
+    font-size: .86rem;
+}
+.kardex-filtros .input-group .form-control {
+    border-radius: 0;
+}
+.kardex-filtros .input-group .form-control:first-child {
+    border-radius: 7px 0 0 7px;
+}
+.kardex-filtros .input-group .form-control:last-child {
+    border-radius: 0 7px 7px 0;
+}
+.kardex-clear-filter {
+    min-width: 42px;
+}
+.kardex-card-body {
+    padding: 0 22px 18px;
 }
 .kardex-variante-info {
-    padding: 8px 12px;
-    background: rgba(13, 110, 253, 0.06);
-    border: 1px solid rgba(13, 110, 253, 0.15);
-    border-radius: 6px;
-    font-size: 0.9rem;
+    padding: 12px 14px;
+    background: #f5f8ff;
+    border: 1px solid #e2eaff;
+    border-radius: 8px;
+    font-size: .9rem;
 }
 .kardex-variante-info .badge {
-    margin-right: 8px;
+    margin: 2px 5px 2px 0;
+}
+.kardex-table-summary {
+    min-height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #edf0f4;
+    color: #344054;
+    font-size: .88rem;
+}
+.kardex-table-summary > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.kardex-summary-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #eef4ff;
+    color: #3478f6;
+}
+.kardex-table-wrap {
+    border: 1px solid #edf0f4;
+    border-top: 0;
+    border-radius: 0 0 8px 8px;
+}
+.kardex-table {
+    min-width: 1120px;
+    color: #344054;
+    font-size: .84rem;
+    vertical-align: middle;
+}
+.kardex-table thead th {
+    padding: 13px 12px;
+    background: #f7f9fc;
+    border-bottom: 1px solid #e7ebf1;
+    color: #667085;
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .045em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.kardex-table tbody td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #f0f2f5;
+}
+.kardex-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+.kardex-table tbody tr:hover {
+    background: #fafcff;
+}
+.kardex-date {
+    min-width: 105px;
+}
+.kardex-date strong,
+.kardex-date span {
+    display: block;
+    white-space: nowrap;
+}
+.kardex-date strong {
+    color: #344054;
+    font-weight: 600;
+}
+.kardex-date span {
+    margin-top: 3px;
+    color: #98a2b3;
+    font-size: .76rem;
+}
+.kardex-product {
+    min-width: 210px;
+}
+.kardex-product-name {
+    color: #202b3c;
+    font-weight: 650;
+}
+.kardex-product-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 5px;
+}
+.kardex-sku,
+.kardex-attribute {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: #f2f4f7;
+    color: #667085;
+    font-size: .68rem;
+    line-height: 1.4;
+}
+.kardex-sku {
+    background: #edf4ff;
+    color: #3267ad;
+    font-weight: 600;
+}
+.kardex-store {
+    min-width: 120px;
+    color: #475467;
+}
+.kardex-type {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: .72rem;
+    font-weight: 650;
+    white-space: nowrap;
+}
+.kardex-type-entry {
+    background: #eaf8f0;
+    color: #16834a;
+}
+.kardex-type-exit {
+    background: #fff0ef;
+    color: #cf3f36;
+}
+.kardex-document {
+    color: #667085;
+    font-variant-numeric: tabular-nums;
+}
+.kardex-concept {
+    max-width: 230px;
+    overflow: hidden;
+    color: #667085;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.kardex-quantity {
+    display: inline-block;
+    min-width: 42px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+.kardex-quantity-entry {
+    background: #eaf8f0;
+    color: #16834a;
+}
+.kardex-quantity-exit {
+    background: #fff0ef;
+    color: #cf3f36;
+}
+.kardex-quantity-empty {
+    color: #c4cbd5;
+}
+.kardex-balance {
+    display: inline-block;
+    min-width: 42px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f2f4f7;
+    color: #344054;
+    font-weight: 750;
+    font-variant-numeric: tabular-nums;
+}
+.kardex-balance-negative {
+    background: #fff0ef;
+    color: #cf3f36;
+}
+.kardex-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+.kardex-pagination .pagination {
+    margin: 0;
+}
+html[data-theme="dark"] .kardex-card-header,
+html[data-theme="dark"] .kardex-table-summary {
+    background: var(--ka-surface, #273243);
+    border-color: var(--ka-border, #3a4658);
+}
+html[data-theme="dark"] .kardex-filtros-heading h5,
+html[data-theme="dark"] .kardex-table,
+html[data-theme="dark"] .kardex-product-name {
+    color: var(--ka-text, #e5e7eb);
+}
+html[data-theme="dark"] .kardex-table thead th {
+    background: #202b3a;
+    border-color: var(--ka-border, #3a4658);
+    color: var(--ka-text-muted, #aab4c2);
+}
+html[data-theme="dark"] .kardex-table tbody td,
+html[data-theme="dark"] .kardex-table-wrap {
+    border-color: var(--ka-border, #3a4658);
+}
+html[data-theme="dark"] .kardex-table tbody tr:hover {
+    background: rgba(255, 255, 255, .035);
+}
+html[data-theme="dark"] .kardex-sku,
+html[data-theme="dark"] .kardex-attribute,
+html[data-theme="dark"] .kardex-balance {
+    background: #354154;
+    color: #d5dbe5;
+}
+html[data-theme="dark"] .kardex-sku {
+    color: #a9caff;
+}
+@media (max-width: 767.98px) {
+    .kardex-card-header {
+        padding: 16px;
+    }
+    .kardex-card-body {
+        padding: 0 12px 14px;
+    }
+    .kardex-pagination {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .kardex-pagination .pagination {
+        flex-wrap: wrap;
+    }
 }
 /* ============ TRANSFERENCIAS ============ */
 .trf-filtros .form-control,

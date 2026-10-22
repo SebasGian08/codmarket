@@ -26,10 +26,16 @@
     </div>
     @endif
 
-    <div class="card">
-        <div class="card-header">
-            <form method="GET" action="{{ route('admin.inventario.kardex') }}" class="row g-2 align-items-end kardex-filtros">
-                <div class="col-md-3">
+    <div class="card kardex-card">
+        <div class="card-header kardex-card-header">
+            <div class="kardex-filtros-heading">
+                <div>
+                    <h5 class="mb-1">Movimientos de inventario</h5>
+                    <small class="text-muted">Consulta entradas, salidas y saldo por producto y tienda.</small>
+                </div>
+            </div>
+            <form method="GET" action="{{ route('admin.inventario.kardex') }}" class="row g-3 align-items-end kardex-filtros">
+                <div class="col-12 col-xl-3">
                     <label class="form-label fw-semibold mb-1">Producto</label>
                     <select name="id_producto" id="kardexProducto" class="form-control">
                         <option value="">Todos los productos</option>
@@ -41,7 +47,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3">
+                <div class="col-12 col-xl-3">
                     <label class="form-label fw-semibold mb-1">Variante / SKU</label>
                     <select name="id_variante" id="kardexVariante" class="form-control">
                         <option value="">Todas las variantes</option>
@@ -55,7 +61,7 @@
                         @endif
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-6 col-xl-3">
                     <label class="form-label fw-semibold mb-1">Tienda</label>
                     <select name="id_tienda" class="form-control">
                         <option value="">Todas</option>
@@ -66,7 +72,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-6 col-xl-3">
                     <label class="form-label fw-semibold mb-1">Tipo de movimiento</label>
                     <select name="id_tipo_movimiento" class="form-control">
                         <option value="">Todos</option>
@@ -77,7 +83,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-xl-6">
                     <label class="form-label fw-semibold mb-1">Rango de fechas</label>
                     <div class="input-group">
                         <input type="date" name="fecha_desde" class="form-control" value="{{ $filtros['fechaDesde'] }}">
@@ -85,18 +91,19 @@
                         <input type="date" name="fecha_hasta" class="form-control" value="{{ $filtros['fechaHasta'] }}">
                     </div>
                 </div>
-                <div class="col-md-2 d-flex gap-2">
-                    <button type="submit" class="btn btn-primary btn-round w-100">
+                <div class="col-12 col-xl-6 d-flex justify-content-xl-end gap-2">
+                    <button type="submit" class="btn btn-primary btn-round flex-grow-1">
                         <i class="fa fa-filter"></i> Filtrar
                     </button>
-                    <a href="{{ route('admin.inventario.kardex') }}" class="btn btn-secondary btn-round">
+                    <a href="{{ route('admin.inventario.kardex') }}" class="btn btn-light border btn-round kardex-clear-filter"
+                        title="Limpiar filtros" aria-label="Limpiar filtros">
                         <i class="fa fa-eraser"></i>
                     </a>
                 </div>
             </form>
         </div>
 
-        <div class="card-body">
+        <div class="card-body kardex-card-body">
             @if($varianteSeleccionada)
             <div class="kardex-variante-info mb-3">
                 <span class="fw-semibold me-2">{{ $varianteSeleccionada->producto->nombre ?? '' }}</span>
@@ -110,8 +117,18 @@
             </div>
             @endif
 
-            <div class="table-responsive">
-                <table class="table table-hover" id="kardex-movimientos">
+            <div class="kardex-table-summary">
+                <div>
+                    <span class="kardex-summary-icon"><i class="fas fa-exchange-alt"></i></span>
+                    <strong>Historial de movimientos</strong>
+                </div>
+                <span class="text-muted">
+                    {{ $movimientosPag->total() }} {{ $movimientosPag->total() === 1 ? 'movimiento' : 'movimientos' }}
+                </span>
+            </div>
+
+            <div class="table-responsive kardex-table-wrap">
+                <table class="table kardex-table mb-0" id="kardex-movimientos">
                     <thead>
                         <tr>
                             <th>Fecha</th>
@@ -132,47 +149,61 @@
                             $cantidad = (int) $m->cantidad;
                             $esEntrada = $cantidad > 0;
                             $saldo = (int) $fila['saldo'];
+                            $atributosVariante = $m->variante
+                                ? $m->variante->atributos->filter(fn($attr) => $attr->atributo)->map(fn($attr) => ($attr->atributo->nombre ?? 'Atributo') . ': ' . $attr->valor)
+                                : collect();
                         @endphp
                         <tr>
-                            <td class="text-nowrap">{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y H:i') }}</td>
-                            <td>
-                                <div class="fw-semibold">{{ $m->variante->producto->nombre ?? '—' }}</div>
-                                <div class="small text-muted">
-                                    @if($m->variante && $m->variante->atributos->isNotEmpty())
-                                        @foreach($m->variante->atributos as $attr)
-                                            <span class="badge bg-light border px-1 me-1 rounded text-dark">
-                                                {{ $attr->atributo->nombre ?? 'attr' }}: <strong>{{ $attr->valor }}</strong>
-                                            </span>
-                                        @endforeach
-                                    @else
-                                        [{{ $m->variante->sku ?? '' }}]
-                                    @endif
+                            <td class="kardex-date">
+                                <strong>{{ \Carbon\Carbon::parse($m->fecha)->format('d/m/Y') }}</strong>
+                                <span>{{ \Carbon\Carbon::parse($m->fecha)->format('H:i') }}</span>
+                            </td>
+                            <td class="kardex-product">
+                                <div class="kardex-product-name">{{ $m->variante->producto->nombre ?? 'Producto eliminado' }}</div>
+                                <div class="kardex-product-meta">
+                                    <span class="kardex-sku">{{ $m->variante->sku ?? 'Sin SKU' }}</span>
+                                    @foreach($atributosVariante as $atributo)
+                                        <span class="kardex-attribute">{{ $atributo }}</span>
+                                    @endforeach
                                 </div>
                             </td>
-                            <td>
+                            <td class="kardex-store">
                                 @if($m->tienda)
-                                <span class="badge bg-secondary">{{ $m->tienda->nombre }}</span>
+                                <span>{{ $m->tienda->nombre }}</span>
                                 @else
                                 <span class="text-muted">—</span>
                                 @endif
                             </td>
                             <td>
-                                <span class="badge {{ $esEntrada ? 'bg-success' : 'bg-danger' }}">
+                                <span class="kardex-type {{ $esEntrada ? 'kardex-type-entry' : 'kardex-type-exit' }}">
+                                    <i class="fas {{ $esEntrada ? 'fa-arrow-down' : 'fa-arrow-up' }}"></i>
                                     {{ $m->tipoMovimiento->nombre ?? '—' }}
                                 </span>
                             </td>
-                            <td>
-                                <span class="text-muted">#{{ $m->id_referencia ?? '—' }}</span>
+                            <td class="kardex-document">
+                                {{ $m->id_referencia ? '#' . $m->id_referencia : '—' }}
                             </td>
-                            <td>{{ $m->observacion ?: ($m->tipoMovimiento->nombre ?? '—') }}</td>
-                            <td class="text-end text-success fw-bold">
-                                {{ $esEntrada ? $cantidad : '' }}
+                            <td class="kardex-concept" title="{{ $m->observacion ?: ($m->tipoMovimiento->nombre ?? '—') }}">
+                                {{ $m->observacion ?: ($m->tipoMovimiento->nombre ?? '—') }}
                             </td>
-                            <td class="text-end text-danger fw-bold">
-                                {{ !$esEntrada ? abs($cantidad) : '' }}
+                            <td class="text-end">
+                                @if($esEntrada)
+                                    <span class="kardex-quantity kardex-quantity-entry">+{{ $cantidad }}</span>
+                                @else
+                                    <span class="kardex-quantity-empty">—</span>
+                                @endif
                             </td>
-                            <td class="text-end fw-bold {{ $saldo < 0 ? 'text-danger' : '' }}">
+                            <td class="text-end">
+                                @if(!$esEntrada)
+                                    <span class="kardex-quantity kardex-quantity-exit">−{{ abs($cantidad) }}</span>
+                                @else
+                                    <span class="kardex-quantity-empty">—</span>
+                                @endif
+                            </td>
+                            <td class="text-end">
+                                <span class="kardex-balance {{ $saldo < 0 ? 'kardex-balance-negative' : '' }}">
                                 {{ $saldo }}
+                                </span>
                             </td>
                         </tr>
                         @empty
@@ -186,8 +217,16 @@
                 </table>
             </div>
 
-            <div class="mt-3">
-                {{ $movimientosPag->links() }}
+            <div class="kardex-pagination">
+                <small class="text-muted">
+                    @if($movimientosPag->total() > 0)
+                        Mostrando {{ $movimientosPag->firstItem() }}–{{ $movimientosPag->lastItem() }}
+                        de {{ $movimientosPag->total() }} movimientos
+                    @else
+                        No hay movimientos para mostrar
+                    @endif
+                </small>
+                {{ $movimientosPag->onEachSide(1)->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
