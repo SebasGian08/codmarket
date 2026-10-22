@@ -111,7 +111,7 @@
             @endif
 
             <div class="table-responsive">
-                <table class="table table-hover" id="basic-datatables">
+                <table class="table table-hover" id="kardex-movimientos">
                     <thead>
                         <tr>
                             <th>Fecha</th>
