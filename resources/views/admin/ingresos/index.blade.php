@@ -27,13 +27,13 @@
 
     <div class="card ingreso-filtros-card">
         <div class="card-body">
-            <div class="ingreso-filtros-heading">
+            <!-- <div class="ingreso-filtros-heading">
                 <div>
                     <h5>Filtros</h5>
                     <small>Busca y organiza ingresos y ajustes de mercadería.</small>
                 </div>
                 <i class="fa fa-sliders-h" aria-hidden="true"></i>
-            </div>
+            </div> -->
             <form method="GET" action="{{ route('admin.ingresos.index') }}" class="row g-3 align-items-end ingreso-filtros">
                 <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">N° / Documento</label>
