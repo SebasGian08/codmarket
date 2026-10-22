@@ -8,7 +8,7 @@
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Movimientos de inventario/h4>
+            <h4 class="page-title">Movimientos de inventario</h4>
         </div>
     </div>
 
