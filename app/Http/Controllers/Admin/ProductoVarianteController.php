@@ -145,7 +145,7 @@ class ProductoVarianteController extends Controller
     {
         $request->validate([
             'id_producto' => 'required|exists:productos,id_producto',
-            'sku' => 'required|max:100',
+            'sku' => 'nullable|string|max:100',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
         ]);
@@ -154,11 +154,19 @@ class ProductoVarianteController extends Controller
 
             DB::beginTransaction();
 
+            $sku = trim((string) $request->input('sku', ''));
+
+            if ($sku === '') {
+                do {
+                    $sku = (string) random_int(10000000, 99999999);
+                } while (ProductoVariante::where('sku', $sku)->exists());
+            }
+
             $stock = (int) $request->stock;
 
             $variante = ProductoVariante::create([
                 'id_producto' => $request->id_producto,
-                'sku' => $request->sku,
+                'sku' => $sku,
                 'codigo_barras' => $request->codigo_barras,
                 'precio' => $request->precio,
                 'precio_oferta' => $request->precio_oferta,

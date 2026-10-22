@@ -20,10 +20,11 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label small">
-                                SKU *
+                                SKU
                             </label>
 
-                            <input type="text" name="sku" class="form-control" placeholder="Ej: ZAP-NEG-42" required>
+                            <input type="text" name="sku" class="form-control" placeholder="Opcional; se genera automáticamente">
+                            <small class="text-muted">Déjalo vacío para generar un SKU automáticamente.</small>
                         </div>
 
                         <div class="col-md-6 mb-3">

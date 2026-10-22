@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
+use App\Models\ProductoVariante;
 use App\Models\Marca;
 use App\Models\Proveedor;
 use App\Models\Categoria;
@@ -69,14 +70,21 @@ class ProductoController extends Controller
         $request->validate([
             'nombre' => 'required|max:200',
 
-            // variante inicial obligatoria
-            'sku_inicial' => 'required|max:100',
+            'sku_inicial' => 'nullable|string|max:100',
             'precio_inicial' => 'required|numeric|min:0',
         ]);
 
         try {
 
             DB::beginTransaction();
+
+            $skuInicial = trim((string) $request->input('sku_inicial', ''));
+
+            if ($skuInicial === '') {
+                do {
+                    $skuInicial = (string) random_int(10000000, 99999999);
+                } while (ProductoVariante::where('sku', $skuInicial)->exists());
+            }
 
             $producto = Producto::create([
                 'nombre' => $request->nombre,
@@ -99,7 +107,7 @@ class ProductoController extends Controller
 
             // PRIMERA VARIANTE
             $producto->variantes()->create([
-                'sku' => $request->sku_inicial,
+                'sku' => $skuInicial,
                 'codigo_barras' => $request->codigo_barras,
                 'precio' => $request->precio_inicial,
                 'precio_oferta' => $request->precio_oferta_inicial,
