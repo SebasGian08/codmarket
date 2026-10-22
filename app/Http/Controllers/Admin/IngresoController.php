@@ -258,9 +258,12 @@ class IngresoController extends Controller
                     'costo' => $costo,
                 ]);
 
-                $esAjuste = in_array($request->tipo, ['ajuste_suma', 'ajuste_resta'], true);
-                $tipoMovimiento = $esAjuste ? 'ajuste' : 'ingreso';
-                $delta = $request->tipo === 'ajuste_resta' ? -$cantidad : $cantidad;
+                $tipoMovimiento = [
+                    'compra' => 'ingreso',
+                    'ajuste_suma' => 'ajuste_suma',
+                    'ajuste_resta' => 'ajuste_resta',
+                    'devolucion' => 'devolucion',
+                ][$request->tipo];
                 $observacion = $request->tipo === 'devolucion'
                     ? 'Devolución de la venta ' . $venta->numero
                     : 'Ingreso ' . $ingreso->numero;
@@ -269,7 +272,7 @@ class IngresoController extends Controller
                     $item['id_variante'],
                     $idTienda,
                     $tipoMovimiento,
-                    $delta,
+                    $cantidad,
                     $ingreso->id_ingreso,
                     auth()->id(),
                     $observacion
@@ -298,15 +301,19 @@ class IngresoController extends Controller
             }
 
             foreach ($ingreso->detalle as $detalle) {
-                $deltaOriginal = $ingreso->tipo === 'ajuste_resta'
-                    ? -$detalle->cantidad
-                    : $detalle->cantidad;
+                $tipoReversion = [
+                    'compra' => 'ajuste_resta',
+                    'ajuste' => 'ajuste',
+                    'ajuste_suma' => 'ajuste_resta',
+                    'ajuste_resta' => 'ajuste_suma',
+                    'devolucion' => 'ajuste_resta',
+                ][$ingreso->tipo] ?? 'ajuste';
 
                 $this->inventario->aplicar(
                     $detalle->id_variante,
                     $ingreso->id_tienda,
-                    'ajuste',
-                    -$deltaOriginal,
+                    $tipoReversion,
+                    $ingreso->tipo === 'ajuste' ? -$detalle->cantidad : $detalle->cantidad,
                     $ingreso->id_ingreso,
                     auth()->id(),
                     'Anulación de ingreso ' . $ingreso->numero

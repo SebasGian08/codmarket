@@ -18,6 +18,9 @@ class InventarioService
      * - venta .............. salida (-)
      * - transferencia_salida  salida (-)
      * - transferencia_entrada entrada (+)
+     * - ajuste_suma ......... entrada (+)
+     * - ajuste_resta ........ salida (-)
+     * - devolucion .......... entrada (+)
      * - ajuste ............. se pasa cantidad con signo propio (+/-)
      *
      * Mantiene sincronizado el stock global de productos_variantes.
@@ -35,7 +38,9 @@ class InventarioService
 
             $signo = $tipoMovimiento->signo === '-' ? -1 : 1;
 
-            $delta = ($tipo === 'ajuste') ? (int) $cantidad : ($signo * abs((int) $cantidad));
+            $delta = ($tipo === 'ajuste')
+                ? (int) $cantidad
+                : ($signo * abs((int) $cantidad));
 
             $inventario = Inventario::firstOrCreate(
                 ['id_variante' => $idVariante, 'id_tienda' => $idTienda],
