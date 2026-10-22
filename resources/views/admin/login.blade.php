@@ -77,7 +77,7 @@
                         <!-- * EMAIL -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold">
-                                Correo <span class="text-danger">*</span>
+                                Correo <small class="text-danger">*</small>
                             </label>
                             <input type="email" class="form-control rounded-3 @error('email') is-invalid @enderror"
                                 name="email" value="{{ old('email') }}" placeholder="ejemplo@correo.com" required
@@ -90,7 +90,7 @@
 
                         <!-- * PASSWORD -->
                         <div class="mb-3">
-                            <label class="form-label fw-semibold">Contraseña <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Contraseña <small class="text-danger">*</small></label>
 
                             <div class="input-group">
                                 <input type="password"

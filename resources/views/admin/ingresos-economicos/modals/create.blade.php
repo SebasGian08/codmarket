@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Tipo de Ingreso <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Tipo de Ingreso <small class="text-danger">*</small></label>
                             <select name="id_tipo_ingreso_economico" class="form-control" required>
                                 <option value="">Selecciona un tipo</option>
                                 @foreach($tiposIngreso as $tipo)
@@ -19,7 +19,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Tienda <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Tienda <small class="text-danger">*</small></label>
                             <select name="id_tienda" id="tiendaIngresoEco" class="form-control" required>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendas as $tienda)
@@ -43,15 +43,15 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Fecha <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Fecha <small class="text-danger">*</small></label>
                             <input type="date" name="fecha" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Monto (S/) <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Monto (S/) <small class="text-danger">*</small></label>
                             <input type="number" name="monto" class="form-control" min="0.01" step="0.01" placeholder="0.00" required>
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fw-semibold">Descripción <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Descripción <small class="text-danger">*</small></label>
                             <input type="text" name="descripcion" class="form-control" maxlength="500"
                                 placeholder="Ej: Préstamo recibido, Aporte de capital..." required>
                         </div>

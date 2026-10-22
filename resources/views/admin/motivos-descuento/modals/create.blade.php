@@ -10,11 +10,11 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Nombre <small class="text-danger">*</small></label>
                             <input type="text" name="nombre" class="form-control" maxlength="100" required>
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fw-semibold">Aplica a <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Aplica a <small class="text-danger">*</small></label>
                             <select name="aplica_a" class="form-control">
                                 <option value="ITEM">Ítem (por línea)</option>
                                 <option value="CABECERA">Cabecera (toda la venta)</option>

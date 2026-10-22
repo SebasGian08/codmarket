@@ -119,7 +119,7 @@
 
                             <label>
                                 Tipo de documento
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper select-wrapper">
@@ -144,7 +144,7 @@
 
                             <label>
                                 Nombres
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper">
@@ -162,7 +162,7 @@
 
                             <label>
                                 Apellidos
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper">
@@ -180,7 +180,7 @@
 
                             <label>
                                 RUC
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper">
@@ -200,7 +200,7 @@
 
                             <label>
                                 Razón social
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper">
@@ -218,7 +218,7 @@
 
                             <label>
                                 Servicio
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper select-wrapper">
@@ -244,7 +244,7 @@
 
                             <label>
                                 Teléfono
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="phone-wrapper">
@@ -267,7 +267,7 @@
 
                             <label>
                                 Correo electrónico
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="input-wrapper">
@@ -285,7 +285,7 @@
 
                             <label>
                                 Mensaje
-                                <span>*</span>
+                                <small class="text-danger">*</small>
                             </label>
 
                             <div class="textarea-wrapper">

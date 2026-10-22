@@ -15,7 +15,7 @@
                         <div class="col-md-6">
                             <div
                                 class="form-group {{ $errors->has('nombres') ? 'has-error' : (old('nombres') ? 'has-success' : '') }}">
-                                <label for="nombres">Nombres <span class="text-danger">*</span></label>
+                                <label for="nombres">Nombres <small class="text-danger">*</small></label>
                                 <input type="text" name="nombres" class="form-control"
                                     value="{{ old('nombres', $user->nombres) }}" required>
                                 @error('nombres')
@@ -25,7 +25,7 @@
 
                             <div
                                 class="form-group {{ $errors->has('apellidos') ? 'has-error' : (old('apellidos') ? 'has-success' : '') }}">
-                                <label for="apellidos">Apellidos <span class="text-danger">*</span></label>
+                                <label for="apellidos">Apellidos <small class="text-danger">*</small></label>
                                 <input type="text" name="apellidos" class="form-control"
                                     value="{{ old('apellidos', $user->apellidos) }}" required>
                                 @error('apellidos')
@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="form-group {{ $errors->has('id_rol') ? 'has-error' : '' }}">
-                                <label>Rol <span class="text-danger">*</span></label>
+                                <label>Rol <small class="text-danger">*</small></label>
                                 <select name="id_rol" class="form-control" required>
                                     @foreach($roles as $rol)
                                     <option value="{{ $rol->id_rol }}"
@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                             <div
                                 class="form-group {{ $errors->has('email') ? 'has-error' : (old('email') ? 'has-success' : '') }}">
-                                <label>Email <span class="text-danger">*</span></label>
+                                <label>Email <small class="text-danger">*</small></label>
                                 <input type="email" name="email" class="form-control"
                                     value="{{ old('email', $user->email) }}" required>
                                 @error('email')

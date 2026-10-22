@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Tienda <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Tienda <small class="text-danger">*</small></label>
                             <select name="id_tienda" id="tiendaTransferencia" class="form-control" required>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendas as $tienda)
@@ -19,12 +19,12 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Fecha <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Fecha <small class="text-danger">*</small></label>
                             <input type="date" name="fecha" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
 
                         <div class="col-md-12 border-top pt-3">
-                            <label class="form-label fw-semibold">Origen del dinero <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Origen del dinero <small class="text-danger">*</small></label>
                             <div class="d-flex gap-4 mb-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="origen_tipo" id="origenCaja" value="caja" checked>
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="col-md-12 border-top pt-3">
-                            <label class="form-label fw-semibold">Destino del dinero <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Destino del dinero <small class="text-danger">*</small></label>
                             <div class="d-flex gap-4 mb-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="destino_tipo" id="destinoCaja" value="caja" checked>
@@ -86,7 +86,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Monto (S/) <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Monto (S/) <small class="text-danger">*</small></label>
                             <input type="number" name="monto" class="form-control" min="0.01" step="0.01" placeholder="0.00" required>
                         </div>
                         <div class="col-md-12">

@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Nombre <small class="text-danger">*</small></label>
                             <input type="text" name="nombre" id="editNombreTipoVenta" class="form-control" maxlength="100" required>
                         </div>
                         <div class="col-md-12">

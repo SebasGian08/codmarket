@@ -16,7 +16,7 @@
 
                     <div class="row">
                         <div class="col-md-12 form-group">
-                            <label>Tipo de documento <span class="text-danger">*</span></label>
+                            <label>Tipo de documento <small class="text-danger">*</small></label>
                             <select name="id_documento_tipo" id="ct-documento-tipo" class="form-control">
                                 <option value="">Seleccionar</option>
                                 @foreach($documentosTipos ?? [] as $dt)
@@ -30,17 +30,17 @@
 
                     <div class="row">
                         <div class="col-md-6 form-group" data-doc="persona" style="display:none;">
-                            <label>Nombres <span class="text-danger">*</span></label>
+                            <label>Nombres <small class="text-danger">*</small></label>
                             <input type="text" name="nombres" id="ct-nombres" class="form-control">
                         </div>
 
                         <div class="col-md-6 form-group" data-doc="persona" style="display:none;">
-                            <label>Apellidos <span class="text-danger">*</span></label>
+                            <label>Apellidos <small class="text-danger">*</small></label>
                             <input type="text" name="apellidos" class="form-control">
                         </div>
 
                         <div class="col-md-6 form-group" data-doc="empresa" style="display:none;">
-                            <label>RUC <span class="text-danger">*</span></label>
+                            <label>RUC <small class="text-danger">*</small></label>
                             <div class="contacto-counter-wrap">
                                 <input type="text" name="documento_numero" id="ct-documento-numero"
                                     class="form-control has-counter" maxlength="11" inputmode="numeric" placeholder="RUC">
@@ -49,7 +49,7 @@
                         </div>
 
                         <div class="col-md-6 form-group" data-doc="empresa" style="display:none;">
-                            <label>Razón social <span class="text-danger">*</span></label>
+                            <label>Razón social <small class="text-danger">*</small></label>
                             <input type="text" name="razon_social" id="ct-razon-social" class="form-control">
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Servicio <span class="text-danger">*</span></label>
+                        <label>Servicio <small class="text-danger">*</small></label>
                         <select name="service_id" class="form-control" required>
                             <option value="">Seleccionar</option>
                             @foreach($services as $service)

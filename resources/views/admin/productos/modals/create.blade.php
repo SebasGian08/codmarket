@@ -169,7 +169,7 @@
 
                                         <input type="text" name="sku_inicial" class="form-control"
                                             placeholder="Opcional; se genera automáticamente">
-                                        <small class="text-muted">Déjalo vacío para generar un SKU automáticamente.</small>
+                                        <!-- <small class="text-muted">Déjalo vacío para generar un SKU automáticamente.</small> -->
                                     </div>
 
                                     <div class="mb-3">
@@ -182,7 +182,7 @@
 
                                     <div class="mb-3">
                                         <label class="form-label small">
-                                            Precio *
+                                            Precio <small class="text-danger">*</small>
                                         </label>
 
                                         <input type="number" step="0.01" name="precio_inicial" class="form-control"

@@ -48,7 +48,7 @@
                             <div class="col-md-6">
 
                                 <div class="form-group">
-                                    <label>Nombre *</label>
+                                    <label>Nombre <small class="text-danger">*</small></label>
                                     <input type="text" name="nombre" class="form-control"
                                         value="{{ $empresa->nombre ?? '' }}" required>
                                 </div>

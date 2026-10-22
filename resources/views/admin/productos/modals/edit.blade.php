@@ -200,7 +200,7 @@
                                     <div class="mb-3">
 
                                         <label class="form-label small">
-                                            Precio *
+                                            Precio <small class="text-danger">*</small>
                                         </label>
 
                                         <input type="number" step="0.01" name="precio_principal" class="form-control"

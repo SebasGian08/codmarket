@@ -24,7 +24,7 @@
                             </label>
 
                             <input type="text" name="sku" class="form-control" placeholder="Opcional; se genera automáticamente">
-                            <small class="text-muted">Déjalo vacío para generar un SKU automáticamente.</small>
+                            <!-- <small class="text-muted">Déjalo vacío para generar un SKU automáticamente.</small> -->
                         </div>
 
                         <div class="col-md-6 mb-3">
@@ -42,7 +42,7 @@
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label small">
-                                Precio *
+                                Precio <small class="text-danger">*</small>
                             </label>
 
                             <input type="number" step="0.01" min="0" name="precio" class="form-control" required>
@@ -70,7 +70,7 @@
                             </label>
 
                             <input type="number" min="0" name="stock" class="form-control" value="0" required>
-                            <small class="text-muted">Genera un movimiento interno</small>
+                           <!--  --> <small class="text-muted">Genera un movimiento interno</small>
                         </div>
 
                     </div>

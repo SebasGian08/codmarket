@@ -15,7 +15,7 @@
 
                 <div class="modal-body">
 
-                    <label>Imagen <span class="text-danger">*</span></label>
+                    <label>Imagen <small class="text-danger">*</small></label>
                     <input type="file" name="imagen" class="form-control mb-2" accept="image/*" required>
 
                     <label>Título</label>

@@ -17,7 +17,7 @@
             @csrf
             <div class="form-grid banner-contact-grid">
                 <div class="form-field full">
-                    <label for="banner-documento-tipo">Tipo de documento <span>*</span></label>
+                    <label for="banner-documento-tipo">Tipo de documento <small class="text-danger">*</small></label>
                     <div class="input-wrapper select-wrapper">
                         <select id="banner-documento-tipo" name="id_documento_tipo" class="service-select" required>
                             <option value="">Seleccione</option>
@@ -29,21 +29,21 @@
                 </div>
 
                 <div class="form-field" data-doc="persona" style="display:none;">
-                    <label for="banner-nombre">Nombres <span>*</span></label>
+                    <label for="banner-nombre">Nombres <small class="text-danger">*</small></label>
                     <div class="input-wrapper">
                         <input id="banner-nombre" type="text" name="nombre" value="{{ old('nombre') }}" placeholder="Nombres completos" maxlength="100" autocomplete="given-name">
                     </div>
                 </div>
 
                 <div class="form-field" data-doc="persona" style="display:none;">
-                    <label for="banner-apellidos">Apellidos <span>*</span></label>
+                    <label for="banner-apellidos">Apellidos <small class="text-danger">*</small></label>
                     <div class="input-wrapper">
                         <input id="banner-apellidos" type="text" name="apellidos" value="{{ old('apellidos') }}" placeholder="Apellidos completos" maxlength="100" autocomplete="family-name">
                     </div>
                 </div>
 
                 <div class="form-field" data-doc="empresa" style="display:none;">
-                    <label for="banner-documento-numero">RUC <span>*</span></label>
+                    <label for="banner-documento-numero">RUC <small class="text-danger">*</small></label>
                     <div class="input-wrapper">
                         <input id="banner-documento-numero" type="text" name="documento_numero" class="has-counter" value="{{ old('documento_numero') }}" placeholder="RUC" maxlength="11" inputmode="numeric" pattern="[0-9]{6,11}">
                         <span class="input-counter" data-counter-for="banner-documento-numero">0/11</span>
@@ -51,14 +51,14 @@
                 </div>
 
                 <div class="form-field" data-doc="empresa" style="display:none;">
-                    <label for="banner-razon-social">Razón social <span>*</span></label>
+                    <label for="banner-razon-social">Razón social <small class="text-danger">*</small></label>
                     <div class="input-wrapper">
                         <input id="banner-razon-social" type="text" name="razon_social" value="{{ old('razon_social') }}" placeholder="Nombre de la empresa" maxlength="200" autocomplete="organization">
                     </div>
                 </div>
 
                 <div class="form-field">
-                    <label for="banner-servicio">Servicio <span>*</span></label>
+                    <label for="banner-servicio">Servicio <small class="text-danger">*</small></label>
                     <div class="input-wrapper select-wrapper">
                         <select id="banner-servicio" name="servicio" class="service-select" required>
                             <option value="">Seleccione un servicio</option>
@@ -70,7 +70,7 @@
                 </div>
 
                 <div class="form-field">
-                    <label for="banner-telefono">Teléfono <span>*</span></label>
+                    <label for="banner-telefono">Teléfono <small class="text-danger">*</small></label>
                     <div class="phone-wrapper">
                         <div class="phone-prefix">+51</div>
                         <input id="banner-telefono" type="tel" name="telefono" value="{{ old('telefono') }}" placeholder="987654321" maxlength="9" pattern="[0-9]{9}" inputmode="numeric" autocomplete="tel" required>
@@ -78,14 +78,14 @@
                 </div>
 
                 <div class="form-field full">
-                    <label for="banner-email">Correo electrónico <span>*</span></label>
+                    <label for="banner-email">Correo electrónico <small class="text-danger">*</small></label>
                     <div class="input-wrapper">
                         <input id="banner-email" type="email" name="email" value="{{ old('email') }}" placeholder="correo@ejemplo.com" maxlength="120" autocomplete="email" required>
                     </div>
                 </div>
 
                 <div class="form-field full">
-                    <label for="banner-message">Mensaje <span>*</span></label>
+                    <label for="banner-message">Mensaje <small class="text-danger">*</small></label>
                     <div class="textarea-wrapper">
                         <textarea id="banner-message" name="message" rows="2" maxlength="1000" placeholder="Cuéntanos brevemente qué necesitas..." required>{{ old('message') }}</textarea>
                     </div>

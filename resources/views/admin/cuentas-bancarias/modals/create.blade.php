@@ -10,7 +10,7 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Banco <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Banco <small class="text-danger">*</small></label>
                             <input type="text" name="nombre_banco" class="form-control" maxlength="100"
                                 placeholder="Ej: BCP, BBVA, Interbank..." required>
                         </div>

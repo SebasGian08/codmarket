@@ -15,17 +15,17 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nombres <span class="text-danger">*</span></label>
+                                <label>Nombres <small class="text-danger">*</small></label>
                                 <input type="text" name="nombres" class="form-control" required>
                             </div>
 
                             <div class="form-group">
-                                <label>Apellidos <span class="text-danger">*</span></label>
+                                <label>Apellidos <small class="text-danger">*</small></label>
                                 <input type="text" name="apellidos" class="form-control" required>
                             </div>
 
                             <div class="form-group">
-                                <label>Rol <span class="text-danger">*</span></label>
+                                <label>Rol <small class="text-danger">*</small></label>
                                 <select name="id_rol" class="form-control" required>
                                     @foreach($roles as $rol)
                                     <option value="{{ $rol->id_rol }}">{{ $rol->nombre }}</option>
@@ -36,12 +36,12 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Email <span class="text-danger">*</span></label>
+                                <label>Email <small class="text-danger">*</small></label>
                                 <input type="email" name="email" class="form-control" required>
                             </div>
 
                             <div class="form-group">
-                                <label>Password <span class="text-danger">*</span></label>
+                                <label>Password <small class="text-danger">*</small></label>
                                 <input type="password" name="password" class="form-control" required>
                             </div>
 

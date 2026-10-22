@@ -13,11 +13,11 @@
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-12">
-                            <label class="form-label fw-semibold">Nombre <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Nombre <small class="text-danger">*</small></label>
                             <input type="text" name="nombre" id="editNombreRegla" class="form-control" maxlength="100" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Tipo de descuento <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Tipo de descuento <small class="text-danger">*</small></label>
                             <select name="id_tipo_descuento" id="editTipoRegla" class="form-control" required>
                                 @foreach($tiposDescuento as $td)
                                 <option value="{{ $td->id_tipo_descuento }}">{{ $td->nombre }} ({{ $td->codigo }})</option>
@@ -25,7 +25,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fw-semibold">Valor <span class="text-danger">*</span></label>
+                            <label class="form-label fw-semibold">Valor <small class="text-danger">*</small></label>
                             <input type="number" name="valor" id="editValorRegla" class="form-control" step="0.01" min="0" required>
                         </div>
                         <div class="col-md-6">

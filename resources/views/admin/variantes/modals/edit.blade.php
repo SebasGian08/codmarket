@@ -49,7 +49,7 @@
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label small">
-                                Precio *
+                                Precio <small class="text-danger">*</small>
                             </label>
 
                             <input type="number"
