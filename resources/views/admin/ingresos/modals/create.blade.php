@@ -19,8 +19,11 @@
                             <label>Tipo de ingreso</label>
                             <select name="tipo" id="tipoIngreso" class="form-control">
                                 <option value="compra">Compra a proveedor</option>
-                                <option value="ajuste">Ajuste / Stock inicial</option>
+                                <option value="ajuste_suma">Ajuste: sumar stock</option>
+                                <option value="ajuste_resta">Ajuste: restar stock</option>
+                                <option value="devolucion">Devolución de cliente</option>
                             </select>
+                            <small id="tipoIngresoAyuda" class="text-muted d-block mt-1"></small>
                         </div>
 
                         <div class="col-md-3" id="proveedorWrapIngreso">
@@ -33,9 +36,20 @@
                             </select>
                         </div>
 
+                        <div class="col-md-6 d-none" id="devolucionVentaWrap">
+                            <label>Venta asociada</label>
+                            <div class="position-relative">
+                                <input type="text" id="buscarVentaDevolucion" class="form-control" autocomplete="off"
+                                    placeholder="Buscar por número de venta o cliente...">
+                                <input type="hidden" name="id_venta" id="idVentaDevolucion">
+                                <div id="ventaResultadosDevolucion" class="ingreso-resultados d-none"></div>
+                            </div>
+                            <small class="text-muted">Solo se pueden devolver unidades aún no devueltas.</small>
+                        </div>
+
                         <div class="col-md-3">
                             <label>Tienda</label>
-                            <select name="id_tienda" class="form-control" required>
+                            <select name="id_tienda" id="tiendaIngreso" class="form-control" required>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendas as $tienda)
                                 <option value="{{ $tienda->id_tienda }}">{{ $tienda->codigo }} - {{ $tienda->nombre }}</option>

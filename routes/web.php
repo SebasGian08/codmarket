@@ -172,6 +172,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // MÓDULO: INGRESOS DE STOCK
     Route::prefix('ingresos')->group(function () {
         Route::get('/', [IngresoController::class, 'index'])->name('admin.ingresos.index');
+        Route::get('/ventas/buscar', [IngresoController::class, 'buscarVentasParaDevolucion'])->name('admin.ingresos.ventas.buscar');
+        Route::get('/ventas/{id}/variantes-devolucion', [IngresoController::class, 'variantesParaDevolucion'])->name('admin.ingresos.ventas.devolucion');
         Route::post('/guardar', [IngresoController::class, 'store'])->name('admin.ingresos.store');
         Route::post('/{id}/anular', [IngresoController::class, 'anular'])->name('admin.ingresos.anular');
         Route::get('/{id}/detalle', [IngresoController::class, 'detalle'])->name('admin.ingresos.detalle');

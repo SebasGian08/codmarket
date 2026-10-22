@@ -38,7 +38,10 @@
                     <select name="tipo" class="form-select form-select-sm">
                         <option value="">Todos</option>
                         <option value="compra" {{ ($filtros['tipo'] ?? '') === 'compra' ? 'selected' : '' }}>Compra</option>
-                        <option value="ajuste" {{ ($filtros['tipo'] ?? '') === 'ajuste' ? 'selected' : '' }}>Ajuste</option>
+                        <option value="ajuste" {{ ($filtros['tipo'] ?? '') === 'ajuste' ? 'selected' : '' }}>Ajuste (anterior)</option>
+                        <option value="ajuste_suma" {{ ($filtros['tipo'] ?? '') === 'ajuste_suma' ? 'selected' : '' }}>Ajuste suma</option>
+                        <option value="ajuste_resta" {{ ($filtros['tipo'] ?? '') === 'ajuste_resta' ? 'selected' : '' }}>Ajuste resta</option>
+                        <option value="devolucion" {{ ($filtros['tipo'] ?? '') === 'devolucion' ? 'selected' : '' }}>Devolución</option>
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -105,7 +108,7 @@
                             <th>N°</th>
                             <th>Tipo</th>
                             <th>Tienda</th>
-                            <th>Proveedor</th>
+                            <th>Proveedor / Venta</th>
                             <th>Fecha</th>
                             <th>Registrado por</th>
                             <th>Estado</th>
@@ -118,14 +121,31 @@
                         <tr>
                             <td><span class="badge bg-dark">{{ $ingreso->numero }}</span></td>
                             <td>
-                                @if($ingreso->tipo === 'compra')
-                                <span class="badge bg-primary">Compra</span>
-                                @else
-                                <span class="badge bg-info text-dark">Ajuste</span>
-                                @endif
+                                @switch($ingreso->tipo)
+                                    @case('compra')
+                                        <span class="badge bg-primary">Compra</span>
+                                        @break
+                                    @case('ajuste_suma')
+                                        <span class="badge bg-success">Ajuste suma</span>
+                                        @break
+                                    @case('ajuste_resta')
+                                        <span class="badge bg-warning text-dark">Ajuste resta</span>
+                                        @break
+                                    @case('devolucion')
+                                        <span class="badge bg-info text-dark">Devolución</span>
+                                        @break
+                                    @default
+                                        <span class="badge bg-secondary">Ajuste anterior</span>
+                                @endswitch
                             </td>
                             <td class="fw-semibold">{{ $ingreso->tienda->nombre }}</td>
-                            <td>{{ $ingreso->proveedor->nombre ?? '—' }}</td>
+                            <td>
+                                @if($ingreso->tipo === 'devolucion')
+                                    {{ $ingreso->venta->numero ?? 'Venta #' . $ingreso->id_venta }}
+                                @else
+                                    {{ $ingreso->proveedor->nombre ?? '—' }}
+                                @endif
+                            </td>
                             <td>{{ $ingreso->fecha->format('d/m/Y') }}</td>
                             <td>{{ $ingreso->usuario->nombres }} {{ $ingreso->usuario->apellidos }}</td>
                             <td>
@@ -142,7 +162,8 @@
 
                                 @if($ingreso->estado)
                                 <button class="btn btn-sm btn-danger btn-round btn-anular"
-                                    data-url="{{ route('admin.ingresos.anular', $ingreso->id_ingreso) }}">
+                                    data-url="{{ route('admin.ingresos.anular', $ingreso->id_ingreso) }}"
+                                    data-tipo="{{ $ingreso->tipo }}">
                                     <i class="fa fa-ban"></i> Anular
                                 </button>
                                 @endif
@@ -174,6 +195,8 @@
             .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    var VARIANTES_DEVOLUCION = [];
+
     /* ============ BÚSQUEDA DE VARIANTE ============ */
     $('#varianteInputIngreso').on('input', function() {
         var t = $(this).val().trim().toLowerCase();
@@ -184,6 +207,12 @@
             return;
         }
 
+        if ($('#tipoIngreso').val() === 'devolucion' && !$('#idVentaDevolucion').val()) {
+            lista.html('<div class="ingreso-resultado py-2 text-muted">Primero selecciona la venta.</div>')
+                .removeClass('d-none');
+            return;
+        }
+
         // helper: texto de atributos (para buscar por talla/color/etc.)
         function textoAtributos(v) {
             return (v.atributos || []).map(function(a) {
@@ -191,7 +220,8 @@
             }).join(' ').toLowerCase();
         }
 
-        var matches = VARIANTES.filter(function(v) {
+        var catalogo = $('#tipoIngreso').val() === 'devolucion' ? VARIANTES_DEVOLUCION : VARIANTES;
+        var matches = catalogo.filter(function(v) {
             return (v.producto || '').toLowerCase().indexOf(t) > -1 ||
                 (v.sku || '').toLowerCase().indexOf(t) > -1 ||
                 textoAtributos(v).indexOf(t) > -1;
@@ -212,8 +242,9 @@
                 return '<div class="ingreso-resultado" data-id="' + v.id + '">' +
                     '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
                     '<div class="small mb-1">' + badgesAtributos(v) + '</div>' +
-                    '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') + ' · Costo: S/ ' +
-                    parseFloat(v.costo || 0).toFixed(2) + '</div>' +
+                    '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') +
+                    (v.cantidad_disponible != null ? ' · Disponible para devolver: ' + v.cantidad_disponible :
+                        ' · Costo: S/ ' + parseFloat(v.costo || 0).toFixed(2)) + '</div>' +
                     '</div>';
             }).join(''));
         }
@@ -225,11 +256,12 @@
         e.preventDefault();
 
         var id = parseInt($(this).data('id'));
-        var v = VARIANTES.find(function(x) { return x.id === id; });
+        var catalogo = $('#tipoIngreso').val() === 'devolucion' ? VARIANTES_DEVOLUCION : VARIANTES;
+        var v = catalogo.find(function(x) { return x.id === id; });
 
         if (!v) return;
 
-        agregarFilaIngreso(v);
+        agregarFilaIngreso(v, 1, null, v.cantidad_disponible);
 
         $('#varianteInputIngreso').val('');
         $('#varianteResultadosIngreso').addClass('d-none').html('');
@@ -242,7 +274,7 @@
     });
 
     /* ============ FILAS DEL DETALLE ============ */
-    function agregarFilaIngreso(v, cantidad, costo) {
+    function agregarFilaIngreso(v, cantidad, costo, cantidadMaxima) {
         var filas = $('#ingresoFilas');
 
         if (filas.find('input[name="items[' + v.id + '][id_variante]"]').length) {
@@ -263,7 +295,7 @@
                 </td>
                 <td style="width:120px">
                     <input type="number" class="form-control form-control-sm ingreso-cantidad" value="${cantidad || 1}"
-                        min="1" required>
+                        min="1" ${cantidadMaxima != null ? 'max="' + cantidadMaxima + '"' : ''} required>
                     <input type="hidden" name="items[${v.id}][id_variante]" value="${v.id}">
                 </td>
                 <td style="width:130px">
@@ -293,6 +325,15 @@
     $(document).on('input', '.ingreso-cantidad, .ingreso-costo', function() {
         var fila = $(this).closest('tr');
         var nombre = $(this).hasClass('ingreso-cantidad') ? 'cantidad' : 'costo';
+
+        if (nombre === 'cantidad') {
+            var maximo = parseInt($(this).attr('max'), 10);
+            var cantidad = parseInt($(this).val(), 10);
+            if (!isNaN(maximo) && cantidad > maximo) {
+                $(this).val(maximo);
+            }
+        }
+
         fila.find('input[name^="items["][name$="[' + nombre + ']"]').val($(this).val());
         actualizarFilaIngreso(fila);
     });
@@ -314,9 +355,26 @@
         $('#ingresoTotal').text('S/ ' + total.toFixed(2));
     }
 
-    /* ============ TIPO (compra / ajuste) ============ */
+    /* ============ TIPO DE INGRESO ============ */
     function cambiarTipoIngreso() {
         var tipo = $('#tipoIngreso').val();
+        var ayudas = {
+            compra: 'La cantidad recibida se suma al stock.',
+            ajuste_suma: 'Indica las unidades que quieres sumar al stock.',
+            ajuste_resta: 'Indica las unidades que quieres restar del stock.',
+            devolucion: 'Registra unidades de una venta que regresan a la tienda donde se vendieron.'
+        };
+
+        $('#ingresoFilas').empty();
+        actualizarTotalIngreso();
+        $('#buscarVentaDevolucion').val('');
+        $('#idVentaDevolucion').val('');
+        $('#ventaResultadosDevolucion').addClass('d-none').empty();
+        $('#varianteInputIngreso').val('');
+        $('#varianteResultadosIngreso').addClass('d-none').empty();
+        VARIANTES_DEVOLUCION = [];
+        $('#tiendaIngreso').prop('disabled', false);
+        $('#tiendaDevolucionHidden').remove();
 
         if (tipo === 'compra') {
             $('#proveedorWrapIngreso').removeClass('d-none');
@@ -325,13 +383,99 @@
             $('#proveedorWrapIngreso').addClass('d-none');
             $('#proveedorIngreso').prop('required', false).val('');
         }
+
+        $('#devolucionVentaWrap').toggleClass('d-none', tipo !== 'devolucion');
+        $('#tipoIngresoAyuda').text(ayudas[tipo] || '');
+        $('#varianteInputIngreso').prop('disabled', tipo === 'devolucion');
+        $('#varianteInputIngreso').attr('placeholder', tipo === 'devolucion'
+            ? 'Selecciona una venta para ver sus productos...'
+            : 'Buscar por nombre, SKU, talla o color...');
     }
 
     $('#tipoIngreso').on('change', cambiarTipoIngreso);
 
+    $('#buscarVentaDevolucion').on('input', function() {
+        var termino = $(this).val().trim();
+        var resultados = $('#ventaResultadosDevolucion');
+
+        $('#idVentaDevolucion').val('');
+        VARIANTES_DEVOLUCION = [];
+        $('#varianteInputIngreso').prop('disabled', true);
+        $('#varianteResultadosIngreso').addClass('d-none').empty();
+        $('#ingresoFilas').empty();
+        actualizarTotalIngreso();
+
+        if (termino.length < 2) {
+            resultados.addClass('d-none').empty();
+            return;
+        }
+
+        $.get("{{ route('admin.ingresos.ventas.buscar') }}", { q: termino })
+            .done(function(ventas) {
+                if (!ventas.length) {
+                    resultados.html('<div class="ingreso-resultado py-2 text-muted">No se encontraron ventas.</div>');
+                } else {
+                    resultados.html(ventas.map(function(venta) {
+                        return '<button type="button" class="ingreso-resultado w-100 text-start border-0 bg-white" ' +
+                            'data-id="' + venta.id + '" data-tienda="' + venta.id_tienda + '">' +
+                            '<span class="fw-semibold">' + escapeHtml(venta.numero) + '</span>' +
+                            '<span class="small text-muted d-block">' + escapeHtml(venta.cliente) +
+                            ' · ' + escapeHtml(venta.fecha) + '</span></button>';
+                    }).join(''));
+                }
+                resultados.removeClass('d-none');
+            })
+            .fail(function() {
+                resultados.html('<div class="ingreso-resultado py-2 text-danger">No se pudieron buscar las ventas.</div>')
+                    .removeClass('d-none');
+            });
+    });
+
+    $(document).on('mousedown', '#ventaResultadosDevolucion .ingreso-resultado[data-id]', function(e) {
+        e.preventDefault();
+
+        var idVenta = $(this).data('id');
+        var textoVenta = $(this).find('.fw-semibold').text();
+        $('#buscarVentaDevolucion').val(textoVenta);
+        $('#idVentaDevolucion').val(idVenta);
+        $('#ventaResultadosDevolucion').addClass('d-none').empty();
+        $('#varianteInputIngreso').prop('disabled', true);
+        $('#tiendaIngreso').val($(this).data('tienda')).prop('disabled', true);
+
+        if ($('#tiendaDevolucionHidden').length === 0) {
+            $('<input>', { type: 'hidden', name: 'id_tienda', id: 'tiendaDevolucionHidden' })
+                .appendTo('#formIngreso');
+        }
+        $('#tiendaDevolucionHidden').val($(this).data('tienda'));
+
+        var urlVariantes = "{{ route('admin.ingresos.ventas.devolucion', ['id' => '__ID__']) }}"
+            .replace('__ID__', idVenta);
+        $.get(urlVariantes)
+            .done(function(data) {
+                VARIANTES_DEVOLUCION = data.variantes || [];
+                $('#varianteInputIngreso').prop('disabled', VARIANTES_DEVOLUCION.length === 0);
+
+                if (!VARIANTES_DEVOLUCION.length) {
+                    Swal.fire('Sin unidades disponibles', 'Esta venta ya no tiene unidades pendientes de devolución.', 'info');
+                } else {
+                    $('#varianteInputIngreso').attr('placeholder', 'Buscar producto de la venta seleccionada...');
+                }
+            })
+            .fail(function() {
+                $('#idVentaDevolucion').val('');
+                Swal.fire('Error', 'No se pudieron cargar los productos de la venta.', 'error');
+            });
+    });
+
     /* ============ SUBMIT ============ */
     $('#formIngreso').on('submit', function(e) {
         var filas = $('#ingresoFilas tr').length;
+
+        if ($('#tipoIngreso').val() === 'devolucion' && !$('#idVentaDevolucion').val()) {
+            e.preventDefault();
+            Swal.fire('Atención', 'Selecciona la venta asociada a la devolución.', 'warning');
+            return;
+        }
 
         if (!filas) {
             e.preventDefault();
@@ -355,10 +499,14 @@
     /* ============ ANULAR ============ */
     $(document).on('click', '.btn-anular', function() {
         var url = $(this).data('url');
+        var tipo = $(this).data('tipo');
+        var textoAnulacion = tipo === 'ajuste_resta'
+            ? 'Se devolverán al stock las unidades restadas.'
+            : 'Se revertirá el movimiento de stock registrado.';
 
         Swal.fire({
             title: '¿Anular ingreso?',
-            text: 'Se restará el stock ingresado. Esta acción no se puede deshacer.',
+            text: textoAnulacion + ' Esta acción no se puede deshacer.',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',

@@ -14,6 +14,7 @@ class Ingreso extends Model
         'correlativo',
         'tipo',
         'id_proveedor',
+        'id_venta',
         'id_tienda',
         'id_usuario',
         'fecha',
@@ -28,6 +29,11 @@ class Ingreso extends Model
     public function proveedor()
     {
         return $this->belongsTo(Proveedor::class, 'id_proveedor');
+    }
+
+    public function venta()
+    {
+        return $this->belongsTo(Venta::class, 'id_venta');
     }
 
     public function tienda()

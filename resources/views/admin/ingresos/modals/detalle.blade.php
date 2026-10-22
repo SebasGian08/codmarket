@@ -9,11 +9,22 @@
         <div class="col-md-4">
             <span class="small text-muted">Tipo</span>
             <div>
-                @if($ingreso->tipo === 'compra')
-                <span class="badge bg-primary">Compra</span>
-                @else
-                <span class="badge bg-info text-dark">Ajuste</span>
-                @endif
+                @switch($ingreso->tipo)
+                    @case('compra')
+                        <span class="badge bg-primary">Compra</span>
+                        @break
+                    @case('ajuste_suma')
+                        <span class="badge bg-success">Ajuste suma</span>
+                        @break
+                    @case('ajuste_resta')
+                        <span class="badge bg-warning text-dark">Ajuste resta</span>
+                        @break
+                    @case('devolucion')
+                        <span class="badge bg-info text-dark">Devolución</span>
+                        @break
+                    @default
+                        <span class="badge bg-secondary">Ajuste anterior</span>
+                @endswitch
             </div>
         </div>
         <div class="col-md-4">
@@ -25,8 +36,10 @@
             <div class="fw-semibold">{{ $ingreso->fecha->format('d/m/Y') }}</div>
         </div>
         <div class="col-md-4">
-            <span class="small text-muted">Proveedor</span>
-            <div class="fw-semibold">{{ $ingreso->proveedor->nombre ?? '—' }}</div>
+            <span class="small text-muted">{{ $ingreso->tipo === 'devolucion' ? 'Venta asociada' : 'Proveedor' }}</span>
+            <div class="fw-semibold">
+                {{ $ingreso->tipo === 'devolucion' ? ($ingreso->venta->numero ?? '—') : ($ingreso->proveedor->nombre ?? '—') }}
+            </div>
         </div>
         <div class="col-md-4">
             <span class="small text-muted">Registrado por</span>

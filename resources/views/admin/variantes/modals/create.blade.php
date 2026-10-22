@@ -70,7 +70,7 @@
                             </label>
 
                             <input type="number" min="0" name="stock" class="form-control" value="0" required>
-                           <!--  --> <small class="text-muted">Genera un movimiento interno</small>
+                           <!--  --> <!-- <small class="text-muted">Genera un movimiento interno</small> -->
                         </div>
 
                     </div>

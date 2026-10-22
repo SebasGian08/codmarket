@@ -7,6 +7,7 @@ use App\Models\Ingreso;
 use App\Models\IngresoDetalle;
 use App\Models\Proveedor;
 use App\Models\Tienda;
+use App\Models\Venta;
 use App\Services\InventarioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class IngresoController extends Controller
             'fecha_hasta' => $request->query('fecha_hasta'),
         ];
 
-        $query = Ingreso::with(['tienda', 'proveedor', 'usuario']);
+        $query = Ingreso::with(['tienda', 'proveedor', 'venta', 'usuario']);
 
         if (!empty($filtros['numero'])) {
             $query->where('numero', 'like', '%' . $filtros['numero'] . '%');
@@ -91,31 +92,155 @@ class IngresoController extends Controller
         return view('admin.ingresos.index', compact('ingresos', 'tiendas', 'proveedores', 'variantes', 'filtros'));
     }
 
+    public function buscarVentasParaDevolucion(Request $request)
+    {
+        $termino = trim((string) $request->query('q', ''));
+
+        if (mb_strlen($termino) < 2) {
+            return response()->json([]);
+        }
+
+        $ventas = Venta::with('cliente')
+            ->where('estado', 1)
+            ->where(function ($query) use ($termino) {
+                $query->where('numero', 'like', '%' . $termino . '%')
+                    ->orWhere('nombre_cliente', 'like', '%' . $termino . '%')
+                    ->orWhereHas('cliente', function ($clienteQuery) use ($termino) {
+                        $clienteQuery->where('nombre', 'like', '%' . $termino . '%');
+                    });
+            })
+            ->orderByDesc('id_venta')
+            ->limit(15)
+            ->get(['id_venta', 'numero', 'id_tienda', 'id_cliente', 'nombre_cliente', 'created_at'])
+            ->map(function ($venta) {
+                return [
+                    'id' => $venta->id_venta,
+                    'id_tienda' => $venta->id_tienda,
+                    'numero' => $venta->numero,
+                    'cliente' => $venta->nombre_cliente ?: ($venta->cliente->nombre ?? 'Cliente no identificado'),
+                    'fecha' => optional($venta->created_at)->format('d/m/Y'),
+                ];
+            });
+
+        return response()->json($ventas);
+    }
+
+    public function variantesParaDevolucion($id)
+    {
+        $venta = Venta::with([
+            'detalle.variante.producto',
+            'detalle.variante.atributos.atributo',
+        ])->where('estado', 1)->findOrFail($id);
+
+        $devueltoPorVariante = IngresoDetalle::query()
+            ->join('ingresos', 'ingresos.id_ingreso', '=', 'ingresos_detalle.id_ingreso')
+            ->where('ingresos.id_venta', $venta->id_venta)
+            ->where('ingresos.tipo', 'devolucion')
+            ->where('ingresos.estado', 1)
+            ->selectRaw('ingresos_detalle.id_variante, SUM(ingresos_detalle.cantidad) as cantidad')
+            ->groupBy('ingresos_detalle.id_variante')
+            ->pluck('cantidad', 'id_variante');
+
+        $variantes = $venta->detalle
+            ->groupBy('id_variante')
+            ->map(function ($detalles, $idVariante) use ($devueltoPorVariante) {
+                $variante = $detalles->first()->variante;
+                $vendido = (int) $detalles->sum('cantidad');
+                $devuelto = (int) ($devueltoPorVariante[$idVariante] ?? 0);
+
+                return [
+                    'id' => (int) $idVariante,
+                    'sku' => $variante->sku,
+                    'producto' => $variante->producto->nombre ?? '',
+                    'atributos' => $variante->atributos->map(function ($atributoValor) {
+                        return [
+                            'atributo' => $atributoValor->atributo->nombre ?? '',
+                            'valor' => $atributoValor->valor,
+                        ];
+                    })->values(),
+                    'costo' => (float) $variante->costo,
+                    'cantidad_disponible' => max(0, $vendido - $devuelto),
+                ];
+            })
+            ->filter(function ($variante) {
+                return $variante['cantidad_disponible'] > 0;
+            })
+            ->values();
+
+        return response()->json([
+            'id_venta' => $venta->id_venta,
+            'id_tienda' => $venta->id_tienda,
+            'variantes' => $variantes,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'tipo' => 'required|in:compra,ajuste',
+            'tipo' => 'required|in:compra,ajuste_suma,ajuste_resta,devolucion',
             'id_proveedor' => 'required_if:tipo,compra|nullable|exists:proveedores,id_proveedor',
             'id_tienda' => 'required|exists:tiendas,id_tienda',
+            'id_venta' => 'required_if:tipo,devolucion|nullable|exists:ventas,id_venta',
             'fecha' => 'required|date',
             'observacion' => 'nullable|string|max:500',
             'items' => 'required|array|min:1',
             'items.*.id_variante' => 'required|exists:productos_variantes,id_variante',
-            'items.*.cantidad' => 'required|numeric|min:0.01',
+            'items.*.cantidad' => 'required|integer|min:1',
             'items.*.costo' => 'nullable|numeric|min:0',
         ]);
 
         try {
             DB::beginTransaction();
 
-            $num = generarNumeroDocumento('ING', 'ingresos', $request->id_tienda);
+            $venta = null;
+            $idTienda = (int) $request->id_tienda;
+
+            if ($request->tipo === 'devolucion') {
+                $venta = Venta::where('estado', 1)
+                    ->lockForUpdate()
+                    ->findOrFail($request->id_venta);
+                $idTienda = $venta->id_tienda;
+
+                $vendidoPorVariante = $venta->detalle()
+                    ->selectRaw('id_variante, SUM(cantidad) as cantidad')
+                    ->groupBy('id_variante')
+                    ->pluck('cantidad', 'id_variante');
+
+                $devueltoPorVariante = IngresoDetalle::query()
+                    ->join('ingresos', 'ingresos.id_ingreso', '=', 'ingresos_detalle.id_ingreso')
+                    ->where('ingresos.id_venta', $venta->id_venta)
+                    ->where('ingresos.tipo', 'devolucion')
+                    ->where('ingresos.estado', 1)
+                    ->selectRaw('ingresos_detalle.id_variante, SUM(ingresos_detalle.cantidad) as cantidad')
+                    ->groupBy('ingresos_detalle.id_variante')
+                    ->pluck('cantidad', 'id_variante');
+
+                $solicitadoPorVariante = [];
+                foreach ($request->items as $item) {
+                    $idVariante = (int) $item['id_variante'];
+                    $solicitadoPorVariante[$idVariante] = ($solicitadoPorVariante[$idVariante] ?? 0)
+                        + (int) $item['cantidad'];
+                }
+
+                foreach ($solicitadoPorVariante as $idVariante => $cantidad) {
+                    $cantidadVendida = (int) ($vendidoPorVariante[$idVariante] ?? 0);
+                    $cantidadDevuelta = (int) ($devueltoPorVariante[$idVariante] ?? 0);
+
+                    if ($cantidadVendida === 0 || $cantidad > $cantidadVendida - $cantidadDevuelta) {
+                        throw new \Exception('La cantidad devuelta supera las unidades disponibles de la venta seleccionada.');
+                    }
+                }
+            }
+
+            $num = generarNumeroDocumento('ING', 'ingresos', $idTienda);
 
             $ingreso = Ingreso::create([
                 'numero' => $num['numero'],
                 'correlativo' => $num['correlativo'],
                 'tipo' => $request->tipo,
                 'id_proveedor' => $request->tipo === 'compra' ? $request->id_proveedor : null,
-                'id_tienda' => $request->id_tienda,
+                'id_venta' => $venta ? $venta->id_venta : null,
+                'id_tienda' => $idTienda,
                 'id_usuario' => auth()->id(),
                 'fecha' => $request->fecha,
                 'observacion' => $request->observacion,
@@ -133,16 +258,21 @@ class IngresoController extends Controller
                     'costo' => $costo,
                 ]);
 
-                $tipoMovimiento = $request->tipo === 'compra' ? 'ingreso' : 'ajuste';
+                $esAjuste = in_array($request->tipo, ['ajuste_suma', 'ajuste_resta'], true);
+                $tipoMovimiento = $esAjuste ? 'ajuste' : 'ingreso';
+                $delta = $request->tipo === 'ajuste_resta' ? -$cantidad : $cantidad;
+                $observacion = $request->tipo === 'devolucion'
+                    ? 'Devolución de la venta ' . $venta->numero
+                    : 'Ingreso ' . $ingreso->numero;
 
                 $this->inventario->aplicar(
                     $item['id_variante'],
-                    $request->id_tienda,
+                    $idTienda,
                     $tipoMovimiento,
-                    $cantidad,
+                    $delta,
                     $ingreso->id_ingreso,
                     auth()->id(),
-                    'Ingreso ' . $ingreso->numero
+                    $observacion
                 );
             }
 
@@ -167,14 +297,16 @@ class IngresoController extends Controller
                 throw new \Exception('Este ingreso ya está anulado');
             }
 
-            $tipoMovimiento = $ingreso->tipo === 'compra' ? 'ajuste' : 'ajuste';
-
             foreach ($ingreso->detalle as $detalle) {
+                $deltaOriginal = $ingreso->tipo === 'ajuste_resta'
+                    ? -$detalle->cantidad
+                    : $detalle->cantidad;
+
                 $this->inventario->aplicar(
                     $detalle->id_variante,
                     $ingreso->id_tienda,
-                    $tipoMovimiento,
-                    -$detalle->cantidad,
+                    'ajuste',
+                    -$deltaOriginal,
                     $ingreso->id_ingreso,
                     auth()->id(),
                     'Anulación de ingreso ' . $ingreso->numero
@@ -195,7 +327,7 @@ class IngresoController extends Controller
 
     public function detalle($id)
     {
-        $ingreso = Ingreso::with(['tienda', 'proveedor', 'usuario', 'detalle.variante.producto'])
+        $ingreso = Ingreso::with(['tienda', 'proveedor', 'venta', 'usuario', 'detalle.variante.producto'])
             ->findOrFail($id);
 
         return view('admin.ingresos.modals.detalle', compact('ingreso'));
