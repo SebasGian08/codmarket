@@ -206,7 +206,6 @@ class ProductoVarianteController extends Controller
         $request->validate([
             'sku' => 'required|max:100',
             'precio' => 'required|numeric|min:0',
-            'stock' => 'required|numeric|min:0',
         ]);
 
         try {
@@ -214,9 +213,6 @@ class ProductoVarianteController extends Controller
             DB::beginTransaction();
 
             $variante = ProductoVariante::findOrFail($id);
-
-            $stockAnterior = (int) $variante->stock;
-            $stockNuevo = (int) $request->stock;
 
             $variante->update([
                 'sku' => $request->sku,
@@ -228,18 +224,6 @@ class ProductoVarianteController extends Controller
             ]);
 
             $variante->atributos()->sync($request->valores ?? []);
-
-            if ($stockNuevo !== $stockAnterior && $tiendaId = $this->tiendaPorDefecto()) {
-                $this->inventario->aplicar(
-                    $variante->id_variante,
-                    $tiendaId,
-                    'ajuste',
-                    $stockNuevo - $stockAnterior,
-                    null,
-                    auth()->id(),
-                    'Ajuste de stock desde la variante: ' . $stockAnterior . ' -> ' . $stockNuevo
-                );
-            }
 
             DB::commit();
 

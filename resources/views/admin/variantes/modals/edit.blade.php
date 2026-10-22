@@ -89,16 +89,14 @@
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label small">
-                                Stock *
+                                Stock
                             </label>
 
                             <input type="number"
-                                   min="0"
-                                   name="stock"
                                    value="{{ $v->stock }}"
                                    class="form-control"
-                                   required>
-                            <small class="text-muted">Al guardar genera un movimiento interno</small>
+                                   readonly>
+                            <small class="text-muted">El stock se gestiona desde Inventario.</small>
                         </div>
 
                     </div>
