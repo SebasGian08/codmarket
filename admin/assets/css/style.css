@@ -660,6 +660,81 @@ html[data-theme="dark"] #seleccionadasWrap {
 
 /* ============ FIN GASTOS ============ */
 
+/* ============ INGRESOS DE MERCADERÍA ============ */
+.ingreso-filtros-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+.ingreso-filtros-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+.ingreso-filtros-heading h5 {
+    margin: 0 0 3px;
+    color: #263246;
+    font-size: .98rem;
+    font-weight: 700;
+}
+.ingreso-filtros-heading small {
+    color: #8993a2;
+    font-size: .8rem;
+}
+.ingreso-filtros-heading > i {
+    color: #8792a2;
+    font-size: 1rem;
+}
+.ingreso-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+.ingreso-filtros .form-control,
+.ingreso-filtros .form-select,
+.ingreso-filtros .input-group-text {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+.ingreso-filtros .ingreso-fechas .form-control {
+    border-radius: 0;
+}
+.ingreso-filtros .ingreso-fechas .form-control:first-child {
+    border-radius: 7px 0 0 7px;
+}
+.ingreso-filtros .ingreso-fechas .form-control:last-child {
+    border-radius: 0 7px 7px 0;
+}
+.ingreso-filtros .ingreso-fechas .input-group-text {
+    padding-right: 10px;
+    padding-left: 10px;
+    background: #f7f8fa;
+    color: #778195;
+}
+.ingreso-filtros-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+html[data-theme="dark"] .ingreso-filtros-heading h5 {
+    color: var(--ka-text, #e5e7eb);
+}
+html[data-theme="dark"] .ingreso-filtros .form-control,
+html[data-theme="dark"] .ingreso-filtros .form-select,
+html[data-theme="dark"] .ingreso-filtros .input-group-text {
+    border-color: var(--ka-border, #3a4658);
+}
+@media (max-width: 575.98px) {
+    .ingreso-filtros-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN INGRESOS DE MERCADERÍA ============ */
+
 /* ============ VENDEDORES ============ */
 /* Estilos del módulo de vendedores */
 /* ============ FIN VENDEDORES ============ */

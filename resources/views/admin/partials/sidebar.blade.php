@@ -96,7 +96,7 @@
                             @permiso('ingresos.ver')
                             <li class="{{ Request::is('admin/ingresos*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ingresos.index') }}">
-                                    <span class="sub-item">Ingresos</span>
+                                    <span class="sub-item">Ingresos / Ajuste de mercadería</span>
                                 </a>
                             </li>
                             @endpermiso

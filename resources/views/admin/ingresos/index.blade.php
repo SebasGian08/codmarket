@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Ingresos de Stock')
+@section('title', 'Ingresos / Ajuste de mercadería')
 
 @section('content')
 
@@ -9,11 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Ingresos</h4>
+            <h4 class="page-title">Ingresos / Ajuste de mercadería</h4>
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
-            <i class="fa fa-plus"></i> Nuevo Ingreso
+            <i class="fa fa-plus"></i> Nuevo movimiento
         </button>
 
     </div>
@@ -25,28 +25,34 @@
     </div>
     @endif
 
-    <div class="card">
-        <div class="card-body py-3">
-            <form method="GET" action="{{ route('admin.ingresos.index') }}" class="row g-2 align-items-end ingreso-filtros">
-                <div class="col-md-2">
+    <div class="card ingreso-filtros-card">
+        <div class="card-body">
+            <div class="ingreso-filtros-heading">
+                <div>
+                    <h5>Filtros</h5>
+                    <small>Busca y organiza ingresos y ajustes de mercadería.</small>
+                </div>
+                <i class="fa fa-sliders-h" aria-hidden="true"></i>
+            </div>
+            <form method="GET" action="{{ route('admin.ingresos.index') }}" class="row g-3 align-items-end ingreso-filtros">
+                <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">N° / Documento</label>
-                    <input type="text" name="numero" class="form-control form-control-sm" placeholder="ING-0001"
+                    <input type="text" name="numero" class="form-control" placeholder="ING-0001"
                         value="{{ $filtros['numero'] ?? '' }}">
                 </div>
-                <div class="col-md-2">
+                <div class="col-12 col-md-6 col-xl-2">
                     <label class="form-label fw-semibold">Tipo</label>
-                    <select name="tipo" class="form-select form-select-sm">
+                    <select name="tipo" class="form-select">
                         <option value="">Todos</option>
                         <option value="compra" {{ ($filtros['tipo'] ?? '') === 'compra' ? 'selected' : '' }}>Compra</option>
-                        <!-- <option value="ajuste" {{ ($filtros['tipo'] ?? '') === 'ajuste' ? 'selected' : '' }}>Ajuste (anterior)</option> -->
                         <option value="ajuste_suma" {{ ($filtros['tipo'] ?? '') === 'ajuste_suma' ? 'selected' : '' }}>Ajuste suma</option>
                         <option value="ajuste_resta" {{ ($filtros['tipo'] ?? '') === 'ajuste_resta' ? 'selected' : '' }}>Ajuste resta</option>
                         <option value="devolucion" {{ ($filtros['tipo'] ?? '') === 'devolucion' ? 'selected' : '' }}>Devolución</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-12 col-md-6 col-xl-2">
                     <label class="form-label fw-semibold">Tienda</label>
-                    <select name="id_tienda" class="form-select form-select-sm">
+                    <select name="id_tienda" class="form-select">
                         <option value="">Todas</option>
                         @foreach($tiendas as $tienda)
                         <option value="{{ $tienda->id_tienda }}" {{ (string)($filtros['id_tienda'] ?? '') === (string)$tienda->id_tienda ? 'selected' : '' }}>
@@ -55,9 +61,9 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-12 col-md-6 col-xl-2">
                     <label class="form-label fw-semibold">Proveedor</label>
-                    <select name="id_proveedor" class="form-select form-select-sm">
+                    <select name="id_proveedor" class="form-select">
                         <option value="">Todos</option>
                         @foreach($proveedores as $prov)
                         <option value="{{ $prov->id_proveedor }}" {{ (string)($filtros['id_proveedor'] ?? '') === (string)$prov->id_proveedor ? 'selected' : '' }}>
@@ -66,29 +72,29 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">Estado</label>
-                    <select name="estado" class="form-select form-select-sm">
+                    <select name="estado" class="form-select">
                         <option value="">Todos</option>
                         <option value="1" {{ ($filtros['estado'] ?? '') === '1' ? 'selected' : '' }}>Registrado</option>
                         <option value="0" {{ ($filtros['estado'] ?? '') === '0' ? 'selected' : '' }}>Anulado</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Desde</label>
-                    <input type="date" name="fecha_desde" class="form-control form-control-sm"
-                        value="{{ $filtros['fecha_desde'] ?? '' }}">
+                <div class="col-12 col-xl-6">
+                    <label class="form-label fw-semibold">Rango de fechas</label>
+                    <div class="input-group ingreso-fechas">
+                        <input type="date" name="fecha_desde" class="form-control"
+                            aria-label="Fecha desde" value="{{ $filtros['fecha_desde'] ?? '' }}">
+                        <span class="input-group-text">hasta</span>
+                        <input type="date" name="fecha_hasta" class="form-control"
+                            aria-label="Fecha hasta" value="{{ $filtros['fecha_hasta'] ?? '' }}">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Hasta</label>
-                    <input type="date" name="fecha_hasta" class="form-control form-control-sm"
-                        value="{{ $filtros['fecha_hasta'] ?? '' }}">
-                </div>
-                <div class="col-12 d-flex flex-wrap gap-2">
-                    <button type="submit" class="btn btn-sm btn-primary btn-round">
+                <div class="col-12 col-xl-6 d-flex flex-wrap justify-content-xl-end gap-2 ingreso-filtros-actions">
+                    <button type="submit" class="btn btn-primary btn-round">
                         <i class="fa fa-search"></i> Buscar
                     </button>
-                    <a href="{{ route('admin.ingresos.index') }}" class="btn btn-sm btn-secondary btn-round">
+                    <a href="{{ route('admin.ingresos.index') }}" class="btn btn-light border btn-round">
                         <i class="fa fa-eraser"></i> Limpiar
                     </a>
                 </div>
