@@ -117,16 +117,6 @@
             </div>
             @endif
 
-            <div class="kardex-table-summary">
-                <div>
-                    <span class="kardex-summary-icon"><i class="fas fa-exchange-alt"></i></span>
-                    <strong>Historial de movimientos</strong>
-                </div>
-                <span class="text-muted">
-                    {{ $movimientosPag->count() }} {{ $movimientosPag->count() === 1 ? 'movimiento' : 'movimientos' }}
-                </span>
-            </div>
-
             <div class="table-responsive kardex-table-wrap">
                 <table class="table kardex-table mb-0" id="basic-datatables" data-page-length="30">
                     <thead>
