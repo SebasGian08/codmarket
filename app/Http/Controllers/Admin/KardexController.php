@@ -24,6 +24,11 @@ class KardexController extends Controller
         $fechaDesde = $request->get('fecha_desde');
         $fechaHasta = $request->get('fecha_hasta');
 
+        if (!$fechaDesde && !$fechaHasta) {
+            $fechaDesde = now()->startOfMonth()->toDateString();
+            $fechaHasta = now()->endOfMonth()->toDateString();
+        }
+
         // ============ SALDO ACUMULADO (sobre el historial de variante+tienda) ============
         // El saldo en cada fila refleja el stock resultante tras ese movimiento, por
         // variante+tienda, en orden cronológico. Los filtros de tipo/fecha solo ocultan
