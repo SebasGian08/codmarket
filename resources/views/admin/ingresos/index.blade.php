@@ -38,7 +38,7 @@
                     <select name="tipo" class="form-select form-select-sm">
                         <option value="">Todos</option>
                         <option value="compra" {{ ($filtros['tipo'] ?? '') === 'compra' ? 'selected' : '' }}>Compra</option>
-                        <option value="ajuste" {{ ($filtros['tipo'] ?? '') === 'ajuste' ? 'selected' : '' }}>Ajuste (anterior)</option>
+                        <!-- <option value="ajuste" {{ ($filtros['tipo'] ?? '') === 'ajuste' ? 'selected' : '' }}>Ajuste (anterior)</option> -->
                         <option value="ajuste_suma" {{ ($filtros['tipo'] ?? '') === 'ajuste_suma' ? 'selected' : '' }}>Ajuste suma</option>
                         <option value="ajuste_resta" {{ ($filtros['tipo'] ?? '') === 'ajuste_resta' ? 'selected' : '' }}>Ajuste resta</option>
                         <option value="devolucion" {{ ($filtros['tipo'] ?? '') === 'devolucion' ? 'selected' : '' }}>Devolución</option>
