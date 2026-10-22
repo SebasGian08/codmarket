@@ -39,7 +39,7 @@
                     </thead>
 
                     <tbody>
-                        @foreach($categorias as $cat)
+                        @foreach($todasCategorias as $cat)
                         <tr>
                             <td>{{ $cat->id_categoria }}</td>
                             <td>
@@ -84,8 +84,6 @@
                             </td>
                         </tr>
 
-                        @include('admin.categorias.modals.edit')
-
                         @endforeach
                     </tbody>
 
@@ -95,6 +93,10 @@
 
         </div>
     </div>
+
+    @foreach($todasCategorias as $cat)
+        @include('admin.categorias.modals.edit')
+    @endforeach
 
 </div>
 

@@ -12,7 +12,7 @@ class CategoriaController extends Controller
 {
     public function index()
     {
-        $categorias = Categoria::query()
+        $todasCategorias = Categoria::query()
             ->leftJoin('categorias as categoria_padre', 'categorias.id_categoria_padre', '=', 'categoria_padre.id_categoria')
             ->select('categorias.*')
             ->with('padre')
@@ -28,7 +28,7 @@ class CategoriaController extends Controller
             ->orderBy('orden', 'asc')
             ->get();
 
-        return view('admin.categorias.index', compact('categorias', 'categoriasPadre'));
+        return view('admin.categorias.index', compact('todasCategorias', 'categoriasPadre'));
     }
 
     public function store(Request $request)
