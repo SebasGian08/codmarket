@@ -96,7 +96,7 @@
                                    value="{{ $v->stock }}"
                                    class="form-control"
                                    readonly>
-                            <small class="text-muted">El stock se gestiona desde Inventario.</small>
+                            <!-- <small class="text-muted">El stock se gestiona desde Inventario.</small> -->
                         </div>
 
                     </div>
