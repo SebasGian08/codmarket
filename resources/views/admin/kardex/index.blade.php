@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Kardex de Inventario')
+@section('title', 'Movimientos de inventario')
 
 @section('content')
 
@@ -8,7 +8,7 @@
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Kardex de Inventario</h4>
+            <h4 class="page-title">Movimientos de inventario/h4>
         </div>
     </div>
 
@@ -28,12 +28,12 @@
 
     <div class="card kardex-card">
         <div class="card-header kardex-card-header">
-            <div class="kardex-filtros-heading">
+           <!--  <div class="kardex-filtros-heading">
                 <div>
                     <h5 class="mb-1">Movimientos de inventario</h5>
                     <small class="text-muted">Consulta entradas, salidas y saldo por producto y tienda.</small>
                 </div>
-            </div>
+            </div> -->
             <form method="GET" action="{{ route('admin.inventario.kardex') }}" class="row g-3 align-items-end kardex-filtros">
                 <div class="col-12 col-xl-3">
                     <label class="form-label fw-semibold mb-1">Producto</label>
@@ -41,7 +41,7 @@
                         <option value="">Todos los productos</option>
                         @foreach($productos as $producto)
                         <option value="{{ $producto->id_producto }}"
-                            {{ $varianteSeleccionada && $varianteSeleccionada->id_producto == $producto->id_producto ? 'selected' : '' }}>
+                            {{ ($filtros['idProducto'] ?? null) == $producto->id_producto ? 'selected' : '' }}>
                             {{ $producto->nombre }}
                         </option>
                         @endforeach
@@ -91,7 +91,23 @@
                         <input type="date" name="fecha_hasta" class="form-control" value="{{ $filtros['fechaHasta'] }}">
                     </div>
                 </div>
-                <div class="col-12 col-xl-6 d-flex justify-content-xl-end gap-2">
+                <div class="col-12 col-xl-6">
+                    <label class="form-label fw-semibold mb-1">Buscar movimiento</label>
+                    <input type="search" name="buscar" class="form-control"
+                        value="{{ $filtros['buscar'] }}" placeholder="Producto, SKU, tienda, tipo, documento..."
+                        autocomplete="off">
+                </div>
+                <div class="col-6 col-xl-3">
+                    <label class="form-label fw-semibold mb-1">Mostrar</label>
+                    <select name="por_pagina" class="form-control" onchange="this.form.submit()">
+                        @foreach($perPageOptions as $cantidad)
+                        <option value="{{ $cantidad }}" {{ $filtros['perPage'] === $cantidad ? 'selected' : '' }}>
+                            {{ $cantidad }} por página
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-6 col-xl-3 d-flex justify-content-xl-end gap-2">
                     <button type="submit" class="btn btn-primary btn-round flex-grow-1">
                         <i class="fa fa-filter"></i> Filtrar
                     </button>
