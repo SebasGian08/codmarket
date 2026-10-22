@@ -115,12 +115,21 @@
                                         @elseif($config->tipo == 'select')
 
                                         <select name="{{ $config->clave }}" class="form-select rounded-3">
+                                            @if($config->clave === 'contacto_tipo_formulario')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Formulario actual (por servicio)
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Formulario por marca
+                                            </option>
+                                            @else
                                             @foreach(explode(',', $config->opciones ?? '') as $opcion)
                                             <option value="{{ $opcion }}"
                                                 {{ $config->valor == $opcion ? 'selected' : '' }}>
                                                 {{ preg_replace('/^opcion_(\d+)$/i', 'Opción $1', $opcion) ?: ucfirst(str_replace('_', ' ', $opcion)) }}
                                             </option>
                                             @endforeach
+                                            @endif
                                         </select>
 
                                         {{-- IMAGE --}}

@@ -89,6 +89,15 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>Ubicación de Google Maps</label>
+                                    <textarea name="ubicacion" class="form-control" rows="3"
+                                        placeholder="Pega la URL de inserción de Google Maps">{{ old('ubicacion', $empresa->ubicacion ?? '') }}</textarea>
+                                    <small class="form-text text-muted">
+                                        Usa la URL del iframe de Google Maps que comienza con https://www.google.com/maps/embed.
+                                    </small>
+                                </div>
+
+                                <div class="form-group">
                                     <label>Descripción General</label>
                                     <textarea name="descripcion"
                                         class="form-control editor">{{ $empresa->descripcion ?? '' }}</textarea>

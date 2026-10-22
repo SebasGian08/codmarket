@@ -14,6 +14,7 @@ use App\Models\Priority;
 use App\Models\ContactSource;
 use App\Models\ContactSeguimiento;
 use App\Models\SeguimientoTipo;
+use App\Models\Marca;
 
 class ContactController extends Controller
 {
@@ -24,6 +25,7 @@ class ContactController extends Controller
 
         $contacts = Contact::with([
             'service',
+            'marca',
             'status',
             'priority',
             'source',
@@ -37,13 +39,15 @@ class ContactController extends Controller
         $tipos = SeguimientoTipo::all();
         $sources = ContactSource::where('estado', 1)->get();
         $services = Service::where('estado', 1)->get();
+        $marcas = Marca::where('estado', 1)->orderBy('orden')->get();
 
         return view('admin.contacts.index', compact(
             'contacts',
             'statuses',
             'tipos',
             'sources',
-            'services'
+            'services',
+            'marcas'
         ));
     }
 
@@ -104,6 +108,7 @@ class ContactController extends Controller
             'email' => 'nullable|email|max:200',
             'telefono' => 'nullable|string|max:20',
             'service_id' => 'nullable|exists:services,id_service',
+            'id_marca' => 'nullable|exists:marcas,id_marca',
             'source_id' => 'nullable|exists:contact_sources,id_source',
             'mensaje' => 'nullable|string',
         ]);
@@ -142,6 +147,7 @@ class ContactController extends Controller
             'email' => $request->email ?? '',
             'telefono' => $request->telefono ?? '',
             'id_service' => $request->service_id,
+            'id_marca' => $request->id_marca,
             'id_source' => $request->source_id,
             'mensaje' => $request->mensaje ?? '',
             'id_status' => 1,

@@ -96,11 +96,17 @@
                 </div>
 
                 <div class="form-field full banner-contact-captcha">
+                    @if(config('services.turnstile.site_key'))
                     <div class="cf-turnstile"
-                         data-sitekey="{{ env('TURNSTILE_SITE_KEY') }}"
+                         data-sitekey="{{ config('services.turnstile.site_key') }}"
                          data-theme="auto"
                          data-size="normal">
                     </div>
+                    @else
+                    <div class="alert alert-warning mb-0">
+                        La verificación anti-robot no está configurada. Contacta al administrador del sitio.
+                    </div>
+                    @endif
                 </div>
 
                 <div class="form-field full">

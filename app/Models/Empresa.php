@@ -17,6 +17,7 @@ class Empresa extends Model
         'telefono',
         'correo',
         'direccion',
+        'ubicacion',
         'logo_header',
         'logo_footer',
         'favicon',

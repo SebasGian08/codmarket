@@ -20,6 +20,7 @@ class Contact extends Model
         'email',
         'telefono',
         'id_service',
+        'id_marca',
         'id_source',
         'id_status',
         'id_priority',
@@ -36,6 +37,11 @@ class Contact extends Model
     public function service()
     {
         return $this->belongsTo(Service::class, 'id_service');
+    }
+
+    public function marca()
+    {
+        return $this->belongsTo(Marca::class, 'id_marca');
     }
 
     public function source()

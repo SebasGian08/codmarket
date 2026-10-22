@@ -80,6 +80,12 @@
                                 </span>
                             </div>
 
+                            @if($contact->service || $contact->marca)
+                            <small class="text-muted mt-2">
+                                {{ $contact->marca ? 'Marca: ' . $contact->marca->nombre : 'Servicio: ' . $contact->service->nombre }}
+                            </small>
+                            @endif
+
                             <!-- BOTONES RESPONSIVE -->
                             <div class="mt-2">
 

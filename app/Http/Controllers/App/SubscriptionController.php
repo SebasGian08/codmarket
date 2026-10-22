@@ -25,7 +25,7 @@ class SubscriptionController extends Controller
 
         $response = $client->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
             'form_params' => [
-                'secret' => env('TURNSTILE_SECRET_KEY'),
+                'secret' => config('services.turnstile.secret_key'),
                 'response' => $request->input('cf-turnstile-response'),
                 'remoteip' => $request->ip()
             ]

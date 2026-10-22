@@ -65,13 +65,23 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Servicio <small class="text-danger">*</small></label>
-                        <select name="service_id" class="form-control" required>
-                            <option value="">Seleccionar</option>
+                        <label>Servicio</label>
+                        <select name="service_id" class="form-control">
+                            <option value="">Sin servicio</option>
                             @foreach($services as $service)
                                 <option value="{{ $service->id_service }}">
                                     {{ $service->nombre }}
                                 </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Marca de interés</label>
+                        <select name="id_marca" class="form-control">
+                            <option value="">Sin marca</option>
+                            @foreach($marcas as $marca)
+                                <option value="{{ $marca->id_marca }}">{{ $marca->nombre }}</option>
                             @endforeach
                         </select>
                     </div>

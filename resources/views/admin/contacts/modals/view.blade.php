@@ -58,6 +58,13 @@
                         </div>
                     </div>
 
+                    <div class="col-md-6">
+                        <label class="text-muted small">Marca de interés</label>
+                        <div class="fw-semibold text-dark">
+                            {{ $contact->marca->nombre ?? '-' }}
+                        </div>
+                    </div>
+
                     <div class="col-12">
                         <label class="text-muted small">Mensaje</label>
                         <div class="border rounded p-3 bg-light text-dark">
