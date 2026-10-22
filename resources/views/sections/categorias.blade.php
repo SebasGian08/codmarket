@@ -18,9 +18,7 @@
         @endif
         @php
         $categoriasTipo = $config['categorias_tipo'] ?? 'opcion_1';
-        $categoriasSeccion = $allCategorias
-            ->filter(fn ($categoria) => !is_null($categoria->id_categoria_padre))
-            ->values();
+        $categoriasSeccion = $allCategorias;
         @endphp
 
         @if($categoriasTipo === 'opcion_1')
