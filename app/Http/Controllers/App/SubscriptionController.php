@@ -30,7 +30,7 @@ class SubscriptionController extends Controller
                 'remoteip' => $request->ip()
             ]
         ]);
-
+    
         $responseData = json_decode($response->getBody(), true);
 
         if (!isset($responseData['success']) || !$responseData['success']) {
