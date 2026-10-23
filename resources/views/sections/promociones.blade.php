@@ -8,12 +8,20 @@ $disenoPromociones = $config['home_promociones_layout'] ?? 'opcion_1';
     <section class="offer_section promociones-banner-ancho">
         @if($promociones->count() > 0)
         <div class="fm_offer_item">
-            <a href="{{ $promociones[0]->enlace ?? '#' }}">
+            <a href="{{ $promociones[0]->enlace ?: '#' }}">
                 <img src="{{ !empty($promociones[0]->imagen)
                         ? asset($promociones[0]->imagen)
                         : asset('assets/images/tienda_virtual/default.png') }}"
                     alt="{{ $promociones[0]->titulo ?? 'Promoción' }}">
             </a>
+            @if($promociones[0]->texto_boton)
+            <div class="promociones-banner-boton-wrap promociones-banner-boton-{{ $promociones[0]->posicion_boton ?? 'centro' }}">
+                <a class="promociones-banner-boton" href="{{ $promociones[0]->enlace ?: '#' }}">
+                    {{ $promociones[0]->texto_boton }}
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+            @endif
         </div>
         @endif
     </section>

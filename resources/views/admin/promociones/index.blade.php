@@ -28,6 +28,7 @@
                             <th>ID</th>
                             <th>Título</th>
                             <th>Subtítulo</th>
+                            <th>Posición del botón</th>
                             <th>Orden</th>
                             <th>Estado</th>
                             <th>Imagen</th>
@@ -41,6 +42,7 @@
                             <td>{{ $p->id_promocion }}</td>
                             <td>{{ $p->titulo }}</td>
                             <td>{{ $p->subtitulo }}</td>
+                            <td>{{ $p->texto_boton ? ucfirst($p->posicion_boton ?? 'centro') : '-' }}</td>
                             <td>{{ $p->orden }}</td>
 
                             <td>

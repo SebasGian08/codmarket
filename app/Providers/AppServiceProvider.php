@@ -11,6 +11,7 @@ use App\Models\Configuracion;
 use App\Models\Categoria;
 use App\Models\FooterLogo;
 use App\Models\DocumentoTipo;
+use App\Models\Marca;
 use Illuminate\Support\Facades\Blade;
 use App\Repositories\MarcaRepository;
 use App\Repositories\MarcaRepositoryInterface;
@@ -57,6 +58,12 @@ class AppServiceProvider extends ServiceProvider
                 ->where('estado', 1)
                 ->orderBy('orden', 'asc')
                 ->get());
+        });
+
+        View::composer('sections.contact-brand', function ($view) {
+            if (!array_key_exists('marcas', $view->getData())) {
+                $view->with('marcas', Marca::where('estado', 1)->orderBy('orden')->get());
+            }
         });
 
         Blade::if('permiso', function($codigo){

@@ -3434,6 +3434,86 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
     width: 100vw !important;
     max-width: none !important;
     height: auto;
+    transition: none;
+}
+
+.offer_section.promociones-banner-ancho .fm_offer_item:hover img {
+    transform: none;
+}
+
+.offer_section.promociones-banner-ancho .promociones-banner-boton-wrap {
+    align-items: flex-start;
+    display: flex;
+    left: 0;
+    padding: 0 120px;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 64%;
+    z-index: 2;
+}
+
+.offer_section.promociones-banner-ancho .promociones-banner-boton-izquierda {
+    justify-content: flex-start;
+}
+
+.offer_section.promociones-banner-ancho .promociones-banner-boton-centro {
+    justify-content: center;
+}
+
+.offer_section.promociones-banner-ancho .promociones-banner-boton-derecha {
+    justify-content: flex-end;
+}
+
+.offer_section.promociones-banner-ancho a.promociones-banner-boton {
+    background: var(--color-primario);
+    border: 2px solid var(--color-primario);
+    border-radius: 50px;
+    color: #fff;
+    display: inline-flex !important;
+    align-items: center;
+    font-size: clamp(13px, 1.2vw, 16px);
+    font-weight: 600;
+    gap: 8px;
+    justify-content: center;
+    max-width: 100%;
+    padding: 10px 22px;
+    pointer-events: auto;
+    text-align: center;
+    text-decoration: none;
+    transition: transform .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .25s ease;
+    width: auto;
+}
+
+.offer_section.promociones-banner-ancho a.promociones-banner-boton:hover,
+.offer_section.promociones-banner-ancho a.promociones-banner-boton:focus-visible {
+    background: var(--color-secundario);
+    border-color: var(--color-secundario);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
+    color: #fff;
+}
+
+.offer_section.promociones-banner-ancho a.promociones-banner-boton i {
+    display: inline-block;
+    flex: 0 0 auto;
+    line-height: 1;
+    transition: transform .25s ease;
+}
+
+.offer_section.promociones-banner-ancho a.promociones-banner-boton:hover i,
+.offer_section.promociones-banner-ancho a.promociones-banner-boton:focus-visible i {
+    transform: translateX(5px);
+}
+
+@media (max-width: 767px) {
+    .offer_section.promociones-banner-ancho .promociones-banner-boton-wrap {
+        padding: 0 16px;
+        top: 64px;
+    }
+
+    .offer_section.promociones-banner-ancho a.promociones-banner-boton {
+        padding: 8px 16px;
+    }
 }
 
 /* ============ PRODUCTOS DESTACADOS ============ */

@@ -22,7 +22,9 @@ class PromocionController extends Controller
             'titulo' => 'nullable|max:150',
             'subtitulo' => 'nullable|max:150',
             'descripcion' => 'nullable',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'texto_boton' => 'nullable|string|max:100',
+            'posicion_boton' => 'nullable|in:izquierda,centro,derecha',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,webp|max:5120',
             'imagen_mobile' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
@@ -30,7 +32,7 @@ class PromocionController extends Controller
 
         try {
 
-            $imagen = uploadImageOptimized($request->file('imagen'), 'promociones');
+            $imagen = uploadImageOptimized($request->file('imagen'), 'promociones', 2400, 90, 1024);
 
             $imagenMobile = $request->hasFile('imagen_mobile')
                 ? uploadImageOptimized($request->file('imagen_mobile'), 'promociones')
@@ -44,6 +46,7 @@ class PromocionController extends Controller
                 'imagen_mobile' => $imagenMobile,
                 'enlace' => $request->enlace,
                 'texto_boton' => $request->texto_boton,
+                'posicion_boton' => $request->input('posicion_boton') ?: 'centro',
                 'color_texto' => $request->color_texto ?? '#ffffff',
                 'orden' => $request->orden ?? 0,
                 'estado' => $request->estado ?? 1,
@@ -64,6 +67,11 @@ class PromocionController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'texto_boton' => 'nullable|string|max:100',
+            'posicion_boton' => 'nullable|in:izquierda,centro,derecha',
+        ]);
+
         $promocion = Promocion::findOrFail($id);
 
         DB::beginTransaction();
@@ -78,7 +86,7 @@ class PromocionController extends Controller
                     unlink(public_path($promocion->imagen));
                 }
 
-                $imagen = uploadImageOptimized($request->file('imagen'), 'promociones');
+                $imagen = uploadImageOptimized($request->file('imagen'), 'promociones', 2400, 90, 1024);
             }
 
             if ($request->hasFile('imagen_mobile')) {
@@ -97,6 +105,7 @@ class PromocionController extends Controller
                 'imagen_mobile' => $imagenMobile,
                 'enlace' => $request->enlace,
                 'texto_boton' => $request->texto_boton,
+                'posicion_boton' => $request->input('posicion_boton') ?: 'centro',
                 'color_texto' => $request->color_texto ?? '#ffffff',
                 'orden' => $request->orden ?? 0,
                 'estado' => $request->estado ?? 1,

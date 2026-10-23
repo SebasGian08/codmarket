@@ -18,6 +18,7 @@ class Promocion extends Model
         'imagen_mobile',
         'enlace',
         'texto_boton',
+        'posicion_boton',
         'color_texto',
         'orden',
         'estado',

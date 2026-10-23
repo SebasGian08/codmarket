@@ -48,6 +48,15 @@
                         <input type="text" name="texto_boton" class="form-control">
                     </div>
 
+                    <div class="col-md-6 mt-2">
+                        <label>Posición del botón</label>
+                        <select name="posicion_boton" class="form-control">
+                            <option value="izquierda">Izquierda</option>
+                            <option value="centro" selected>Centro</option>
+                            <option value="derecha">Derecha</option>
+                        </select>
+                    </div>
+
                     <div class="col-md-4 mt-2">
                         <label>Color texto</label>
                         <input type="color" name="color_texto" class="form-control form-control-color" value="#ffffff">
