@@ -155,7 +155,7 @@ class TransferenciaController extends Controller
     {
         $request->validate([
             'id_tienda_origen' => 'required|exists:tiendas,id_tienda',
-            'id_tienda_destino' => 'required|exists:tiendas,id_tienda|different:id_tienda_origen',
+            'id_tienda_destino' => 'required|exists:tiendas,id_tienda,estado,1|different:id_tienda_origen',
             'fecha' => 'required|date',
             'observacion' => 'nullable|string|max:500',
             'items' => 'required|array|min:1',
@@ -173,10 +173,6 @@ class TransferenciaController extends Controller
 
             if (!in_array((int) $request->id_tienda_origen, $idsTiendasAsignadas, true)) {
                 throw new \Exception('La tienda origen no está asignada a tu usuario');
-            }
-
-            if (!in_array((int) $request->id_tienda_destino, $idsTiendasAsignadas, true)) {
-                throw new \Exception('La tienda destino no está asignada a tu usuario');
             }
 
             $idTiendaOrigen = (int) $request->id_tienda_origen;

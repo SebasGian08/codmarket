@@ -36,17 +36,13 @@
                             <label>Tienda destino <small class="text-danger">*</small></label>
                             <select name="id_tienda_destino" id="tiendaDestino" class="form-control" required disabled>
                                 <option value="">Selecciona una tienda</option>
-                                @foreach($tiendasAsignadas as $tienda)
+                                @foreach($tiendas as $tienda)
                                 <option value="{{ $tienda->id_tienda }}" {{ (string)old('id_tienda_destino') === (string)$tienda->id_tienda ? 'selected' : '' }}>
                                     {{ $tienda->codigo }} - {{ $tienda->nombre }}
                                 </option>
                                 @endforeach
                             </select>
-                            @if($tiendasAsignadas->count() < 2)
-                            <small class="text-danger d-block mt-1">Necesitas tener al menos dos tiendas asignadas para transferir entre ellas.</small>
-                            @else
-                            <small class="text-muted d-block mt-1">Solo tiendas asignadas; debe ser distinta del origen.</small>
-                            @endif
+                            <small class="text-muted d-block mt-1">Puedes elegir cualquier tienda activa, distinta del origen.</small>
                         </div>
 
                         <div class="col-md-3">

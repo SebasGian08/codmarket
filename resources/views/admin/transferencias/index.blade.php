@@ -193,6 +193,13 @@
             .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    function normalizarTexto(texto) {
+        return String(texto == null ? '' : texto)
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+    }
+
     function stockEnOrigen(idVariante) {
         var tienda = $('#tiendaOrigen').val();
         if (!tienda) return 0;
@@ -203,37 +210,48 @@
 
     /* ============ BÚSQUEDA ============ */
     $('#varianteInputTrf').on('input', function() {
-        var t = $(this).val().trim().toLowerCase();
+        var terminos = normalizarTexto($(this).val()).trim().split(/\s+/).filter(Boolean);
         var lista = $('#varianteResultadosTrf');
 
-        if (!t) {
+        if (!terminos.length) {
             lista.addClass('d-none').html('');
             return;
         }
 
+        function textoBusquedaVariante(v) {
+            var atributos = (v.atributos || []).map(function(a) {
+                return (a.atributo || '') + ' ' + (a.valor || '');
+            });
+
+            return normalizarTexto([v.producto || '', v.sku || ''].concat(atributos).join(' '));
+        }
+
         var matches = VARIANTES_TRF.filter(function(v) {
-            if ((v.sku || '').toLowerCase().indexOf(t) > -1) return true;
-            if ((v.producto || '').toLowerCase().indexOf(t) > -1) return true;
-            return (v.atributos || []).some(function(a) {
-                return (a.valor || '').toLowerCase().indexOf(t) > -1 ||
-                    (a.atributo || '').toLowerCase().indexOf(t) > -1;
+            var texto = textoBusquedaVariante(v);
+            return terminos.every(function(termino) {
+                return texto.indexOf(termino) > -1;
             });
         });
+
+        function badgesAtributos(v) {
+            return (v.atributos || []).map(function(a) {
+                return '<span class="badge bg-light text-dark border me-1">' +
+                    escapeHtml(a.atributo) + ': ' + escapeHtml(a.valor) + '</span>';
+            }).join('');
+        }
 
         if (!matches.length) {
             lista.html('<div class="trf-resultado py-2 text-muted">Sin resultados</div>');
         } else {
-            lista.html(matches.slice(0, 12).map(function(v) {
-                var attrs = (v.atributos || []).map(function(a) {
-                    return escapeHtml(a.valor);
-                }).join(' · ');
+            lista.html('<div class="trf-resultados-total small text-muted">' +
+                matches.length + (matches.length === 1 ? ' resultado' : ' resultados') + '</div>' +
+                matches.map(function(v) {
                 var stock = stockEnOrigen(v.id);
                 var stockClass = stock <= 0 ? 'text-danger' : '';
                 return '<div class="trf-resultado" data-id="' + v.id + '">' +
-                    '<div class="fw-semibold">' + escapeHtml(attrs || 'Sin variante') + '</div>' +
-                    '<div class="small text-muted">' + escapeHtml(v.producto) +
-                    (v.sku ? ' — <strong>' + escapeHtml(v.sku) + '</strong>' : '') +
-                    '</div>' +
+                    '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
+                    '<div class="small mb-1">' + badgesAtributos(v) + '</div>' +
+                    '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') + '</div>' +
                     '<div class="small ' + stockClass + '">Stock origen: ' + stock + '</div>' +
                     '</div>';
             }).join(''));

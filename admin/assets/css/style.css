@@ -1045,6 +1045,15 @@ html[data-theme="dark"] .kardex-sku {
     padding-left: 18px;
 }
 
+.trf-resultados-total {
+    padding: .4rem .9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+}
+
+html[data-theme="dark"] .trf-resultados-total {
+    border-bottom-color: var(--ka-border, #3a4658);
+}
+
 html[data-theme="dark"] .trf-filtros .form-control,
 html[data-theme="dark"] .trf-filtros .form-select,
 html[data-theme="dark"] .trf-filtros .input-group-text {
