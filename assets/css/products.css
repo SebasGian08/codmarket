@@ -86,9 +86,9 @@
     transition: opacity 0.4s ease-in-out, transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.product_section .product_carousel .slideshow_producto {
+/* .product_section .product_carousel .slideshow_producto {
     height: 320px;
-}
+} */
 
 .product_section .product_carousel .medical_product_item .img_producto {
     object-fit: contain;
