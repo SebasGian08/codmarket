@@ -287,6 +287,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // MÓDULO: BLOG
     Route::prefix('blogs')->group(function () {
         Route::get('/', [AdminBlogController::class, 'index'])->name('admin.blogs.index');
+        Route::post('/imagenes', [AdminBlogController::class, 'uploadContentImage'])->name('admin.blogs.images.upload');
         Route::post('/guardar', [AdminBlogController::class, 'store'])->name('admin.blogs.store');
         Route::put('/{blog}/actualizar', [AdminBlogController::class, 'update'])->name('admin.blogs.update');
         Route::delete('/{blog}/eliminar', [AdminBlogController::class, 'destroy'])->name('admin.blogs.destroy');

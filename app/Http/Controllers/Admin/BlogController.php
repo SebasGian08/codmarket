@@ -48,6 +48,22 @@ class BlogController extends Controller
     }
 
     /**
+     * Subir imágenes insertadas en el contenido del blog desde TinyMCE.
+     */
+    public function uploadContentImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
+        $imagePath = $this->uploadImage($request->file('file'));
+
+        return response()->json([
+            'location' => asset($imagePath),
+        ]);
+    }
+
+    /**
      * Crear Blog
      */
     public function store(Request $request)

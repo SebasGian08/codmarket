@@ -28,17 +28,67 @@
 <script src="{{ asset('admin/assets/js/tinymce/tinymce.min.js') }}"></script>
 
 <script>
-tinymce.init({
-    selector: '.editor',
-    width: "100%",
-    height: 300,
-    statusbar: true,
-    plugins: [
-        "advlist autolink link image lists charmap print preview hr anchor pagebreak",
-        "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-        "save table contextmenu directionality emoticons template paste textcolor"
-    ],
-    toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons"
+document.querySelectorAll('.editor').forEach(function(element) {
+    var editorConfig = {
+        target: element,
+        width: "100%",
+        height: 300,
+        statusbar: true,
+        plugins: [
+            "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+            "save table contextmenu directionality emoticons template paste textcolor"
+        ],
+        toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons"
+    };
+    var uploadUrl = element.getAttribute('data-images-upload-url');
+    var csrfToken = element.getAttribute('data-csrf-token');
+
+    if (uploadUrl && csrfToken) {
+        editorConfig.images_upload_handler = function(blobInfo, success, failure, progress) {
+            var xhr = new XMLHttpRequest();
+            var formData = new FormData();
+
+            xhr.open('POST', uploadUrl);
+            xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.upload.onprogress = function(event) {
+                if (event.lengthComputable) {
+                    progress(event.loaded / event.total * 100);
+                }
+            };
+            xhr.onload = function() {
+                var response = null;
+
+                try {
+                    response = JSON.parse(xhr.responseText);
+                } catch (error) {
+                    failure('El servidor devolvió una respuesta no válida.');
+                    return;
+                }
+
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    failure((response && response.message) || 'No se pudo subir la imagen.');
+                    return;
+                }
+
+                if (!response || !response.location) {
+                    failure('El servidor no devolvió la dirección de la imagen.');
+                    return;
+                }
+
+                success(response.location);
+            };
+            xhr.onerror = function() {
+                failure('No se pudo completar la carga de la imagen.');
+            };
+
+            formData.append('file', blobInfo.blob(), blobInfo.filename());
+            xhr.send(formData);
+        };
+    }
+
+    tinymce.init(editorConfig);
 });
 </script>
 <script>

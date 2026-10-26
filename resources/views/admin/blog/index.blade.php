@@ -85,10 +85,29 @@
 @push('scripts')
 
 <script>
-ClassicEditor.create(document.querySelector('#editorCreate'));
-@foreach($blogs as $blog)
-ClassicEditor.create(document.querySelector('#editorEdit{{ $blog->id_blog }}'));
-@endforeach
+function previewCreate(event) {
+    updateBlogImagePreview(event, 'previewCreateImg');
+}
+
+function previewEdit(event, blogId) {
+    updateBlogImagePreview(event, 'previewEditImg' + blogId);
+}
+
+function updateBlogImagePreview(event, previewId) {
+    var file = event.target.files && event.target.files[0];
+    var preview = document.getElementById(previewId);
+
+    if (!file || !preview) {
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(loadEvent) {
+        preview.src = loadEvent.target.result;
+        preview.style.display = 'inline-block';
+    };
+    reader.readAsDataURL(file);
+}
 </script>
 
 @endpush

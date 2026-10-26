@@ -63,7 +63,9 @@
                         <!-- CONTENIDO -->
                         <div class="col-md-12">
                             <label class="form-label mt-3">Contenido</label>
-                            <textarea name="content" class="form-control editor" rows="6"></textarea>
+                            <textarea name="content" class="form-control editor" rows="6"
+                                data-images-upload-url="{{ route('admin.blogs.images.upload') }}"
+                                data-csrf-token="{{ csrf_token() }}"></textarea>
                         </div>
 
                     </div>
