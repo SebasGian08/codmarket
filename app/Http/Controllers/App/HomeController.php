@@ -40,7 +40,6 @@ class HomeController extends Controller
             ->get();
 
         $allCategorias = Categoria::where('estado', 1)
-            ->whereNotNull('id_categoria_padre')
             ->orderBy('orden', 'asc')
             ->get();
 
