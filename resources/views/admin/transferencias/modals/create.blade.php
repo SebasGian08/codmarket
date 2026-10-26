@@ -16,7 +16,7 @@
                     <div class="row g-3">
 
                         <div class="col-md-3">
-                            <label>Tienda origen</label>
+                            <label>Tienda origen <small class="text-danger">*</small></label>
                             <select name="id_tienda_origen" id="tiendaOrigen" class="form-control" required>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendasOrigen as $tienda)
@@ -33,8 +33,8 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label>Tienda destino</label>
-                            <select name="id_tienda_destino" id="tiendaDestino" class="form-control" required>
+                            <label>Tienda destino <small class="text-danger">*</small></label>
+                            <select name="id_tienda_destino" id="tiendaDestino" class="form-control" required disabled>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendasAsignadas as $tienda)
                                 <option value="{{ $tienda->id_tienda }}" {{ (string)old('id_tienda_destino') === (string)$tienda->id_tienda ? 'selected' : '' }}>
@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label>Fecha</label>
+                            <label>Fecha <small class="text-danger">*</small></label>
                             <input type="date" name="fecha" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
 
@@ -64,7 +64,7 @@
                     <hr>
 
                     <label class="form-label small fw-semibold text-uppercase text-muted">
-                        <i class="fa fa-search me-1"></i> Buscar variante (producto, SKU o atributo)
+                        <i class="fa fa-search me-1"></i> Buscar variante (producto, SKU o atributo) <small class="text-danger">*</small>
                     </label>
 
                     <div class="trf-buscador position-relative">
@@ -82,7 +82,7 @@
                             <thead>
                                 <tr>
                                     <th>Variante</th>
-                                    <th class="text-center" style="width:140px">Cantidad</th>
+                                    <th class="text-center" style="width:140px">Cantidad <small class="text-danger">*</small></th>
                                     <th class="text-end" style="width:60px"></th>
                                 </tr>
                             </thead>
