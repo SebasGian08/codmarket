@@ -319,6 +319,18 @@
     });
 
     $('#tiendaOrigen').on('change', function() {
+        var origen = $(this).val();
+        var destino = $('#tiendaDestino');
+        destino.find('option').prop('disabled', false);
+
+        if (origen) {
+            destino.find('option[value="' + origen + '"]').prop('disabled', true);
+        }
+
+        if (destino.val() === origen) {
+            destino.val('');
+        }
+
         // actualiza el stock disponible mostrado en cada fila
         $('#trfFilas tr').each(function() {
             var id = $(this).data('variante');
@@ -332,6 +344,8 @@
             }
         });
     });
+
+    $('#tiendaOrigen').trigger('change');
 
     /* ============ SUBMIT ============ */
     $('#formTransferencia').on('submit', function(e) {

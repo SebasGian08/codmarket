@@ -8,6 +8,7 @@ use App\Models\Inventario;
 use App\Models\Tienda;
 use App\Models\Transferencia;
 use App\Models\TransferenciaDetalle;
+use App\Models\Vendedor;
 use App\Services\InventarioService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +27,23 @@ class TransferenciaController extends Controller
         return Caja::where('id_usuario', auth()->id())
             ->where('estado', 1)
             ->value('id_tienda');
+    }
+
+    protected function tiendasAsignadasUsuario()
+    {
+        $vendedor = Vendedor::where('id_usuario', auth()->id())
+            ->where('estado', 1)
+            ->first();
+
+        if (!$vendedor) {
+            return collect();
+        }
+
+        return $vendedor->tiendas()
+            ->where('tiendas.estado', 1)
+            ->wherePivot('estado', 1)
+            ->orderBy('tiendas.nombre')
+            ->get();
     }
 
     protected function guardarDetalleTransferencia(Transferencia $transferencia)
@@ -99,6 +117,13 @@ class TransferenciaController extends Controller
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
         $tiendaAsignada = $this->tiendaAsignadaUsuario();
+        $tiendasAsignadas = $this->tiendasAsignadasUsuario();
+        $tiendasOrigen = $tiendasAsignadas->whereIn(
+            'id_tienda',
+            Caja::where('id_usuario', auth()->id())
+                ->where('estado', 1)
+                ->pluck('id_tienda')
+        );
 
         $variantes = \App\Models\ProductoVariante::with(['producto', 'atributos.atributo'])
             ->where('estado', 1)
@@ -127,7 +152,7 @@ class TransferenciaController extends Controller
             })
             ->toArray();
 
-        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendaAsignada', 'filtros'));
+        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendaAsignada', 'tiendasAsignadas', 'tiendasOrigen', 'filtros'));
     }
 
     public function store(Request $request)
@@ -145,14 +170,29 @@ class TransferenciaController extends Controller
         try {
             DB::beginTransaction();
 
-            $tiendaAsignada = $this->tiendaAsignadaUsuario();
+            $tiendasAsignadas = $this->tiendasAsignadasUsuario();
+            $idsTiendasAsignadas = $tiendasAsignadas->pluck('id_tienda')->map(function ($id) {
+                return (int) $id;
+            })->all();
 
-            // Para crear/emitir una transferencia es obligatorio tener caja abierta en la tienda origen
-            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $request->id_tienda_origen) {
-                throw new \Exception('Solo puedes emitir transferencias desde tu tienda asignada (debes tener una caja abierta en la tienda origen)');
+            if (!in_array((int) $request->id_tienda_origen, $idsTiendasAsignadas, true)) {
+                throw new \Exception('La tienda origen no está asignada a tu usuario');
             }
 
-            $idTiendaOrigen = $tiendaAsignada ?: $request->id_tienda_origen;
+            if (!in_array((int) $request->id_tienda_destino, $idsTiendasAsignadas, true)) {
+                throw new \Exception('La tienda destino no está asignada a tu usuario');
+            }
+
+            $cajaOrigenAbierta = Caja::where('id_usuario', auth()->id())
+                ->where('id_tienda', $request->id_tienda_origen)
+                ->where('estado', 1)
+                ->exists();
+
+            if (!$cajaOrigenAbierta) {
+                throw new \Exception('Debes tener una caja abierta en la tienda origen para emitir la transferencia');
+            }
+
+            $idTiendaOrigen = (int) $request->id_tienda_origen;
             $idTiendaDestino = $request->id_tienda_destino;
 
             if ((int) $idTiendaOrigen === (int) $idTiendaDestino) {
