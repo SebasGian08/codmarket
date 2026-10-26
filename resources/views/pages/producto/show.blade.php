@@ -160,22 +160,19 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     <hr>
 
                     <!-- VARIANTES -->
-                    @foreach($producto->variantes as $var)
                     @php
-                    $imgVar = $var->imagenes->firstWhere('principal', 1)
-                    ?? $var->imagenes->first();
+                    $imgVarianteActiva = $varianteActiva->imagenes->firstWhere('principal', 1)
+                    ?? $varianteActiva->imagenes->first();
                     @endphp
 
-                    @if($imgVar)
-                    <button type="button"
-                        class="mb-4 thumbnail-border {{ $varianteActiva->id_variante == $var->id_variante ? 'thumbnail-border-selected' : '' }}"
-                        data-variante="{{ $var->id_variante }}"
-                        onclick="cambiarVariante({{ $var->id_variante }})">
-
-                        <img src="{{ asset($imgVar->url) }}" width="52" height="52">
-                    </button>
-                    @endif
-                    @endforeach
+                    <div id="miniaturaVarianteActiva" class="mb-4">
+                        @if($imgVarianteActiva)
+                        <span class="thumbnail-border thumbnail-border-selected d-inline-block">
+                            <img src="{{ asset($imgVarianteActiva->url) }}" width="52" height="52"
+                                alt="Imagen de la variante seleccionada">
+                        </span>
+                        @endif
+                    </div>
 
                     <!-- ATRIBUTOS -->
                     @php
@@ -517,6 +514,28 @@ function updateGaleria(imagenes) {
     initZoom();
 }
 
+function actualizarMiniaturaVariante(imagenes) {
+    const contenedor = document.getElementById('miniaturaVarianteActiva');
+    if (!contenedor) return;
+
+    const imagen = imagenes && (imagenes.find(img => Number(img.principal) === 1) || imagenes[0]);
+    contenedor.innerHTML = '';
+
+    if (!imagen) return;
+
+    const marco = document.createElement('span');
+    marco.className = 'thumbnail-border thumbnail-border-selected d-inline-block';
+
+    const img = document.createElement('img');
+    img.src = imagen.url;
+    img.width = 52;
+    img.height = 52;
+    img.alt = 'Imagen de la variante seleccionada';
+
+    marco.appendChild(img);
+    contenedor.appendChild(marco);
+}
+
 function escAttr(t) {
     return String(t == null ? '' : t).replace(/"/g, '&quot;');
 }
@@ -605,16 +624,13 @@ function cambiarVariante(id) {
             actualizarPrecios(data);
 
             updateGaleria(data.imagenes);
+            actualizarMiniaturaVariante(data.imagenes);
 
             document.querySelectorAll('.attribute-chip').forEach(function(chip) {
                 const idValor = parseInt(chip.getAttribute('data-valor-id'), 10);
                 chip.classList.toggle('attribute-chip-selected', data.valores_ids.indexOf(idValor) !== -1);
             });
 
-            document.querySelectorAll('.thumbnail-border').forEach(function(t) {
-                const vid = parseInt(t.getAttribute('data-variante'), 10);
-                t.classList.toggle('thumbnail-border-selected', vid === data.id);
-            });
         })
         .catch(function() { });
 }
