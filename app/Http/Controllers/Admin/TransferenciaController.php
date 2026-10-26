@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Caja;
 use App\Models\Inventario;
 use App\Models\Tienda;
 use App\Models\Transferencia;
@@ -22,13 +21,6 @@ class TransferenciaController extends Controller
         $this->inventario = $inventario;
     }
 
-    protected function tiendaAsignadaUsuario()
-    {
-        return Caja::where('id_usuario', auth()->id())
-            ->where('estado', 1)
-            ->value('id_tienda');
-    }
-
     protected function tiendasAsignadasUsuario()
     {
         $vendedor = Vendedor::where('id_usuario', auth()->id())
@@ -44,6 +36,13 @@ class TransferenciaController extends Controller
             ->wherePivot('estado', 1)
             ->orderBy('tiendas.nombre')
             ->get();
+    }
+
+    protected function usuarioTieneTiendaAsignada($idTienda)
+    {
+        return $this->tiendasAsignadasUsuario()->contains(function ($tienda) use ($idTienda) {
+            return (int) $tienda->id_tienda === (int) $idTienda;
+        });
     }
 
     protected function guardarDetalleTransferencia(Transferencia $transferencia)
@@ -116,14 +115,11 @@ class TransferenciaController extends Controller
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        $tiendaAsignada = $this->tiendaAsignadaUsuario();
         $tiendasAsignadas = $this->tiendasAsignadasUsuario();
-        $tiendasOrigen = $tiendasAsignadas->whereIn(
-            'id_tienda',
-            Caja::where('id_usuario', auth()->id())
-                ->where('estado', 1)
-                ->pluck('id_tienda')
-        );
+        $idsTiendasAsignadas = $tiendasAsignadas->pluck('id_tienda')->map(function ($id) {
+            return (int) $id;
+        })->all();
+        $tiendasOrigen = $tiendasAsignadas;
 
         $variantes = \App\Models\ProductoVariante::with(['producto', 'atributos.atributo'])
             ->where('estado', 1)
@@ -152,7 +148,7 @@ class TransferenciaController extends Controller
             })
             ->toArray();
 
-        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendaAsignada', 'tiendasAsignadas', 'tiendasOrigen', 'filtros'));
+        return view('admin.transferencias.index', compact('transferencias', 'tiendas', 'variantes', 'stockPorTienda', 'tiendasAsignadas', 'tiendasOrigen', 'idsTiendasAsignadas', 'filtros'));
     }
 
     public function store(Request $request)
@@ -181,15 +177,6 @@ class TransferenciaController extends Controller
 
             if (!in_array((int) $request->id_tienda_destino, $idsTiendasAsignadas, true)) {
                 throw new \Exception('La tienda destino no está asignada a tu usuario');
-            }
-
-            $cajaOrigenAbierta = Caja::where('id_usuario', auth()->id())
-                ->where('id_tienda', $request->id_tienda_origen)
-                ->where('estado', 1)
-                ->exists();
-
-            if (!$cajaOrigenAbierta) {
-                throw new \Exception('Debes tener una caja abierta en la tienda origen para emitir la transferencia');
             }
 
             $idTiendaOrigen = (int) $request->id_tienda_origen;
@@ -246,10 +233,8 @@ class TransferenciaController extends Controller
                 throw new \Exception('Solo se puede enviar una transferencia pendiente');
             }
 
-            $tiendaAsignada = $this->tiendaAsignadaUsuario();
-
-            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
-                throw new \Exception('Solo puedes enviar transferencias desde tu tienda asignada (debes tener una caja abierta en la tienda origen)');
+            if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen)) {
+                throw new \Exception('No tienes asignada la tienda origen de esta transferencia');
             }
 
             $this->guardarDetalleTransferencia($transferencia);
@@ -275,10 +260,8 @@ class TransferenciaController extends Controller
                 throw new \Exception('Solo se puede recibir una transferencia en tránsito');
             }
 
-            $tiendaAsignada = $this->tiendaAsignadaUsuario();
-
-            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $transferencia->id_tienda_destino) {
-                throw new \Exception('Solo un usuario con caja abierta en la tienda destino puede aprobar la recepción');
+            if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_destino)) {
+                throw new \Exception('No tienes asignada la tienda destino de esta transferencia');
             }
 
             foreach ($transferencia->detalle as $detalle) {
@@ -316,10 +299,8 @@ class TransferenciaController extends Controller
                 throw new \Exception('No se puede anular una transferencia recibida');
             }
 
-            $tiendaAsignada = $this->tiendaAsignadaUsuario();
-
-            if (!$tiendaAsignada || (int) $tiendaAsignada !== (int) $transferencia->id_tienda_origen) {
-                throw new \Exception('Solo puedes anular transferencias de tu tienda asignada (debes tener una caja abierta en la tienda origen)');
+            if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen)) {
+                throw new \Exception('No tienes asignada la tienda origen de esta transferencia');
             }
 
             // Si estaba en tránsito, se devuelve el stock a la tienda origen

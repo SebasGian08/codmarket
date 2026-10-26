@@ -20,15 +20,15 @@
                             <select name="id_tienda_origen" id="tiendaOrigen" class="form-control" required>
                                 <option value="">Selecciona una tienda</option>
                                 @foreach($tiendasOrigen as $tienda)
-                                <option value="{{ $tienda->id_tienda }}" {{ (string) old('id_tienda_origen', $tiendaAsignada) === (string)$tienda->id_tienda ? 'selected' : '' }}>
+                                <option value="{{ $tienda->id_tienda }}" {{ (string)old('id_tienda_origen') === (string)$tienda->id_tienda ? 'selected' : '' }}>
                                     {{ $tienda->codigo }} - {{ $tienda->nombre }}
                                 </option>
                                 @endforeach
                             </select>
                             @if($tiendasOrigen->isEmpty())
-                            <small class="text-danger d-block mt-1">No tienes tiendas asignadas con una caja abierta por tu usuario.</small>
+                            <small class="text-danger d-block mt-1">No tienes tiendas asignadas disponibles.</small>
                             @else
-                            <small class="text-muted d-block mt-1">Solo tiendas asignadas con una caja abierta por tu usuario.</small>
+                            <small class="text-muted d-block mt-1">Solo tiendas asignadas a tu usuario.</small>
                             @endif
                         </div>
 

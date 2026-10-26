@@ -139,7 +139,7 @@
                                 </button>
 
                                 @if($trf->estado === 'pendiente')
-                                    @if($tiendaAsignada && (int)$tiendaAsignada === (int)$trf->id_tienda_origen)
+                                    @if(in_array((int)$trf->id_tienda_origen, $idsTiendasAsignadas, true))
                                     <button class="btn btn-sm btn-primary btn-round btn-enviar"
                                         data-url="{{ route('admin.transferencias.enviar', $trf->id_transferencia) }}">
                                         <i class="fa fa-paper-plane"></i> Enviar
@@ -148,7 +148,7 @@
                                 @endif
 
                                 @if($trf->estado === 'en_transito')
-                                    @if($tiendaAsignada && (int)$tiendaAsignada === (int)$trf->id_tienda_destino)
+                                    @if(in_array((int)$trf->id_tienda_destino, $idsTiendasAsignadas, true))
                                     <button class="btn btn-sm btn-success btn-round btn-recibir"
                                         data-url="{{ route('admin.transferencias.recibir', $trf->id_transferencia) }}">
                                         <i class="fa fa-boxes"></i> Aprobar recepción
@@ -157,7 +157,7 @@
                                 @endif
 
                                 @if($trf->estado !== 'recibida' && $trf->estado !== 'anulada')
-                                    @if($tiendaAsignada && (int)$tiendaAsignada === (int)$trf->id_tienda_origen)
+                                    @if(in_array((int)$trf->id_tienda_origen, $idsTiendasAsignadas, true))
                                     <button class="btn btn-sm btn-danger btn-round btn-anular"
                                         data-url="{{ route('admin.transferencias.anular', $trf->id_transferencia) }}">
                                         <i class="fa fa-ban"></i>
