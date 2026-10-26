@@ -1344,3 +1344,57 @@ html[data-theme="dark"] .login-page {
     color: #b02a37;
     font-size: 12px;
 }
+
+/* ============ INGRESOS ============ */
+.ingreso-resultados {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: .5rem;
+    margin-top: 4px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+    max-height: 420px;
+    max-height: min(50vh, 420px);
+    overflow-y: auto;
+}
+
+html[data-theme="dark"] .ingreso-resultados {
+    background: var(--ka-surface, #273243);
+    border-color: var(--ka-border, #3a4658);
+}
+
+.ingreso-resultado {
+    padding: .55rem .9rem;
+    cursor: pointer;
+    border-bottom: 1px dashed rgba(0, 0, 0, .06);
+}
+
+.ingreso-resultado:last-child {
+    border-bottom: 0;
+}
+
+.ingreso-resultado:hover {
+    background: rgba(0, 0, 0, .04);
+}
+
+html[data-theme="dark"] .ingreso-resultado {
+    border-bottom-color: var(--ka-border, #3a4658);
+}
+
+html[data-theme="dark"] .ingreso-resultado:hover {
+    background: rgba(255, 255, 255, .06);
+}
+
+.ingreso-resultados-total {
+    padding: .4rem .9rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .08);
+}
+
+html[data-theme="dark"] .ingreso-resultados-total {
+    border-bottom-color: var(--ka-border, #3a4658);
+}
+/* ============ FIN INGRESOS ============ */

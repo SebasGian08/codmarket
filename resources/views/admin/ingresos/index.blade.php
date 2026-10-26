@@ -201,14 +201,21 @@
             .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
 
+    function normalizarTexto(texto) {
+        return String(texto == null ? '' : texto)
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '');
+    }
+
     var VARIANTES_DEVOLUCION = [];
 
     /* ============ BÚSQUEDA DE VARIANTE ============ */
     $('#varianteInputIngreso').on('input', function() {
-        var t = $(this).val().trim().toLowerCase();
+        var terminos = normalizarTexto($(this).val()).trim().split(/\s+/).filter(Boolean);
         var lista = $('#varianteResultadosIngreso');
 
-        if (!t) {
+        if (!terminos.length) {
             lista.addClass('d-none').html('');
             return;
         }
@@ -219,18 +226,20 @@
             return;
         }
 
-        // helper: texto de atributos (para buscar por talla/color/etc.)
-        function textoAtributos(v) {
-            return (v.atributos || []).map(function(a) {
+        function textoBusquedaVariante(v) {
+            var atributos = (v.atributos || []).map(function(a) {
                 return (a.atributo || '') + ' ' + (a.valor || '');
-            }).join(' ').toLowerCase();
+            });
+
+            return normalizarTexto([v.producto || '', v.sku || ''].concat(atributos).join(' '));
         }
 
         var catalogo = $('#tipoIngreso').val() === 'devolucion' ? VARIANTES_DEVOLUCION : VARIANTES;
         var matches = catalogo.filter(function(v) {
-            return (v.producto || '').toLowerCase().indexOf(t) > -1 ||
-                (v.sku || '').toLowerCase().indexOf(t) > -1 ||
-                textoAtributos(v).indexOf(t) > -1;
+            var texto = textoBusquedaVariante(v);
+            return terminos.every(function(termino) {
+                return texto.indexOf(termino) > -1;
+            });
         });
 
         // helper: badges de atributos (igual que inventario)
@@ -244,7 +253,9 @@
         if (!matches.length) {
             lista.html('<div class="ingreso-resultado py-2 text-muted">Sin resultados</div>');
         } else {
-            lista.html(matches.slice(0, 12).map(function(v) {
+            lista.html('<div class="ingreso-resultados-total small text-muted">' +
+                matches.length + (matches.length === 1 ? ' resultado' : ' resultados') + '</div>' +
+                matches.map(function(v) {
                 return '<div class="ingreso-resultado" data-id="' + v.id + '">' +
                     '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
                     '<div class="small mb-1">' + badgesAtributos(v) + '</div>' +
@@ -536,45 +547,5 @@
     cambiarTipoIngreso();
 </script>
 @endpush
-
-<style>
-    .ingreso-resultados {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 1050;
-        background: #fff;
-        border: 1px solid rgba(0, 0, 0, .12);
-        border-radius: .5rem;
-        margin-top: 4px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
-        max-height: 260px;
-        overflow-y: auto;
-    }
-
-    html[data-theme="dark"] .ingreso-resultados {
-        background: var(--ka-surface, #273243);
-        border-color: var(--ka-border, #3a4658);
-    }
-
-    .ingreso-resultado {
-        padding: .55rem .9rem;
-        cursor: pointer;
-        border-bottom: 1px dashed rgba(0, 0, 0, .06);
-    }
-
-    .ingreso-resultado:last-child {
-        border-bottom: 0;
-    }
-
-    .ingreso-resultado:hover {
-        background: rgba(0, 0, 0, .04);
-    }
-
-    html[data-theme="dark"] .ingreso-resultado:hover {
-        background: rgba(255, 255, 255, .06);
-    }
-</style>
 
 @endsection
