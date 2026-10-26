@@ -305,9 +305,9 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 </section>
 
 <section class="product_section sec_ptb_50 clearfix">
-    <div class="container maxw_1600">
+    <div class="container">
 
-        <div class="section_heading text-center mb-5">
+        <div class="section_heading text-center mb_30">
             <div class="section_heading_title">
                 <span></span>
                 <small>Productos Relacionados</small>
@@ -315,8 +315,10 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
             </div>
         </div>
 
-        <div class="product_carousel arrow_ycenter">
-            <div class="slideshow4_slider medical_product_group" data-slick='{"dots": false}'>
+        <div class="tab-content has_multy_carousel">
+            <div id="productos_relacionados_tab" class="tab-pane active">
+                <div class="product_carousel arrow_ycenter">
+                    <div class="slideshow4_slider medical_product_group" data-slick='{"dots":false}'>
 
                 @foreach($relacionados as $producto)
 
@@ -440,18 +442,18 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                 @endforeach
 
-            </div>
+                    </div>
 
-            <!-- Navegación -->
-            <div class="carousel_nav">
-                <button type="button" class="ss4_left_arrow">
-                    <i class="fal fa-angle-left"></i>
-                </button>
-                <button type="button" class="ss4_right_arrow">
-                    <i class="fal fa-angle-right"></i>
-                </button>
+                    <div class="carousel_nav">
+                        <button type="button" class="ss4_left_arrow">
+                            <i class="fal fa-angle-left"></i>
+                        </button>
+                        <button type="button" class="ss4_right_arrow">
+                            <i class="fal fa-angle-right"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
 </section>
