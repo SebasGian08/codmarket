@@ -300,13 +300,12 @@
     <div class="card border-0 shadow-sm mt-3 venta-detalle-card">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3 venta-detalle-header">
             <h6 class="fw-bold mb-0">
-                <span class="venta-detalle-icono"><i class="fa fa-shopping-cart"></i></span>
                 Detalle de venta
             </h6>
             <div class="d-flex flex-wrap align-items-center gap-2">
                 <label class="venta-mayorista-todo mb-0" for="aplicarMayoristaDetalle">
                     <input type="checkbox" class="form-check-input" id="aplicarMayoristaDetalle">
-                    <span><i class="fa fa-tags me-1"></i> Aplicar precio por mayor a todo el detalle</span>
+                    <span>Aplicar precio por mayor a todo el detalle</span>
                 </label>
                 <span class="badge bg-primary" id="itemsBadge">0 items</span>
             </div>
@@ -1028,7 +1027,7 @@
                     '<input type="checkbox" id="ventaMayorista' + idx + '" class="form-check-input venta-item-mayorista" data-idx="' + idx + '"' +
                     (item.es_mayorista ? ' checked' : '') +
                     (tienePrecioMayorista(item) ? '' : ' disabled') + '>' +
-                    '<span><i class="fa fa-tags me-1"></i> Precio por mayor</span>' +
+                    '<span>Precio por mayor</span>' +
                     '</label></td>' +
                     '<td data-label="Atributos">' + attrs + '</td>' +
                     '<td data-label="Cantidad" class="text-center">' +

@@ -337,24 +337,6 @@ html[data-theme="dark"] .venta-var-btn {
     border-bottom: 1px solid rgba(13, 110, 253, .1);
 }
 
-.venta-detalle-header h6 {
-    display: flex;
-    align-items: center;
-    gap: .55rem;
-}
-
-.venta-detalle-icono {
-    display: inline-flex;
-    width: 2rem;
-    height: 2rem;
-    align-items: center;
-    justify-content: center;
-    border-radius: .65rem;
-    background: var(--bs-primary);
-    color: #fff;
-    font-size: .9rem;
-}
-
 .venta-mayorista-todo,
 .venta-item-mayorista-control {
     display: inline-flex;
