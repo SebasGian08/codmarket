@@ -23,7 +23,6 @@
                         La primera pestaña <b>VARIANTES</b> ya incluye los productos y el valor
                         <b>producto_sku</b> para relacionarlos. Complete en esa misma fila los datos
                         de la variante; deje <b>sku</b> vacío para que se genere automáticamente.
-                        La pestaña <b>PRODUCTOS</b> contiene la lista de referencia de SKU existentes.
                         Las filas sin datos de variante se omiten al importar.
 
                     </div>

@@ -11,7 +11,6 @@ class PlantillaVariantesExport implements WithMultipleSheets
     {
         return [
             new PlantillaVariantesDatosSheet(),
-            new PlantillaVariantesProductosSheet(),
         ];
     }
 }
