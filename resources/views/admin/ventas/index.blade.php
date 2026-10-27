@@ -185,13 +185,18 @@
 
             <!-- VARIANTE (se muestra al elegir producto) -->
             <div class="card border-0 shadow-sm mb-3 d-none" id="varianteCard">
-                <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-2">
+                <div class="card-header bg-transparent d-flex flex-wrap justify-content-between align-items-center gap-2 py-2">
                     <h6 class="fw-bold mb-0">
                         <i class="fa fa-cubes me-1"></i> Variantes de <span id="varianteProductoNombre"></span>
                     </h6>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDeseleccionarProducto" title="Volver a productos">
-                        <i class="fa fa-arrow-left"></i> Volver
-                    </button>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="venta-stock-filtrado">
+                            Stock filtrado: <strong id="stockVariantesFiltradas">0</strong> uds
+                        </span>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDeseleccionarProducto" title="Volver a productos">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </button>
+                    </div>
                 </div>
 
                 <div class="card-body py-3">
@@ -430,6 +435,9 @@
             el.innerHTML = '<i class="fa fa-info-circle me-1"></i> Selecciona una caja para iniciar la venta';
             el.className = 'text-muted small text-sm-end';
             document.getElementById('resumenTienda').textContent = '—';
+            if (productoActual) {
+                filtrarVariantes(document.getElementById('varianteInput').value);
+            }
             return;
         }
 
@@ -446,6 +454,9 @@
 
         revalidarCarrito();
         actualizarStockCatalogo();
+        if (productoActual) {
+            filtrarVariantes(document.getElementById('varianteInput').value);
+        }
     }
 
     var cajaSelect = document.getElementById('cajaSelect');
@@ -596,8 +607,14 @@
     /* ============ SELECCIÓN DE PRODUCTO / VARIANTE ============ */
     function renderVariantesGrid(variantes) {
         var grid = document.getElementById('variantesGrid');
+        variantes = variantes || [];
 
-        if (!variantes || !variantes.length) {
+        var stockTotal = variantes.reduce(function(total, v) {
+            return total + stockVariante(v.id);
+        }, 0);
+        document.getElementById('stockVariantesFiltradas').textContent = stockTotal;
+
+        if (!variantes.length) {
             grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes disponibles</div>';
             return;
         }
@@ -751,7 +768,7 @@
         input.value = '';
 
         if (!productoActual.variantes.length) {
-            grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes disponibles</div>';
+            renderVariantesGrid([]);
             renderAtributosFiltros();
             card.classList.remove('d-none');
             return;

@@ -318,6 +318,25 @@ html[data-theme="dark"] .venta-var-btn {
     color: var(--bs-danger);
 }
 
+.venta-stock-filtrado {
+    padding: .35rem .65rem;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 20px;
+    background: rgba(13, 110, 253, .06);
+    color: var(--bs-body-color);
+    font-size: .75rem;
+    white-space: nowrap;
+}
+
+.venta-stock-filtrado strong {
+    color: var(--bs-primary);
+}
+
+html[data-theme="dark"] .venta-stock-filtrado {
+    border-color: var(--ka-border);
+    background: rgba(13, 110, 253, .12);
+}
+
 /* Filtros de atributos */
 .venta-atributos-filtros {
     display: flex;
