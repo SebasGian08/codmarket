@@ -131,6 +131,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
         // Cerrar Venta
         Route::get('/cerrar-venta', [VentaController::class, 'cerrarVenta'])->name('admin.ventas.cerrar');
+        Route::get('/cierre-masivo', [VentaController::class, 'cierreMasivo'])->name('admin.ventas.cierre.masivo');
+        Route::post('/cierre-masivo/procesar', [VentaController::class, 'procesarCierreMasivo'])->name('admin.ventas.cierre.masivo.procesar');
         Route::get('/{id}/cierre', [VentaController::class, 'obtenerCierre'])->name('admin.ventas.cierre');
         Route::post('/{id}/detalle-venta', [VentaController::class, 'actualizarDetalle'])->name('admin.ventas.cierre.detalle');
         Route::post('/{id}/pago', [VentaController::class, 'agregarPago'])->name('admin.ventas.cierre.pago');

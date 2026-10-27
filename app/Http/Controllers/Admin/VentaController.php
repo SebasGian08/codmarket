@@ -726,4 +726,179 @@ class VentaController extends Controller
             return response()->json(['message' => $e->getMessage()], 422);
         }
     }
+
+    /* ================================================================
+       CIERRE MASIVO
+       ================================================================ */
+
+    public function cierreMasivo(Request $request)
+    {
+        $idsParam = $request->input('ids', '');
+        if (is_string($idsParam)) {
+            $ids = array_filter(array_map('intval', preg_split('/[,\s]+/', $idsParam)));
+        } elseif (is_array($idsParam)) {
+            $ids = array_filter(array_map('intval', $idsParam));
+        } else {
+            $ids = [];
+        }
+
+        if (empty($ids)) {
+            return redirect()->route('admin.ventas.cerrar')->with('error', 'No se seleccionaron ventas para el cierre masivo.');
+        }
+
+        $ventas = Venta::with([
+            'tienda', 'usuario', 'cliente', 'vendedor',
+            'detalle.variante.producto',
+            'ventaPagos.metodoPago',
+            'ventaPagos.cuentaBancaria'
+        ])->whereIn('id_venta', $ids)
+            ->where('estado', 1)
+            ->where('estado_cobro', 'pendiente')
+            ->orderBy('id_venta', 'asc')
+            ->get();
+
+        if ($ventas->isEmpty()) {
+            return redirect()->route('admin.ventas.cerrar')->with('error', 'No hay ventas pendientes válidas para cerrar.');
+        }
+
+        $metodosPagos = MetodoPago::with('destinoPago')->where('estado', 1)->orderBy('nombre')->get();
+        $cuentas = CuentaBancaria::where('estado', 1)->orderBy('nombre_banco')->get();
+
+        return view('admin.ventas.cierre_masivo', compact('ventas', 'metodosPagos', 'cuentas'));
+    }
+
+    public function procesarCierreMasivo(Request $request)
+    {
+        $request->validate([
+            'ventas' => 'required|array|min:1',
+        ]);
+
+        $ventasData = $request->input('ventas', []);
+        $resultados = [];
+        $cerradas = 0;
+        $errores = 0;
+
+        foreach ($ventasData as $ventaId => $data) {
+            $ventaId = (int) $ventaId;
+            DB::beginTransaction();
+            try {
+                $venta = Venta::with('ventaPagos')->findOrFail($ventaId);
+
+                if ($venta->estado_cobro !== 'pendiente') {
+                    throw new \Exception('Esta venta ya fue cerrada');
+                }
+                if ($venta->estado == 0) {
+                    throw new \Exception('No se puede cerrar una venta anulada');
+                }
+
+                $items = $data['items'] ?? [];
+                if (empty($items)) {
+                    throw new \Exception('Debe haber al menos un producto en el detalle');
+                }
+
+                $this->sincronizarDetalleYStock($venta, $items);
+                $this->checkout->procesar($venta, ['items' => $items], auth()->id());
+                $venta->refresh();
+
+                $pagos = $data['pagos'] ?? [];
+                $sumaPagos = 0.0;
+                foreach ($pagos as $p) {
+                    $sumaPagos += (float) ($p['monto'] ?? 0);
+                }
+
+                $totalVenta = (float) $venta->total;
+
+                if (empty($pagos)) {
+                    throw new \Exception('Debe registrar al menos un pago');
+                }
+                if (abs($sumaPagos - $totalVenta) > 0.01) {
+                    throw new \Exception('La suma de pagos no coincide con el total');
+                }
+
+                VentaPago::where('id_venta', $venta->id_venta)->delete();
+                DB::table('movimientos_dinero')
+                    ->where('referencia_tipo', MovimientoDineroService::REF_VENTA_PAGO)
+                    ->where('id_referencia', $venta->id_venta)
+                    ->delete();
+
+                foreach ($pagos as $pago) {
+                    $idMetodo = $pago['id_metodo_pago'] ?? null;
+                    $idCuenta = $pago['id_cuenta_bancaria'] ?? null;
+                    $monto = (float) ($pago['monto'] ?? 0);
+
+                    $metodo = MetodoPago::with('destinoPago')->find($idMetodo);
+                    if (!$metodo) {
+                        throw new \Exception('Método de pago inválido');
+                    }
+                    if (!$metodo->destinoPago) {
+                        throw new \Exception('El método ' . $metodo->nombre . ' no tiene destino financiero configurado');
+                    }
+
+                    if ($metodo->afectaCuenta()) {
+                        $cuentaExiste = DB::table('cuentas_bancarias')
+                            ->where('id_cuenta_bancaria', $idCuenta)->where('estado', 1)
+                            ->exists();
+                        if (!$cuentaExiste) {
+                            throw new \Exception('Debe seleccionar cuenta bancaria para ' . $metodo->nombre);
+                        }
+                    } else {
+                        $idCuenta = null;
+                    }
+
+                    if ($monto <= 0) {
+                        throw new \Exception('Monto de pago inválido');
+                    }
+
+                    VentaPago::create([
+                        'id_venta' => $venta->id_venta,
+                        'id_metodo_pago' => $metodo->id_metodo_pago,
+                        'id_cuenta_bancaria' => $idCuenta,
+                        'monto' => $monto,
+                        'moneda' => 'PEN',
+                        'id_usuario_registro' => auth()->id(),
+                    ]);
+
+                    $this->movimiento->aplicarVentaPago(
+                        $venta->id_venta,
+                        $venta->id_caja,
+                        [
+                            'id_metodo_pago' => $metodo->id_metodo_pago,
+                            'id_cuenta_bancaria' => $idCuenta,
+                            'monto' => $monto,
+                            'moneda' => 'PEN',
+                        ]
+                    );
+                }
+
+                $venta->load('ventaPagos');
+                if ($venta->ventaPagos->isEmpty()) {
+                    throw new \Exception('Debe registrar al menos un pago');
+                }
+
+                $primerPago = $venta->ventaPagos->first();
+                $venta->update([
+                    'estado_cobro' => 'cerrado',
+                    'fecha_cierre' => now(),
+                    'usuario_cierre' => auth()->id(),
+                    'id_metodo_pago' => $primerPago->id_metodo_pago,
+                    'monto_recibido' => $venta->ventaPagos->sum('monto'),
+                ]);
+
+                DB::commit();
+                $cerradas++;
+                $resultados[] = ['id_venta' => $venta->id_venta, 'numero' => $venta->numero, 'success' => true];
+            } catch (\Exception $e) {
+                DB::rollBack();
+                $errores++;
+                $resultados[] = ['id_venta' => $ventaId, 'success' => false, 'message' => $e->getMessage()];
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'cerradas' => $cerradas,
+            'errores' => $errores,
+            'resultados' => $resultados
+        ]);
+    }
 }

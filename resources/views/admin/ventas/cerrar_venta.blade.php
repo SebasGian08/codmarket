@@ -74,6 +74,9 @@
                     <a href="{{ route('admin.ventas.cerrar') }}" class="btn btn-light border btn-round">
                         <i class="fa fa-eraser"></i> Limpiar
                     </a>
+                    <button type="button" class="btn btn-warning btn-round" id="btnCierreMasivo" disabled>
+                        <i class="fa fa-layer-group"></i> Cierre masivo
+                    </button>
                 </div>
             </form>
         </div>
@@ -88,6 +91,9 @@
 
                     <thead>
                         <tr>
+                            <th class="text-center" style="width:40px">
+                                <input type="checkbox" id="chkSeleccionarTodo">
+                            </th>
                             <th>N° Venta</th>
                             <th>Fecha</th>
                             <th>Cliente</th>
@@ -103,6 +109,9 @@
                     <tbody>
                         @forelse($ventasPendientes as $venta)
                         <tr>
+                            <td class="text-center">
+                                <input type="checkbox" class="chk-masivo" value="{{ $venta->id_venta }}">
+                            </td>
                             <td><span class="badge bg-dark">{{ $venta->numero }}</span></td>
                             <td>{{ $venta->created_at->format('d/m/Y H:i') }}</td>
                             <td class="fw-semibold">{{ $venta->nombre_cliente }}</td>
@@ -125,7 +134,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="9" class="text-center text-muted py-4">
+                            <td colspan="10" class="text-center text-muted py-4">
                                 <i class="fa fa-check-circle fa-2x d-block mb-2 opacity-50"></i>
                                 No hay ventas pendientes de cobro
                             </td>
@@ -482,6 +491,34 @@
         var idx = parseInt($(this).data('idx'));
         pagosCierre.splice(idx, 1);
         renderPagosCierre();
+    });
+
+    /* ============ CIERRE MASIVO ============ */
+    function actualizarBtnCierreMasivo() {
+        var seleccionados = $('.chk-masivo:checked').length;
+        $('#btnCierreMasivo').prop('disabled', seleccionados === 0);
+    }
+
+    $(document).on('change', '.chk-masivo', function() {
+        actualizarBtnCierreMasivo();
+        var total = $('.chk-masivo').length;
+        var checked = $('.chk-masivo:checked').length;
+        $('#chkSeleccionarTodo').prop('checked', total > 0 && total === checked);
+    });
+
+    $(document).on('change', '#chkSeleccionarTodo', function() {
+        $('.chk-masivo').prop('checked', this.checked);
+        actualizarBtnCierreMasivo();
+    });
+
+    $(document).on('click', '#btnCierreMasivo', function() {
+        var ids = [];
+        $('.chk-masivo:checked').each(function() {
+            ids.push($(this).val());
+        });
+        if (!ids.length) return;
+        var url = '{{ route("admin.ventas.cierre.masivo") }}?ids=' + ids.join(',');
+        window.open(url, '_blank');
     });
 
     /* ============ PROCESAR CIERRE ============ */
