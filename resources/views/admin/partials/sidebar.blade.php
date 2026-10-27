@@ -34,17 +34,25 @@
                 </li>
 
                 {{-- SECCIÓN SEPARADA: VENTAS --}}
-                @php($puedeVentas = \App\Helpers\PermisoHelper::tiene('ventas.ver') || \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('ventas.cerrar'))
+                @php($puedeVentas = \App\Helpers\PermisoHelper::tiene('ventas.ver') || \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('ventas.cerrar') || \App\Helpers\PermisoHelper::tiene('cajas.ver'))
                 @if($puedeVentas)
-                <li class="nav-item {{ Request::is('admin/ventas*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/ventas*') || Request::is('admin/cajas*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#ventas">
                         <i class="fas fa-shopping-cart"></i>
                         <p>Ventas</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/ventas*') ? 'show' : '' }}" id="ventas">
+                    <div class="collapse {{ Request::is('admin/ventas*') || Request::is('admin/cajas*') ? 'show' : '' }}" id="ventas">
                         <ul class="nav nav-collapse">
+                            @permiso('cajas.ver')
+                            <li class="{{ Request::is('admin/cajas*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.cajas.index') }}">
+                                    <span class="sub-item">Cajas</span>
+                                </a>
+                            </li>
+                            @endpermiso
+
                             @permiso('ventas.ver')
                             <li class="{{ Request::is('admin/ventas') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ventas.index') }}">
@@ -74,25 +82,17 @@
                 @endif
 
                 {{-- SECCIÓN: INVENTARIO --}}
-                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('cajas.ver') || \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('gastos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga') || \App\Helpers\PermisoHelper::tiene('kardex.ver'))
+                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('gastos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga') || \App\Helpers\PermisoHelper::tiene('kardex.ver'))
                 @if($puedeInventario)
-                <li class="nav-item {{ Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#inventario">
                         <i class="fas fa-boxes"></i>
                         <p>Inventario</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/cajas*') || Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}" id="inventario">
+                    <div class="collapse {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}" id="inventario">
                         <ul class="nav nav-collapse">
-                            @permiso('cajas.ver')
-                            <li class="{{ Request::is('admin/cajas*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.cajas.index') }}">
-                                    <span class="sub-item">Cajas</span>
-                                </a>
-                            </li>
-                            @endpermiso
-
                             @permiso('ingresos.ver')
                             <li class="{{ Request::is('admin/ingresos*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ingresos.index') }}">
