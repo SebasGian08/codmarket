@@ -38,8 +38,11 @@ html[data-theme="dark"] .modal-header h6 {
 .table thead th {
     background-color: #eef1f4; /* plomo claro */
     color: #3b424c;
+    font-size: .95rem;
+    padding: 12px 24px !important;
     font-weight: 600;
-    border-bottom: 1px solid #e2e6ea;
+    border-bottom-width: 1px;
+    border-bottom-color: #e2e6ea;
 }
 
 /* ---------- PAGE HEADER RESPONSIVE ---------- */
@@ -61,4 +64,3 @@ html[data-theme="dark"] .modal-header h6 {
         width: auto;
     }
 }
-
