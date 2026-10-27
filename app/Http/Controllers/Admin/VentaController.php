@@ -228,7 +228,11 @@ class VentaController extends Controller
             ->where('estado', 1)
             ->first();
 
-        if ($vendedorUsuario) {
+        $nombreRol = strtolower(trim(auth()->user()->rol->nombre ?? ''));
+        $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
+        $esAdministrador = in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+
+        if ($vendedorUsuario && !$esAdministrador) {
             $tiendas = $vendedorUsuario->tiendas()
                 ->where('tiendas.estado', 1)
                 ->wherePivot('estado', 1)
@@ -240,6 +244,7 @@ class VentaController extends Controller
 
             $vendedores = collect([$vendedorUsuario]);
         } else {
+            $vendedorUsuario = null;
             $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
             $vendedores = Vendedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
         }
