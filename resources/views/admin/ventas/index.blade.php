@@ -297,15 +297,16 @@
     </div>
 
     <!-- DETALLE DE VENTA - ANCHO COMPLETO -->
-    <div class="card border-0 shadow-sm mt-3">
-        <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-3">
+    <div class="card border-0 shadow-sm mt-3 venta-detalle-card">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3 venta-detalle-header">
             <h6 class="fw-bold mb-0">
-                <i class="fa fa-shopping-cart me-1"></i> Detalle de venta
+                <span class="venta-detalle-icono"><i class="fa fa-shopping-cart"></i></span>
+                Detalle de venta
             </h6>
             <div class="d-flex flex-wrap align-items-center gap-2">
-                <label class="form-check form-check-inline small mb-0 venta-mayorista-todo">
+                <label class="venta-mayorista-todo mb-0" for="aplicarMayoristaDetalle">
                     <input type="checkbox" class="form-check-input" id="aplicarMayoristaDetalle">
-                    Aplicar precio por mayor a todo el detalle
+                    <span><i class="fa fa-tags me-1"></i> Aplicar precio por mayor a todo el detalle</span>
                 </label>
                 <span class="badge bg-primary" id="itemsBadge">0 items</span>
             </div>
@@ -429,12 +430,15 @@
 
     function actualizarCheckMayorista() {
         var checkbox = document.getElementById('aplicarMayoristaDetalle');
+        var etiqueta = checkbox.closest('.venta-mayorista-todo');
         var elegibles = carrito.filter(tienePrecioMayorista);
         var seleccionados = elegibles.filter(function(item) { return item.es_mayorista; }).length;
 
         checkbox.disabled = elegibles.length === 0;
         checkbox.checked = elegibles.length > 0 && seleccionados === elegibles.length;
         checkbox.indeterminate = seleccionados > 0 && seleccionados < elegibles.length;
+        etiqueta.classList.toggle('activo', checkbox.checked || checkbox.indeterminate);
+        etiqueta.classList.toggle('deshabilitado', checkbox.disabled);
     }
 
     document.getElementById('aplicarMayoristaDetalle').addEventListener('change', function() {
@@ -1017,12 +1021,15 @@
                 return '<tr data-variante="' + item.id_variante + '">' +
                     '<td data-label="Producto">' + escapeHtml(item.producto) + '</td>' +
                     '<td data-label="Variante">' + escapeHtml(item.variante) +
-                    '<div class="form-check small mt-1 mb-0">' +
+                    '<label class="venta-item-mayorista-control' +
+                    (item.es_mayorista ? ' activo' : '') +
+                    (tienePrecioMayorista(item) ? '' : ' sin-precio') +
+                    '" for="ventaMayorista' + idx + '">' +
                     '<input type="checkbox" id="ventaMayorista' + idx + '" class="form-check-input venta-item-mayorista" data-idx="' + idx + '"' +
                     (item.es_mayorista ? ' checked' : '') +
                     (tienePrecioMayorista(item) ? '' : ' disabled') + '>' +
-                    '<label class="form-check-label" for="ventaMayorista' + idx + '">Precio por mayor</label>' +
-                    '</div></td>' +
+                    '<span><i class="fa fa-tags me-1"></i> Precio por mayor</span>' +
+                    '</label></td>' +
                     '<td data-label="Atributos">' + attrs + '</td>' +
                     '<td data-label="Cantidad" class="text-center">' +
                     '<div class="input-group input-group-sm d-inline-flex" style="width:110px">' +

@@ -332,18 +332,110 @@ html[data-theme="dark"] .venta-var-btn {
     color: var(--bs-primary);
 }
 
-.venta-mayorista-todo {
+.venta-detalle-header {
+    background: linear-gradient(115deg, rgba(13, 110, 253, .09), rgba(32, 201, 151, .045));
+    border-bottom: 1px solid rgba(13, 110, 253, .1);
+}
+
+.venta-detalle-header h6 {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+}
+
+.venta-detalle-icono {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: .65rem;
+    background: var(--bs-primary);
+    color: #fff;
+    font-size: .9rem;
+}
+
+.venta-mayorista-todo,
+.venta-item-mayorista-control {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    padding: .5rem .75rem;
+    border: 1px solid rgba(13, 110, 253, .25);
+    border-radius: .65rem;
+    background: #fff;
     color: var(--bs-body-color);
+    font-size: .78rem;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.venta-mayorista-todo:hover,
+.venta-item-mayorista-control:not(.sin-precio):hover {
+    border-color: var(--bs-primary);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, .14);
+}
+
+.venta-mayorista-todo.activo,
+.venta-item-mayorista-control.activo {
+    border-color: rgba(25, 135, 84, .45);
+    background: rgba(25, 135, 84, .09);
+    color: #146c43;
+}
+
+.venta-mayorista-todo .form-check-input,
+.venta-item-mayorista-control .form-check-input {
+    flex: 0 0 auto;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0;
+    border-width: 2px;
     cursor: pointer;
 }
 
-.venta-item-mayorista {
-    cursor: pointer;
+.venta-mayorista-todo .form-check-input {
+    accent-color: var(--bs-success);
+}
+
+.venta-item-mayorista-control.sin-precio {
+    border-color: rgba(108, 117, 125, .2);
+    background: rgba(108, 117, 125, .06);
+    color: var(--bs-secondary);
+    cursor: not-allowed;
+}
+
+.venta-item-mayorista-control.sin-precio .form-check-input {
+    cursor: not-allowed;
 }
 
 html[data-theme="dark"] .venta-stock-filtrado {
     border-color: var(--ka-border);
     background: rgba(13, 110, 253, .12);
+}
+
+html[data-theme="dark"] .venta-detalle-header {
+    background: linear-gradient(115deg, rgba(13, 110, 253, .16), rgba(32, 201, 151, .07));
+    border-bottom-color: var(--ka-border);
+}
+
+html[data-theme="dark"] .venta-mayorista-todo,
+html[data-theme="dark"] .venta-item-mayorista-control {
+    border-color: var(--ka-border);
+    background: var(--ka-surface-2);
+    color: var(--bs-body-color);
+}
+
+html[data-theme="dark"] .venta-mayorista-todo.activo,
+html[data-theme="dark"] .venta-item-mayorista-control.activo {
+    border-color: rgba(75, 190, 132, .55);
+    background: rgba(25, 135, 84, .2);
+    color: #8de0b5;
+}
+
+html[data-theme="dark"] .venta-item-mayorista-control.sin-precio {
+    background: rgba(108, 117, 125, .12);
 }
 
 /* Filtros de atributos */
