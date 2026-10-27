@@ -676,6 +676,47 @@ html[data-theme="dark"] .cierre-step {
     overflow: hidden;
 }
 
+.cierre-mayorista-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .45rem;
+    padding: .4rem .55rem;
+    border: 1px solid rgba(13, 110, 253, .25);
+    border-radius: .6rem;
+    background: #fff;
+    color: var(--bs-body-color);
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.cierre-mayorista-control.activo {
+    border-color: rgba(25, 135, 84, .45);
+    background: rgba(25, 135, 84, .09);
+    color: #146c43;
+}
+
+.cierre-mayorista-control .form-check-input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+html[data-theme="dark"] .cierre-mayorista-control {
+    border-color: var(--ka-border);
+    background: var(--ka-surface-2);
+    color: var(--ka-text);
+}
+
+html[data-theme="dark"] .cierre-mayorista-control.activo {
+    border-color: rgba(75, 190, 132, .55);
+    background: rgba(25, 135, 84, .2);
+    color: #8de0b5;
+}
+
 /* ---- Pie fijo / Resumen ---- */
 .cierre-modal-footer {
     background: #fff;

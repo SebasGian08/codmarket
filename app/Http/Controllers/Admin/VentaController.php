@@ -328,8 +328,7 @@ class VentaController extends Controller
     {
         $venta = Venta::with([
             'tienda', 'usuario', 'cliente', 'vendedor',
-            'tipoVenta', 'motivoDescuentoGlobal',
-            'detalle.variante.producto', 'detalle.motivoDescuento',
+            'detalle.variante.producto',
             'ventaPagos.metodoPago',
             'ventaPagos.cuentaBancaria'
         ])->findOrFail($id);
@@ -345,7 +344,6 @@ class VentaController extends Controller
             'venta' => $venta,
             'metodosPagos' => $metodosPagos,
             'cuentas' => $cuentas,
-            'configCheckout' => $this->checkout->getCheckoutConfig(),
         ]);
     }
 
@@ -511,16 +509,12 @@ class VentaController extends Controller
                 throw new \Exception('No se puede cerrar una venta anulada');
             }
 
-            // Aplicar descuentos SOLO en el cierre de venta (checkout):
-            // tipos de venta, motivos por ítem, reglas de volumen y descuento global.
+            // Aplicar descuentos por línea y precio mayorista al cerrar la venta.
             if ($request->has('items')) {
                 $this->checkout->procesar(
                     $venta,
                     [
                         'items' => $request->input('items', []),
-                        'id_tipo_venta' => $request->input('id_tipo_venta'),
-                        'id_motivo_descuento_global' => $request->input('id_motivo_descuento_global'),
-                        'descuento_global' => $request->input('descuento_global'),
                     ],
                     auth()->id()
                 );

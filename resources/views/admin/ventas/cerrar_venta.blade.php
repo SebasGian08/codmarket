@@ -120,7 +120,6 @@
 
     var METODOS_PAGO_GLOBAL = [];
     var CUENTAS_GLOBAL = [];
-    var CONFIG_CHECKOUT = { tipos_venta: [], motivos_descuento: [] };
     var ventaCierreActual = null;
     var pagosCierre = [];
     var detalleCierre = [];
@@ -139,22 +138,35 @@
             ventaCierreActual = res.venta;
             METODOS_PAGO_GLOBAL = res.metodosPagos;
             CUENTAS_GLOBAL = res.cuentas;
-            CONFIG_CHECKOUT = res.configCheckout || CONFIG_CHECKOUT;
             pagosCierre = res.venta.venta_pagos || [];
             detalleCierre = res.venta.detalle.map(function(d) {
+                var precioMayorista = d.variante.precio_mayorista != null
+                    ? parseFloat(d.variante.precio_mayorista)
+                    : null;
+                var precioOferta = d.variante.precio_oferta !== null
+                    ? parseFloat(d.variante.precio_oferta)
+                    : null;
+                var precioRegular = precioOferta !== null && precioOferta < parseFloat(d.variante.precio)
+                    ? precioOferta
+                    : parseFloat(d.variante.precio);
+                var precioActual = parseFloat(d.precio);
+                var esMayorista = precioMayorista !== null && Math.abs(precioActual - precioMayorista) < 0.001;
+
                 return {
                     id_venta_detalle: d.id_venta_detalle,
                     id_variante: d.id_variante,
                     nombre: d.variante.producto.nombre,
                     sku: d.variante.sku || '',
                     cantidad: d.cantidad,
-                    precio: parseFloat(d.precio),
+                    precio_mayorista: precioMayorista,
+                    es_mayorista: esMayorista,
+                    precio: esMayorista ? precioMayorista : precioActual,
+                    precio_regular: esMayorista ? precioRegular : precioActual,
                     subtotal: parseFloat(d.subtotal),
-                    id_motivo_descuento: d.id_motivo_descuento || null,
-                    tipo_descuento: d.tipo_descuento || null,
-                    valor_descuento: d.tipo_descuento == 'MONTO'
-                        ? (parseFloat(d.valor_descuento_unitario) || 0)
-                        : (d.tipo_descuento == 'PORCENTAJE' ? (parseFloat(d.valor_descuento_unitario) / parseFloat(d.precio) * 100 || 0) : null)
+                    descuento_unitario: Math.min(
+                        esMayorista ? precioMayorista : precioActual,
+                        d.tipo_descuento === 'MONTO' ? (parseFloat(d.valor_descuento_unitario) || 0) : 0
+                    )
                 };
             });
 
@@ -184,59 +196,18 @@
         // Payments
         renderPagosCierre();
 
-        // Descuentos / tipo de venta
-        renderDescuentosCierre();
-    }
-
-    function motivosItemCheckout() {
-        var motivos = (CONFIG_CHECKOUT.motivos_descuento || []).filter(function(m) { return m.aplica_a === 'ITEM'; });
-        var opts = '<option value="">—</option>';
-        motivos.forEach(function(m) {
-            opts += '<option value="' + m.id_motivo_descuento + '">' + escapeHtml(m.nombre) + '</option>';
-        });
-        return opts;
-    }
-
-    function renderDescuentosCierre() {
-        // Tipo de venta
-        var tipos = CONFIG_CHECKOUT.tipos_venta || [];
-        var htmlTv = '<option value="">— Sin tipo —</option>';
-        tipos.forEach(function(t) {
-            var sel = ventaCierreActual && ventaCierreActual.id_tipo_venta == t.id_tipo_venta ? ' selected' : '';
-            htmlTv += '<option value="' + t.id_tipo_venta + '"' + sel + '>' + escapeHtml(t.nombre) + '</option>';
-        });
-        $('#cierreTipoVenta').html(htmlTv);
-
-        // Motivos de cabecera (global)
-        var motivosCab = (CONFIG_CHECKOUT.motivos_descuento || []).filter(function(m) { return m.aplica_a === 'CABECERA'; });
-        var htmlM = '<option value="">— Sin motivo —</option>';
-        motivosCab.forEach(function(m) {
-            var sel = ventaCierreActual && ventaCierreActual.id_motivo_descuento_global == m.id_motivo_descuento ? ' selected' : '';
-            htmlM += '<option value="' + m.id_motivo_descuento + '"' + sel + '>' + escapeHtml(m.nombre) + '</option>';
-        });
-        $('#cierreMotivoGlobal').html(htmlM);
-
-        // Descuento global previamente aplicado
-        var dg = ventaCierreActual ? parseFloat(ventaCierreActual.descuento_global) || 0 : 0;
-        $('#cierreDescuentoGlobal').val(dg > 0 ? dg.toFixed(2) : '');
-
-        actualizarResumenCierre();
     }
 
     function renderDetalleCierre() {
         var total = 0;
         var html = detalleCierre.map(function(item, idx) {
             var bruto = item.cantidad * item.precio;
-
-            // % que muestra el usuario (lo que escribió o vino del backend)
-            var pctMostrado = parseFloat(item.valor_descuento) || 0;
-            if (pctMostrado < 0) pctMostrado = 0;
-            if (pctMostrado > 100) pctMostrado = 100;
-
-            // Descuento aplicado SOLO si hay motivo ITEM y el tipo es PORCENTAJE
-            var pct = item.tipo_descuento === 'PORCENTAJE' && item.id_motivo_descuento ? pctMostrado : 0;
-            item._pct = pct;
-            var desc = Math.min(bruto, bruto * pct / 100);
+            var descuentoUnitario = Math.min(
+                item.precio,
+                Math.max(0, parseFloat(item.descuento_unitario) || 0)
+            );
+            item.descuento_unitario = descuentoUnitario;
+            var desc = Math.min(bruto, descuentoUnitario * item.cantidad);
             item._desc = desc;
             var sf = bruto - desc;
             item.subtotal = sf;
@@ -251,13 +222,16 @@
                     '<input type="number" class="form-control form-control-sm cierre-cant" data-idx="' + idx + '" value="' + item.cantidad + '" min="1">' +
                 '</td>' +
                 '<td class="text-end" style="width:100px">' + moneda(item.precio) + '</td>' +
-                '<td style="width:150px">' +
-                    '<select class="form-select form-select-sm cierre-motivo" data-idx="' + idx + '">' +
-                    motivosItemCheckout() +
-                    '</select>' +
+                '<td class="text-end" style="width:150px">' +
+                    (item.precio_mayorista !== null
+                        ? '<label class="cierre-mayorista-control' + (item.es_mayorista ? ' activo' : '') + '" for="cierreMayorista' + idx + '">' +
+                            '<input type="checkbox" class="form-check-input cierre-mayorista" id="cierreMayorista' + idx + '" data-idx="' + idx + '"' + (item.es_mayorista ? ' checked' : '') + '>' +
+                            '<span>' + moneda(item.precio_mayorista) + '</span>' +
+                          '</label>'
+                        : '<span class="text-muted">—</span>') +
                 '</td>' +
-                '<td style="width:90px">' +
-                    '<input type="number" step="0.01" min="0" max="100" class="form-control form-control-sm cierre-desc" data-idx="' + idx + '" value="' + pctMostrado.toFixed(2) + '" placeholder="%">' +
+                '<td style="width:120px">' +
+                    '<input type="number" step="0.01" min="0" class="form-control form-control-sm text-end cierre-descuento" data-idx="' + idx + '" value="' + descuentoUnitario.toFixed(2) + '" placeholder="S/ 0.00">' +
                 '</td>' +
                 '<td class="text-end fw-bold" style="width:110px">' + moneda(sf) + '</td>' +
                 '<td class="text-end" style="width:60px">' +
@@ -267,17 +241,6 @@
                 '</td>' +
                 '</tr>';
         }).join('');
-
-        // Pre-seleccionar motivo por línea tras renderizar
-        setTimeout(function() {
-            detalleCierre.forEach(function(item, idx) {
-                if (item.id_motivo_descuento) {
-                    var $sel = $('.cierre-motivo[data-idx="' + idx + '"]');
-                    var present = $sel.find('option[value="' + item.id_motivo_descuento + '"]').length > 0;
-                    if (present) $sel.val(String(item.id_motivo_descuento));
-                }
-            });
-        }, 0);
 
         $('#cierreDetalleBody').html(html);
         $('#cierreTotalVenta').text(moneda(total));
@@ -341,10 +304,7 @@
 
     function actualizarResumenCierre() {
         var subtotal = parseFloat(ventaCierreActual ? ventaCierreActual.total : 0) || 0;
-        var descGlobal = parseFloat($('#cierreDescuentoGlobal').val()) || 0;
-        if (descGlobal < 0) descGlobal = 0;
-        if (descGlobal > subtotal) descGlobal = subtotal;
-        var total = subtotal - descGlobal;
+        var total = subtotal;
 
         var pagado = 0;
         pagosCierre.forEach(function(p) { pagado += parseFloat(p.monto) || 0; });
@@ -403,45 +363,24 @@
         renderDetalleCierre();
     });
 
-    /* ============ ACCIONES DESCUENTOS ============ */
-    $(document).on('change', '.cierre-motivo', function() {
+    /* ============ ACCIONES MAYORISTA Y DESCUENTO ============ */
+    $(document).on('change', '.cierre-mayorista', function() {
         var idx = parseInt($(this).data('idx'));
-        detalleCierre[idx].id_motivo_descuento = $(this).val() ? parseInt($(this).val()) : null;
-        if (!detalleCierre[idx].id_motivo_descuento) {
-            detalleCierre[idx].tipo_descuento = null;
-            detalleCierre[idx].valor_descuento = null;
-        } else if (detalleCierre[idx].tipo_descuento !== 'PORCENTAJE') {
-            detalleCierre[idx].tipo_descuento = 'PORCENTAJE';
-            detalleCierre[idx].valor_descuento = parseFloat($('.cierre-desc[data-idx="' + idx + '"]').val()) || 0;
-        }
+        detalleCierre[idx].es_mayorista = this.checked;
+        detalleCierre[idx].precio = this.checked
+            ? detalleCierre[idx].precio_mayorista
+            : detalleCierre[idx].precio_regular;
         renderDetalleCierre();
     });
 
-    $(document).on('input change', '.cierre-desc', function() {
+    $(document).on('input change', '.cierre-descuento', function() {
         var idx = parseInt($(this).data('idx'));
-        var pct = parseFloat($(this).val()) || 0;
-        if (pct < 0) pct = 0; if (pct > 100) pct = 100;
-        detalleCierre[idx].valor_descuento = pct;
-        if (pct > 0) {
-            detalleCierre[idx].tipo_descuento = 'PORCENTAJE';
-        } else {
-            detalleCierre[idx].tipo_descuento = null;
-        }
+        detalleCierre[idx].descuento_unitario = Math.min(
+            detalleCierre[idx].precio,
+            Math.max(0, parseFloat($(this).val()) || 0)
+        );
+        $(this).val(detalleCierre[idx].descuento_unitario.toFixed(2));
         renderDetalleCierre();
-    });
-
-    $('#cierreDescuentoGlobal').on('input change', function() {
-        actualizarResumenCierre();
-    });
-
-    $(document).on('change', '#cierreTipoVenta', function() {
-        // Al elegir un tipo de venta (ej. Vestidos Fallados) se re-evalúan las reglas
-        ventaCierreActual._tipo_venta = $(this).val();
-        actualizarResumenCierre();
-    });
-
-    $(document).on('change', '#cierreMotivoGlobal', function() {
-        actualizarResumenCierre();
     });
 
     /* ============ ACCIONES PAGOS ============ */
@@ -557,17 +496,14 @@
                     type: 'POST',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        id_tipo_venta: $('#cierreTipoVenta').val() || null,
-                        id_motivo_descuento_global: $('#cierreMotivoGlobal').val() || null,
-                        descuento_global: parseFloat($('#cierreDescuentoGlobal').val()) || 0,
                         items: detalleCierre.map(function(d) {
-                            var valor = parseFloat(d.valor_descuento) || 0;
+                            var valor = Math.max(0, parseFloat(d.descuento_unitario) || 0);
                             return {
                                 id_variante: d.id_variante,
                                 cantidad: d.cantidad,
                                 precio: d.precio,
-                                id_motivo_descuento: (d.id_motivo_descuento && valor > 0) ? d.id_motivo_descuento : null,
-                                tipo_descuento: valor > 0 ? (d.tipo_descuento || 'PORCENTAJE') : null,
+                                es_mayorista: d.es_mayorista ? 1 : 0,
+                                tipo_descuento: valor > 0 ? 'MONTO' : null,
                                 valor_descuento: valor > 0 ? valor : null
                             };
                         }),
