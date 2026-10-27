@@ -344,6 +344,32 @@ html[data-theme="dark"] .venta-var-btn {
     --bs-table-hover-bg: #f8f9fa;
 }
 
+.venta-detalle-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.venta-detalle-tabla {
+    min-width: 900px;
+    margin-bottom: 0;
+}
+
+.venta-detalle-tabla th,
+.venta-detalle-tabla td {
+    vertical-align: middle;
+}
+
+@media (max-width: 1199.98px) {
+    .venta-detalle-scroll {
+        scrollbar-width: thin;
+    }
+
+    .venta-detalle-tabla th,
+    .venta-detalle-tabla td {
+        white-space: nowrap;
+    }
+}
+
 .venta-detalle-header {
     background: #fff;
     border-bottom: 1px solid rgba(13, 110, 253, .1);

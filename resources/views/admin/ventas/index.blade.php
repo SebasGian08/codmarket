@@ -313,8 +313,8 @@
 
         <div class="card-body p-0">
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover table-cards mb-0" id="cartTable">
+            <div class="table-responsive venta-detalle-scroll">
+                <table class="table table-striped table-hover mb-0 venta-detalle-tabla" id="cartTable">
                     <thead>
                         <tr>
                             <th>Producto</th>
