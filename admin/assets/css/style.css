@@ -553,6 +553,67 @@ html[data-theme="dark"] .venta-atributos-filtros .atributo-separador {
 
 /* ============ FIN VENTAS ============ */
 
+/* ============ HISTORIAL DE VENTAS ============ */
+.venta-historial-filtros-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.venta-historial-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.venta-historial-filtros .form-control,
+.venta-historial-filtros .form-select,
+.venta-historial-filtros .input-group-text {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.venta-historial-filtros .venta-historial-fechas .form-control {
+    border-radius: 0;
+}
+
+.venta-historial-filtros .venta-historial-fechas .form-control:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+.venta-historial-filtros .venta-historial-fechas .form-control:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+.venta-historial-filtros .venta-historial-fechas .input-group-text {
+    padding-right: 10px;
+    padding-left: 10px;
+    background: #f7f8fa;
+    color: #778195;
+}
+
+.venta-historial-filtros-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+html[data-theme="dark"] .venta-historial-filtros .form-control,
+html[data-theme="dark"] .venta-historial-filtros .form-select,
+html[data-theme="dark"] .venta-historial-filtros .input-group-text {
+    border-color: var(--ka-border, #3a4658);
+}
+
+@media (max-width: 575.98px) {
+    .venta-historial-filtros-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN HISTORIAL DE VENTAS ============ */
+
 /* ============ CERRAR VENTA ============ */
 
 /* ---- Cabecera del modal ---- */
