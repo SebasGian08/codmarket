@@ -45,6 +45,9 @@ class ProductoController extends Controller
         }
 
         $productos = $query->orderBy('nombre', 'asc')->get();
+        $productosParaVariantes = Producto::with(['variantes:id_variante,id_producto,sku'])
+            ->orderBy('nombre', 'asc')
+            ->get(['id_producto', 'nombre']);
 
         $marcas = Marca::where('estado', 1)->get();
         $proveedores = Proveedor::where('estado', 1)->get();
@@ -58,6 +61,7 @@ class ProductoController extends Controller
 
         return view('admin.productos.index', compact(
             'productos',
+            'productosParaVariantes',
             'marcas',
             'proveedores',
             'categorias',
