@@ -139,6 +139,11 @@
                                     <span class="sub-item">Carga Masiva</span>
                                 </a>
                             </li>
+                            <li class="{{ Request::is('admin/inventario/precios*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.inventario.precios.index') }}">
+                                    <span class="sub-item">Actualizar precios</span>
+                                </a>
+                            </li>
                             @endpermiso
                         </ul>
                     </div>

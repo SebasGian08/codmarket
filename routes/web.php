@@ -43,6 +43,7 @@ use App\Http\Controllers\Admin\CajaController;
 use App\Http\Controllers\Admin\IngresoController;
 use App\Http\Controllers\Admin\TransferenciaController;
 use App\Http\Controllers\Admin\CargaInventarioController;
+use App\Http\Controllers\Admin\ActualizacionPreciosController;
 use App\Http\Controllers\Admin\InventarioController;
 use App\Http\Controllers\Admin\KardexController;
 use App\Http\Controllers\Admin\GastoController;
@@ -261,6 +262,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/carga', [CargaInventarioController::class, 'index'])->name('admin.inventario.carga.index');
         Route::get('/carga/plantilla', [CargaInventarioController::class, 'plantilla'])->name('admin.inventario.carga.plantilla');
         Route::post('/carga/importar', [CargaInventarioController::class, 'importar'])->name('admin.inventario.carga.importar');
+        Route::get('/precios', [ActualizacionPreciosController::class, 'index'])->name('admin.inventario.precios.index');
+        Route::get('/precios/plantilla', [ActualizacionPreciosController::class, 'plantilla'])->name('admin.inventario.precios.plantilla');
+        Route::post('/precios/importar', [ActualizacionPreciosController::class, 'importar'])->name('admin.inventario.precios.importar');
         Route::get('/kardex', [KardexController::class, 'index'])->name('admin.inventario.kardex');
     });
 
