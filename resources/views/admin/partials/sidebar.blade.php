@@ -34,7 +34,9 @@
                 </li>
 
                 {{-- SECCIÓN SEPARADA: VENTAS --}}
-                @php($puedeVentas = \App\Helpers\PermisoHelper::tiene('ventas.ver') || \App\Helpers\PermisoHelper::tiene('ventas.historial') || \App\Helpers\PermisoHelper::tiene('ventas.cerrar') || \App\Helpers\PermisoHelper::tiene('cajas.ver'))
+                @php($puedeVentas = \App\Helpers\PermisoHelper::tiene('ventas.ver') ||
+                \App\Helpers\PermisoHelper::tiene('ventas.historial') ||
+                \App\Helpers\PermisoHelper::tiene('ventas.cerrar') || \App\Helpers\PermisoHelper::tiene('cajas.ver'))
                 @if($puedeVentas)
                 <li class="nav-item {{ Request::is('admin/ventas*') || Request::is('admin/cajas*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#ventas">
@@ -43,7 +45,8 @@
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/ventas*') || Request::is('admin/cajas*') ? 'show' : '' }}" id="ventas">
+                    <div class="collapse {{ Request::is('admin/ventas*') || Request::is('admin/cajas*') ? 'show' : '' }}"
+                        id="ventas">
                         <ul class="nav nav-collapse">
                             @permiso('cajas.ver')
                             <li class="{{ Request::is('admin/cajas*') ? 'active' : '' }}">
@@ -82,16 +85,23 @@
                 @endif
 
                 {{-- SECCIÓN: INVENTARIO --}}
-                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ingresos.ver') || \App\Helpers\PermisoHelper::tiene('gastos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias.ver') || \App\Helpers\PermisoHelper::tiene('inventario.ver') || \App\Helpers\PermisoHelper::tiene('inventario.carga') || \App\Helpers\PermisoHelper::tiene('kardex.ver'))
+                @php($puedeInventario = \App\Helpers\PermisoHelper::tiene('ingresos.ver') ||
+                \App\Helpers\PermisoHelper::tiene('gastos.ver') ||
+                \App\Helpers\PermisoHelper::tiene('transferencias.ver') ||
+                \App\Helpers\PermisoHelper::tiene('inventario.ver') ||
+                \App\Helpers\PermisoHelper::tiene('inventario.carga') ||
+                \App\Helpers\PermisoHelper::tiene('kardex.ver'))
                 @if($puedeInventario)
-                <li class="nav-item {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#inventario">
                         <i class="fas fa-boxes"></i>
                         <p>Inventario</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}" id="inventario">
+                    <div class="collapse {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}"
+                        id="inventario">
                         <ul class="nav nav-collapse">
                             @permiso('ingresos.ver')
                             <li class="{{ Request::is('admin/ingresos*') ? 'active' : '' }}">
@@ -118,7 +128,8 @@
                             @endpermiso
 
                             @permiso('inventario.ver')
-                            <li class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') ? 'active' : '' }}">
+                            <li
+                                class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.inventario.index') }}">
                                     <span class="sub-item">Stock por Tienda</span>
                                 </a>
@@ -139,11 +150,7 @@
                                     <span class="sub-item">Carga Masiva</span>
                                 </a>
                             </li>
-                            <li class="{{ Request::is('admin/inventario/precios*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.inventario.precios.index') }}">
-                                    <span class="sub-item">Actualizar precios</span>
-                                </a>
-                            </li>
+
                             @endpermiso
                         </ul>
                     </div>
@@ -151,16 +158,22 @@
                 @endif
 
                 {{-- SECCIÓN: FINANZAS --}}
-                @php($puedeFinanzas = \App\Helpers\PermisoHelper::tiene('cuentas-bancarias.ver') || \App\Helpers\PermisoHelper::tiene('ingresos-economicos.ver') || \App\Helpers\PermisoHelper::tiene('transferencias-dinero.ver') || \App\Helpers\PermisoHelper::tiene('movimientos-dinero.ver') || \App\Helpers\PermisoHelper::tiene('tipos-gastos.ver'))
+                @php($puedeFinanzas = \App\Helpers\PermisoHelper::tiene('cuentas-bancarias.ver') ||
+                \App\Helpers\PermisoHelper::tiene('ingresos-economicos.ver') ||
+                \App\Helpers\PermisoHelper::tiene('transferencias-dinero.ver') ||
+                \App\Helpers\PermisoHelper::tiene('movimientos-dinero.ver') ||
+                \App\Helpers\PermisoHelper::tiene('tipos-gastos.ver'))
                 @if($puedeFinanzas)
-                <li class="nav-item {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#finanzas">
                         <i class="fas fa-money-bill-wave"></i>
                         <p>Finanzas</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'show' : '' }}" id="finanzas">
+                    <div class="collapse {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'show' : '' }}"
+                        id="finanzas">
                         <ul class="nav nav-collapse">
                             @permiso('cuentas-bancarias.ver')
                             <li class="{{ Request::is('admin/cuentas-bancarias*') ? 'active' : '' }}">
@@ -207,16 +220,20 @@
                 @endif
 
                 {{-- SECCIÓN: DESCUENTOS DE VENTA --}}
-                @php($puedeDescuentosVenta = \App\Helpers\PermisoHelper::tiene('tipos-venta.ver') || \App\Helpers\PermisoHelper::tiene('motivos-descuento.ver') || \App\Helpers\PermisoHelper::tiene('reglas-descuento.ver'))
+                @php($puedeDescuentosVenta = \App\Helpers\PermisoHelper::tiene('tipos-venta.ver') ||
+                \App\Helpers\PermisoHelper::tiene('motivos-descuento.ver') ||
+                \App\Helpers\PermisoHelper::tiene('reglas-descuento.ver'))
                 @if($puedeDescuentosVenta)
-                <li class="nav-item {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#descuentosVenta">
                         <i class="fas fa-tags"></i>
                         <p>Descuentos de Venta</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'show' : '' }}" id="descuentosVenta">
+                    <div class="collapse {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'show' : '' }}"
+                        id="descuentosVenta">
                         <ul class="nav nav-collapse">
                             @permiso('tipos-venta.ver')
                             <li class="{{ Request::is('admin/tipos-venta*') ? 'active' : '' }}">
@@ -247,14 +264,16 @@
                 @endif
 
                 {{-- SECCIÓN: MIS PRODUCTOS --}}
-                <li class="nav-item {{ Request::is('admin/categorias*') || Request::is('admin/marcas*') || Request::is('admin/proveedores*') || Request::is('admin/productos*') || Request::is('admin/atributos*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ Request::is('admin/categorias*') || Request::is('admin/marcas*') || Request::is('admin/proveedores*') || Request::is('admin/productos*') || Request::is('admin/atributos*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#productos">
                         <i class="fas fa-shopping-bag"></i>
                         <p>Mis Productos</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/categorias*') || Request::is('admin/marcas*') || Request::is('admin/proveedores*') || Request::is('admin/productos*') || Request::is('admin/atributos*') ? 'show' : '' }}" id="productos">
+                    <div class="collapse {{ Request::is('admin/categorias*') || Request::is('admin/marcas*') || Request::is('admin/proveedores*') || Request::is('admin/productos*') || Request::is('admin/atributos*') ? 'show' : '' }}"
+                        id="productos">
                         <ul class="nav nav-collapse">
                             <li class="{{ Request::is('admin/categorias*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.categorias.index') }}">
@@ -292,19 +311,27 @@
                                     <span class="sub-item">Atributos</span>
                                 </a>
                             </li>
+
+                            <li class="{{ Request::is('admin/inventario/precios*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.inventario.precios.index') }}">
+                                    <span class="sub-item">Actualizar precios</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
 
                 {{-- SECCIÓN: CONFIGURACIÓN --}}
-                <li class="nav-item {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#mantenimiento">
                         <i class="fas fa-cogs"></i>
                         <p>Configuración</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'show' : '' }}" id="mantenimiento">
+                    <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'show' : '' }}"
+                        id="mantenimiento">
                         <ul class="nav nav-collapse">
                             @permiso('empresa.ver')
                             <li class="{{ Request::is('admin/empresa*') ? 'active' : '' }}">
@@ -373,15 +400,17 @@
                     </div>
                 </li>
 
-{{-- SECCIÓN: WEB --}}
-                <li class="nav-item {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
+                {{-- SECCIÓN: WEB --}}
+                <li
+                    class="nav-item {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#tiendaVirtual">
                         <i class="fas fa-store"></i>
                         <p>Web</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}" id="tiendaVirtual">
+                    <div class="collapse {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}"
+                        id="tiendaVirtual">
                         <ul class="nav nav-collapse">
                             @permiso('blogs.ver')
                             <li class="{{ Request::is('admin/blogs*') ? 'active' : '' }}">
