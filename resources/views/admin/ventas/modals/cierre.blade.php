@@ -44,9 +44,6 @@
                             <h6 class="mb-0">Detalle de la venta</h6>
                             <span class="cierre-step-hint">Ajusta cantidades si es necesario</span>
                         </div>
-                        <button type="button" class="btn btn-sm btn-primary btn-round" id="btnGuardarDetalleCierre">
-                            <i class="fa fa-save"></i> Guardar cambios
-                        </button>
                     </div>
 
                     <div class="table-responsive">

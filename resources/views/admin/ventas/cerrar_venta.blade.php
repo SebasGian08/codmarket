@@ -430,41 +430,6 @@
         renderPagosCierre();
     });
 
-    /* ============ GUARDAR DETALLE ============ */
-    $(document).on('click', '#btnGuardarDetalleCierre', function() {
-        if (!ventaCierreActual) return;
-
-        var btn = $(this);
-        btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Guardando...');
-
-        $.ajax({
-            url: '{{ url("admin/ventas") }}/' + ventaCierreActual.id_venta + '/detalle-venta',
-            type: 'POST',
-            data: {
-                _token: '{{ csrf_token() }}',
-                items: detalleCierre.map(function(d) {
-                    return {
-                        id_variante: d.id_variante,
-                        cantidad: d.cantidad,
-                        precio: d.precio
-                    };
-                })
-            },
-            dataType: 'json'
-        }).done(function(res) {
-            if (res.success) {
-                ventaCierreActual.total = res.total;
-                renderDetalleCierre();
-                Swal.fire({ icon: 'success', title: 'Detalle actualizado', timer: 1000, showConfirmButton: false });
-            }
-        }).fail(function(xhr) {
-            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'Error al guardar';
-            Swal.fire('Error', msg, 'error');
-        }).always(function() {
-            btn.prop('disabled', false).html('<i class="fa fa-save"></i> Guardar cambios');
-        });
-    });
-
     /* ============ PROCESAR CIERRE ============ */
     $(document).on('click', '#btnProcesarCierre', function() {
         if (!ventaCierreActual) return;

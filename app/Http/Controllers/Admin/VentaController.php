@@ -363,81 +363,84 @@ class VentaController extends Controller
         ]);
 
         try {
-            DB::beginTransaction();
-
-            // Stock difference tracking
-            $stockOriginal = [];
-            foreach ($venta->detalle as $d) {
-                $key = $d->id_variante;
-                $stockOriginal[$key] = ($stockOriginal[$key] ?? 0) + $d->cantidad;
-            }
-
-            $stockNuevo = [];
-            foreach ($request->items as $item) {
-                $key = $item['id_variante'];
-                $stockNuevo[$key] = ($stockNuevo[$key] ?? 0) + (int) $item['cantidad'];
-            }
-
-            // Revert stock for removed/changed items
-            foreach ($stockOriginal as $varId => $cantOriginal) {
-                $cantNueva = $stockNuevo[$varId] ?? 0;
-                $diferencia = $cantOriginal - $cantNueva;
-
-                if ($diferencia > 0) {
-                    $this->inventario->aplicar(
-                        $varId, $venta->id_tienda, 'ajuste', $diferencia,
-                        $venta->id_venta, auth()->id(),
-                        'Ajuste cierre venta ' . $venta->numero
-                    );
-                }
-            }
-
-            // Apply stock for new/increased items
-            foreach ($stockNuevo as $varId => $cantNueva) {
-                $cantOriginal = $stockOriginal[$varId] ?? 0;
-                $diferencia = $cantNueva - $cantOriginal;
-
-                if ($diferencia > 0) {
-                    $this->inventario->aplicar(
-                        $varId, $venta->id_tienda, 'venta', $diferencia,
-                        $venta->id_venta, auth()->id(),
-                        'Ajuste cierre venta ' . $venta->numero
-                    );
-                }
-            }
-
-            // Delete old detail
-            VentaDetalle::where('id_venta', $id)->delete();
-
-            // Insert new detail
-            $subtotal = 0;
-            foreach ($request->items as $item) {
-                $cantidad = (int) $item['cantidad'];
-                $precio = (float) $item['precio'];
-                $sub = $precio * $cantidad;
-                $subtotal += $sub;
-
-                VentaDetalle::create([
-                    'id_venta' => $venta->id_venta,
-                    'id_variante' => $item['id_variante'],
-                    'cantidad' => $cantidad,
-                    'precio' => $precio,
-                    'subtotal' => $sub,
-                ]);
-            }
-
-            $venta->update([
-                'subtotal' => $subtotal,
-                'total' => $subtotal,
-            ]);
-
-            DB::commit();
+            $subtotal = DB::transaction(function () use ($venta, $request) {
+                return $this->sincronizarDetalleYStock($venta, $request->items);
+            });
 
             return response()->json(['success' => true, 'total' => $subtotal]);
         } catch (\Exception $e) {
-            DB::rollBack();
             return response()->json(['message' => $e->getMessage()], 422);
         }
+    }
+
+    private function sincronizarDetalleYStock(Venta $venta, array $items): float
+    {
+        $stockOriginal = [];
+        foreach ($venta->detalle()->get() as $detalle) {
+            $idVariante = $detalle->id_variante;
+            $stockOriginal[$idVariante] = ($stockOriginal[$idVariante] ?? 0) + (int) $detalle->cantidad;
+        }
+
+        $stockNuevo = [];
+        foreach ($items as $item) {
+            $idVariante = $item['id_variante'];
+            $stockNuevo[$idVariante] = ($stockNuevo[$idVariante] ?? 0) + (int) $item['cantidad'];
+        }
+
+        foreach ($stockOriginal as $idVariante => $cantidadOriginal) {
+            $diferencia = $cantidadOriginal - ($stockNuevo[$idVariante] ?? 0);
+            if ($diferencia > 0) {
+                $this->inventario->aplicar(
+                    $idVariante,
+                    $venta->id_tienda,
+                    'ajuste',
+                    $diferencia,
+                    $venta->id_venta,
+                    auth()->id(),
+                    'Ajuste cierre venta ' . $venta->numero
+                );
+            }
+        }
+
+        foreach ($stockNuevo as $idVariante => $cantidadNueva) {
+            $diferencia = $cantidadNueva - ($stockOriginal[$idVariante] ?? 0);
+            if ($diferencia > 0) {
+                $this->inventario->aplicar(
+                    $idVariante,
+                    $venta->id_tienda,
+                    'venta',
+                    $diferencia,
+                    $venta->id_venta,
+                    auth()->id(),
+                    'Ajuste cierre venta ' . $venta->numero
+                );
+            }
+        }
+
+        $venta->detalle()->delete();
+
+        $subtotal = 0.0;
+        foreach ($items as $item) {
+            $cantidad = (int) $item['cantidad'];
+            $precio = (float) $item['precio'];
+            $linea = round($precio * $cantidad, 2);
+            $subtotal += $linea;
+
+            VentaDetalle::create([
+                'id_venta' => $venta->id_venta,
+                'id_variante' => $item['id_variante'],
+                'cantidad' => $cantidad,
+                'precio' => $precio,
+                'subtotal' => $linea,
+            ]);
+        }
+
+        $venta->update([
+            'subtotal' => $subtotal,
+            'total' => $subtotal,
+        ]);
+
+        return $subtotal;
     }
 
     public function agregarPago(Request $request, $id)
@@ -496,6 +499,20 @@ class VentaController extends Controller
 
     public function procesarCierre(Request $request, $id)
     {
+        $request->validate([
+            'items' => 'required|array|min:1',
+            'items.*.id_variante' => 'required|exists:productos_variantes,id_variante',
+            'items.*.cantidad' => 'required|integer|min:1',
+            'items.*.precio' => 'required|numeric|min:0',
+            'items.*.es_mayorista' => 'sometimes|boolean',
+            'items.*.tipo_descuento' => 'nullable|in:MONTO',
+            'items.*.valor_descuento' => 'nullable|numeric|min:0',
+            'pagos' => 'required|array|min:1',
+            'pagos.*.id_metodo_pago' => 'required|exists:metodos_pagos,id_metodo_pago',
+            'pagos.*.id_cuenta_bancaria' => 'nullable|exists:cuentas_bancarias,id_cuenta_bancaria',
+            'pagos.*.monto' => 'required|numeric|min:0.01',
+        ]);
+
         try {
             DB::beginTransaction();
 
@@ -509,18 +526,10 @@ class VentaController extends Controller
                 throw new \Exception('No se puede cerrar una venta anulada');
             }
 
-            // Aplicar descuentos por línea y precio mayorista al cerrar la venta.
-            if ($request->has('items')) {
-                $this->checkout->procesar(
-                    $venta,
-                    [
-                        'items' => $request->input('items', []),
-                    ],
-                    auth()->id()
-                );
-
-                $venta->refresh();
-            }
+            $items = $request->input('items');
+            $this->sincronizarDetalleYStock($venta, $items);
+            $this->checkout->procesar($venta, ['items' => $items], auth()->id());
+            $venta->refresh();
 
             // Pagos enviados desde el modal (persistir antes de cerrar)
             $pagos = $request->input('pagos', []);
