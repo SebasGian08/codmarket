@@ -332,19 +332,66 @@ class VentaController extends Controller
        CERRAR VENTA
        ================================================================ */
 
-    public function cerrarVenta()
+    public function cerrarVenta(Request $request)
     {
-        $ventasPendientes = Venta::with(['tienda', 'usuario', 'cliente', 'vendedor', 'detalle'])
+        $query = Venta::with(['tienda', 'usuario', 'cliente', 'vendedor', 'detalle'])
             ->where('estado', 1)
             ->where('estado_cobro', 'pendiente')
-            ->orderBy('id_venta', 'desc')
-            ->get()
+            ->orderBy('id_venta', 'desc');
+
+        $vendedorUsuario = Vendedor::where('id_usuario', auth()->id())
+            ->where('estado', 1)
+            ->first();
+
+        $nombreRol = strtolower(trim(auth()->user()->rol->nombre ?? ''));
+        $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
+        $esAdministrador = in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+
+        if ($vendedorUsuario && !$esAdministrador) {
+            $tiendas = $vendedorUsuario->tiendas()
+                ->where('tiendas.estado', 1)
+                ->wherePivot('estado', 1)
+                ->orderBy('tiendas.nombre')
+                ->get();
+
+            $query->where('id_vendedor', $vendedorUsuario->id_vendedor)
+                ->whereIn('id_tienda', $tiendas->pluck('id_tienda'));
+
+            $vendedores = collect([$vendedorUsuario]);
+        } else {
+            $vendedorUsuario = null;
+            $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
+            $vendedores = Vendedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        }
+
+        if ($request->get('id_tienda')) {
+            $query->where('id_tienda', $request->get('id_tienda'));
+        }
+
+        if (!$vendedorUsuario && $request->get('id_vendedor')) {
+            $query->where('id_vendedor', $request->get('id_vendedor'));
+        }
+
+        if ($request->get('fecha_desde')) {
+            $query->whereDate('created_at', '>=', $request->get('fecha_desde'));
+        }
+
+        if ($request->get('fecha_hasta')) {
+            $query->whereDate('created_at', '<=', $request->get('fecha_hasta'));
+        }
+
+        $ventasPendientes = $query->get()
             ->map(function ($v) {
                 $v->total_items = $v->detalle->sum('cantidad');
                 return $v;
             });
 
-        return view('admin.ventas.cerrar_venta', compact('ventasPendientes'));
+        return view('admin.ventas.cerrar_venta', compact(
+            'ventasPendientes',
+            'tiendas',
+            'vendedores',
+            'vendedorUsuario'
+        ));
     }
 
     public function obtenerCierre($id)

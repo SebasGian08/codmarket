@@ -25,6 +25,60 @@
     </div>
     @endif
 
+    <div class="card venta-historial-filtros-card">
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.ventas.cerrar') }}" class="row g-3 align-items-end venta-historial-filtros">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">Tienda</label>
+                    <select name="id_tienda" class="form-select">
+                        <option value="">Todas las tiendas</option>
+                        @foreach($tiendas as $tienda)
+                        <option value="{{ $tienda->id_tienda }}"
+                            {{ (string) request('id_tienda') === (string) $tienda->id_tienda ? 'selected' : '' }}>
+                            {{ $tienda->codigo }} - {{ $tienda->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">Vendedor</label>
+                    <select name="id_vendedor" class="form-select">
+                        @if(!$vendedorUsuario)
+                        <option value="">Todos los vendedores</option>
+                        @endif
+                        @foreach($vendedores as $vendedor)
+                        <option value="{{ $vendedor->id_vendedor }}"
+                            {{ ($vendedorUsuario && $vendedorUsuario->id_vendedor == $vendedor->id_vendedor) || request('id_vendedor') == $vendedor->id_vendedor ? 'selected' : '' }}>
+                            {{ $vendedor->nombre }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-12 col-xl-6">
+                    <label class="form-label fw-semibold">Rango de fechas</label>
+                    <div class="input-group venta-historial-fechas">
+                        <input type="date" name="fecha_desde" class="form-control"
+                            aria-label="Fecha desde" value="{{ request('fecha_desde') }}">
+                        <span class="input-group-text">hasta</span>
+                        <input type="date" name="fecha_hasta" class="form-control"
+                            aria-label="Fecha hasta" value="{{ request('fecha_hasta') }}">
+                    </div>
+                </div>
+
+                <div class="col-12 d-flex flex-wrap justify-content-xl-end gap-2 venta-historial-filtros-actions">
+                    <button type="submit" class="btn btn-primary btn-round">
+                        <i class="fa fa-search"></i> Buscar
+                    </button>
+                    <a href="{{ route('admin.ventas.cerrar') }}" class="btn btn-light border btn-round">
+                        <i class="fa fa-eraser"></i> Limpiar
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-body">
 
