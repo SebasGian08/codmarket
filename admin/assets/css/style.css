@@ -4,6 +4,67 @@
    Cada m��dulo se separa con un comentario.
    ============================================= */
 
+/* ============ FILTROS DE LISTADOS ADMIN ============ */
+.admin-list-filters-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.admin-list-filters .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.admin-list-filters .form-control,
+.admin-list-filters .form-select,
+.admin-list-filters .input-group-text {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.admin-list-filters .admin-list-date-range .form-control {
+    border-radius: 0;
+}
+
+.admin-list-filters .admin-list-date-range .form-control:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+.admin-list-filters .admin-list-date-range .form-control:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+.admin-list-filters .admin-list-date-range .input-group-text {
+    padding-right: 10px;
+    padding-left: 10px;
+    background: #f7f8fa;
+    color: #778195;
+}
+
+.admin-list-filter-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+html[data-theme="dark"] .admin-list-filters .form-control,
+html[data-theme="dark"] .admin-list-filters .form-select,
+html[data-theme="dark"] .admin-list-filters .input-group-text {
+    border-color: var(--ka-border, #3a4658);
+}
+
+@media (max-width: 575.98px) {
+    .admin-list-filter-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN FILTROS DE LISTADOS ADMIN ============ */
+
 /* ============ MODALES (GLOBAL) ============ */
 /* Cabecera unificada de todos los modales del sistema. */
 .modal-header {
@@ -775,6 +836,46 @@ html[data-theme="dark"] .ingresoeco-filtros .input-group-text {
     }
 }
 /* ============ FIN INGRESOS ECONÓMICOS ============ */
+
+/* ============ PRODUCTOS ============ */
+.producto-filtros-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.producto-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.producto-filtros .form-control,
+.producto-filtros .form-select {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.producto-filtros-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+html[data-theme="dark"] .producto-filtros .form-control,
+html[data-theme="dark"] .producto-filtros .form-select {
+    border-color: var(--ka-border, #3a4658);
+}
+
+@media (max-width: 575.98px) {
+    .producto-filtros-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN PRODUCTOS ============ */
 
 /* ============ CERRAR VENTA ============ */
 

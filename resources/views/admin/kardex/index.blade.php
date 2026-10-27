@@ -34,7 +34,7 @@
                     <small class="text-muted">Consulta entradas, salidas y saldo por producto y tienda.</small>
                 </div>
             </div> -->
-            <form method="GET" action="{{ route('admin.inventario.kardex') }}" class="row g-3 align-items-end kardex-filtros">
+            <form method="GET" action="{{ route('admin.inventario.kardex') }}" class="row g-3 align-items-end kardex-filtros admin-list-filters">
                 <div class="col-12 col-xl-3">
                     <label class="form-label fw-semibold mb-1">Producto</label>
                     <select name="id_producto" id="kardexProducto" class="form-control">
@@ -85,19 +85,18 @@
                 </div>
                 <div class="col-12 col-xl-6">
                     <label class="form-label fw-semibold mb-1">Rango de fechas</label>
-                    <div class="input-group">
-                        <input type="date" name="fecha_desde" class="form-control" value="{{ $filtros['fechaDesde'] }}">
+                    <div class="input-group admin-list-date-range">
+                        <input type="date" name="fecha_desde" class="form-control" aria-label="Fecha desde" value="{{ $filtros['fechaDesde'] }}">
                         <span class="input-group-text">hasta</span>
-                        <input type="date" name="fecha_hasta" class="form-control" value="{{ $filtros['fechaHasta'] }}">
+                        <input type="date" name="fecha_hasta" class="form-control" aria-label="Fecha hasta" value="{{ $filtros['fechaHasta'] }}">
                     </div>
                 </div>
-                <div class="col-6 col-xl-3 d-flex justify-content-xl-end gap-2">
-                    <button type="submit" class="btn btn-primary btn-round flex-grow-1">
-                        <i class="fa fa-filter"></i> Filtrar
+                <div class="col-12 col-xl-6 d-flex flex-wrap justify-content-xl-end gap-2 admin-list-filter-actions">
+                    <button type="submit" class="btn btn-primary btn-round">
+                        <i class="fa fa-search"></i> Buscar
                     </button>
-                    <a href="{{ route('admin.inventario.kardex') }}" class="btn btn-light border btn-round kardex-clear-filter"
-                        title="Limpiar filtros" aria-label="Limpiar filtros">
-                        <i class="fa fa-eraser"></i>
+                    <a href="{{ route('admin.inventario.kardex') }}" class="btn btn-light border btn-round kardex-clear-filter">
+                        <i class="fa fa-eraser"></i> Limpiar
                     </a>
                 </div>
             </form>

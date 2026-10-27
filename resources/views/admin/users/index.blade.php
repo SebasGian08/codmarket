@@ -17,17 +17,18 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card admin-list-filters-card">
                 <div class="card-body">
-                    <form method="GET" action="{{ route('admin.users.index') }}" class="row g-2 align-items-end mb-3">
-                        <div class="col-md-6 col-lg-4">
+                    <form method="GET" action="{{ route('admin.users.index') }}" class="row g-3 align-items-end admin-list-filters">
+                        <div class="col-12 col-md-6 col-xl-4">
                             <label class="form-label fw-semibold">Buscar usuario</label>
-                            <input type="text" name="nombre" class="form-control form-control-sm" placeholder="Nombres, email"
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombres, email"
                                 value="{{ $filtros['nombre'] ?? '' }}">
                         </div>
-                        <div class="col-md-4 col-lg-3">
+
+                        <div class="col-12 col-md-6 col-xl-4">
                             <label class="form-label fw-semibold">Rol</label>
-                            <select name="id_rol" class="form-select form-select-sm">
+                            <select name="id_rol" class="form-select">
                                 <option value="">Todos</option>
                                 @foreach($roles as $rol)
                                 <option value="{{ $rol->id_rol }}" {{ (string)($filtros['id_rol'] ?? '') === (string)$rol->id_rol ? 'selected' : '' }}>
@@ -36,15 +37,21 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-12 d-flex flex-wrap gap-2">
-                            <button type="submit" class="btn btn-sm btn-primary btn-round">
+
+                        <div class="col-12 col-xl-4 d-flex flex-wrap justify-content-xl-end gap-2 admin-list-filter-actions">
+                            <button type="submit" class="btn btn-primary btn-round">
                                 <i class="fa fa-search"></i> Buscar
                             </button>
-                            <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-secondary btn-round">
+                            <a href="{{ route('admin.users.index') }}" class="btn btn-light border btn-round">
                                 <i class="fa fa-eraser"></i> Limpiar
                             </a>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
                     <div class="table-responsive">
                         <table id="basic-datatables" class="display table table-striped table-hover">
                             <thead>

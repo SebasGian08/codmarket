@@ -26,12 +26,12 @@
     </div>
     @endif
 
-    <div class="card">
-        <div class="card-header">
-            <form method="GET" action="{{ route('admin.movimientos-dinero.index') }}" class="row g-2 align-items-end">
-                <div class="col-md-3">
-                    <label class="form-label fw-semibold mb-1">Tipo de movimiento</label>
-                    <select name="tipo" class="form-control">
+    <div class="card admin-list-filters-card">
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.movimientos-dinero.index') }}" class="row g-3 align-items-end admin-list-filters">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">Tipo de movimiento</label>
+                    <select name="tipo" class="form-select">
                         <option value="">Todos</option>
                         @foreach($tipos as $tipo)
                         <option value="{{ $tipo->id_tipo_movimiento_dinero }}" {{ request('tipo') == $tipo->id_tipo_movimiento_dinero ? 'selected' : '' }}>
@@ -40,32 +40,37 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold mb-1">Destino</label>
-                    <select name="destino" class="form-control">
+                <div class="col-12 col-md-6 col-xl-3">
+                    <label class="form-label fw-semibold">Destino</label>
+                    <select name="destino" class="form-select">
                         <option value="">Todos</option>
                         <option value="caja" {{ request('destino') == 'caja' ? 'selected' : '' }}>Caja</option>
                         <option value="cuenta" {{ request('destino') == 'cuenta' ? 'selected' : '' }}>Cuenta bancaria</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold mb-1">Desde</label>
-                    <input type="date" name="fecha_desde" class="form-control" value="{{ request('fecha_desde') }}">
+                <div class="col-12 col-xl-6">
+                    <label class="form-label fw-semibold">Rango de fechas</label>
+                    <div class="input-group admin-list-date-range">
+                        <input type="date" name="fecha_desde" class="form-control"
+                            aria-label="Fecha desde" value="{{ request('fecha_desde') }}">
+                        <span class="input-group-text">hasta</span>
+                        <input type="date" name="fecha_hasta" class="form-control"
+                            aria-label="Fecha hasta" value="{{ request('fecha_hasta') }}">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold mb-1">Hasta</label>
-                    <input type="date" name="fecha_hasta" class="form-control" value="{{ request('fecha_hasta') }}">
-                </div>
-                <div class="col-md-3 d-flex gap-2">
+                <div class="col-12 d-flex flex-wrap justify-content-xl-end gap-2 admin-list-filter-actions">
                     <button type="submit" class="btn btn-primary btn-round">
-                        <i class="fa fa-filter"></i> Filtrar
+                        <i class="fa fa-search"></i> Buscar
                     </button>
-                    <a href="{{ route('admin.movimientos-dinero.index') }}" class="btn btn-secondary btn-round">
+                    <a href="{{ route('admin.movimientos-dinero.index') }}" class="btn btn-light border btn-round">
                         <i class="fa fa-eraser"></i> Limpiar
                     </a>
                 </div>
             </form>
         </div>
+    </div>
+
+    <div class="card">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-hover" id="basic-datatables">
