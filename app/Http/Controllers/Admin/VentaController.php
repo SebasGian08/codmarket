@@ -224,11 +224,31 @@ class VentaController extends Controller
         $query = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'ventaPagos.metodoPago'])
             ->orderBy('id_venta', 'desc');
 
+        $vendedorUsuario = Vendedor::where('id_usuario', auth()->id())
+            ->where('estado', 1)
+            ->first();
+
+        if ($vendedorUsuario) {
+            $tiendas = $vendedorUsuario->tiendas()
+                ->where('tiendas.estado', 1)
+                ->wherePivot('estado', 1)
+                ->orderBy('tiendas.nombre')
+                ->get();
+
+            $query->where('id_vendedor', $vendedorUsuario->id_vendedor)
+                ->whereIn('id_tienda', $tiendas->pluck('id_tienda'));
+
+            $vendedores = collect([$vendedorUsuario]);
+        } else {
+            $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
+            $vendedores = Vendedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        }
+
         if ($request->get('id_tienda')) {
             $query->where('id_tienda', $request->get('id_tienda'));
         }
 
-        if ($request->get('id_vendedor')) {
+        if (!$vendedorUsuario && $request->get('id_vendedor')) {
             $query->where('id_vendedor', $request->get('id_vendedor'));
         }
 
@@ -241,10 +261,8 @@ class VentaController extends Controller
         }
 
         $ventas = $query->paginate(30);
-        $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $vendedores = Vendedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
 
-        return view('admin.ventas.historial', compact('ventas', 'tiendas', 'vendedores'));
+        return view('admin.ventas.historial', compact('ventas', 'tiendas', 'vendedores', 'vendedorUsuario'));
     }
 
     public function anular($id)

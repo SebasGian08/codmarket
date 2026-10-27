@@ -34,7 +34,7 @@
                         <option value="">Todas las tiendas</option>
                         @foreach($tiendas as $tienda)
                         <option value="{{ $tienda->id_tienda }}"
-                            {{ request('id_tienda') == $tienda->id_tienda ? 'selected' : '' }}>
+                            {{ (string) request('id_tienda') === (string) $tienda->id_tienda ? 'selected' : '' }}>
                             {{ $tienda->codigo }} - {{ $tienda->nombre }}
                         </option>
                         @endforeach
@@ -44,10 +44,12 @@
                 <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">Vendedor</label>
                     <select name="id_vendedor" class="form-select">
+                        @if(!$vendedorUsuario)
                         <option value="">Todos los vendedores</option>
+                        @endif
                         @foreach($vendedores as $vendedor)
                         <option value="{{ $vendedor->id_vendedor }}"
-                            {{ request('id_vendedor') == $vendedor->id_vendedor ? 'selected' : '' }}>
+                            {{ ($vendedorUsuario && $vendedorUsuario->id_vendedor == $vendedor->id_vendedor) || request('id_vendedor') == $vendedor->id_vendedor ? 'selected' : '' }}>
                             {{ $vendedor->nombre }}
                         </option>
                         @endforeach
