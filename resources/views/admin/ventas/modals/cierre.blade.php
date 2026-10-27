@@ -57,7 +57,7 @@
                                     <th class="text-center" style="width:110px">Cantidad</th>
                                     <th class="text-end" style="width:120px">Precio</th>
                                     <th class="text-end" style="width:150px">Precio por mayor</th>
-                                    <th class="text-end" style="width:120px">Desc. (S/ por unidad)</th>
+                                    <th class="text-end" style="width:120px">Desc. (S/)</th>
                                     <th class="text-end" style="width:130px">Subtotal</th>
                                     <th style="width:50px"></th>
                                 </tr>
