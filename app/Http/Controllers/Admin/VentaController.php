@@ -221,6 +221,9 @@ class VentaController extends Controller
 
     public function historial(Request $request)
     {
+        $fechaDesde = $request->input('fecha_desde', now()->startOfMonth()->toDateString());
+        $fechaHasta = $request->input('fecha_hasta', now()->toDateString());
+
         $query = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'ventaPagos.metodoPago'])
             ->orderBy('id_venta', 'desc');
 
@@ -257,17 +260,24 @@ class VentaController extends Controller
             $query->where('id_vendedor', $request->get('id_vendedor'));
         }
 
-        if ($request->get('fecha_desde')) {
-            $query->whereDate('created_at', '>=', $request->get('fecha_desde'));
+        if ($fechaDesde) {
+            $query->whereDate('created_at', '>=', $fechaDesde);
         }
 
-        if ($request->get('fecha_hasta')) {
-            $query->whereDate('created_at', '<=', $request->get('fecha_hasta'));
+        if ($fechaHasta) {
+            $query->whereDate('created_at', '<=', $fechaHasta);
         }
 
         $ventas = $query->paginate(30);
 
-        return view('admin.ventas.historial', compact('ventas', 'tiendas', 'vendedores', 'vendedorUsuario'));
+        return view('admin.ventas.historial', compact(
+            'ventas',
+            'tiendas',
+            'vendedores',
+            'vendedorUsuario',
+            'fechaDesde',
+            'fechaHasta'
+        ));
     }
 
     public function anular($id)
@@ -334,6 +344,9 @@ class VentaController extends Controller
 
     public function cerrarVenta(Request $request)
     {
+        $fechaDesde = $request->input('fecha_desde', now()->startOfMonth()->toDateString());
+        $fechaHasta = $request->input('fecha_hasta', now()->toDateString());
+
         $query = Venta::with(['tienda', 'usuario', 'cliente', 'vendedor', 'detalle'])
             ->where('estado', 1)
             ->where('estado_cobro', 'pendiente')
@@ -372,12 +385,12 @@ class VentaController extends Controller
             $query->where('id_vendedor', $request->get('id_vendedor'));
         }
 
-        if ($request->get('fecha_desde')) {
-            $query->whereDate('created_at', '>=', $request->get('fecha_desde'));
+        if ($fechaDesde) {
+            $query->whereDate('created_at', '>=', $fechaDesde);
         }
 
-        if ($request->get('fecha_hasta')) {
-            $query->whereDate('created_at', '<=', $request->get('fecha_hasta'));
+        if ($fechaHasta) {
+            $query->whereDate('created_at', '<=', $fechaHasta);
         }
 
         $ventasPendientes = $query->get()
@@ -390,7 +403,9 @@ class VentaController extends Controller
             'ventasPendientes',
             'tiendas',
             'vendedores',
-            'vendedorUsuario'
+            'vendedorUsuario',
+            'fechaDesde',
+            'fechaHasta'
         ));
     }
 

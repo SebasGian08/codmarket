@@ -60,10 +60,10 @@
                     <label class="form-label fw-semibold">Rango de fechas</label>
                     <div class="input-group venta-historial-fechas">
                         <input type="date" name="fecha_desde" class="form-control"
-                            aria-label="Fecha desde" value="{{ request('fecha_desde') }}">
+                            aria-label="Fecha desde" value="{{ $fechaDesde }}">
                         <span class="input-group-text">hasta</span>
                         <input type="date" name="fecha_hasta" class="form-control"
-                            aria-label="Fecha hasta" value="{{ request('fecha_hasta') }}">
+                            aria-label="Fecha hasta" value="{{ $fechaHasta }}">
                     </div>
                 </div>
 
