@@ -64,6 +64,14 @@ class ProductoVarianteController extends Controller
 
                 $productoSku = trim($fila[0] ?? '');
                 $sku = trim($fila[1] ?? '');
+                $datosVariante = array_slice($fila, 1, 8);
+                $tieneDatosVariante = collect($datosVariante)->contains(function ($valor) {
+                    return $valor !== null && trim((string) $valor) !== '';
+                });
+
+                if (!$tieneDatosVariante) {
+                    continue;
+                }
 
                 if (!$sku || str_contains($sku, '=')) {
                     $sku = rand(10000000, 99999999);

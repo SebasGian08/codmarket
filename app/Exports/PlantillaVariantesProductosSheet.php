@@ -22,7 +22,7 @@ class PlantillaVariantesProductosSheet implements FromArray, WithTitle
 
         foreach ($productos as $producto) {
             if ($producto->variantes->isEmpty()) {
-                $filas[] = [$producto->nombre, ''];
+                $filas[] = [$producto->nombre, $producto->nombre];
                 continue;
             }
 
