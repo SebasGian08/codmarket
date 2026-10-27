@@ -38,6 +38,7 @@
                             <th>Atributos</th>
                             <th>Precio</th>
                             <th>Oferta</th>
+                            <th>Precio por mayor</th>
                             <th>Costo</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -67,6 +68,7 @@
 
                             <td>S/ {{ $v->precio }}</td>
                             <td>{{ $v->precio_oferta ?? '-' }}</td>
+                            <td>{{ $v->precio_mayorista !== null ? 'S/ ' . number_format($v->precio_mayorista, 2) : '-' }}</td>
                             <td>{{ $v->costo ?? '-' }}</td>
 
                             <td>

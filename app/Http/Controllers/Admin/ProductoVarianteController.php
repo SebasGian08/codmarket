@@ -147,6 +147,7 @@ class ProductoVarianteController extends Controller
             'id_producto' => 'required|exists:productos,id_producto',
             'sku' => 'nullable|string|max:100',
             'precio' => 'required|numeric|min:0',
+            'precio_mayorista' => 'nullable|numeric|min:0',
             'stock' => 'required|numeric|min:0',
         ]);
 
@@ -170,6 +171,7 @@ class ProductoVarianteController extends Controller
                 'codigo_barras' => $request->codigo_barras,
                 'precio' => $request->precio,
                 'precio_oferta' => $request->precio_oferta,
+                'precio_mayorista' => $request->precio_mayorista,
                 'costo' => $request->costo,
                 'stock' => 0,
                 'estado' => $request->estado ?? 1,
@@ -206,6 +208,7 @@ class ProductoVarianteController extends Controller
         $request->validate([
             'sku' => 'required|max:100',
             'precio' => 'required|numeric|min:0',
+            'precio_mayorista' => 'nullable|numeric|min:0',
         ]);
 
         try {
@@ -219,6 +222,7 @@ class ProductoVarianteController extends Controller
                 'codigo_barras' => $request->codigo_barras,
                 'precio' => $request->precio,
                 'precio_oferta' => $request->precio_oferta,
+                'precio_mayorista' => $request->precio_mayorista,
                 'costo' => $request->costo,
                 'estado' => $request->estado ?? 1,
             ]);

@@ -332,6 +332,15 @@ html[data-theme="dark"] .venta-var-btn {
     color: var(--bs-primary);
 }
 
+.venta-mayorista-todo {
+    color: var(--bs-body-color);
+    cursor: pointer;
+}
+
+.venta-item-mayorista {
+    cursor: pointer;
+}
+
 html[data-theme="dark"] .venta-stock-filtrado {
     border-color: var(--ka-border);
     background: rgba(13, 110, 253, .12);

@@ -72,6 +72,7 @@ class ProductoController extends Controller
 
             'sku_inicial' => 'nullable|string|max:100',
             'precio_inicial' => 'required|numeric|min:0',
+            'precio_mayorista_inicial' => 'nullable|numeric|min:0',
         ]);
 
         try {
@@ -111,6 +112,7 @@ class ProductoController extends Controller
                 'codigo_barras' => $request->codigo_barras,
                 'precio' => $request->precio_inicial,
                 'precio_oferta' => $request->precio_oferta_inicial,
+                'precio_mayorista' => $request->precio_mayorista_inicial,
                 'costo' => $request->costo_inicial,
                 'stock' => 0,
                 'estado' => 1,
@@ -155,6 +157,7 @@ class ProductoController extends Controller
             'nombre' => 'required|max:200',
             'sku_principal' => 'required|max:100',
             'precio_principal' => 'required|numeric|min:0',
+            'precio_mayorista_principal' => 'nullable|numeric|min:0',
         ]);
 
         try {
@@ -187,6 +190,7 @@ class ProductoController extends Controller
                     'codigo_barras' => $request->codigo_barras,
                     'precio' => $request->precio_principal,
                     'precio_oferta' => $request->precio_oferta_principal,
+                    'precio_mayorista' => $request->precio_mayorista_principal,
                     'costo' => $request->costo_principal,
                 ]);
             }

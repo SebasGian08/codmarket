@@ -302,7 +302,13 @@
             <h6 class="fw-bold mb-0">
                 <i class="fa fa-shopping-cart me-1"></i> Detalle de venta
             </h6>
-            <span class="badge bg-primary" id="itemsBadge">0 items</span>
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <label class="form-check form-check-inline small mb-0 venta-mayorista-todo">
+                    <input type="checkbox" class="form-check-input" id="aplicarMayoristaDetalle">
+                    Aplicar precio por mayor a todo el detalle
+                </label>
+                <span class="badge bg-primary" id="itemsBadge">0 items</span>
+            </div>
         </div>
 
         <div class="card-body p-0">
@@ -411,6 +417,32 @@
     function precioVariante(v) {
         return (v.precio_oferta != null && v.precio_oferta < v.precio) ? v.precio_oferta : v.precio;
     }
+
+    function tienePrecioMayorista(item) {
+        return item.precio_mayorista !== null && item.precio_mayorista !== undefined;
+    }
+
+    function actualizarPrecioItem(item, esMayorista) {
+        item.es_mayorista = Boolean(esMayorista && tienePrecioMayorista(item));
+        item.precio = item.es_mayorista ? item.precio_mayorista : item.precio_regular;
+    }
+
+    function actualizarCheckMayorista() {
+        var checkbox = document.getElementById('aplicarMayoristaDetalle');
+        var elegibles = carrito.filter(tienePrecioMayorista);
+        var seleccionados = elegibles.filter(function(item) { return item.es_mayorista; }).length;
+
+        checkbox.disabled = elegibles.length === 0;
+        checkbox.checked = elegibles.length > 0 && seleccionados === elegibles.length;
+        checkbox.indeterminate = seleccionados > 0 && seleccionados < elegibles.length;
+    }
+
+    document.getElementById('aplicarMayoristaDetalle').addEventListener('change', function() {
+        carrito.forEach(function(item) {
+            actualizarPrecioItem(item, this.checked);
+        }, this);
+        renderCarrito();
+    });
 
     function stockVariante(idVariante) {
         if (cajaActual) {
@@ -911,10 +943,17 @@
                 producto: productoActual.nombre,
                 variante: varianteActual.sku || ('SKU ' + varianteActual.id),
                 atributos: varianteActual.atributos || [],
+                precio_regular: precioVariante(varianteActual),
+                precio_mayorista: varianteActual.precio_mayorista,
+                es_mayorista: false,
                 precio: precioVariante(varianteActual),
                 cantidad: cant,
                 stock: stock
             });
+            actualizarPrecioItem(
+                carrito[carrito.length - 1],
+                document.getElementById('aplicarMayoristaDetalle').checked
+            );
         }
 
         renderCarrito();
@@ -977,7 +1016,13 @@
 
                 return '<tr data-variante="' + item.id_variante + '">' +
                     '<td data-label="Producto">' + escapeHtml(item.producto) + '</td>' +
-                    '<td data-label="Variante">' + escapeHtml(item.variante) + '</td>' +
+                    '<td data-label="Variante">' + escapeHtml(item.variante) +
+                    '<div class="form-check small mt-1 mb-0">' +
+                    '<input type="checkbox" id="ventaMayorista' + idx + '" class="form-check-input venta-item-mayorista" data-idx="' + idx + '"' +
+                    (item.es_mayorista ? ' checked' : '') +
+                    (tienePrecioMayorista(item) ? '' : ' disabled') + '>' +
+                    '<label class="form-check-label" for="ventaMayorista' + idx + '">Precio por mayor</label>' +
+                    '</div></td>' +
                     '<td data-label="Atributos">' + attrs + '</td>' +
                     '<td data-label="Cantidad" class="text-center">' +
                     '<div class="input-group input-group-sm d-inline-flex" style="width:110px">' +
@@ -995,6 +1040,7 @@
             }).join('');
         }
 
+        actualizarCheckMayorista();
         actualizarResumen();
     }
 
@@ -1057,6 +1103,14 @@
             carrito[i].cantidad = c;
         }
 
+        renderCarrito();
+    });
+
+    document.getElementById('cartBody').addEventListener('change', function(e) {
+        var checkbox = e.target.closest('.venta-item-mayorista');
+        if (!checkbox) return;
+
+        actualizarPrecioItem(carrito[parseInt(checkbox.dataset.idx)], checkbox.checked);
         renderCarrito();
     });
 
@@ -1378,7 +1432,8 @@
             return {
                 id_variante: i.id_variante,
                 cantidad: i.cantidad,
-                precio: i.precio
+                precio: i.precio,
+                es_mayorista: i.es_mayorista ? 1 : 0
             };
         });
 

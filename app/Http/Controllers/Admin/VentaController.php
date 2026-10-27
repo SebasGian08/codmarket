@@ -9,6 +9,7 @@ use App\Models\CuentaBancaria;
 use App\Models\Inventario;
 use App\Models\MetodoPago;
 use App\Models\Producto;
+use App\Models\ProductoVariante;
 use App\Models\Tienda;
 use App\Models\Vendedor;
 use App\Models\Venta;
@@ -57,6 +58,7 @@ class VentaController extends Controller
                                 'sku' => $v->sku,
                                 'precio' => (float) $v->precio,
                                 'precio_oferta' => $v->precio_oferta !== null ? (float) $v->precio_oferta : null,
+                                'precio_mayorista' => $v->precio_mayorista !== null ? (float) $v->precio_mayorista : null,
                                 'stock' => (int) $v->stock,
                                 'imagen' => $img
                                     ? asset($img->url)
@@ -114,6 +116,7 @@ class VentaController extends Controller
             'items.*.id_variante' => 'required|exists:productos_variantes,id_variante',
             'items.*.cantidad' => 'required|numeric|min:0.01',
             'items.*.precio' => 'required|numeric|min:0',
+            'items.*.es_mayorista' => 'sometimes|boolean',
         ]);
 
         try {
@@ -125,10 +128,30 @@ class VentaController extends Controller
                 throw new \Exception('La caja seleccionada no está abierta');
             }
 
+            $variantes = ProductoVariante::whereIn(
+                'id_variante',
+                array_column($request->items, 'id_variante')
+            )->get()->keyBy('id_variante');
+            $items = [];
             $subtotal = 0;
 
             foreach ($request->items as $item) {
-                $subtotal += (float) $item['precio'] * (float) $item['cantidad'];
+                $variante = $variantes->get($item['id_variante']);
+                $esMayorista = (bool) ($item['es_mayorista'] ?? false);
+
+                if (!$variante) {
+                    throw new \Exception('Una variante seleccionada ya no está disponible.');
+                }
+
+                if ($esMayorista && $variante->precio_mayorista === null) {
+                    throw new \Exception('Una variante seleccionada no tiene precio por mayor configurado.');
+                }
+
+                $item['precio'] = $esMayorista
+                    ? (float) $variante->precio_mayorista
+                    : (float) $item['precio'];
+                $items[] = $item;
+                $subtotal += $item['precio'] * (float) $item['cantidad'];
             }
 
             $num = generarNumeroDocumento('VTA', 'ventas', $caja->id_tienda);
@@ -150,7 +173,7 @@ class VentaController extends Controller
                 'estado_cobro' => 'pendiente',
             ]);
 
-            foreach ($request->items as $item) {
+            foreach ($items as $item) {
                 $cantidad = (int) $item['cantidad'];
                 $precio = (float) $item['precio'];
 

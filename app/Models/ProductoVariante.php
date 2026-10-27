@@ -16,6 +16,7 @@ class ProductoVariante extends Model
         'codigo_barras',
         'precio',
         'precio_oferta',
+        'precio_mayorista',
         'costo',
         'stock',
         'estado'

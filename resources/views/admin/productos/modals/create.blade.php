@@ -200,6 +200,15 @@
 
                                     <div class="mb-3">
                                         <label class="form-label small">
+                                            Precio por mayor
+                                        </label>
+
+                                        <input type="number" step="0.01" min="0" name="precio_mayorista_inicial"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label small">
                                             Costo
                                         </label>
 
