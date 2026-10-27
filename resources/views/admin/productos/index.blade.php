@@ -23,6 +23,10 @@
                 <i class="fa fa-file-excel"></i> Carga Masiva
             </a>
 
+            <button class="btn btn-warning btn-round" data-bs-toggle="modal" data-bs-target="#modalImportarVariantes">
+                <i class="fa fa-upload"></i> Importar Variantes
+            </button>
+
             <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
                 <i class="fa fa-plus"></i> Nuevo Producto
             </button>
@@ -30,6 +34,27 @@
         </div>
 
     </div>
+
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
+
+    @if($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ $errors->first() }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
 
     <div class="card producto-filtros-card">
         <div class="card-body">
@@ -169,6 +194,7 @@
 <div id="modalEditWrap"></div>
 
 @include('admin.productos.modals.create')
+@include('admin.productos.modals.importar_variantes')
 
 <script>
 // Este script corre antes de que cargue jQuery (el layout lo incluye al final),
