@@ -29,17 +29,18 @@
     </div>
     @endif
 
-    <div class="card">
-        <div class="card-body py-3">
-            <form method="GET" action="{{ route('admin.ingresos-economicos.index') }}" class="row g-2 align-items-end">
-                <div class="col-md-2">
+    <div class="card ingresoeco-filtros-card">
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.ingresos-economicos.index') }}" class="row g-3 align-items-end ingresoeco-filtros">
+                <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">N° / Documento</label>
-                    <input type="text" name="numero" class="form-control form-control-sm" placeholder="ING-0001"
+                    <input type="text" name="numero" class="form-control" placeholder="ING-0001"
                         value="{{ $filtros['numero'] ?? '' }}">
                 </div>
-                <div class="col-md-2">
+
+                <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">Tipo de ingreso</label>
-                    <select name="id_tipo_ingreso_economico" class="form-select form-select-sm">
+                    <select name="id_tipo_ingreso_economico" class="form-select">
                         <option value="">Todos</option>
                         @foreach($tiposIngreso as $ti)
                         <option value="{{ $ti->id_tipo_ingreso_economico }}" {{ (string)($filtros['id_tipo_ingreso_economico'] ?? '') === (string)$ti->id_tipo_ingreso_economico ? 'selected' : '' }}>
@@ -48,9 +49,10 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+
+                <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">Tienda</label>
-                    <select name="id_tienda" class="form-select form-select-sm">
+                    <select name="id_tienda" class="form-select">
                         <option value="">Todas</option>
                         @foreach($tiendas as $tienda)
                         <option value="{{ $tienda->id_tienda }}" {{ (string)($filtros['id_tienda'] ?? '') === (string)$tienda->id_tienda ? 'selected' : '' }}>
@@ -59,29 +61,32 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+
+                <div class="col-12 col-md-6 col-xl-3">
                     <label class="form-label fw-semibold">Estado</label>
-                    <select name="estado" class="form-select form-select-sm">
+                    <select name="estado" class="form-select">
                         <option value="">Todos</option>
                         <option value="1" {{ ($filtros['estado'] ?? '') === '1' ? 'selected' : '' }}>Registrado</option>
                         <option value="0" {{ ($filtros['estado'] ?? '') === '0' ? 'selected' : '' }}>Anulado</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Desde</label>
-                    <input type="date" name="fecha_desde" class="form-control form-control-sm"
-                        value="{{ $filtros['fecha_desde'] ?? '' }}">
+
+                <div class="col-12 col-xl-6">
+                    <label class="form-label fw-semibold">Rango de fechas</label>
+                    <div class="input-group ingresoeco-fechas">
+                        <input type="date" name="fecha_desde" class="form-control"
+                            aria-label="Fecha desde" value="{{ $filtros['fecha_desde'] ?? '' }}">
+                        <span class="input-group-text">hasta</span>
+                        <input type="date" name="fecha_hasta" class="form-control"
+                            aria-label="Fecha hasta" value="{{ $filtros['fecha_hasta'] ?? '' }}">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label fw-semibold">Hasta</label>
-                    <input type="date" name="fecha_hasta" class="form-control form-control-sm"
-                        value="{{ $filtros['fecha_hasta'] ?? '' }}">
-                </div>
-                <div class="col-12 d-flex flex-wrap gap-2">
-                    <button type="submit" class="btn btn-sm btn-primary btn-round">
+
+                <div class="col-12 col-xl-6 d-flex flex-wrap justify-content-xl-end gap-2 ingresoeco-filtros-actions">
+                    <button type="submit" class="btn btn-primary btn-round">
                         <i class="fa fa-search"></i> Buscar
                     </button>
-                    <a href="{{ route('admin.ingresos-economicos.index') }}" class="btn btn-sm btn-secondary btn-round">
+                    <a href="{{ route('admin.ingresos-economicos.index') }}" class="btn btn-light border btn-round">
                         <i class="fa fa-eraser"></i> Limpiar
                     </a>
                 </div>

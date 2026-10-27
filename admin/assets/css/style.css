@@ -654,6 +654,128 @@ html[data-theme="dark"] .caja-filtros .form-select {
 }
 /* ============ FIN CAJAS ============ */
 
+/* ============ GASTOS ============ */
+.gasto-filtros-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.gasto-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.gasto-filtros .form-control,
+.gasto-filtros .form-select,
+.gasto-filtros .input-group-text {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.gasto-filtros .gasto-fechas .form-control {
+    border-radius: 0;
+}
+
+.gasto-filtros .gasto-fechas .form-control:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+.gasto-filtros .gasto-fechas .form-control:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+.gasto-filtros .gasto-fechas .input-group-text {
+    padding-right: 10px;
+    padding-left: 10px;
+    background: #f7f8fa;
+    color: #778195;
+}
+
+.gasto-filtros-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+html[data-theme="dark"] .gasto-filtros .form-control,
+html[data-theme="dark"] .gasto-filtros .form-select,
+html[data-theme="dark"] .gasto-filtros .input-group-text {
+    border-color: var(--ka-border, #3a4658);
+}
+
+@media (max-width: 575.98px) {
+    .gasto-filtros-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN GASTOS ============ */
+
+/* ============ INGRESOS ECONÓMICOS ============ */
+.ingresoeco-filtros-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.ingresoeco-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.ingresoeco-filtros .form-control,
+.ingresoeco-filtros .form-select,
+.ingresoeco-filtros .input-group-text {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.ingresoeco-filtros .ingresoeco-fechas .form-control {
+    border-radius: 0;
+}
+
+.ingresoeco-filtros .ingresoeco-fechas .form-control:first-child {
+    border-radius: 7px 0 0 7px;
+}
+
+.ingresoeco-filtros .ingresoeco-fechas .form-control:last-child {
+    border-radius: 0 7px 7px 0;
+}
+
+.ingresoeco-filtros .ingresoeco-fechas .input-group-text {
+    padding-right: 10px;
+    padding-left: 10px;
+    background: #f7f8fa;
+    color: #778195;
+}
+
+.ingresoeco-filtros-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+html[data-theme="dark"] .ingresoeco-filtros .form-control,
+html[data-theme="dark"] .ingresoeco-filtros .form-select,
+html[data-theme="dark"] .ingresoeco-filtros .input-group-text {
+    border-color: var(--ka-border, #3a4658);
+}
+
+@media (max-width: 575.98px) {
+    .ingresoeco-filtros-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN INGRESOS ECONÓMICOS ============ */
+
 /* ============ CERRAR VENTA ============ */
 
 /* ---- Cabecera del modal ---- */
