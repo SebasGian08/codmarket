@@ -42,7 +42,7 @@
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label small">
-                                Precio <small class="text-danger">*</small>
+                                Precio <span class="text-danger fw-bold">*</span>
                             </label>
 
                             <input type="number" step="0.01" min="0" name="precio" class="form-control" required>
@@ -74,7 +74,7 @@
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label small">
-                                Stock *
+                                Stock <span class="text-danger fw-bold">*</span>
                             </label>
 
                             <input type="number" min="0" name="stock" class="form-control" value="0" required>

@@ -19,7 +19,7 @@
 
                         <div class="col-md-6 mb-3">
                             <label class="form-label small">
-                                SKU *
+                                SKU <span class="text-danger fw-bold">*</span>
                             </label>
 
                             <input type="text"
@@ -49,7 +49,7 @@
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label small">
-                                Precio <small class="text-danger">*</small>
+                                Precio <span class="text-danger fw-bold">*</span>
                             </label>
 
                             <input type="number"
