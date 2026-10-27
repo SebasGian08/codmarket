@@ -2030,10 +2030,6 @@ html[data-theme="dark"] .trf-filtros .input-group-text {
 html[data-theme="dark"] .toggle-web-text {
     color: var(--bs-body-color);
 }
-.variante-importacion-lista {
-    max-height: 240px;
-    overflow-y: auto;
-}
 /* ============ FIN PRODUCTOS ============ */
 
 /* ============ PREVIEW IMÁGENES ============ */

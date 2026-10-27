@@ -20,11 +20,10 @@
 
                         <i class="fa fa-info-circle"></i>
 
-                        Descargue la plantilla Excel y complete las variantes
-                        de sus productos ya creados. En la columna
-                        <b>producto_sku</b> indique el SKU del producto
-                        (el de su variante principal). Si deja la columna
-                        <b>sku</b> vacía, se generará uno automáticamente.
+                        Descargue la plantilla Excel. En la pestaña <b>PRODUCTOS</b>
+                        encontrará el nombre y los SKU existentes; copie uno en la columna
+                        <b>producto_sku</b> de la pestaña <b>VARIANTES</b> para relacionarla.
+                        Deje <b>sku</b> vacío para que se genere automáticamente.
 
                     </div>
 
@@ -37,56 +36,6 @@
 
                         </a>
 
-                    </div>
-
-                    <div class="mb-3">
-                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#listaProductosParaVariantes" aria-expanded="false"
-                            aria-controls="listaProductosParaVariantes">
-                            <i class="fa fa-list"></i> Consultar productos y SKU
-                        </button>
-
-                        <div class="collapse mt-3" id="listaProductosParaVariantes">
-                            <div class="border rounded p-3">
-                                <p class="small text-muted mb-2">
-                                    Usa uno de estos SKU en la columna <b>producto_sku</b> para relacionar
-                                    la nueva variante con su producto. Si no tiene SKU, puedes usar el nombre exacto.
-                                </p>
-
-                                <input type="search" class="form-control form-control-sm mb-2"
-                                    id="buscarProductoParaVariante" placeholder="Buscar por producto o SKU">
-
-                                <div class="table-responsive variante-importacion-lista">
-                                    <table class="table table-sm table-striped mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>Producto</th>
-                                                <th>SKU para producto_sku</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="productosParaVariantes">
-                                            @forelse($productosParaVariantes as $producto)
-                                                @php($skus = $producto->variantes->pluck('sku')->filter()->values())
-                                                <tr data-busqueda="{{ strtolower($producto->nombre . ' ' . $skus->implode(' ')) }}">
-                                                    <td>{{ $producto->nombre }}</td>
-                                                    <td>
-                                                        @forelse($skus as $sku)
-                                                            <span class="badge bg-light text-dark border">{{ $sku }}</span>
-                                                        @empty
-                                                            <span class="text-muted">Sin SKU de variante</span>
-                                                        @endforelse
-                                                    </td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="2" class="text-center text-muted">No hay productos disponibles.</td>
-                                                </tr>
-                                            @endforelse
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="mb-0">
@@ -124,12 +73,3 @@
 
     </div>
 </div>
-
-<script>
-    document.getElementById('buscarProductoParaVariante').addEventListener('input', function () {
-        var busqueda = this.value.toLocaleLowerCase();
-        document.querySelectorAll('#productosParaVariantes tr[data-busqueda]').forEach(function (fila) {
-            fila.hidden = !fila.dataset.busqueda.includes(busqueda);
-        });
-    });
-</script>

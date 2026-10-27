@@ -3,37 +3,15 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class PlantillaVariantesExport implements FromArray
+class PlantillaVariantesExport implements WithMultipleSheets
 {
-    public function array(): array
+    public function sheets(): array
     {
         return [
-
-            [
-                'producto_sku',
-                'sku',
-                'codigo_barras',
-                'precio',
-                'precio_oferta',
-                'costo',
-                'stock',
-                'estado',
-                'atributos'
-            ],
-
-            [
-                'LAB001',
-                'LAB001-ROJO',
-                '987654321',
-                '32.90',
-                '27.90',
-                '16',
-                '50',
-                '1',
-                'Color: Rojo, Talla: M'
-            ]
-
+            new PlantillaVariantesDatosSheet(),
+            new PlantillaVariantesProductosSheet(),
         ];
     }
 }
