@@ -614,6 +614,46 @@ html[data-theme="dark"] .venta-historial-filtros .input-group-text {
 }
 /* ============ FIN HISTORIAL DE VENTAS ============ */
 
+/* ============ CAJAS ============ */
+.caja-filtros-card {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.caja-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.caja-filtros .form-control,
+.caja-filtros .form-select {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.caja-filtros-actions .btn {
+    min-height: 40px;
+    padding-right: 18px;
+    padding-left: 18px;
+}
+
+html[data-theme="dark"] .caja-filtros .form-control,
+html[data-theme="dark"] .caja-filtros .form-select {
+    border-color: var(--ka-border, #3a4658);
+}
+
+@media (max-width: 575.98px) {
+    .caja-filtros-actions {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+/* ============ FIN CAJAS ============ */
+
 /* ============ CERRAR VENTA ============ */
 
 /* ---- Cabecera del modal ---- */

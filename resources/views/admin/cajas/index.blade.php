@@ -25,17 +25,18 @@
     </div>
     @endif
 
-    <div class="card">
-        <div class="card-body py-3">
-            <form method="GET" action="{{ route('admin.cajas.index') }}" class="row g-2 align-items-end">
-                <div class="col-md-4 col-lg-3">
+    <div class="card caja-filtros-card">
+        <div class="card-body">
+            <form method="GET" action="{{ route('admin.cajas.index') }}" class="row g-3 align-items-end caja-filtros">
+                <div class="col-12 col-md-6 col-xl-4">
                     <label class="form-label fw-semibold">Caja</label>
-                    <input type="text" name="nombre" class="form-control form-control-sm" placeholder="Nombre de caja"
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre de caja"
                         value="{{ $filtros['nombre'] ?? '' }}">
                 </div>
-                <div class="col-md-3 col-lg-2">
+
+                <div class="col-12 col-md-6 col-xl-4">
                     <label class="form-label fw-semibold">Tienda</label>
-                    <select name="id_tienda" class="form-select form-select-sm">
+                    <select name="id_tienda" class="form-select">
                         <option value="">Todas</option>
                         @foreach($tiendas as $tienda)
                         <option value="{{ $tienda->id_tienda }}" {{ (string)($filtros['id_tienda'] ?? '') === (string)$tienda->id_tienda ? 'selected' : '' }}>
@@ -44,19 +45,21 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 col-lg-2">
+
+                <div class="col-12 col-md-6 col-xl-2">
                     <label class="form-label fw-semibold">Estado</label>
-                    <select name="estado" class="form-select form-select-sm">
+                    <select name="estado" class="form-select">
                         <option value="">Todos</option>
                         <option value="1" {{ ($filtros['estado'] ?? '') === '1' ? 'selected' : '' }}>Abierta</option>
                         <option value="0" {{ ($filtros['estado'] ?? '') === '0' ? 'selected' : '' }}>Cerrada</option>
                     </select>
                 </div>
-                <div class="col-12 d-flex flex-wrap gap-2">
-                    <button type="submit" class="btn btn-sm btn-primary btn-round">
+
+                <div class="col-12 col-md-6 col-xl-2 d-flex flex-wrap justify-content-xl-end gap-2 caja-filtros-actions">
+                    <button type="submit" class="btn btn-primary btn-round">
                         <i class="fa fa-search"></i> Buscar
                     </button>
-                    <a href="{{ route('admin.cajas.index') }}" class="btn btn-sm btn-secondary btn-round">
+                    <a href="{{ route('admin.cajas.index') }}" class="btn btn-light border btn-round">
                         <i class="fa fa-eraser"></i> Limpiar
                     </a>
                 </div>
