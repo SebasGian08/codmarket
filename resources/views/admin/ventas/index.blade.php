@@ -322,6 +322,7 @@
                             <th>Atributos</th>
                             <th class="text-center">Cant.</th>
                             <th class="text-end">Precio</th>
+                            <th class="text-end">Precio por mayor</th>
                             <th class="text-end">Subtotal</th>
                             <th class="text-end">Acción</th>
                         </tr>
@@ -1019,16 +1020,7 @@
 
                 return '<tr data-variante="' + item.id_variante + '">' +
                     '<td data-label="Producto">' + escapeHtml(item.producto) + '</td>' +
-                    '<td data-label="Variante">' + escapeHtml(item.variante) +
-                    '<label class="venta-item-mayorista-control' +
-                    (item.es_mayorista ? ' activo' : '') +
-                    (tienePrecioMayorista(item) ? '' : ' sin-precio') +
-                    '" for="ventaMayorista' + idx + '">' +
-                    '<input type="checkbox" id="ventaMayorista' + idx + '" class="form-check-input venta-item-mayorista" data-idx="' + idx + '"' +
-                    (item.es_mayorista ? ' checked' : '') +
-                    (tienePrecioMayorista(item) ? '' : ' disabled') + '>' +
-                    '<span>Precio por mayor</span>' +
-                    '</label></td>' +
+                    '<td data-label="Variante">' + escapeHtml(item.variante) + '</td>' +
                     '<td data-label="Atributos">' + attrs + '</td>' +
                     '<td data-label="Cantidad" class="text-center">' +
                     '<div class="input-group input-group-sm d-inline-flex" style="width:110px">' +
@@ -1038,6 +1030,22 @@
                     '</div>' +
                     '</td>' +
                     '<td data-label="Precio" class="text-end">' + moneda(item.precio) + '</td>' +
+                    '<td data-label="Precio por mayor" class="text-end">' +
+                    '<div class="venta-mayorista-celda">' +
+                    '<label class="venta-item-mayorista-control' +
+                    (item.es_mayorista ? ' activo' : '') +
+                    (tienePrecioMayorista(item) ? '' : ' sin-precio') +
+                    '" for="ventaMayorista' + idx + '">' +
+                    '<input type="checkbox" id="ventaMayorista' + idx + '" class="form-check-input venta-item-mayorista" data-idx="' + idx + '"' +
+                    (item.es_mayorista ? ' checked' : '') +
+                    (tienePrecioMayorista(item) ? '' : ' disabled') + '>' +
+                    '<span>Usar mayorista</span>' +
+                    '</label>' +
+                    '<span class="venta-mayorista-valor">' +
+                    (tienePrecioMayorista(item) ? moneda(item.precio_mayorista) : 'No configurado') +
+                    '</span>' +
+                    '</div>' +
+                    '</td>' +
                     '<td data-label="Subtotal" class="text-end fw-bold">' + moneda(item.precio * item.cantidad) + '</td>' +
                     '<td class="table-card-actions text-end">' +
                     '<button class="btn btn-sm btn-danger btn-border btn-round btn-quitar-item" data-idx="' + idx + '" type="button" title="Quitar"><i class="fa fa-trash"></i></button>' +

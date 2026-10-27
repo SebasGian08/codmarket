@@ -332,8 +332,20 @@ html[data-theme="dark"] .venta-var-btn {
     color: var(--bs-primary);
 }
 
+.venta-detalle-card,
+.venta-detalle-card .card-body,
+.venta-detalle-card #cartTable {
+    background-color: #fff;
+}
+
+.venta-detalle-card #cartTable {
+    --bs-table-bg: #fff;
+    --bs-table-striped-bg: #fff;
+    --bs-table-hover-bg: #f8f9fa;
+}
+
 .venta-detalle-header {
-    background: linear-gradient(115deg, rgba(13, 110, 253, .09), rgba(32, 201, 151, .045));
+    background: #fff;
     border-bottom: 1px solid rgba(13, 110, 253, .1);
 }
 
@@ -352,6 +364,25 @@ html[data-theme="dark"] .venta-var-btn {
     line-height: 1.2;
     cursor: pointer;
     transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+
+.venta-mayorista-celda {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .35rem;
+}
+
+.venta-item-mayorista-control {
+    justify-content: center;
+    padding: .4rem .55rem;
+}
+
+.venta-mayorista-valor {
+    color: var(--bs-secondary);
+    font-size: .78rem;
+    font-weight: 700;
+    white-space: nowrap;
 }
 
 .venta-mayorista-todo:hover,
@@ -398,7 +429,7 @@ html[data-theme="dark"] .venta-stock-filtrado {
 }
 
 html[data-theme="dark"] .venta-detalle-header {
-    background: linear-gradient(115deg, rgba(13, 110, 253, .16), rgba(32, 201, 151, .07));
+    background: #fff;
     border-bottom-color: var(--ka-border);
 }
 
