@@ -1,7 +1,7 @@
 <div class="modal fade" id="edit{{ $p->id_producto }}">
     <div class="modal-dialog modal-lg">
 
-        <form action="{{ route('admin.productos.update', $p->id_producto) }}" method="POST">
+        <form action="{{ route('admin.productos.update', $p->id_producto) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -309,6 +309,32 @@
 
                                         </select>
 
+                                    </div>
+
+                                    <div class="card border-0 shadow-sm mt-3">
+                                        <div class="card-body">
+                                            <h6 class="fw-bold mb-3">Ficha o manual PDF</h6>
+                                            @if($p->ficha_pdf)
+                                            <p class="small mb-2">
+                                                Archivo actual:
+                                                <a href="{{ asset($p->ficha_pdf) }}" target="_blank" rel="noopener">
+                                                    Ver ficha PDF
+                                                </a>
+                                            </p>
+                                            <div class="form-check mb-3">
+                                                <input type="checkbox" id="quitarFichaPdf{{ $p->id_producto }}"
+                                                    name="quitar_ficha_pdf" value="1" class="form-check-input">
+                                                <label class="form-check-label small"
+                                                    for="quitarFichaPdf{{ $p->id_producto }}">Quitar archivo actual</label>
+                                            </div>
+                                            @endif
+                                            <label class="form-label small" for="fichaPdf{{ $p->id_producto }}">
+                                                {{ $p->ficha_pdf ? 'Reemplazar PDF' : 'Archivo PDF (opcional)' }}
+                                            </label>
+                                            <input type="file" id="fichaPdf{{ $p->id_producto }}" name="ficha_pdf"
+                                                class="form-control" accept="application/pdf,.pdf">
+                                            <small class="form-text text-muted">PDF de hasta 10 MB.</small>
+                                        </div>
                                     </div>
 
                                 </div>

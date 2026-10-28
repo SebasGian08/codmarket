@@ -9,7 +9,10 @@ use App\Models\Marca;
 use App\Models\Proveedor;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Exports\PlantillaProductosExport;
 use App\Exports\ProductosExport;
@@ -68,15 +71,21 @@ class ProductoController extends Controller
     {
         $request->validate([
             'nombre' => 'required|max:200',
-
+            'ficha_pdf' => 'nullable|file|mimes:pdf|max:10240',
             'sku_inicial' => 'nullable|string|max:100',
             'precio_inicial' => 'required|numeric|min:0',
             'precio_mayorista_inicial' => 'nullable|numeric|min:0',
         ]);
 
+        $rutaFicha = null;
+
         try {
 
             DB::beginTransaction();
+
+            if ($request->hasFile('ficha_pdf')) {
+                $rutaFicha = $this->guardarFichaPdf($request->file('ficha_pdf'));
+            }
 
             $skuInicial = trim((string) $request->input('sku_inicial', ''));
 
@@ -91,6 +100,7 @@ class ProductoController extends Controller
                 'slug' => Str::slug($request->nombre . '-' . uniqid()),
                 'descripcion' => $request->descripcion,
                 'descripcion_corta' => $request->descripcion_corta,
+                'ficha_pdf' => $rutaFicha,
                 'id_marca' => $request->id_marca,
                 'id_proveedor' => $request->id_proveedor,
                 'peso' => $request->peso,
@@ -124,6 +134,7 @@ class ProductoController extends Controller
         } catch (\Exception $e) {
 
             DB::rollBack();
+            $this->eliminarFichaPdfAnterior($rutaFicha);
 
             return back()->with('error', $e->getMessage());
         }
@@ -157,18 +168,33 @@ class ProductoController extends Controller
             'sku_principal' => 'required|max:100',
             'precio_principal' => 'required|numeric|min:0',
             'precio_mayorista_principal' => 'nullable|numeric|min:0',
+            'ficha_pdf' => 'nullable|file|mimes:pdf|max:10240',
+            'quitar_ficha_pdf' => 'nullable|boolean',
         ]);
+
+        $rutaFichaNueva = null;
+        $rutaFichaAnterior = null;
 
         try {
 
             DB::beginTransaction();
 
             $producto = Producto::findOrFail($id);
+            $rutaFichaAnterior = $producto->ficha_pdf;
+            $rutaFicha = $rutaFichaAnterior;
+
+            if ($request->hasFile('ficha_pdf')) {
+                $rutaFichaNueva = $this->guardarFichaPdf($request->file('ficha_pdf'));
+                $rutaFicha = $rutaFichaNueva;
+            } elseif ($request->boolean('quitar_ficha_pdf')) {
+                $rutaFicha = null;
+            }
 
             $producto->update([
                 'nombre' => $request->nombre,
                 'descripcion' => $request->descripcion,
                 'descripcion_corta' => $request->descripcion_corta,
+                'ficha_pdf' => $rutaFicha,
                 'id_marca' => $request->id_marca,
                 'id_proveedor' => $request->id_proveedor,
                 'peso' => $request->peso,
@@ -196,13 +222,44 @@ class ProductoController extends Controller
 
             DB::commit();
 
+            if ($rutaFichaAnterior !== $rutaFicha) {
+                $this->eliminarFichaPdfAnterior($rutaFichaAnterior);
+            }
+
             return back()->with('success', 'Producto actualizado');
 
         } catch (\Exception $e) {
 
             DB::rollBack();
+            $this->eliminarFichaPdfAnterior($rutaFichaNueva);
 
             return back()->with('error', $e->getMessage());
+        }
+    }
+
+    private function guardarFichaPdf(UploadedFile $archivo): string
+    {
+        $directorio = public_path('uploads/productos/fichas');
+        File::ensureDirectoryExists($directorio);
+
+        $nombreArchivo = Str::uuid() . '.pdf';
+        $archivo->move($directorio, $nombreArchivo);
+
+        return 'uploads/productos/fichas/' . $nombreArchivo;
+    }
+
+    private function eliminarFichaPdfAnterior(?string $ruta): void
+    {
+        if (!$ruta || !Str::startsWith($ruta, 'uploads/productos/fichas/')) {
+            return;
+        }
+
+        $archivo = public_path('uploads/productos/fichas/' . basename($ruta));
+
+        if (File::exists($archivo) && !File::delete($archivo)) {
+            Log::warning('No se pudo eliminar una ficha PDF anterior de producto.', [
+                'ruta' => $ruta,
+            ]);
         }
     }
 

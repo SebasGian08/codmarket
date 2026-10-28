@@ -1,7 +1,7 @@
 <div class="modal fade" id="modalCreate">
     <div class="modal-dialog modal-xl">
 
-        <form action="{{ route('admin.productos.store') }}" method="POST">
+        <form action="{{ route('admin.productos.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="modal-content">
@@ -259,6 +259,16 @@
                                             <option value="1">Activo</option>
                                             <option value="0">Inactivo</option>
                                         </select>
+                                    </div>
+
+                                    <div class="card border-0 shadow-sm mt-3">
+                                        <div class="card-body">
+                                            <h6 class="fw-bold mb-3">Ficha o manual PDF</h6>
+                                            <label class="form-label small" for="fichaPdfNueva">Archivo PDF (opcional)</label>
+                                            <input type="file" id="fichaPdfNueva" name="ficha_pdf" class="form-control"
+                                                accept="application/pdf,.pdf">
+                                            <small class="form-text text-muted">Máximo 10 MB.</small>
+                                        </div>
                                     </div>
 
                                 </div>

@@ -268,6 +268,15 @@ $variantesSelector = $variantes->map(function ($variante) {
                         </li>
                     </ul>
 
+                    @if($producto->ficha_pdf)
+                    <div class="mb-4">
+                        <a href="{{ asset($producto->ficha_pdf) }}" class="btn btn-outline-secondary"
+                            download>
+                            <i class="far fa-file-pdf mr-2"></i> Descargar ficha o manual
+                        </a>
+                    </div>
+                    @endif
+
                     @php
                         $ventajas = $empresa->empresa_ventajas ?: [
                             ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos entregas ágiles y seguras.'],

@@ -14,6 +14,7 @@ class Producto extends Model
         'slug',
         'descripcion',
         'descripcion_corta',
+        'ficha_pdf',
         'id_marca',
         'id_proveedor',
         'peso',
