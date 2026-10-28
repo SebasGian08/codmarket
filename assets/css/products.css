@@ -191,7 +191,7 @@
     position: relative;
     display: block;
     overflow: hidden;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1.15;
     background: #f3f5f8;
 }
 
@@ -222,6 +222,7 @@
     min-height: 22px;
     padding: 4px 9px;
     border-radius: 14px;
+    box-shadow: 0 2px 6px rgba(24, 39, 75, .16);
     font-size: 9px;
     font-weight: 700;
     line-height: 1;
