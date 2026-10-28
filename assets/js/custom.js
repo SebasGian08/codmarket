@@ -651,73 +651,28 @@
 
   // clientes carousel - start
   // --------------------------------------------------
-  $('.clientes_slider').slick({
-    dots: false,
-    arrows: true,
-    infinite: true,
-    autoplay: true,
-    pauseOnHover: true,
-    pauseOnFocus: true,
-    autoplaySpeed: 2500,
-    speed: 600,
-    vertical: true,
-    verticalSwiping: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    rows: 2,
-    slidesPerRow: 5,
-    prevArrow: ".left_arrow_clientes",
-    nextArrow: ".right_arrow_clientes",
-    responsive: [
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesPerRow: 4
-      }
-    },
-    {
-      breakpoint: 992,
-      settings: {
-        slidesPerRow: 3
-      }
-    },
-    {
-      breakpoint: 576,
-      settings: {
-        slidesPerRow: 2
-      }
-    }
-    ]
-  });
+  var $clientesTracks = $('.clientes_track');
 
-  // Resalte automático del cliente activo: se destaca UNA tarjeta a la vez,
-  // rotando dentro de la slide visible, sin pasar el mouse.
-  var clienteIndice = 0;
-  var clienteTimer = null;
-
-  function destacarCliente() {
-    var $visibles = $('.clientes_slider .slick-slide.slick-active .cliente_card');
-    if (!$visibles.length) return;
-
-    if (clienteIndice >= $visibles.length) clienteIndice = 0;
-
-    $visibles.removeClass('cliente-activo');
-    $visibles.eq(clienteIndice).addClass('cliente-activo');
-
-    clienteIndice++;
+  function ajustarVelocidadClientes() {
+    $clientesTracks.each(function () {
+      var duracion = Math.max((this.scrollWidth / 2) / 40, 12);
+      this.style.setProperty('--clientes-duracion', duracion + 's');
+    });
   }
 
-  $('.clientes_slider')
-    .on('init', function() {
-      clienteIndice = 0;
-      destacarCliente();
-      if (clienteTimer) clearInterval(clienteTimer);
-      clienteTimer = setInterval(destacarCliente, 1500);
-    })
-    .on('afterChange', function() {
-      clienteIndice = 0;
-      destacarCliente();
+  ajustarVelocidadClientes();
+  $(window).on('resize', ajustarVelocidadClientes);
+  $clientesTracks.find('img').on('load', ajustarVelocidadClientes);
+
+  $('.left_arrow_clientes, .right_arrow_clientes').on('click', function () {
+    var avance = $(this).hasClass('left_arrow_clientes') ? -800 : 800;
+
+    $clientesTracks.each(function () {
+      this.getAnimations().forEach(function (animacion) {
+        animacion.currentTime = Math.max(0, (animacion.currentTime || 0) + avance);
+      });
     });
+  });
   // clientes carousel - end
   // --------------------------------------------------
 

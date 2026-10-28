@@ -19,36 +19,40 @@
 
         @php
             $clientesCarousel = ($clientes ?? collect())->values();
+            $clientesFilas = collect([
+                $clientesCarousel->take(5),
+                $clientesCarousel->slice(5),
+            ])->filter(function ($fila) {
+                return $fila->isNotEmpty();
+            });
         @endphp
 
         @if($clientesCarousel->count())
 
         <div class="clientes_carousel_wrap">
 
-            <div class="clientes_slider row clearfix">
-
-                @foreach($clientesCarousel as $cliente)
-
-                <div class="item px-2 mt-2">
-
-                    <div class="cliente_card mt-2">
-
-                        <img src="{{ imagenOrDefault($cliente->logo ?: $cliente->imagen) }}"
-                            alt="{{ $cliente->nombre }}" class="cliente_logo">
-
-                    </div>
-
+            @foreach($clientesFilas as $indiceFila => $clientesFila)
+            <div class="clientes_marquee clientes_marquee--{{ $indiceFila === 0 ? 'derecha' : 'izquierda' }}">
+                <div class="clientes_track">
+                    @foreach([false, true] as $esDuplicado)
+                        @foreach($clientesFila as $cliente)
+                        <div class="cliente_card">
+                            <img src="{{ imagenOrDefault($cliente->logo ?: $cliente->imagen) }}"
+                                alt="{{ $esDuplicado ? '' : $cliente->nombre }}"
+                                class="cliente_logo"
+                                @if($esDuplicado) aria-hidden="true" @endif>
+                        </div>
+                        @endforeach
+                    @endforeach
                 </div>
-
-                @endforeach
-
             </div>
+            @endforeach
 
-            <button type="button" class="left_arrow_clientes" aria-label="Clientes anteriores">
+            <button type="button" class="left_arrow_clientes" aria-label="Retroceder clientes">
                 <i class="fal fa-arrow-up" aria-hidden="true"></i>
             </button>
 
-            <button type="button" class="right_arrow_clientes" aria-label="Clientes siguientes">
+            <button type="button" class="right_arrow_clientes" aria-label="Avanzar clientes">
                 <i class="fal fa-arrow-down" aria-hidden="true"></i>
             </button>
 
