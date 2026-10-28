@@ -128,7 +128,7 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                 </div>
             </div>
             @else
-            <div class="row gy-5 justify-content-between">
+            <div class="row footer_dark_top justify-content-between">
 
                 {{-- LOGO + DESCRIPCIÓN --}}
                 <div class="col-lg-3 col-md-6">
