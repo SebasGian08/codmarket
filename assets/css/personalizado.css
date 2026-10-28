@@ -4173,7 +4173,7 @@ html[data-theme="dark"] .blog_archive_empty p {
     max-width: 100%;
 }
 
-/* Navegación del carrusel: flechas a los lados, centradas verticalmente */
+/* Navegación del carrusel vertical */
 .clientes_carousel_wrap {
     position: relative;
 }
@@ -4181,7 +4181,7 @@ html[data-theme="dark"] .blog_archive_empty p {
 .clientes_carousel_wrap .left_arrow_clientes,
 .clientes_carousel_wrap .right_arrow_clientes {
     position: absolute;
-    top: 50%;
+    right: -24px;
     transform: translateY(-50%);
     z-index: 5;
     width: 46px;
@@ -4200,11 +4200,11 @@ html[data-theme="dark"] .blog_archive_empty p {
 }
 
 .clientes_carousel_wrap .left_arrow_clientes {
-    left: -24px;
+    top: 35%;
 }
 
 .clientes_carousel_wrap .right_arrow_clientes {
-    right: -24px;
+    top: 65%;
 }
 
 .clientes_carousel_wrap .left_arrow_clientes:hover,
@@ -4224,16 +4224,9 @@ html[data-theme="dark"] .blog_archive_empty p {
         max-height: 55px;
     }
 
-    .clientes_carousel_wrap .left_arrow_clientes {
-        left: -8px;
-    }
-
-    .clientes_carousel_wrap .right_arrow_clientes {
-        right: -8px;
-    }
-
     .clientes_carousel_wrap .left_arrow_clientes,
     .clientes_carousel_wrap .right_arrow_clientes {
+        right: -8px;
         width: 40px;
         height: 40px;
     }

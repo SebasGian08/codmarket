@@ -44,12 +44,12 @@
 
             </div>
 
-            <button type="button" class="left_arrow_clientes">
-                <i class="fal fa-arrow-left"></i>
+            <button type="button" class="left_arrow_clientes" aria-label="Clientes anteriores">
+                <i class="fal fa-arrow-up" aria-hidden="true"></i>
             </button>
 
-            <button type="button" class="right_arrow_clientes">
-                <i class="fal fa-arrow-right"></i>
+            <button type="button" class="right_arrow_clientes" aria-label="Clientes siguientes">
+                <i class="fal fa-arrow-down" aria-hidden="true"></i>
             </button>
 
         </div>
