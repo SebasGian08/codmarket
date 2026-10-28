@@ -258,7 +258,6 @@
 
 .catalogo-producto-titulo {
     margin: 0 0 4px;
-    font-family: inherit;
     font-size: 17px;
     font-weight: 600;
     line-height: 1.25;
@@ -330,7 +329,10 @@
 }
 
 .catalogo-producto-boton {
+    display: inline-flex;
     flex: 0 0 auto;
+    align-items: center;
+    gap: 6px;
     padding: 8px 11px;
     color: #263246;
     background: #f0f3f7;
@@ -342,9 +344,18 @@
     transition: color .2s ease, background-color .2s ease;
 }
 
+.catalogo-producto-boton i {
+    font-size: 10px;
+    transition: transform .2s ease;
+}
+
 .catalogo-producto-boton:hover {
     color: #fff;
     background: var(--color-primario, #ce0b2b);
+}
+
+.catalogo-producto-boton:hover i {
+    transform: translateX(2px);
 }
 
 .catalogo-productos-vacio {

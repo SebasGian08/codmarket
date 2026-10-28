@@ -138,7 +138,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                             {{ $producto->categorias->first()->nombre ?? 'Producto' }}
                                         </div>
 
-                                        <h2 class="catalogo-producto-titulo">
+                                        <h2 class="item_title mb-3">
                                             <a href="{{ route('producto.show', $producto->slug) }}">
                                                 {{ $producto->nombre }}
                                             </a>
@@ -177,7 +177,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                                             <a href="{{ route('producto.show', $producto->slug) }}"
                                                 class="catalogo-producto-boton">
-                                                Ver producto
+                                                Ver producto <i class="fal fa-arrow-right" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </div>
