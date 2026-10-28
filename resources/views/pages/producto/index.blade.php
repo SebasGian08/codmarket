@@ -259,7 +259,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                 {{-- PAGINADOR --}}
                 <div class="abtn_wrap text-center mb_50">
-                    {{ $productos->appends(request()->query())->links() }}
+                    {{ $productos->appends(request()->query())->links('pagination::bootstrap-4') }}
                 </div>
 
             </div>
