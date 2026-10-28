@@ -428,3 +428,12 @@ html[data-theme="dark"] .catalogo-producto-boton {
     color: var(--theme-text);
     background: var(--theme-surface-raised);
 }
+
+.product_section .product_carousel .catalogo-producto-imagen.slideshow_producto {
+    height: auto;
+    aspect-ratio: 1 / 1.15;
+}
+
+.product_section .product_carousel .catalogo-producto-imagen.slideshow_producto img {
+    height: 100%;
+}
