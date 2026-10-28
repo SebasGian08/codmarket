@@ -4,6 +4,11 @@
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
     $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
     $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
+    $serviciosPorGrupo = $services->groupBy(function ($service) {
+        $grupo = trim($service->grupo ?? '');
+
+        return $grupo !== '' ? $grupo : 'Otros servicios';
+    });
     $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
     $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
     $facebookUrl = $empresa->facebook ?? false;
@@ -224,12 +229,20 @@
                                         <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                                     </a>
 
-                                    <ul class="submenu">
-                                        @foreach($services as $service)
-                                        <li>
-                                            <a href="{{ route('services.show', $service->slug) }}">
-                                                {{ $service->nombre }}
-                                            </a>
+                                    <ul class="submenu submenu_flat">
+                                        @foreach($serviciosPorGrupo as $grupo => $servicesGrupo)
+                                        <li
+                                            class="category-has-children {{ $servicesGrupo->contains('slug', request()->route('slug')) ? 'category-selected' : '' }}">
+                                            <a href="#!">{{ $grupo }}</a>
+                                            <ul class="submenu_flat_children">
+                                                @foreach($servicesGrupo as $service)
+                                                <li class="{{ request()->route('slug') === $service->slug ? 'category-selected' : '' }}">
+                                                    <a href="{{ route('services.show', $service->slug) }}">
+                                                        {{ $service->nombre }}
+                                                    </a>
+                                                </li>
+                                                @endforeach
+                                            </ul>
                                         </li>
                                         @endforeach
                                     </ul>
@@ -536,12 +549,20 @@
                             <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                         </a>
 
-                        <ul class="submenu">
-                            @foreach($services as $service)
-                            <li>
-                                <a href="{{ route('services.show', $service->slug) }}">
-                                    {{ $service->nombre }}
-                                </a>
+                        <ul class="submenu submenu_flat">
+                            @foreach($serviciosPorGrupo as $grupo => $servicesGrupo)
+                            <li
+                                class="category-has-children {{ $servicesGrupo->contains('slug', request()->route('slug')) ? 'category-selected' : '' }}">
+                                <a href="#!">{{ $grupo }}</a>
+                                <ul class="submenu_flat_children">
+                                    @foreach($servicesGrupo as $service)
+                                    <li class="{{ request()->route('slug') === $service->slug ? 'category-selected' : '' }}">
+                                        <a href="{{ route('services.show', $service->slug) }}">
+                                            {{ $service->nombre }}
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
                             </li>
                             @endforeach
                         </ul>
