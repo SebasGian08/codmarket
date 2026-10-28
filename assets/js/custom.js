@@ -489,13 +489,13 @@
 
     $slider.slick({
       dots: true,
-      speed: 1000,
+      speed: 500,
       arrows: true,
       infinite: true,
-      autoplay: true,
+      autoplay: false,
       slidesToShow: 4,
-      pauseOnHover: true,
-      autoplaySpeed: 4000,
+      draggable: true,
+      swipeToSlide: true,
       prevArrow: $navigation.find('.ss4_left_arrow'),
       nextArrow: $navigation.find('.ss4_right_arrow'),
       responsive: [
