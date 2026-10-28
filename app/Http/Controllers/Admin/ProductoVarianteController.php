@@ -48,11 +48,16 @@ class ProductoVarianteController extends Controller
 
             $rows = Excel::toArray([], $request->file('archivo'));
 
-            if (empty($rows) || empty($rows[0])) {
+            if (empty($rows)) {
                 throw new \Exception('El archivo no contiene datos.');
             }
 
-            $datos = $rows[0];
+            $datos = $this->hojaConMasDatosDeVariantes($rows);
+
+            if (empty($datos)) {
+                throw new \Exception('El archivo no contiene datos.');
+            }
+
             $cabeceras = array_map('strtolower', array_map('trim', $datos[0] ?? []));
             $tienePrecioMayorista = in_array('precio_mayorista', $cabeceras, true);
             unset($datos[0]); // eliminar cabecera
@@ -279,6 +284,43 @@ class ProductoVarianteController extends Controller
         }
 
         return Producto::where('slug', Str::slug($referencia))->first();
+    }
+
+    private function hojaConMasDatosDeVariantes(array $hojas): array
+    {
+        $hojaSeleccionada = $hojas[0] ?? [];
+        $maximoFilasConDatos = -1;
+
+        foreach ($hojas as $hoja) {
+            $cabeceras = array_map('strtolower', array_map('trim', $hoja[0] ?? []));
+
+            if (!in_array('producto_sku', $cabeceras, true)
+                || !in_array('sku', $cabeceras, true)
+                || !in_array('precio', $cabeceras, true)) {
+                continue;
+            }
+
+            $desplazamiento = in_array('precio_mayorista', $cabeceras, true) ? 1 : 0;
+            $filasConDatos = 0;
+
+            foreach (array_slice($hoja, 1) as $fila) {
+                $datosVariante = array_slice($fila, 1, 8 + $desplazamiento);
+                $tieneDatosVariante = collect($datosVariante)->contains(function ($valor) {
+                    return $valor !== null && trim((string) $valor) !== '';
+                });
+
+                if ($tieneDatosVariante) {
+                    $filasConDatos++;
+                }
+            }
+
+            if ($filasConDatos > $maximoFilasConDatos) {
+                $hojaSeleccionada = $hoja;
+                $maximoFilasConDatos = $filasConDatos;
+            }
+        }
+
+        return $hojaSeleccionada;
     }
 
     private function nuloSiVacio($valor)

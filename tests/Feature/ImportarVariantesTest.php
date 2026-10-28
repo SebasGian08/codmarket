@@ -8,6 +8,8 @@ use App\Models\Producto;
 use App\Models\ProductoVariante;
 use App\Exports\PlantillaVariantesDatosSheet;
 use Maatwebsite\Excel\Concerns\FromArray;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\UploadedFile;
 
@@ -39,7 +41,7 @@ class ImportarVariantesTest extends TestCase
 
         $skuProducto = $sku;
 
-        Excel::store(new class($skuProducto, $token) implements FromArray {
+        Excel::store(new class($skuProducto, $token) implements WithMultipleSheets {
             private $sku;
             private $token;
 
@@ -49,13 +51,58 @@ class ImportarVariantesTest extends TestCase
                 $this->token = $token;
             }
 
-            public function array(): array
+            public function sheets(): array
             {
+                $sku = $this->sku;
+                $token = $this->token;
+
                 return [
-                    ['producto_sku', 'sku', 'codigo_barras', 'precio', 'precio_oferta', 'precio_mayorista', 'costo', 'stock', 'estado', 'atributos'],
-                    [$this->sku, "TEST-{$this->token}-A", '111111', '25.50', '', '19.50', '10', '7', '1', 'Color: Azul'],
-                    [$this->sku, "TEST-{$this->token}-B", '222222', '30', '20', '', '12', '3', '1', ''],
-                    [$this->sku, '', '333333', '40', '', '', '18', '2', '1', ''],
+                    new class($sku) implements FromArray, WithTitle {
+                        private $sku;
+
+                        public function __construct($sku)
+                        {
+                            $this->sku = $sku;
+                        }
+
+                        public function array(): array
+                        {
+                            return [
+                                ['producto_sku', 'sku', 'codigo_barras', 'precio', 'precio_oferta', 'costo', 'stock', 'estado', 'atributos', 'producto'],
+                                [$this->sku, '', '', '', '', '', '', '', '', 'Producto sin variante'],
+                            ];
+                        }
+
+                        public function title(): string
+                        {
+                            return 'Hoja1';
+                        }
+                    },
+                    new class($sku, $token) implements FromArray, WithTitle {
+                        private $sku;
+                        private $token;
+
+                        public function __construct($sku, $token)
+                        {
+                            $this->sku = $sku;
+                            $this->token = $token;
+                        }
+
+                        public function array(): array
+                        {
+                            return [
+                                ['producto_sku', 'sku', 'codigo_barras', 'precio', 'precio_oferta', 'precio_mayorista', 'costo', 'stock', 'estado', 'atributos', 'producto'],
+                                [$this->sku, "TEST-{$this->token}-A", '111111', '25.50', '', '19.50', '10', '7', '1', 'Color: Azul', 'Producto'],
+                                [$this->sku, "TEST-{$this->token}-B", '222222', '30', '20', '', '12', '3', '1', '', 'Producto'],
+                                [$this->sku, '', '333333', '40', '', '', '18', '2', '1', '', 'Producto'],
+                            ];
+                        }
+
+                        public function title(): string
+                        {
+                            return 'VARIANTES';
+                        }
+                    },
                 ];
             }
         }, $archivo, 'local');

@@ -46,6 +46,9 @@ class ProductoShowAtributosTest extends TestCase
             $response->assertSee('attribute-chip', false);
 
             $response->assertSee('attribute-chip-selected', false);
+            $response->assertSee('cambiarAtributo(', false);
+            $response->assertSee('data-atributo-id=', false);
+            $response->assertSee('window.productVariantOptions', false);
 
             foreach (['L', 'S', 'M'] as $valor) {
                 $response->assertSee($valor, false);

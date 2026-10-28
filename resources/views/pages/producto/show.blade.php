@@ -9,6 +9,14 @@
 @php
 $mostrarPrecio = $config['producto_mostrar_precio'] ?? 1;
 $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
+$variantesSelector = $variantes->map(function ($variante) {
+    return [
+        'id' => (int) $variante->id_variante,
+        'valores_ids' => $variante->atributos->pluck('id_valor')->map(function ($id) {
+            return (int) $id;
+        })->values(),
+    ];
+})->values();
 @endphp
 
 <div class="container breadcrumb-wrap">
@@ -181,9 +189,10 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     foreach ($producto->variantes as $var) {
                     foreach ($var->atributos as $atVal) {
                     $nombre = $atVal->atributo->nombre ?? 'Atributo';
-                    $atributosProducto[$nombre][$atVal->id_valor] = [
+                    $idAtributo = $atVal->atributo->id_atributo ?? 0;
+                    $atributosProducto[$idAtributo]['nombre'] = $nombre;
+                    $atributosProducto[$idAtributo]['valores'][$atVal->id_valor] = [
                     'valor' => $atVal->valor,
-                    'variante_id' => $var->id_variante,
                     ];
                     }
                     }
@@ -192,20 +201,21 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     @if($atributosProducto)
                     <div class="product-attributes mb-3">
 
-                        @foreach($atributosProducto as $nombre => $valores)
+                        @foreach($atributosProducto as $idAtributo => $atributo)
 
                         <div class="d-flex align-items-center flex-wrap gap-2 mb-2">
 
                             <span class="fw-semibold" style="min-width: 70px;">
-                                {{ $nombre }}:
+                                {{ $atributo['nombre'] }}:
                             </span>
 
                             <div class="d-flex flex-wrap gap-2">
-                                @foreach($valores as $idValor => $info)
+                                @foreach($atributo['valores'] as $idValor => $info)
                                 <button type="button"
                                     class="attribute-chip {{ $varianteActiva->atributos->contains('id_valor', $idValor) ? 'attribute-chip-selected' : '' }}"
+                                    data-atributo-id="{{ $idAtributo }}"
                                     data-valor-id="{{ $idValor }}"
-                                    onclick="cambiarVariante({{ $info['variante_id'] }})">
+                                    onclick="cambiarAtributo({{ $idAtributo }}, {{ $idValor }})">
                                     {{ $info['valor'] }}
                                 </button>
                                 @endforeach
@@ -637,6 +647,32 @@ function cambiarVariante(id) {
         .catch(function() { });
 }
 
+function cambiarAtributo(idAtributo, idValor) {
+    idAtributo = parseInt(idAtributo, 10);
+    idValor = parseInt(idValor, 10);
+
+    if (isNaN(idAtributo) || isNaN(idValor)) return;
+
+    const valoresSeleccionados = Array.from(document.querySelectorAll('.attribute-chip-selected'))
+        .filter(function(chip) {
+            return parseInt(chip.getAttribute('data-atributo-id'), 10) !== idAtributo;
+        })
+        .map(function(chip) {
+            return parseInt(chip.getAttribute('data-valor-id'), 10);
+        });
+
+    valoresSeleccionados.push(idValor);
+
+    const variante = window.productVariantOptions.find(function(opcion) {
+        return valoresSeleccionados.every(function(valor) {
+            return opcion.valores_ids.indexOf(valor) !== -1;
+        });
+    });
+
+    if (variante) cambiarVariante(variante.id);
+}
+
+window.productVariantOptions = @json($variantesSelector);
 window.currentVariantId = {{ $varianteActiva->id_variante }};
 initZoom();
 </script>
