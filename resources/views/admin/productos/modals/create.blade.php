@@ -92,16 +92,22 @@
 
                                     </div>
 
-                                    <!-- DIMENSIONES -->
-                                    <div class="mb-3">
+                                    <!-- DIMENSIONES + FICHA PDF -->
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label small">Dimensiones</label>
+                                            <input type="text" name="dimensiones" class="form-control"
+                                                placeholder="Ej: 30x20x10 cm">
+                                        </div>
 
-                                        <label class="form-label small">
-                                            Dimensiones
-                                        </label>
-
-                                        <input type="text" name="dimensiones" class="form-control"
-                                            placeholder="Ej: 30x20x10 cm">
-
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label small" for="fichaPdfNueva">
+                                                Ficha o manual PDF
+                                            </label>
+                                            <input type="file" id="fichaPdfNueva" name="ficha_pdf"
+                                                class="form-control" accept="application/pdf,.pdf">
+                                            <small class="form-text text-muted">Opcional. Máximo 10 MB.</small>
+                                        </div>
                                     </div>
 
                                     <!-- CATEGORÍAS -->
@@ -259,16 +265,6 @@
                                             <option value="1">Activo</option>
                                             <option value="0">Inactivo</option>
                                         </select>
-                                    </div>
-
-                                    <div class="card border-0 shadow-sm mt-3">
-                                        <div class="card-body">
-                                            <h6 class="fw-bold mb-3">Ficha o manual PDF</h6>
-                                            <label class="form-label small" for="fichaPdfNueva">Archivo PDF (opcional)</label>
-                                            <input type="file" id="fichaPdfNueva" name="ficha_pdf" class="form-control"
-                                                accept="application/pdf,.pdf">
-                                            <small class="form-text text-muted">Máximo 10 MB.</small>
-                                        </div>
                                     </div>
 
                                 </div>
