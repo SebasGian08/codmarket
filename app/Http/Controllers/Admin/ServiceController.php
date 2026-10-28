@@ -29,6 +29,7 @@ class ServiceController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'grupo' => 'nullable|string|max:100',
             'descripcion' => 'required|string',
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
@@ -56,6 +57,7 @@ class ServiceController extends Controller
 
             $service = Service::create([
                 'nombre' => $request->nombre,
+                'grupo' => $request->filled('grupo') ? trim($request->grupo) : null,
                 'slug' => Str::slug($request->nombre),
                 'descripcion' => $request->descripcion,
                 'descripcion_portada' => $request->descripcion_portada,
@@ -116,6 +118,7 @@ class ServiceController extends Controller
         
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'grupo' => 'nullable|string|max:100',
             'descripcion' => 'required|string',
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
@@ -145,6 +148,7 @@ class ServiceController extends Controller
 
             $service->update([
                 'nombre' => $request->nombre,
+                'grupo' => $request->filled('grupo') ? trim($request->grupo) : null,
                 'slug' => Str::slug($request->nombre),
                 'descripcion' => $request->descripcion,
                 'descripcion_portada' => $request->descripcion_portada,

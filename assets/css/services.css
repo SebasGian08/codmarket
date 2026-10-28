@@ -133,6 +133,34 @@ html[data-theme="dark"] .services_blob--3 {
     margin: 0 auto;
 }
 
+.service_group {
+    position: relative;
+    z-index: 2;
+}
+
+.service_group + .service_group {
+    margin-top: 24px;
+}
+
+.service_group_title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 18px;
+    color: var(--color-texto);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.service_group_title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: color-mix(in srgb, var(--color-secundario) 25%, transparent);
+}
+
 
 /* =========================================================
    TARJETA DE SERVICIO (SERVICE CARD)

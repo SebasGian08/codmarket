@@ -22,6 +22,11 @@ class HomeController extends Controller
     public function index()
     {
         $services = Service::where('estado', 1)->get();
+        $servicesByGroup = $services->groupBy(function ($service) {
+            $grupo = trim($service->grupo ?? '');
+
+            return $grupo !== '' ? $grupo : 'Otros servicios';
+        });
 
         $blogs = Blog::with('category')
             ->where('status', 1)
@@ -119,6 +124,7 @@ class HomeController extends Controller
 
         return view('pages.home', compact(
             'services',
+            'servicesByGroup',
             'blogs',
             'banners',
             'categorias',

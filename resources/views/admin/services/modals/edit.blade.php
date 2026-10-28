@@ -38,6 +38,10 @@
                                     <input type="text" name="nombre" value="{{ $service->nombre }}"
                                         class="form-control mb-2">
 
+                                    <label>Grupo o categoría</label>
+                                    <input type="text" name="grupo" value="{{ $service->grupo }}"
+                                        class="form-control mb-2" placeholder="Ej. SST, SIG, Medio Ambiente">
+
                                     <label>Descripción</label>
                                     <textarea name="descripcion"
                                         class="form-control mb-2 editor">{{ $service->descripcion }}</textarea>

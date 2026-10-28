@@ -39,6 +39,10 @@
                                     <input type="text" name="nombre" class="form-control mb-2"
                                         placeholder="Ingrese nombre del servicio">
 
+                                    <label>Grupo o categoría</label>
+                                    <input type="text" name="grupo" class="form-control mb-2"
+                                        placeholder="Ej. SST, SIG, Medio Ambiente">
+
                                     <label>Descripción</label>
                                     <textarea name="descripcion" class="form-control mb-2 editor" rows="3"
                                         placeholder="Ingrese descripción del servicio"></textarea>

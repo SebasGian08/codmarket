@@ -25,6 +25,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
+                            <th>Grupo</th>
                             <th>Estado</th>
                             <th>Fecha</th>
                             <th>Acciones</th>
@@ -36,6 +37,7 @@
                         <tr>
                             <td>{{ $service->id_service }}</td>
                             <td>{{ $service->nombre }}</td>
+                            <td>{{ $service->grupo ?: 'Otros servicios' }}</td>
                             <td>
                                 <span class="badge {{ $service->estado ? 'bg-success' : 'bg-danger' }}">
                                     {{ $service->estado ? 'Activo' : 'Inactivo' }}
