@@ -127,6 +127,11 @@
 @endif
 
 
+@if($mostrarBlogs == 1)
+    <div class="scroll-reveal">{{-- Blog: fade up --}}
+        @include('sections.blog')
+    </div>
+@endif
 
 @if($mostrarPreguntas == 1)
     <div class="scroll-reveal reveal-right">{{-- Preguntas: derecha --}}
@@ -134,11 +139,6 @@
     </div>
 @endif
 
-@if($mostrarBlogs == 1)
-    <div class="scroll-reveal">{{-- Blog: fade up --}}
-        @include('sections.blog')
-    </div>
-@endif
 
 @if($mostrarTestimonios == 1)
 <div class="scroll-reveal reveal-left">{{-- Testimonios: izquierda --}}
