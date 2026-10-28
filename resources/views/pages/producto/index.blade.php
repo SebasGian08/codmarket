@@ -98,87 +98,99 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     {{-- GRID --}}
                     <div id="grid_layout" class="tab-pane active">
 
-                        <ul class="electronic_product_columns ul_li has_4columns clearfix product_grid_bg">
+                        <ul class="catalogo-productos-grid">
 
                             @forelse($productos as $producto)
 
                             @php
-
                             $variante = $producto->primera_variante_con_imagen;
-
-                            $imagen = null;
-
-                            if($variante && $variante->imagenes->count()){
-                            $imagen = $variante->imagenes->first()->url;
-                            }
-
+                            $imagen = $variante && $variante->imagenes->count()
+                                ? $variante->imagenes->first()->url
+                                : null;
+                            $descripcionProducto = trim(strip_tags((string) (
+                                $producto->descripcion_corta ?: $producto->descripcion
+                            )));
                             @endphp
 
-                            <li>
-                                <div class="medical_product_item">
-                                    {{-- Marca --}}
-                                    @if($mostrarMarca)
-                                    <span class="brand_badge">
-                                        {{ optional($producto->marca)->nombre ?? 'Sin marca' }}
-                                    </span>
-                                    @endif
+                            <li class="catalogo-productos-item">
+                                <article class="catalogo-producto-card">
+                                    <a class="catalogo-producto-imagen"
+                                        href="{{ route('producto.show', $producto->slug) }}">
+                                        <img src="{{ $imagen ? asset($imagen) : asset('assets/images/tienda_virtual/default.png') }}"
+                                            alt="{{ $producto->nombre }}" loading="lazy">
 
-                                    {{-- Imagen --}}
-                                    <div class="item_image">
-                                        <a href="{{ route('producto.show', $producto->slug) }}">
-                                            <img src="{{ !empty($imagen) ? asset($imagen) : asset('assets/images/tienda_virtual/default.png') }}"
-                                                alt="{{ $producto->nombre }}">
-                                        </a>
-                                    </div>
+                                        <span class="catalogo-producto-etiquetas">
+                                            @if($producto->destacado)
+                                            <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">
+                                                Más vendido
+                                            </span>
+                                            @endif
+                                            @if($producto->nuevo)
+                                            <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-nuevo">
+                                                Nuevo
+                                            </span>
+                                            @endif
+                                        </span>
+                                    </a>
 
-                                    <div class="item_content">
+                                    <div class="catalogo-producto-contenido">
+                                        <div class="catalogo-producto-categoria">
+                                            {{ $producto->categorias->first()->nombre ?? 'Producto' }}
+                                        </div>
 
-                                        {{-- TITULO --}}
-                                        <h3 class="item_title">
+                                        <h2 class="catalogo-producto-titulo">
                                             <a href="{{ route('producto.show', $producto->slug) }}">
                                                 {{ $producto->nombre }}
                                             </a>
-                                        </h3>
+                                        </h2>
 
-                                        {{-- CATEGORIA --}}
-                                        <div class="category_text">
-                                            {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
-                                        </div>
-
-                                        @if($mostrarPrecio)
-                                        <div class="price_box">
-                                            @if($variante)
-                                            @if($variante->precio_oferta)
-                                            <span class="old_price">
-                                                S/. {{ number_format($variante->precio, 2) }}
-                                            </span>
-
-                                            <span class="price_text">
-                                                S/. {{ number_format($variante->precio_oferta, 2) }}
-                                            </span>
-                                            @else
-                                            <span class="price_text">
-                                                S/. {{ number_format($variante->precio, 2) }}
-                                            </span>
-                                            @endif
-                                            @else
-                                            <span class="price_text">
-                                                Sin precio
-                                            </span>
-                                            @endif
-                                        </div>
+                                        @if($mostrarMarca && $producto->marca)
+                                        <div class="catalogo-producto-marca">{{ $producto->marca->nombre }}</div>
                                         @endif
+
+                                        <p class="catalogo-producto-descripcion">
+                                            {{ $descripcionProducto !== '' ? \Illuminate\Support\Str::limit($descripcionProducto, 92) : 'Conoce más sobre este producto.' }}
+                                        </p>
+
+                                        <div class="catalogo-producto-pie">
+                                            @if($mostrarPrecio)
+                                            <div class="catalogo-producto-precio">
+                                                <span class="catalogo-producto-precio-label">Precio</span>
+                                                @if($variante)
+                                                    @if($variante->precio_oferta !== null)
+                                                    <span class="catalogo-producto-precio-anterior">
+                                                        S/ {{ number_format($variante->precio, 2) }}
+                                                    </span>
+                                                    <span class="catalogo-producto-precio-actual">
+                                                        S/ {{ number_format($variante->precio_oferta, 2) }}
+                                                    </span>
+                                                    @else
+                                                    <span class="catalogo-producto-precio-actual">
+                                                        S/ {{ number_format($variante->precio, 2) }}
+                                                    </span>
+                                                    @endif
+                                                @else
+                                                <span class="catalogo-producto-precio-actual">Consultar</span>
+                                                @endif
+                                            </div>
+                                            @endif
+
+                                            <a href="{{ route('producto.show', $producto->slug) }}"
+                                                class="catalogo-producto-boton">
+                                                Ver producto
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
+                                </article>
                             </li>
 
                             @empty
 
-                            <div class="col-12">
-                                <div class="alert alert-warning mt-2 mb-2">
+                            <li class="catalogo-productos-vacio">
+                                <div class="alert alert-warning mb-0">
                                     No se encontraron productos.
                                 </div>
-                            </div>
+                            </li>
                             @endforelse
                         </ul>
                     </div>
