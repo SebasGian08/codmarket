@@ -130,13 +130,13 @@ $blogImage = imagenOrDefault($blog->image);
                             </li>
 
                             {{-- X --}}
-                            <li>
+                            <!-- <li>
                                 <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareTitle }}"
                                     target="_blank" rel="noopener noreferrer" class="twitter"
                                     aria-label="Compartir en X">
                                     <i class="fab fa-twitter"></i>
                                 </a>
-                            </li>
+                            </li> -->
 
                             {{-- LINKEDIN --}}
                             <li>
