@@ -4,7 +4,8 @@
 
 @section('content')
 
-<section class="about-hero scroll-reveal reveal-scale" style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
+<section class="about-hero scroll-reveal reveal-scale"
+    style="background-image: url('{{ asset($empresa->portada_empresarial ?? '') }}');">
     <div class="about-hero-overlay"></div>
     <div class="about-hero-container">
         <div class="about-hero-content">
@@ -41,8 +42,8 @@
             </div>
 
             <div class="experience-badge">
-                <strong>+10</strong>
-                <span>Años de<br>experiencia</span>
+                <strong>{{ $empresa->indicador_1_valor ?? '+10' }}</strong>
+                <span>{!! nl2br(e($empresa->indicador_1_titulo ?? 'Años de experiencia')) !!}</span>
             </div>
 
         </div>
@@ -120,7 +121,8 @@
     <div class="stats-container">
         @foreach($indicadores as $indicador)
         <div class="stat">
-            <span class="stat-number" data-value="{{ $indicador['valor'] ?? '' }}" aria-label="{{ $indicador['valor'] ?? '' }}"></span>
+            <span class="stat-number" data-value="{{ $indicador['valor'] ?? '' }}"
+                aria-label="{{ $indicador['valor'] ?? '' }}"></span>
             <span class="stat-label">{{ $indicador['titulo'] ?? '' }}</span>
         </div>
         @endforeach
