@@ -4,7 +4,7 @@
 <section id="contacto" class="contact-premium">
 
     @php
-    $wspTelefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
+    $wspTelefono = preg_replace('/[^0-9]/', '', $empresa->whatsapp ?? '');
     $wspMensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
     @endphp
 
