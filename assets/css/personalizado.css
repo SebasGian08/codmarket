@@ -4163,7 +4163,27 @@ html[data-theme="dark"] .blog_archive_empty p {
     display: flex;
     flex-direction: column;
     gap: 18px;
-    padding-right: 42px;
+}
+
+.clientes_carousel_wrap::before,
+.clientes_carousel_wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 72px;
+    pointer-events: none;
+}
+
+.clientes_carousel_wrap::before {
+    left: 0;
+    background: linear-gradient(to right, #fff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.clientes_carousel_wrap::after {
+    right: 0;
+    background: linear-gradient(to left, #fff 0%, rgba(255, 255, 255, 0) 100%);
 }
 
 .clientes_marquee {
@@ -4219,41 +4239,6 @@ html[data-theme="dark"] .blog_archive_empty p {
     }
 }
 
-.clientes_carousel_wrap .left_arrow_clientes,
-.clientes_carousel_wrap .right_arrow_clientes {
-    position: absolute;
-    right: -8px;
-    z-index: 5;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: #fff;
-    color: var(--color-secundario);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 18px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
-
-.clientes_carousel_wrap .left_arrow_clientes {
-    top: calc(50% - 32px);
-}
-
-.clientes_carousel_wrap .right_arrow_clientes {
-    top: calc(50% + 32px);
-}
-
-.clientes_carousel_wrap .left_arrow_clientes:hover,
-.clientes_carousel_wrap .right_arrow_clientes:hover {
-    background: var(--color-secundario);
-    color: #fff;
-    border-color: var(--color-secundario);
-}
-
 @media (max-width: 576px) {
     .cliente_card {
         flex-basis: 180px;
@@ -4265,19 +4250,13 @@ html[data-theme="dark"] .blog_archive_empty p {
         max-height: 55px;
     }
 
-    .clientes_carousel_wrap {
-        padding-right: 36px;
+    .clientes_carousel_wrap::before,
+    .clientes_carousel_wrap::after {
+        width: 32px;
     }
 
     .clientes_track {
         gap: 12px;
-    }
-
-    .clientes_carousel_wrap .left_arrow_clientes,
-    .clientes_carousel_wrap .right_arrow_clientes {
-        right: 0;
-        width: 40px;
-        height: 40px;
     }
 }
 
@@ -4294,11 +4273,12 @@ html[data-theme="dark"] .cliente_nombre {
     color: #aaa;
 }
 
-html[data-theme="dark"] .clientes_carousel_wrap .left_arrow_clientes,
-html[data-theme="dark"] .clientes_carousel_wrap .right_arrow_clientes {
-    background: #1f1f1f;
-    border-color: #333;
-    color: var(--color-secundario);
+html[data-theme="dark"] .clientes_carousel_wrap::before {
+    background: linear-gradient(to right, #161616 0%, rgba(22, 22, 22, 0) 100%);
+}
+
+html[data-theme="dark"] .clientes_carousel_wrap::after {
+    background: linear-gradient(to left, #161616 0%, rgba(22, 22, 22, 0) 100%);
 }
 /* ============ TITULOS DE SECCION (HOMOLOGADOS) ============ */
 .sec-titulo-eyebrow {

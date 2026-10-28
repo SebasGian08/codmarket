@@ -48,14 +48,6 @@
             </div>
             @endforeach
 
-            <button type="button" class="left_arrow_clientes" aria-label="Retroceder clientes">
-                <i class="fal fa-arrow-up" aria-hidden="true"></i>
-            </button>
-
-            <button type="button" class="right_arrow_clientes" aria-label="Avanzar clientes">
-                <i class="fal fa-arrow-down" aria-hidden="true"></i>
-            </button>
-
         </div>
 
         @endif

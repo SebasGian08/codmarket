@@ -663,16 +663,6 @@
   ajustarVelocidadClientes();
   $(window).on('resize', ajustarVelocidadClientes);
   $clientesTracks.find('img').on('load', ajustarVelocidadClientes);
-
-  $('.left_arrow_clientes, .right_arrow_clientes').on('click', function () {
-    var avance = $(this).hasClass('left_arrow_clientes') ? -800 : 800;
-
-    $clientesTracks.each(function () {
-      this.getAnimations().forEach(function (animacion) {
-        animacion.currentTime = Math.max(0, (animacion.currentTime || 0) + avance);
-      });
-    });
-  });
   // clientes carousel - end
   // --------------------------------------------------
 
