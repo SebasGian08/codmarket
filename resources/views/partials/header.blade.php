@@ -124,7 +124,8 @@
                                     <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
                                         target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
                                         <i class="fab fa-whatsapp"></i>
-                                        <span class="header-whatsapp-number" data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
+                                        <span class="header-whatsapp-number"
+                                            data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
                                     </a>
                                 </li>
                                 @endif
@@ -187,7 +188,8 @@
 
                                     <ul class="submenu submenu_flat">
                                         @foreach($categorias as $categoria)
-                                        <li class="{{ ($categoria->hijos && $categoria->hijos->count() ? 'category-has-children ' : '') . (request()->route('slug') === $categoria->slug || ($categoria->hijos && $categoria->hijos->contains('slug', request()->route('slug'))) ? 'category-selected' : '') }}">
+                                        <li
+                                            class="{{ ($categoria->hijos && $categoria->hijos->count() ? 'category-has-children ' : '') . (request()->route('slug') === $categoria->slug || ($categoria->hijos && $categoria->hijos->contains('slug', request()->route('slug'))) ? 'category-selected' : '') }}">
                                             <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                                 @if($categoria->icono)
                                                 <i class="{{ $categoria->icono }} menu_subcat_icon"></i>
@@ -197,7 +199,8 @@
                                             @if($categoria->hijos && $categoria->hijos->count())
                                             <ul class="submenu_flat_children">
                                                 @foreach($categoria->hijos as $hijo)
-                                                <li class="{{ request()->route('slug') === $hijo->slug ? 'category-selected' : '' }}">
+                                                <li
+                                                    class="{{ request()->route('slug') === $hijo->slug ? 'category-selected' : '' }}">
                                                     <a href="{{ route('productos.categoria', $hijo->slug) }}">
                                                         @if($hijo->icono)
                                                         <i class="{{ $hijo->icono }} menu_subcat_icon"></i>
@@ -249,10 +252,11 @@
                         <ul class="action_btns_group ul_li_right clearfix">
                             @if($numeroWhatsappUrl)
                             <li class="header-whatsapp-item">
-                                <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp"
-                                    target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+                                <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp" target="_blank"
+                                    rel="noopener" aria-label="Contactar por WhatsApp">
                                     <i class="fab fa-whatsapp"></i>
-                                    <span class="header-whatsapp-number" data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
+                                    <span class="header-whatsapp-number"
+                                        data-number="{{ $numeroWhatsapp }}">Escríbenos</span>
                                 </a>
                             </li>
                             @endif
@@ -489,18 +493,13 @@
 
                     <li><a href="{{ route('home') }}">Inicio</a></li>
                     <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
-                    @if($mostrarBlogs == 1)
-                    <li><a href="{{ route('blog.index') }}">Novedades</a></li>
-                    @endif
-
-                    <li><a href="{{ route('contact.index') }}">Contacto</a></li>
-
                     @if($mostrarProductos == 1 && $categorias->count() > 0)
                     <li class="menu_item_has_child">
                         <a href="#!">Productos</a>
                         <ul class="submenu submenu_flat">
                             @foreach($categorias as $categoria)
-                            <li class="{{ ($categoria->hijos && $categoria->hijos->count() ? 'category-has-children ' : '') . (request()->route('slug') === $categoria->slug || ($categoria->hijos && $categoria->hijos->contains('slug', request()->route('slug'))) ? 'category-selected' : '') }}">
+                            <li
+                                class="{{ ($categoria->hijos && $categoria->hijos->count() ? 'category-has-children ' : '') . (request()->route('slug') === $categoria->slug || ($categoria->hijos && $categoria->hijos->contains('slug', request()->route('slug'))) ? 'category-selected' : '') }}">
                                 <a href="{{ route('productos.categoria', $categoria->slug) }}">
                                     @if($categoria->icono)
                                     <i class="{{ $categoria->icono }} menu_subcat_icon"></i>
@@ -510,7 +509,8 @@
                                 @if($categoria->hijos && $categoria->hijos->count())
                                 <ul class="submenu_flat_children">
                                     @foreach($categoria->hijos as $hijo)
-                                    <li class="{{ request()->route('slug') === $hijo->slug ? 'category-selected' : '' }}">
+                                    <li
+                                        class="{{ request()->route('slug') === $hijo->slug ? 'category-selected' : '' }}">
                                         <a href="{{ route('productos.categoria', $hijo->slug) }}">
                                             @if($hijo->icono)
                                             <i class="{{ $hijo->icono }} menu_subcat_icon"></i>
@@ -547,6 +547,11 @@
                         </ul>
                     </li>
                     @endif
+                    @if($mostrarBlogs == 1)
+                    <li><a href="{{ route('blog.index') }}">Novedades</a></li>
+                    @endif
+
+                    <li><a href="{{ route('contact.index') }}">Contacto</a></li>
 
                 </ul>
             </div>

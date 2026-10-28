@@ -15,6 +15,13 @@ default:
 $footerClass = '';
 break;
 }
+
+
+$mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
+$mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
+$mostrarProductos = $config['web_mostrar_productos'] ?? 1;
+
+
 @endphp
 
 <footer class="footer_section fashion_minimal_footer clearfix {{ $footerClass }}">
@@ -51,9 +58,14 @@ break;
                     <h3 class="footer_widget_title">Menú</h3>
                     <ul class="footer_links">
                         <li><a href="{{ route('home') }}">Inicio</a></li>
+                        @if($mostrarProductos == 1)
                         <li><a href="{{ route('productos.index') }}">Productos</a></li>
+                        @endif
                         <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
+                        @if($mostrarBlogs == 1)
                         <li><a href="{{ route('blog.index') }}">Novedades</a></li>
+                        @endif
+                        <li><a href="{{ route('contact.index') }}">Contacto</a></li>
                     </ul>
                 </div>
 
@@ -66,7 +78,8 @@ break;
                         <li><a href="mailto:{{ $empresa->correo }}">Correo electrónico</a></li>
                         @endif
                         @if($empresa->telefono)
-                        <li><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->telefono) }}">WhatsApp</a></li>
+                        <li><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->telefono) }}">WhatsApp</a>
+                        </li>
                         @endif
                     </ul>
                 </div>
@@ -74,18 +87,18 @@ break;
                 <div class="footer_light_certifications">
                     @if(isset($footerLogos) && $footerLogos->count())
                     @foreach($footerLogos as $logo)
-                        @if($logo->imagen)
-                            @if($logo->url)
-                            <a href="{{ $logo->url }}" target="_blank" rel="noopener noreferrer"
-                                class="footer_logo_item" title="{{ $logo->titulo }}">
-                                <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
-                            </a>
-                            @else
-                            <span class="footer_logo_item" title="{{ $logo->titulo }}">
-                                <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
-                            </span>
-                            @endif
-                        @endif
+                    @if($logo->imagen)
+                    @if($logo->url)
+                    <a href="{{ $logo->url }}" target="_blank" rel="noopener noreferrer" class="footer_logo_item"
+                        title="{{ $logo->titulo }}">
+                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                    </a>
+                    @else
+                    <span class="footer_logo_item" title="{{ $logo->titulo }}">
+                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                    </span>
+                    @endif
+                    @endif
                     @endforeach
                     @endif
                 </div>
@@ -189,10 +202,15 @@ break;
 
                         <ul class="footer_links">
                             <li><a href="{{ route('home') }}">Inicio</a></li>
+                            @if($mostrarProductos == 1)
                             <li><a href="{{ route('productos.index') }}">Productos</a></li>
+                            @endif
                             <!-- <li><a href="#!">Categorías</a></li> -->
                             <li><a href="{{ route('nosotros') }}">Nosotros</a></li>
                             <!-- <li><a href="{{ route('blog.index') }}">Blog</a></li> -->
+                            @if($mostrarBlogs == 1)
+                            <li><a href="{{ route('blog.index') }}">Novedades</a></li>
+                            @endif
                             <li><a href="{{ route('contact.index') }}">Contacto</a></li>
                         </ul>
 
@@ -217,8 +235,7 @@ break;
                             @endif
 
                             @if($instagramUrl)
-                            <a href="{{ $instagramUrl }}" target="_blank"
-                                class="social_card social_instagram">
+                            <a href="{{ $instagramUrl }}" target="_blank" class="social_card social_instagram">
                                 <i class="fab fa-instagram"></i>
                                 <span>Instagram</span>
                             </a>
@@ -257,18 +274,18 @@ break;
                         @if(isset($footerLogos) && $footerLogos->count())
                         <div class="footer_logos">
                             @foreach($footerLogos as $logo)
-                                @if($logo->imagen)
-                                    @if($logo->url)
-                                    <a href="{{ $logo->url }}" target="_blank" rel="noopener"
-                                        class="footer_logo_item" title="{{ $logo->titulo }}">
-                                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
-                                    </a>
-                                    @else
-                                    <span class="footer_logo_item" title="{{ $logo->titulo }}">
-                                        <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
-                                    </span>
-                                    @endif
-                                @endif
+                            @if($logo->imagen)
+                            @if($logo->url)
+                            <a href="{{ $logo->url }}" target="_blank" rel="noopener" class="footer_logo_item"
+                                title="{{ $logo->titulo }}">
+                                <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                            </a>
+                            @else
+                            <span class="footer_logo_item" title="{{ $logo->titulo }}">
+                                <img src="{{ asset($logo->imagen) }}" alt="{{ $logo->titulo ?? 'Logo' }}">
+                            </span>
+                            @endif
+                            @endif
                             @endforeach
                         </div>
                         @endif
@@ -296,7 +313,8 @@ break;
 
                 <div class="footer_light_socials" aria-label="Redes sociales">
                     @if($config['youtube_url'] ?? false)
-                    <a href="{{ $config['youtube_url'] }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                    <a href="{{ $config['youtube_url'] }}" target="_blank" rel="noopener noreferrer"
+                        aria-label="YouTube">
                         <i class="fab fa-youtube" aria-hidden="true"></i>
                     </a>
                     @endif
@@ -321,7 +339,8 @@ break;
                     </a>
                     @endif
                     @if($config['twitter_url'] ?? false)
-                    <a href="{{ $config['twitter_url'] }}" target="_blank" rel="noopener noreferrer" aria-label="Twitter / X">
+                    <a href="{{ $config['twitter_url'] }}" target="_blank" rel="noopener noreferrer"
+                        aria-label="Twitter / X">
                         <i class="fab fa-x-twitter" aria-hidden="true"></i>
                     </a>
                     @endif
