@@ -38,7 +38,7 @@
             </div>
 
             <div class="experience-badge">
-                <strong>{{ $empresa->indicador_1_valor ?? '+10' }}</strong>
+                <strong>{{ $empresa->indicador_1_valor ?? '+7' }}</strong>
                 <span>{!! nl2br(e($empresa->indicador_1_titulo ?? 'Años de experiencia')) !!}</span>
             </div>
         </div>
