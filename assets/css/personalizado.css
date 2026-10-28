@@ -3420,7 +3420,7 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
 
 /* ============ BENEFICIOS EMPRESA ============ */
 .empresa-beneficios-section {
-    padding: 48px 0;
+   /*  padding: 48px 0; */
     background: #fff;
 }
 
