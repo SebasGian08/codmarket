@@ -77,8 +77,8 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                         @if($empresa->correo)
                         <li><a href="mailto:{{ $empresa->correo }}">Correo electrónico</a></li>
                         @endif
-                        @if($empresa->telefono)
-                        <li><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->telefono) }}">WhatsApp</a>
+                        @if($empresa->whatsapp)
+                        <li><a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $empresa->whatsapp) }}">WhatsApp</a>
                         </li>
                         @endif
                     </ul>
@@ -362,10 +362,10 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
 </footer>
 
 @php
-$telefono = preg_replace('/[^0-9]/', '', $empresa->telefono ?? '');
+$whatsapp = preg_replace('/[^0-9]/', '', $empresa->whatsapp ?? '');
 $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
 @endphp
 
-<a href="https://wa.me/{{ $telefono }}?text={{ $mensaje }}" class="whatsapp-float" target="_blank">
+<a href="https://wa.me/{{ $whatsapp }}?text={{ $mensaje }}" class="whatsapp-float" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
