@@ -343,120 +343,98 @@ $variantesSelector = $variantes->map(function ($variante) {
 
                 @php
                 $variante = $producto->primera_variante_con_imagen;
-                // Obtenemos las imágenes y tomamos solo las primeras 2 para el efecto hover
                 $imagenes = $variante && $variante->imagenes->count()
                 ? $variante->imagenes->sortBy('orden')->take(2)
                 : collect();
+                $descripcionProducto = trim(strip_tags((string) (
+                    $producto->descripcion_corta ?: $producto->descripcion
+                )));
                 @endphp
 
                 <div class="item">
+                    <article class="catalogo-producto-card product_link_card">
+                        <div class="catalogo-producto-imagen slideshow_producto">
+                            @if($imagenes->count())
+                            @foreach($imagenes as $key => $img)
+                            <img src="{{ asset($img->url) }}"
+                                class="img_producto {{ $key === 0 ? 'img_principal' : 'img_hover' }}"
+                                alt="{{ $producto->nombre }}" loading="lazy">
+                            @endforeach
 
-                    <a href="{{ route('producto.show', $producto->slug) }}" class="product_link_card">
-
-                        <div class="medical_product_item">
-
-                            @if($mostrarMarca)
-                            <span class="brand_badge">
-                                {{ $producto->marca->nombre ?? 'Sin marca' }}
-                            </span>
+                            @if($imagenes->count() === 1)
+                            <img src="{{ asset($imagenes->first()->url) }}"
+                                class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
+                            @endif
+                            @else
+                            <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                class="img_producto img_principal" alt="{{ $producto->nombre }}" loading="lazy">
+                            <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
                             @endif
 
-                            <div class="slideshow_producto">
-
-                                @if($imagenes->count())
-
-                                @foreach($imagenes as $key => $img)
-
-                                <img src="{{ asset($img->url) }}"
-                                    class="img_producto {{ $key === 0 ? 'img_principal' : 'img_hover' }}"
-                                    alt="{{ $producto->nombre }}">
-
-                                @endforeach
-
-                                @if($imagenes->count() === 1)
-
-                                <img src="{{ asset($imagenes->first()->url) }}" class="img_producto img_hover"
-                                    alt="{{ $producto->nombre }}">
-
+                            <span class="catalogo-producto-etiquetas">
+                                @if($producto->destacado)
+                                <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">
+                                    Más vendido
+                                </span>
                                 @endif
-
-                                @else
-
-                                <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                    class="img_producto img_principal" alt="{{ $producto->nombre }}">
-
-                                <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                    class="img_producto img_hover" alt="{{ $producto->nombre }}">
-
+                                @if($producto->nuevo)
+                                <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-nuevo">
+                                    Nuevo
+                                </span>
                                 @endif
-
-                            </div>
-
-                            <div class="item_content">
-
-                                <div class="category_text mb-2">
-                                    {{ $producto->categorias->first()->nombre ?? 'Sin categoría' }}
-                                </div>
-
-                                <h3 class="item_title mb-3">
-                                    {{ $producto->nombre }}
-                                </h3>
-
-                                @if($mostrarPrecio)
-
-                                <div class="price_box mb-3">
-
-                                    @if($variante)
-
-                                    @if($variante->precio_oferta)
-
-                                    <span class="old_price">
-                                        S/. {{ number_format($variante->precio,2) }}
-                                    </span>
-
-                                    <span class="price_text">
-                                        S/. {{ number_format($variante->precio_oferta,2) }}
-                                    </span>
-
-                                    @else
-
-                                    <span class="price_text">
-                                        S/. {{ number_format($variante->precio,2) }}
-                                    </span>
-
-                                    @endif
-
-                                    @else
-
-                                    <span class="price_text">
-                                        Sin precio
-                                    </span>
-
-                                    @endif
-
-                                </div>
-
-                                @endif
-
-                                <div class="product_action">
-
-                                    <a href="{{ route('producto.show', $producto->slug) }}"
-                                        class="product_link_more">
-
-                                        Ver detalles
-
-                                        <i class="fal fa-arrow-right"></i>
-
-                                    </a>
-
-                                </div>
-
-                            </div>
-
+                            </span>
                         </div>
 
-                    </a>
+                        <div class="catalogo-producto-contenido">
+                            <div class="catalogo-producto-categoria">
+                                {{ $producto->categorias->first()->nombre ?? 'Producto' }}
+                            </div>
 
+                            <h2 class="catalogo-producto-titulo">
+                                <a href="{{ route('producto.show', $producto->slug) }}">
+                                    {{ $producto->nombre }}
+                                </a>
+                            </h2>
+
+                            @if($mostrarMarca && $producto->marca)
+                            <div class="catalogo-producto-marca">{{ $producto->marca->nombre }}</div>
+                            @endif
+
+                            <p class="catalogo-producto-descripcion">
+                                {{ $descripcionProducto !== '' ? \Illuminate\Support\Str::limit($descripcionProducto, 92) : 'Conoce más sobre este producto.' }}
+                            </p>
+
+                            <div class="catalogo-producto-pie">
+                                @if($mostrarPrecio)
+                                <div class="catalogo-producto-precio">
+                                    <span class="catalogo-producto-precio-label">Precio</span>
+                                    @if($variante)
+                                        @if($variante->precio_oferta !== null)
+                                        <span class="catalogo-producto-precio-anterior">
+                                            S/ {{ number_format($variante->precio, 2) }}
+                                        </span>
+                                        <span class="catalogo-producto-precio-actual">
+                                            S/ {{ number_format($variante->precio_oferta, 2) }}
+                                        </span>
+                                        @else
+                                        <span class="catalogo-producto-precio-actual">
+                                            S/ {{ number_format($variante->precio, 2) }}
+                                        </span>
+                                        @endif
+                                    @else
+                                    <span class="catalogo-producto-precio-actual">Consultar</span>
+                                    @endif
+                                </div>
+                                @endif
+
+                                <a href="{{ route('producto.show', $producto->slug) }}"
+                                    class="catalogo-producto-boton">
+                                    Ver producto <i class="fal fa-arrow-right" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
                 </div>
 
                 @endforeach
