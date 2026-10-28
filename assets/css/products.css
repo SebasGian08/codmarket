@@ -438,3 +438,44 @@ html[data-theme="dark"] .catalogo-producto-boton {
     height: 100%;
     object-fit: cover;
 }
+
+.catalogo-producto-imagen-carrusel {
+    display: block;
+}
+
+.catalogo-producto-imagen-slider,
+.catalogo-producto-imagen-slider .slick-list,
+.catalogo-producto-imagen-slider .slick-track,
+.catalogo-producto-imagen-slider .slick-slide,
+.catalogo-producto-imagen-slider .slick-slide > div {
+    height: 100%;
+}
+
+.catalogo-producto-imagen-slider > div,
+.catalogo-producto-imagen-slider .slick-slide > div {
+    width: 100%;
+}
+
+.catalogo-producto-imagen-slider img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.catalogo-mas-vendidos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1199px) {
+    .catalogo-mas-vendidos-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 991px) {
+    .catalogo-mas-vendidos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

@@ -61,73 +61,13 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
             <!-- TODOS -->
             <div id="top_tab" class="tab-pane active">
-                <ul class="supermarket_product_columns has_3columns ul_li bg_white clearfix">
+                <ul class="catalogo-productos-grid catalogo-mas-vendidos-grid">
                     @foreach($productos as $producto)
-                    @php
-                    $variante = $producto->primera_variante_con_imagen;
-                    $imagenes = $variante && $variante->imagenes->count() ? $variante->imagenes->sortBy('orden') :
-                    collect();
-                    $imagenPrincipal = $imagenes->first() ? asset($imagenes->first()->url) :
-                    asset('assets/images/tienda_virtual/default.png');
-                    @endphp
-                    <li>
-                        <div class="product_card_wrapper">
-                            <a href="{{ route('producto.show',$producto->slug) }}" class="product_card">
-                                <div class="product_image">
-                                    <button class="product_favorite" type="button">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-
-                                    @if($producto->destacado)
-                                    <span class="product_badge">BESTSELLER</span>
-                                    @endif
-
-                                    <div class="slideshow1_slider" data-slick='{"arrows":false}'>
-                                        @if($imagenes->count())
-                                        @foreach($imagenes as $img)
-                                        <div><img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}"></div>
-                                        @endforeach
-                                        @else
-                                        <div><img src="{{ asset('assets/images/tienda_virtual/default.png') }}"></div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="product_body">
-                                    <!-- Rating abajo de la foto, estilo minimalista -->
-                                    <div class="product_rating_inline">
-                                        <span class="rating_num">4.8</span><i class="fas fa-star text-warning"></i>
-                                        <span class="rating_count">({{ rand(20, 150) }})</span>
-                                    </div>
-
-                                    <h3 class="product_title">{{ strtoupper($producto->nombre) }}</h3>
-
-                                    <div class="product_category_badge">
-                                        {{ $producto->categorias->first()->nombre ?? 'General' }}
-                                    </div>
-
-                                    @if($mostrarPrecio)
-                                    <div class="product_price">
-                                        @if($variante)
-                                        @if($variante->precio_oferta)
-                                        <span class="current_price">
-                                            S/. {{ number_format($variante->precio_oferta,2) }}
-                                        </span>
-                                        <span class="old_price">
-                                            S/. {{ number_format($variante->precio,2) }}
-                                        </span>
-                                        @else
-                                        <span class="current_price">
-                                            S/. {{ number_format($variante->precio,2) }}
-                                        </span>
-                                        @endif
-                                        @endif
-                                    </div>
-                                    @endif
-                                </div>
-                            </a>
-                        </div>
-                    </li>
+                    @include('sections.partials.catalog-product-card', [
+                        'producto' => $producto,
+                        'mostrarPrecio' => $mostrarPrecio,
+                        'mostrarMarca' => $mostrarMarca,
+                    ])
                     @endforeach
                 </ul>
             </div>
@@ -135,72 +75,17 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
             <!-- CATEGORÍAS (Mismo diseño premium que el "Todos") -->
             @foreach($categoriasProductos as $categoria)
             <div id="categoria_{{ $categoria->id_categoria }}" class="tab-pane fade">
-                <ul class="supermarket_product_columns has_3columns ul_li bg_white clearfix">
+                <ul class="catalogo-productos-grid catalogo-mas-vendidos-grid">
                     @forelse($categoria->productos as $producto)
-                    @php
-                    $variante = $producto->primera_variante_con_imagen;
-                    $imagenes = $variante && $variante->imagenes->count() ? $variante->imagenes->sortBy('orden') :
-                    collect();
-                    @endphp
-                    <li>
-                        <div class="product_card_wrapper">
-                            <a href="{{ route('producto.show',$producto->slug) }}" class="product_card">
-                                <div class="product_image">
-                                    <button class="product_favorite" type="button">
-                                        <i class="far fa-heart"></i>
-                                    </button>
-
-                                    @if($producto->destacado)
-                                    <span class="product_badge">BESTSELLER</span>
-                                    @endif
-
-                                    <div class="slideshow1_slider" data-slick='{"arrows":false}'>
-                                        @if($imagenes->count())
-                                        @foreach($imagenes as $img)
-                                        <div><img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}"></div>
-                                        @endforeach
-                                        @else
-                                        <div><img src="{{ asset('assets/images/tienda_virtual/default.png') }}"></div>
-                                        @endif
-                                    </div>
-                                </div>
-
-                                <div class="product_body">
-                                    <div class="product_rating_inline">
-                                        <span class="rating_num">4.8</span><i class="fas fa-star text-warning"></i>
-                                        <span class="rating_count">({{ rand(20, 150) }})</span>
-                                    </div>
-
-                                    <h3 class="product_title">{{ strtoupper($producto->nombre) }}</h3>
-
-                                    <div class="product_category_badge">
-                                        {{ $producto->categorias->first()->nombre ?? 'General' }}
-                                    </div>
-
-                                    @if($mostrarPrecio)
-                                    <div class="product_price">
-                                        @if($variante)
-                                        @if($variante->precio_oferta)
-                                        <span class="current_price">
-                                            S/. {{ number_format($variante->precio_oferta,2) }}
-                                        </span>
-                                        <span class="old_price">
-                                            S/. {{ number_format($variante->precio,2) }}
-                                        </span>
-                                        @else
-                                        <span class="current_price">
-                                            S/. {{ number_format($variante->precio,2) }}
-                                        </span>
-                                        @endif
-                                        @endif
-                                    </div>
-                                    @endif
-                                </div>
-                            </a>
-                        </div>
-                    </li>
+                    @include('sections.partials.catalog-product-card', [
+                        'producto' => $producto,
+                        'mostrarPrecio' => $mostrarPrecio,
+                        'mostrarMarca' => $mostrarMarca,
+                    ])
                     @empty
-                    <li class="w-100 text-center p-5 text-muted">No hay productos en esta categoría</li>
+                    <li class="catalogo-productos-vacio text-center p-5 text-muted">
+                        No hay productos en esta categoría
+                    </li>
                     @endforelse
                 </ul>
             </div>
