@@ -53,7 +53,8 @@ class ProductoVarianteController extends Controller
             }
 
             $datos = $rows[0];
-
+            $cabeceras = array_map('strtolower', array_map('trim', $datos[0] ?? []));
+            $tienePrecioMayorista = in_array('precio_mayorista', $cabeceras, true);
             unset($datos[0]); // eliminar cabecera
 
             $creadas = 0;
@@ -64,7 +65,8 @@ class ProductoVarianteController extends Controller
 
                 $productoSku = trim($fila[0] ?? '');
                 $sku = trim($fila[1] ?? '');
-                $datosVariante = array_slice($fila, 1, 8);
+                $desplazamiento = $tienePrecioMayorista ? 1 : 0;
+                $datosVariante = array_slice($fila, 1, 8 + $desplazamiento);
                 $tieneDatosVariante = collect($datosVariante)->contains(function ($valor) {
                     return $valor !== null && trim((string) $valor) !== '';
                 });
@@ -88,10 +90,14 @@ class ProductoVarianteController extends Controller
                     'codigo_barras' => trim($fila[2] ?? '') ?: null,
                     'precio' => $fila[3] ?? 0,
                     'precio_oferta' => $this->nuloSiVacio($fila[4] ?? null),
-                    'costo' => $this->nuloSiVacio($fila[5] ?? null),
-                    'stock' => $fila[6] ?? 0,
-                    'estado' => $this->nuloSiVacio($fila[7] ?? null) ?? 1,
+                    'costo' => $this->nuloSiVacio($fila[5 + $desplazamiento] ?? null),
+                    'stock' => $fila[6 + $desplazamiento] ?? 0,
+                    'estado' => $this->nuloSiVacio($fila[7 + $desplazamiento] ?? null) ?? 1,
                 ];
+
+                if ($tienePrecioMayorista) {
+                    $data['precio_mayorista'] = $this->nuloSiVacio($fila[5] ?? null);
+                }
 
                 $variante = ProductoVariante::where('sku', $sku)->first();
 
@@ -110,7 +116,7 @@ class ProductoVarianteController extends Controller
                     $creadas++;
                 }
 
-                $this->syncAtributos($variante, $fila[8] ?? null);
+                $this->syncAtributos($variante, $fila[8 + $desplazamiento] ?? null);
             }
 
             DB::commit();
