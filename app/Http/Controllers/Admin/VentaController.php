@@ -37,6 +37,21 @@ class VentaController extends Controller
         $this->checkout = $checkout;
     }
 
+    protected function vendedorUsuarioActual()
+    {
+        return Vendedor::where('id_usuario', auth()->id())
+            ->where('estado', 1)
+            ->first();
+    }
+
+    protected function usuarioEsAdministrador()
+    {
+        $nombreRol = strtolower(trim(auth()->user()->rol->nombre ?? ''));
+        $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
+
+        return in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+    }
+
     public function index()
     {
         $productos = Producto::with(['variantes.atributos.atributo', 'variantes.imagenes', 'imagenes'])
@@ -78,10 +93,21 @@ class VentaController extends Controller
             ->values();
 
         $clientes = Cliente::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $cajasAbiertas = Caja::with(['tienda', 'vendedor'])
-            ->where('estado', 1)
-            ->orderBy('id_caja', 'asc')
-            ->get();
+        $cajasQuery = Caja::with(['tienda', 'vendedor'])
+            ->where('estado', 1);
+        $vendedorUsuario = $this->vendedorUsuarioActual();
+
+        if ($vendedorUsuario && !$this->usuarioEsAdministrador()) {
+            $tiendasAsignadas = $vendedorUsuario->tiendas()
+                ->where('tiendas.estado', 1)
+                ->wherePivot('estado', 1)
+                ->select('tiendas.id_tienda');
+
+            $cajasQuery->where('id_vendedor', $vendedorUsuario->id_vendedor)
+                ->whereIn('id_tienda', $tiendasAsignadas);
+        }
+
+        $cajasAbiertas = $cajasQuery->orderBy('id_caja', 'asc')->get();
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $metodosPagos = MetodoPago::where('estado', 1)->orderBy('id_metodo_pago', 'asc')->get();
         $clienteVarios = Cliente::where('es_varios', 1)->where('estado', 1)->first();
@@ -122,10 +148,30 @@ class VentaController extends Controller
         try {
             DB::beginTransaction();
 
-            $caja = Caja::where('id_caja', $request->id_caja)->where('estado', 1)->first();
+            $caja = Caja::with(['tienda', 'vendedor'])
+                ->where('id_caja', $request->id_caja)
+                ->where('estado', 1)
+                ->first();
 
             if (!$caja) {
                 throw new \Exception('La caja seleccionada no está abierta');
+            }
+
+            $vendedorUsuario = $this->vendedorUsuarioActual();
+            if ($vendedorUsuario && !$this->usuarioEsAdministrador()) {
+                if ((int) $caja->id_vendedor !== (int) $vendedorUsuario->id_vendedor) {
+                    throw new \Exception('La caja seleccionada no pertenece a tu vendedor');
+                }
+
+                $tiendaAsignada = $vendedorUsuario->tiendas()
+                    ->where('tiendas.id_tienda', $caja->id_tienda)
+                    ->where('tiendas.estado', 1)
+                    ->wherePivot('estado', 1)
+                    ->exists();
+
+                if (!$tiendaAsignada) {
+                    throw new \Exception('La tienda de esta caja ya no está asignada a tu vendedor');
+                }
             }
 
             $variantes = ProductoVariante::whereIn(

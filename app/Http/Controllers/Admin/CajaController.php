@@ -52,7 +52,11 @@ class CajaController extends Controller
             });
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $vendedores = Vendedor::with('tiendas')->where('estado', 1)
+        $vendedores = Vendedor::with(['tiendas' => function ($query) {
+            $query->where('tiendas.estado', 1)
+                ->wherePivot('estado', 1)
+                ->orderBy('tiendas.nombre');
+        }])->where('estado', 1)
             ->where('id_usuario', auth()->id())
             ->orderBy('nombre', 'asc')
             ->get();
@@ -71,6 +75,25 @@ class CajaController extends Controller
 
         try {
             DB::beginTransaction();
+
+            $vendedor = Vendedor::where('id_vendedor', $request->id_vendedor)
+                ->where('id_usuario', auth()->id())
+                ->where('estado', 1)
+                ->first();
+
+            if (!$vendedor) {
+                throw new \Exception('El vendedor seleccionado no está vinculado a tu usuario');
+            }
+
+            $tiendaAsignada = $vendedor->tiendas()
+                ->where('tiendas.id_tienda', $request->id_tienda)
+                ->where('tiendas.estado', 1)
+                ->wherePivot('estado', 1)
+                ->exists();
+
+            if (!$tiendaAsignada) {
+                throw new \Exception('La tienda seleccionada no está activa y asignada al vendedor');
+            }
 
             $yaAbierta = Caja::where('id_tienda', $request->id_tienda)
                 ->where('id_vendedor', $request->id_vendedor)
