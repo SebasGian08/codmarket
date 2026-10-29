@@ -21,7 +21,9 @@ class Producto extends Model
         'dimensiones',
         'destacado',
         'nuevo',
-        'estado'
+        'estado',
+        'id_usuario_registro',
+        'id_usuario_modifica'
     ];
 
     public function marca()
@@ -32,6 +34,16 @@ class Producto extends Model
     public function proveedor()
     {
         return $this->belongsTo(Proveedor::class, 'id_proveedor');
+    }
+
+    public function usuarioRegistro()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario_registro');
+    }
+
+    public function usuarioModifica()
+    {
+        return $this->belongsTo(Usuario::class, 'id_usuario_modifica');
     }
 
     public function categorias()

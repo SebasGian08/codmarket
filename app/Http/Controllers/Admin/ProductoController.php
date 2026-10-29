@@ -108,6 +108,7 @@ class ProductoController extends Controller
                 'destacado' => $request->destacado ?? 0,
                 'nuevo' => $request->nuevo ?? 0,
                 'estado' => $request->estado ?? 1,
+                'id_usuario_registro' => auth()->id(),
             ]);
 
             // categorías
@@ -202,6 +203,7 @@ class ProductoController extends Controller
                 'destacado' => $request->destacado ?? 0,
                 'nuevo' => $request->nuevo ?? 0,
                 'estado' => $request->estado ?? 1,
+                'id_usuario_modifica' => auth()->id(),
             ]);
 
             $producto->categorias()->sync($request->categorias ?? []);
@@ -381,6 +383,7 @@ class ProductoController extends Controller
                     'destacado' => $destacado,
                     'nuevo' => $nuevo,
                     'estado' => $estado,
+                    'id_usuario_registro' => auth()->id(),
                 ]);
 
                 // Categorías

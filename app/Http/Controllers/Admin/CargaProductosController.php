@@ -222,6 +222,7 @@ class CargaProductosController extends Controller
             'destacado' => $destacado,
             'nuevo' => $nuevo,
             'estado' => $estado,
+            'id_usuario_registro' => auth()->id(),
         ]);
 
         if ($categoriasTexto) {
