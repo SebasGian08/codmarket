@@ -245,8 +245,19 @@
     line-height: 1;
     white-space: nowrap;
     cursor: pointer;
-    transform: translateX(-50%);
-    transition: color .2s ease, background-color .2s ease, box-shadow .2s ease;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 6px);
+    transition: color .2s ease, background-color .2s ease, box-shadow .2s ease,
+        opacity .2s ease, transform .2s ease;
+}
+
+.catalogo-producto-imagen:hover > .catalogo-vista-previa,
+.catalogo-producto-imagen:focus-within > .catalogo-vista-previa,
+.catalogo-vista-previa:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
 }
 
 .catalogo-vista-previa:hover,
@@ -258,6 +269,14 @@
 
 .slideshow_producto > .catalogo-vista-previa {
     bottom: 14px;
+}
+
+@media (hover: none) {
+    .catalogo-vista-previa {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, 0);
+    }
 }
 
 .product-quick-view .modal-content {
