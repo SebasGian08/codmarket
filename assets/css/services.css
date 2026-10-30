@@ -477,7 +477,7 @@ html[data-theme="dark"] .services_blob--3 {
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
-    padding: 38px 54px 82px 40px;
+    padding: 38px 54px 40px 40px;
     opacity: 0;
     visibility: hidden;
     transition: opacity .3s ease .12s, visibility .3s ease .12s;
