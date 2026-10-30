@@ -30,9 +30,6 @@ $tipoServicios = $config['seccion_servicios_tipo'] ?? 'opcion_1';
         @if($tipoServicios === 'opcion_2')
         <div class="service-expand-list" role="list">
             @foreach($services as $item)
-            @php
-            $imagenReferencia = $item->imagen_referencial ?: $item->imagen_portada;
-            @endphp
             <article class="service-expand-card" role="listitem"
                 style="--service-expand-cover: url('{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}');">
                 <div class="service-expand-overlay"></div>
@@ -47,18 +44,11 @@ $tipoServicios = $config['seccion_servicios_tipo'] ?? 'opcion_1';
                             Conocer servicio <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     </div>
-
-                    @if($imagenReferencia)
-                    <div class="service-expand-preview">
-                        <img src="{{ asset($imagenReferencia) }}" alt="Vista referencial de {{ $item->nombre }}"
-                            loading="lazy">
-                    </div>
-                    @endif
                 </div>
 
                 <button type="button" class="service-expand-toggle"
-                    aria-label="Expandir {{ $item->nombre }}" aria-expanded="false">
-                    <i class="fas fa-plus" aria-hidden="true"></i>
+                    aria-label="Ver {{ $item->nombre }}" aria-expanded="false">
+                    <i class="fal fa-arrow-right" aria-hidden="true"></i>
                 </button>
             </article>
             @endforeach

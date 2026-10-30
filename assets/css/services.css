@@ -475,30 +475,31 @@ html[data-theme="dark"] .services_blob--3 {
     z-index: 2;
     inset: 0;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 28px;
-    padding: 38px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 38px 54px 38px 40px;
     opacity: 0;
     visibility: hidden;
     transition: opacity .3s ease .12s, visibility .3s ease .12s;
 }
 
 .service-expand-copy {
-    max-width: 48%;
+    width: 100%;
+    max-width: 680px;
     color: #fff;
 }
 
 .service-expand-copy h3 {
     margin: 0 0 16px;
     color: var(--color-primario, #ce0b2b);
-    font-size: clamp(24px, 3vw, 40px);
+    font-size: clamp(24px, 2.8vw, 38px);
     font-weight: 800;
     line-height: 1.12;
 }
 
 .service-expand-copy p {
-    margin: 0 0 24px;
+    max-width: 620px;
+    margin: 0 0 22px;
     color: #fff;
     font-size: 16px;
     line-height: 1.6;
@@ -506,15 +507,15 @@ html[data-theme="dark"] .services_blob--3 {
 
 .service-expand-link {
     display: inline-flex;
-    min-height: 48px;
+    min-height: 42px;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 10px 24px;
+    gap: 8px;
+    padding: 8px 20px;
     color: #fff;
     border: 1px solid currentColor;
     border-radius: 28px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     text-decoration: none;
     transition: color .2s ease, background-color .2s ease, border-color .2s ease;
@@ -526,44 +527,36 @@ html[data-theme="dark"] .services_blob--3 {
     border-color: var(--color-primario, #ce0b2b);
 }
 
-.service-expand-preview {
-    flex: 0 1 44%;
-    min-width: 0;
-    max-height: 250px;
-    overflow: hidden;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, .9);
-}
-
-.service-expand-preview img {
-    display: block;
-    width: 100%;
-    max-height: 250px;
-    object-fit: cover;
-    object-position: top center;
-}
-
 .service-expand-toggle {
     position: absolute;
     z-index: 3;
-    right: 24px;
-    bottom: 24px;
+    right: 18px;
+    bottom: 18px;
     display: inline-flex;
-    width: 58px;
-    height: 58px;
+    width: 40px;
+    height: 40px;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, .9);
-    background: rgba(255, 255, 255, .12);
-    border: 1px solid rgba(255, 255, 255, .5);
+    color: #fff;
+    background: rgba(10, 40, 50, .28);
+    border: 1px solid rgba(255, 255, 255, .42);
     border-radius: 50%;
-    font-size: 21px;
+    font-size: 15px;
     cursor: pointer;
     transition: opacity .25s ease, transform .3s ease, background-color .25s ease;
 }
 
 .service-expand-toggle:hover {
-    background: rgba(255, 255, 255, .24);
+    background: var(--color-primario, #ce0b2b);
+    border-color: var(--color-primario, #ce0b2b);
+}
+
+.service-expand-toggle i {
+    transition: transform .25s ease;
+}
+
+.service-expand-card.is-expanded .service-expand-toggle i {
+    transform: rotate(180deg);
 }
 
 .service-expand-card.is-expanded {
@@ -593,21 +586,17 @@ html[data-theme="dark"] .services_blob--3 {
     }
 
     .service-expand-content {
-        gap: 18px;
-        padding: 26px;
+        padding: 28px 48px 28px 28px;
     }
 
     .service-expand-copy {
-        max-width: 55%;
+        max-width: 100%;
     }
 
     .service-expand-copy p {
         font-size: 14px;
     }
 
-    .service-expand-preview {
-        flex-basis: 40%;
-    }
 }
 
 @media (max-width: 767px) {
@@ -629,8 +618,7 @@ html[data-theme="dark"] .services_blob--3 {
     }
 
     .service-expand-content {
-        gap: 16px;
-        padding: 24px;
+        padding: 24px 52px 24px 24px;
     }
 
     .service-expand-copy {
@@ -646,10 +634,6 @@ html[data-theme="dark"] .services_blob--3 {
         font-size: 14px;
     }
 
-    .service-expand-preview {
-        display: none;
-    }
-
     .service-expand-card.is-expanded .service-expand-toggle {
         top: 16px;
         right: 16px;
@@ -659,9 +643,6 @@ html[data-theme="dark"] .services_blob--3 {
         transform: none;
     }
 
-    .service-expand-card.is-expanded .service-expand-toggle i {
-        transform: rotate(45deg);
-    }
 }
 
 @media (hover: hover) and (pointer: fine) {
