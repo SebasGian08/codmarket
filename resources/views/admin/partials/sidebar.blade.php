@@ -129,9 +129,14 @@
 
                             @permiso('inventario.ver')
                             <li
-                                class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') ? 'active' : '' }}">
+                                class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') && !Request::is('admin/inventario/consulta*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.inventario.index') }}">
                                     <span class="sub-item">Stock por Tienda</span>
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('admin/inventario/consulta*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.inventario.consulta') }}">
+                                    <span class="sub-item">Consulta de stock</span>
                                 </a>
                             </li>
                             @endpermiso

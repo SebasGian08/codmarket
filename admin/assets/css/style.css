@@ -2038,6 +2038,112 @@ html[data-theme="dark"] .trf-filtros .input-group-text {
 }
 /* ============ FIN TRANSFERENCIAS ============ */
 
+/* ============ CONSULTA DE STOCK ============ */
+.inv-consulta-filtros {
+    border: 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.inv-consulta-filtros .form-label {
+    margin-bottom: 6px;
+    color: #596579;
+    font-size: .78rem;
+}
+
+.inv-consulta-filtros .form-control,
+.inv-consulta-filtros .form-select {
+    min-height: 40px;
+    border-color: #e1e6ed;
+    border-radius: 7px;
+    font-size: .84rem;
+}
+
+.inv-consulta-kpi {
+    height: 100%;
+    border: 0;
+    border-left: 3px solid #1f3a5f;
+    border-radius: 8px;
+    box-shadow: 0 3px 14px rgba(28, 39, 60, .05);
+}
+
+.inv-consulta-kpi .card-body {
+    display: flex;
+    min-height: 78px;
+    flex-direction: column;
+    justify-content: center;
+    gap: .25rem;
+    padding: .8rem 1rem;
+}
+
+.inv-consulta-kpi span {
+    color: #687386;
+    font-size: .75rem;
+}
+
+.inv-consulta-kpi strong {
+    font-size: 1.25rem;
+    line-height: 1.2;
+}
+
+.inv-consulta-kpi-agotado {
+    border-left-color: var(--bs-danger);
+}
+
+.inv-consulta-kpi-bajo {
+    border-left-color: var(--bs-warning);
+}
+
+.inv-consulta-kpi-disponible,
+.inv-consulta-kpi-unidades {
+    border-left-color: var(--bs-success);
+}
+
+.inv-consulta-tabla thead th {
+    padding: .8rem;
+    background: #f5f7fa;
+    color: #687386;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.inv-consulta-tabla tbody td {
+    padding: .75rem .8rem;
+}
+
+.inv-consulta-sku {
+    color: #596579;
+    font-family: var(--bs-font-monospace);
+    font-size: .8rem;
+}
+
+html[data-theme="dark"] .inv-consulta-filtros .form-control,
+html[data-theme="dark"] .inv-consulta-filtros .form-select {
+    border-color: var(--ka-border, #3a4658);
+}
+
+html[data-theme="dark"] .inv-consulta-kpi span,
+html[data-theme="dark"] .inv-consulta-sku {
+    color: #b6c0ce;
+}
+
+html[data-theme="dark"] .inv-consulta-tabla thead th {
+    background: #303d50;
+    color: #b6c0ce;
+}
+
+@media (max-width: 575.98px) {
+    .inv-consulta-acciones .btn:first-child {
+        min-width: 0;
+        padding-right: .55rem;
+        padding-left: .55rem;
+    }
+}
+/* ============ FIN CONSULTA DE STOCK ============ */
+
 /* ============ FILTROS DE LISTADOS ============ */
 .card-body.py-3 form.row .form-control,
 .card-body.py-3 form.row .form-select {

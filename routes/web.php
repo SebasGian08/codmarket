@@ -261,6 +261,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     // MÓDULO: INVENTARIO
     Route::prefix('inventario')->group(function () {
         Route::get('/', [InventarioController::class, 'index'])->name('admin.inventario.index');
+        Route::get('/consulta', [InventarioController::class, 'consulta'])->name('admin.inventario.consulta');
+        Route::get('/consulta/exportar', [InventarioController::class, 'exportarConsulta'])->name('admin.inventario.consulta.exportar');
         Route::get('/carga', [CargaInventarioController::class, 'index'])->name('admin.inventario.carga.index');
         Route::get('/carga/plantilla', [CargaInventarioController::class, 'plantilla'])->name('admin.inventario.carga.plantilla');
         Route::post('/carga/importar', [CargaInventarioController::class, 'importar'])->name('admin.inventario.carga.importar');
