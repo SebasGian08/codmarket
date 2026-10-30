@@ -45,6 +45,13 @@ class TransferenciaController extends Controller
         });
     }
 
+    protected function validarUsuarioNoRegistrador(Transferencia $transferencia)
+    {
+        if ((int) $transferencia->id_usuario === (int) auth()->id()) {
+            throw new \Exception('La persona que registró la transferencia solo puede consultarla');
+        }
+    }
+
     protected function guardarDetalleTransferencia(Transferencia $transferencia)
     {
         foreach ($transferencia->detalle as $detalle) {
@@ -229,6 +236,8 @@ class TransferenciaController extends Controller
                 throw new \Exception('Solo se puede enviar una transferencia pendiente');
             }
 
+            $this->validarUsuarioNoRegistrador($transferencia);
+
             if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen)) {
                 throw new \Exception('No tienes asignada la tienda origen de esta transferencia');
             }
@@ -255,6 +264,8 @@ class TransferenciaController extends Controller
             if ($transferencia->estado !== 'en_transito') {
                 throw new \Exception('Solo se puede recibir una transferencia en tránsito');
             }
+
+            $this->validarUsuarioNoRegistrador($transferencia);
 
             if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_destino)) {
                 throw new \Exception('No tienes asignada la tienda destino de esta transferencia');
@@ -294,6 +305,8 @@ class TransferenciaController extends Controller
             if ($transferencia->estado === 'recibida') {
                 throw new \Exception('No se puede anular una transferencia recibida');
             }
+
+            $this->validarUsuarioNoRegistrador($transferencia);
 
             if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen)) {
                 throw new \Exception('No tienes asignada la tienda origen de esta transferencia');
