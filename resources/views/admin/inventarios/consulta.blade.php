@@ -97,6 +97,14 @@
 
     <div class="card">
         <div class="card-header inv-consulta-tabla-controles">
+            @if($registros->total() > 0)
+            <span class="text-muted small">
+                Mostrando {{ number_format($registros->firstItem()) }} al {{ number_format($registros->lastItem()) }}
+                de {{ number_format($registros->total()) }} registros
+            </span>
+            @else
+            <span class="text-muted small">Sin registros</span>
+            @endif
             <form method="GET" action="{{ route('admin.inventario.consulta') }}" class="inv-consulta-page-size">
                 <input type="hidden" name="buscar" value="{{ $filtros['buscar'] }}">
                 <input type="hidden" name="id_tienda" value="{{ $filtros['id_tienda'] }}">
@@ -156,11 +164,7 @@
         @if($registros->total() > 0)
         <div class="card-footer inv-consulta-paginacion">
             @if($registros->hasPages())
-            {{ $registros->links('pagination::bootstrap-5') }}
-            @else
-            <span class="text-muted small">
-                Mostrando {{ number_format($registros->total()) }} registros
-            </span>
+            {{ $registros->links('admin.inventarios.partials.pagination') }}
             @endif
         </div>
         @endif
