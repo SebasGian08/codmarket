@@ -80,6 +80,11 @@ class TransferenciaController extends Controller
 
     public function index(Request $request)
     {
+        $tiendasAsignadas = $this->tiendasAsignadasUsuario();
+        $idsTiendasAsignadas = $tiendasAsignadas->pluck('id_tienda')->map(function ($id) {
+            return (int) $id;
+        })->all();
+
         $filtros = [
             'numero' => $request->query('numero'),
             'id_tienda_origen' => $request->query('id_tienda_origen'),
@@ -90,6 +95,10 @@ class TransferenciaController extends Controller
         ];
 
         $query = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario']);
+        $query->where(function ($q) use ($idsTiendasAsignadas) {
+            $q->whereIn('id_tienda_origen', $idsTiendasAsignadas)
+                ->orWhereIn('id_tienda_destino', $idsTiendasAsignadas);
+        });
 
         if (!empty($filtros['numero'])) {
             $query->where(function ($q) use ($filtros) {
@@ -121,11 +130,6 @@ class TransferenciaController extends Controller
         $transferencias = $query->orderBy('id_transferencia', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
-
-        $tiendasAsignadas = $this->tiendasAsignadasUsuario();
-        $idsTiendasAsignadas = $tiendasAsignadas->pluck('id_tienda')->map(function ($id) {
-            return (int) $id;
-        })->all();
         $tiendasOrigen = $tiendasAsignadas;
 
         $variantes = \App\Models\ProductoVariante::with(['producto', 'atributos.atributo'])
@@ -343,6 +347,13 @@ class TransferenciaController extends Controller
     {
         $transferencia = Transferencia::with(['tiendaOrigen', 'tiendaDestino', 'usuario', 'detalle.variante.producto', 'detalle.variante.atributos.atributo'])
             ->findOrFail($id);
+
+        abort_unless(
+            $this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen)
+                || $this->usuarioTieneTiendaAsignada($transferencia->id_tienda_destino),
+            403,
+            'No tienes acceso a esta transferencia'
+        );
 
         return view('admin.transferencias.modals.detalle', compact('transferencia'));
     }
