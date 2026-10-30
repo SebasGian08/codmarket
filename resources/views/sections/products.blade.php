@@ -54,7 +54,10 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                                     <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
                                         class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
                                     @endif
-
+                                    @include('sections.partials.product-quick-view-button', [
+                                        'producto' => $producto,
+                                        'varianteInicial' => $variante,
+                                    ])
                                     <span class="catalogo-producto-etiquetas">
                                         @if($producto->destacado)
                                         <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">

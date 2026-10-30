@@ -114,24 +114,30 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 
                             <li class="catalogo-productos-item">
                                 <article class="catalogo-producto-card">
-                                    <a class="catalogo-producto-imagen"
-                                        href="{{ route('producto.show', $producto->slug) }}">
-                                        <img src="{{ $imagen ? asset($imagen) : asset('assets/images/tienda_virtual/default.png') }}"
-                                            alt="{{ $producto->nombre }}" loading="lazy">
+                                    <div class="catalogo-producto-imagen">
+                                        <a class="catalogo-producto-imagen-link"
+                                            href="{{ route('producto.show', $producto->slug) }}">
+                                            <img src="{{ $imagen ? asset($imagen) : asset('assets/images/tienda_virtual/default.png') }}"
+                                                alt="{{ $producto->nombre }}" loading="lazy">
 
-                                        <span class="catalogo-producto-etiquetas">
-                                            @if($producto->destacado)
-                                            <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">
-                                                Más vendido
+                                            <span class="catalogo-producto-etiquetas">
+                                                @if($producto->destacado)
+                                                <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">
+                                                    Más vendido
+                                                </span>
+                                                @endif
+                                                @if($producto->nuevo)
+                                                <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-nuevo">
+                                                    Nuevo
+                                                </span>
+                                                @endif
                                             </span>
-                                            @endif
-                                            @if($producto->nuevo)
-                                            <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-nuevo">
-                                                Nuevo
-                                            </span>
-                                            @endif
-                                        </span>
-                                    </a>
+                                        </a>
+                                        @include('sections.partials.product-quick-view-button', [
+                                            'producto' => $producto,
+                                            'varianteInicial' => $variante,
+                                        ])
+                                    </div>
 
                                     <div class="catalogo-producto-contenido">
                                         <div class="catalogo-producto-categoria">

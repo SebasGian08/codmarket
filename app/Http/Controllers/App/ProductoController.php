@@ -38,7 +38,12 @@ class ProductoController extends Controller
             ->orderBy('orden')
             ->get();
 
-        $relacionados = Producto::with(['marca', 'categorias', 'variantes.imagenes'])
+        $relacionados = Producto::with([
+            'marca',
+            'categorias',
+            'variantes.imagenes',
+            'variantes.atributos.atributo'
+        ])
             ->where('id_producto', '!=', $producto->id_producto)
             ->where(function ($q) use ($categorias, $producto) {
                 $q->whereHas('categorias', function ($q2) use ($categorias) {
@@ -114,7 +119,8 @@ class ProductoController extends Controller
         $query = Producto::with([
             'marca',
             'categorias',
-            'variantes.imagenes'
+            'variantes.imagenes',
+            'variantes.atributos.atributo'
         ])->where('estado', 1);
 
         // FILTRO CATEGORÍA
@@ -173,7 +179,8 @@ class ProductoController extends Controller
         $productos = Producto::with([
                 'marca',
                 'categorias',
-                'variantes.imagenes'
+                'variantes.imagenes',
+                'variantes.atributos.atributo'
             ])
             ->where(function ($q) use ($texto) {
 
@@ -206,7 +213,8 @@ class ProductoController extends Controller
         $productos = Producto::with([
                 'marca',
                 'categorias',
-                'variantes.imagenes'
+                'variantes.imagenes',
+                'variantes.atributos.atributo'
             ])
             ->whereHas('categorias', function ($q) use ($categoria) {
                 $q->where('categorias.id_categoria', $categoria->id_categoria);

@@ -24,6 +24,11 @@ $descripcionProducto = trim(strip_tags((string) (
                 @endforelse
             </div>
 
+            @include('sections.partials.product-quick-view-button', [
+                'producto' => $producto,
+                'varianteInicial' => $variante,
+            ])
+
             <span class="catalogo-producto-etiquetas">
                 @if($producto->destacado)
                 <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">

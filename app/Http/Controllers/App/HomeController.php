@@ -54,6 +54,7 @@ class HomeController extends Controller
                     $q->with([
                             'marca',
                             'variantes.imagenes',
+                            'variantes.atributos.atributo',
                             'imagenes',
                             'categorias'
                         ])
@@ -80,6 +81,7 @@ class HomeController extends Controller
         $productos = Producto::with([
                 'marca',
                 'variantes.imagenes',
+                'variantes.atributos.atributo',
                 'imagenes',
                 'categorias'
             ])

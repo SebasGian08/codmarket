@@ -51,6 +51,8 @@
 
     </div>
 
+    @include('sections.partials.product-quick-view')
+
     @include('partials.scripts')
 
     @stack('scripts')
