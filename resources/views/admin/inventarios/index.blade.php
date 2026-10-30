@@ -82,13 +82,18 @@
 
             <!-- VARIANTE (se muestra al elegir producto) -->
             <div class="card border-0 shadow-sm mb-3 d-none" id="varianteCard">
-                <div class="card-header bg-transparent d-flex justify-content-between align-items-center py-2">
+                <div class="card-header bg-transparent d-flex flex-wrap justify-content-between align-items-center gap-2 py-2">
                     <h6 class="fw-bold mb-0">
                         <i class="fa fa-cubes me-1"></i> Variantes de <span id="varianteProductoNombre"></span>
                     </h6>
-                    <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDeseleccionarProducto" title="Volver a productos">
-                        <i class="fa fa-arrow-left"></i> Volver
-                    </button>
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <span class="venta-stock-filtrado">
+                            Stock filtrado: <strong id="stockInventarioFiltrado">0</strong> uds
+                        </span>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="btnDeseleccionarProducto" title="Volver a productos">
+                            <i class="fa fa-arrow-left"></i> Volver
+                        </button>
+                    </div>
                 </div>
 
                 <div class="card-body py-3">
@@ -344,14 +349,20 @@
 
     function renderVariantesGrid(variantes) {
         var grid = document.getElementById('variantesGrid');
+        variantes = variantes || [];
+        var idTienda = document.getElementById('tiendaSelect').value;
+        var stockTotal = variantes.reduce(function(total, v) {
+            return total + stockVariante(v.id, idTienda || null);
+        }, 0);
 
-        if (!variantes || !variantes.length) {
+        document.getElementById('stockInventarioFiltrado').textContent = stockTotal;
+
+        if (!variantes.length) {
             grid.innerHTML = '<div class="text-muted text-center py-3">Sin variantes disponibles</div>';
             return;
         }
 
         var defaultImg = '{{ asset("assets/images/tienda_virtual/default.png") }}';
-        var idTienda = document.getElementById('tiendaSelect').value;
 
         grid.innerHTML = variantes.map(function(v) {
             var attrs = (v.atributos || []).map(function(a) {
@@ -585,7 +596,7 @@
         actualizarKPIs();
 
         if (productoActual) {
-            renderVariantesGrid(productoActual.variantes);
+            filtrarVariantes(document.getElementById('varianteInput').value);
         }
 
         renderResultados();
