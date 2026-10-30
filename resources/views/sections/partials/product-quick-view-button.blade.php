@@ -9,7 +9,9 @@ $previewVariants = $producto->variantes
             'salePrice' => $variante->precio_oferta !== null ? (float) $variante->precio_oferta : null,
             'attributes' => $variante->atributos->map(function ($valor) {
                 return [
+                    'id' => (int) ($valor->atributo->id_atributo ?? 0),
                     'name' => $valor->atributo->nombre ?? 'Opción',
+                    'valueId' => (int) $valor->id_valor,
                     'value' => $valor->valor,
                 ];
             })->values(),

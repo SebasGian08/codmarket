@@ -22,6 +22,7 @@ $telefonoWhatsApp = isset($empresa)
                 <div class="product-quick-view-details">
                     <div class="product-quick-view-category">Vista rápida</div>
                     <h2 id="productQuickViewTitle" class="product-quick-view-title"></h2>
+                    <span class="product-quick-view-sku"></span>
                     <p class="product-quick-view-description"></p>
 
                     <div class="product-quick-view-price">
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const image = modal.querySelector('.product-quick-view-image');
     const title = modal.querySelector('.product-quick-view-title');
+    const sku = modal.querySelector('.product-quick-view-sku');
     const description = modal.querySelector('.product-quick-view-description');
     const badge = modal.querySelector('.product-quick-view-badge');
     const currentPrice = modal.querySelector('.product-quick-view-price-current');
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const fallbackImage = "{{ asset('assets/images/tienda_virtual/default.png') }}";
     let activeProduct = null;
     let activeVariant = null;
+    let activeVariants = [];
 
     const formatPrice = function (price) {
         if (price === null || price === undefined || price === '') return 'Consultar';
@@ -69,12 +72,35 @@ document.addEventListener('DOMContentLoaded', function () {
         return Number.isFinite(amount) ? 'S/ ' + amount.toFixed(2) : 'Consultar';
     };
 
+    const getVariantDescription = function (variant) {
+        const attributes = Array.isArray(variant.attributes) ? variant.attributes : [];
+        return attributes.length
+            ? attributes.map(function (attribute) {
+                return attribute.name + ': ' + attribute.value;
+            }).join(', ')
+            : (variant.sku ? 'SKU ' + variant.sku : '');
+    };
+
+    const syncAttributeOptions = function () {
+        optionsContainer.querySelectorAll('.product-quick-view-option').forEach(function (option) {
+            const selectedValue = activeVariant && activeVariant.attributes.find(function (attribute) {
+                return String(attribute.id) === option.dataset.attributeId;
+            });
+            const isSelected = selectedValue
+                && String(selectedValue.valueId) === option.dataset.valueId;
+            option.classList.toggle('is-selected', Boolean(isSelected));
+            option.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+        });
+    };
+
     const updateWhatsApp = function () {
         const phone = modal.dataset.whatsappPhone;
         const lines = [
             'Hola, quisiera consultar por este producto:',
             activeProduct.name,
-            activeVariant ? 'Variante: ' + activeVariant.label : '',
+            activeVariant && getVariantDescription(activeVariant)
+                ? 'Variante: ' + getVariantDescription(activeVariant)
+                : '',
             activeVariant && activeVariant.sku ? 'SKU: ' + activeVariant.sku : '',
             activeVariant && activeVariant.salePrice !== null
                 ? 'Precio: ' + formatPrice(activeVariant.salePrice)
@@ -87,12 +113,10 @@ document.addEventListener('DOMContentLoaded', function () {
         whatsappButton.href = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(lines.join('\n'));
     };
 
-    const selectVariant = function (variant, selectedButton) {
+    const selectVariant = function (variant) {
         activeVariant = variant;
-        optionsContainer.querySelectorAll('.product-quick-view-option').forEach(function (option) {
-            option.classList.toggle('is-selected', option === selectedButton);
-            option.setAttribute('aria-pressed', option === selectedButton ? 'true' : 'false');
-        });
+        syncAttributeOptions();
+        sku.textContent = variant.sku ? 'SKU: ' + variant.sku : '';
 
         const variantImage = variant.images && variant.images.length ? variant.images[0] : activeProduct.image;
         image.src = variantImage || fallbackImage;
@@ -108,6 +132,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         updateWhatsApp();
+    };
+
+    const selectAttributeValue = function (attributeId, valueId) {
+        const findVariant = function (requireCurrentAttributes) {
+            return activeVariants.find(function (variant) {
+                return variant.attributes.some(function (attribute) {
+                    return String(attribute.id) === attributeId
+                        && String(attribute.valueId) === valueId;
+                }) && (!requireCurrentAttributes || activeVariant.attributes.every(function (current) {
+                    if (String(current.id) === attributeId) return true;
+                    return variant.attributes.some(function (attribute) {
+                        return String(attribute.id) === String(current.id)
+                            && String(attribute.valueId) === String(current.valueId);
+                    });
+                }));
+            });
+        };
+
+        const variant = findVariant(true) || findVariant(false);
+        if (variant) selectVariant(variant);
     };
 
     document.addEventListener('click', function (event) {
@@ -131,9 +175,11 @@ document.addEventListener('DOMContentLoaded', function () {
             url: trigger.dataset.previewUrl || '',
             image: trigger.dataset.previewImage || fallbackImage
         };
+        activeVariants = variants;
         activeVariant = null;
         title.textContent = activeProduct.name;
         description.textContent = activeProduct.description;
+        sku.textContent = '';
         image.src = activeProduct.image;
         image.alt = activeProduct.name;
 
@@ -146,37 +192,74 @@ document.addEventListener('DOMContentLoaded', function () {
         optionsContainer.replaceChildren();
         variantsContainer.hidden = variants.length === 0;
 
+        const attributeGroups = new Map();
         variants.forEach(function (variant) {
-            const attributes = Array.isArray(variant.attributes) ? variant.attributes : [];
-            variant.label = attributes.length
-                ? attributes.map(function (attribute) {
-                    return attribute.name + ': ' + attribute.value;
-                }).join(' · ')
-                : (variant.sku ? 'SKU ' + variant.sku : 'Variante');
-
-            const option = document.createElement('button');
-            option.type = 'button';
-            option.className = 'product-quick-view-option';
-            option.textContent = variant.label;
-            option.dataset.variantId = variant.id;
-            option.setAttribute('aria-pressed', 'false');
-            option.addEventListener('click', function () {
-                selectVariant(variant, option);
+            (Array.isArray(variant.attributes) ? variant.attributes : []).forEach(function (attribute) {
+                const attributeId = String(attribute.id);
+                if (!attributeGroups.has(attributeId)) {
+                    attributeGroups.set(attributeId, {
+                        name: attribute.name,
+                        values: new Map()
+                    });
+                }
+                attributeGroups.get(attributeId).values.set(String(attribute.valueId), attribute.value);
             });
-            optionsContainer.appendChild(option);
         });
+
+        attributeGroups.forEach(function (group, attributeId) {
+            const groupElement = document.createElement('div');
+            groupElement.className = 'product-quick-view-attribute';
+
+            const label = document.createElement('span');
+            label.className = 'product-quick-view-variants-title';
+            label.textContent = group.name + ':';
+            groupElement.appendChild(label);
+
+            const values = document.createElement('div');
+            values.className = 'product-quick-view-options';
+            group.values.forEach(function (value, valueId) {
+                const option = document.createElement('button');
+                option.type = 'button';
+                option.className = 'product-quick-view-option';
+                option.textContent = value;
+                option.dataset.attributeId = attributeId;
+                option.dataset.valueId = valueId;
+                option.setAttribute('aria-pressed', 'false');
+                option.addEventListener('click', function () {
+                    selectAttributeValue(attributeId, valueId);
+                });
+                values.appendChild(option);
+            });
+
+            groupElement.appendChild(values);
+            optionsContainer.appendChild(groupElement);
+        });
+
+        if (attributeGroups.size === 0 && variants.length > 1) {
+            const values = document.createElement('div');
+            values.className = 'product-quick-view-options';
+            variants.forEach(function (variant) {
+                const option = document.createElement('button');
+                option.type = 'button';
+                option.className = 'product-quick-view-option';
+                option.textContent = variant.sku ? 'SKU ' + variant.sku : 'Variante';
+                option.addEventListener('click', function () {
+                    selectVariant(variant);
+                });
+                values.appendChild(option);
+            });
+            optionsContainer.appendChild(values);
+        }
 
         if (variants.length) {
             const initialVariant = variants.find(function (variant) {
                 return String(variant.id) === trigger.dataset.previewVariantId;
             }) || variants[0];
-            const initialButton = Array.from(optionsContainer.children).find(function (option) {
-                return String(option.dataset.variantId) === String(initialVariant.id);
-            });
-            selectVariant(initialVariant, initialButton);
+            selectVariant(initialVariant);
         } else {
             oldPrice.hidden = true;
             currentPrice.textContent = 'Consultar';
+            sku.textContent = '';
             updateWhatsApp();
         }
 
