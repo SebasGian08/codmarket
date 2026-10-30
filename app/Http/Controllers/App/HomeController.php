@@ -58,8 +58,6 @@ class HomeController extends Controller
                             'categorias'
                         ])
                         ->where('estado', 1)
-                        ->orderByDesc('nuevo')
-                        ->orderByDesc('destacado')
                         ->orderBy('orden')
                         ->orderByDesc('id_producto')
                         ->take(10);
