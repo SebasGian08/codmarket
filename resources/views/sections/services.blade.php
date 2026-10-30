@@ -38,7 +38,6 @@ $tipoServicios = $config['seccion_servicios_tipo'] ?? 'opcion_1';
 
                 <div class="service-expand-content">
                     <div class="service-expand-copy">
-                        <h3>{{ $item->nombre }}</h3>
                         <p>{{ limpiarTextoPlano($item->descripcion_breve_portada ?: $item->descripcion, 180) }}</p>
                         <a href="{{ route('services.show', $item->slug) }}" class="service-expand-link">
                             Conocer servicio <i class="fas fa-arrow-right" aria-hidden="true"></i>
