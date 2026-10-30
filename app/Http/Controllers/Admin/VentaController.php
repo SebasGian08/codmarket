@@ -56,7 +56,8 @@ class VentaController extends Controller
     {
         $productos = Producto::with(['variantes.atributos.atributo', 'variantes.imagenes', 'imagenes'])
             ->where('estado', 1)
-            ->orderBy('nombre', 'asc')
+            ->orderBy('orden')
+            ->orderByDesc('id_producto')
             ->get()
             ->map(function ($p) {
                 return [

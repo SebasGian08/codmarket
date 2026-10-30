@@ -135,7 +135,8 @@ class InventarioController extends Controller
             'imagenes'
         ])
             ->where('estado', 1)
-            ->orderBy('nombre', 'asc')
+            ->orderBy('orden')
+            ->orderByDesc('id_producto')
             ->get()
             ->map(function ($p) {
                 return [
