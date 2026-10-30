@@ -609,8 +609,12 @@ html[data-theme="dark"] .services_blob--3 {
         scroll-snap-align: center;
     }
 
+    .service-expand-card.is-expanded {
+        flex-basis: 92%;
+    }
+
     .service-expand-content {
-        padding: 24px 52px 78px 24px;
+        padding: 24px 24px 30px;
     }
 
     .service-expand-copy {
