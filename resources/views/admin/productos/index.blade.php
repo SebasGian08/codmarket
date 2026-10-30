@@ -106,11 +106,12 @@
 
             <div class="table-responsive">
 
-                <table class="table table-striped table-hover" id="basic-datatables">
+                <table class="table table-striped table-hover" id="basic-datatables" data-initial-order="[]">
 
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Orden</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Marca</th>
                             <th scope="col">Proveedor</th>
@@ -123,6 +124,17 @@
                         @foreach($productos as $p)
                         <tr>
                             <td>{{ $p->id_producto }}</td>
+                            <td>
+                                <form action="{{ route('admin.productos.orden', $p->id_producto) }}"
+                                    method="POST" class="producto-orden-form">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="number" name="orden" class="form-control form-control-sm"
+                                        value="{{ $p->orden }}" min="1" max="4294967295"
+                                        aria-label="Orden de {{ $p->nombre }}"
+                                        onchange="this.form.submit()">
+                                </form>
+                            </td>
                             <td>{{ $p->nombre }}</td>
                             <td>{{ $p->marca->nombre ?? '-' }}</td>
                             <td>{{ $p->proveedor->nombre ?? '-' }}</td>

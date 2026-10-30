@@ -17,6 +17,7 @@ class Producto extends Model
         'ficha_pdf',
         'id_marca',
         'id_proveedor',
+        'orden',
         'peso',
         'dimensiones',
         'destacado',
@@ -25,6 +26,15 @@ class Producto extends Model
         'id_usuario_registro',
         'id_usuario_modifica'
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($producto) {
+            if ($producto->orden === null) {
+                $producto->orden = ((int) static::max('orden')) + 1;
+            }
+        });
+    }
 
     public function marca()
     {

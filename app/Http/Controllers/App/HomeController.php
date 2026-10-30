@@ -58,7 +58,8 @@ class HomeController extends Controller
                             'categorias'
                         ])
                         ->where('estado', 1)
-                        ->latest('id_producto')
+                        ->orderBy('orden')
+                        ->orderByDesc('id_producto')
                         ->take(10);
                 }
             ])
@@ -83,7 +84,8 @@ class HomeController extends Controller
                 'categorias'
             ])
             ->where('estado', 1)
-            ->latest('id_producto')
+            ->orderBy('orden')
+            ->orderByDesc('id_producto')
             ->take(10)
             ->get();
 

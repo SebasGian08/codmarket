@@ -47,7 +47,7 @@ class ProductoController extends Controller
             $query->where('id_proveedor', $filtros['id_proveedor']);
         }
 
-        $productos = $query->orderBy('nombre', 'asc')->get();
+        $productos = $query->orderBy('orden')->orderBy('id_producto')->get();
         $marcas = Marca::where('estado', 1)->get();
         $proveedores = Proveedor::where('estado', 1)->get();
         $categorias = Categoria::whereNull('id_categoria_padre')
@@ -282,6 +282,19 @@ class ProductoController extends Controller
         $mensaje = $producto->estado ? 'Producto visible en la web' : 'Producto oculto de la web';
 
         return back()->with('success', $mensaje);
+    }
+
+    public function actualizarOrden(Request $request, $id)
+    {
+        $request->validate([
+            'orden' => 'required|integer|min:1|max:4294967295',
+        ]);
+
+        $producto = Producto::findOrFail($id);
+        $producto->update(['orden' => $request->input('orden')]);
+
+        return redirect()->route('admin.productos.index')
+            ->with('success', 'Orden del producto actualizado');
     }
 
     public function plantilla()

@@ -46,6 +46,8 @@ class ProductoController extends Controller
                 })
                 ->orWhere('id_marca', $producto->id_marca);
             })
+            ->orderBy('orden')
+            ->orderByDesc('id_producto')
             ->take(8)
             ->get();
 
@@ -152,7 +154,7 @@ class ProductoController extends Controller
                 ->orWhere('descripcion_corta', 'LIKE', "%{$texto}%");
             });
         }
-        $productos = $query->latest()->paginate(12);
+        $productos = $query->orderBy('orden')->orderByDesc('id_producto')->paginate(12);
 
         $categorias = Categoria::where('estado', 1)->get();
         $marcas = Marca::where('estado', 1)->get();
@@ -181,7 +183,8 @@ class ProductoController extends Controller
 
             })
             ->where('estado', 1)
-            ->latest()
+            ->orderBy('orden')
+            ->orderByDesc('id_producto')
             ->paginate(12);
 
         $categorias = Categoria::where('estado', 1)->get();
@@ -209,7 +212,8 @@ class ProductoController extends Controller
                 $q->where('categorias.id_categoria', $categoria->id_categoria);
             })
             ->where('estado', 1)
-            ->latest()
+            ->orderBy('orden')
+            ->orderByDesc('id_producto')
             ->paginate(12);
 
         $categorias = Categoria::where('estado', 1)->get();

@@ -385,6 +385,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/guardar', [AdminProductoController::class, 'store'])->name('admin.productos.store');
         Route::get('/{id}/editar', [AdminProductoController::class, 'edit'])->name('admin.productos.edit');
         Route::put('/{id}/actualizar', [AdminProductoController::class, 'update'])->name('admin.productos.update');
+        Route::patch('/{id}/orden', [AdminProductoController::class, 'actualizarOrden'])->name('admin.productos.orden');
         Route::delete('/{id}/eliminar', [AdminProductoController::class, 'destroy'])->name('admin.productos.destroy');
         Route::patch('/{id}/toggle', [AdminProductoController::class, 'toggle'])->name('admin.productos.toggle');
         Route::get('/plantilla', [AdminProductoController::class, 'plantilla'])->name('admin.productos.plantilla');
