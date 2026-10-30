@@ -1,29 +1,7 @@
 @php
-$previewVariants = $producto->variantes
-    ->where('estado', 1)
-    ->map(function ($variante) {
-        return [
-            'id' => (int) $variante->id_variante,
-            'sku' => (string) $variante->sku,
-            'price' => $variante->precio !== null ? (float) $variante->precio : null,
-            'salePrice' => $variante->precio_oferta !== null ? (float) $variante->precio_oferta : null,
-            'attributes' => $variante->atributos->map(function ($valor) {
-                return [
-                    'id' => (int) ($valor->atributo->id_atributo ?? 0),
-                    'name' => $valor->atributo->nombre ?? 'Opción',
-                    'valueId' => (int) $valor->id_valor,
-                    'value' => $valor->valor,
-                ];
-            })->values(),
-            'images' => $variante->imagenes
-                ->sortBy('orden')
-                ->map(function ($imagen) {
-                    return asset($imagen->url);
-                })
-                ->values(),
-        ];
-    })
-    ->values();
+$precioVistaPrevia = $varianteInicial
+    ? ($varianteInicial->precio_oferta ?? $varianteInicial->precio)
+    : null;
 @endphp
 
 <button type="button"
@@ -31,13 +9,12 @@ $previewVariants = $producto->variantes
     data-preview-name="{{ $producto->nombre }}"
     data-preview-description="{{ trim(strip_tags((string) ($producto->descripcion_corta ?: $producto->descripcion))) }}"
     data-preview-url="{{ route('producto.show', $producto->slug) }}"
+    data-preview-price="{{ $precioVistaPrevia !== null ? number_format((float) $precioVistaPrevia, 2, '.', '') : '' }}"
     data-preview-image="{{ $varianteInicial && $varianteInicial->imagenes->isNotEmpty()
         ? asset($varianteInicial->imagenes->sortBy('orden')->first()->url)
         : asset('assets/images/tienda_virtual/default.png') }}"
-    data-preview-variant-id="{{ $varianteInicial->id_variante ?? '' }}"
     data-preview-featured="{{ $producto->destacado ? '1' : '0' }}"
-    data-preview-new="{{ $producto->nuevo ? '1' : '0' }}"
-    data-preview-variants='@json($previewVariants)'>
+    data-preview-new="{{ $producto->nuevo ? '1' : '0' }}">
     <i class="fal fa-eye" aria-hidden="true"></i>
     Vista previa
 </button>

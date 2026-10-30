@@ -379,12 +379,6 @@
     line-height: 1.25;
 }
 
-.product-quick-view-sku {
-    margin-bottom: 10px;
-    color: #7d899b;
-    font-size: 11px;
-}
-
 .product-quick-view-description {
     margin: 0;
     overflow: hidden;
@@ -402,58 +396,10 @@
     margin: 14px 0;
 }
 
-.product-quick-view-price-old {
-    color: #9aa4b2;
-    font-size: 13px;
-    text-decoration: line-through;
-}
-
 .product-quick-view-price-current {
     color: #1d293d;
     font-size: 24px;
     font-weight: 700;
-}
-
-.product-quick-view-variants {
-    width: 100%;
-    margin-bottom: 12px;
-}
-
-.product-quick-view-attribute {
-    margin-bottom: 12px;
-}
-
-.product-quick-view-variants-title {
-    display: block;
-    margin-bottom: 6px;
-    color: #354156;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.product-quick-view-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
-}
-
-.product-quick-view-option {
-    padding: 7px 10px;
-    color: #354156;
-    background: #fff;
-    border: 1px solid #dfe4eb;
-    border-radius: 8px;
-    font: inherit;
-    font-size: 11px;
-    cursor: pointer;
-    transition: color .2s ease, border-color .2s ease, background-color .2s ease;
-}
-
-.product-quick-view-option:hover,
-.product-quick-view-option.is-selected {
-    color: var(--color-primario, #ce0b2b);
-    background: rgba(206, 11, 43, .06);
-    border-color: var(--color-primario, #ce0b2b);
 }
 
 .product-quick-view-whatsapp {
@@ -745,20 +691,13 @@ html[data-theme="dark"] .product-quick-view-media {
 }
 
 html[data-theme="dark"] .product-quick-view-title,
-html[data-theme="dark"] .product-quick-view-price-current,
-html[data-theme="dark"] .product-quick-view-variants-title {
+html[data-theme="dark"] .product-quick-view-price-current {
     color: var(--theme-text);
 }
 
 html[data-theme="dark"] .product-quick-view-description,
 html[data-theme="dark"] .product-quick-view-category {
     color: var(--theme-muted);
-}
-
-html[data-theme="dark"] .product-quick-view-option {
-    color: var(--theme-text);
-    background: var(--theme-surface);
-    border-color: var(--theme-border);
 }
 
 html[data-theme="dark"] .product-quick-view-close {
