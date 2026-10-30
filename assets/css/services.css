@@ -525,15 +525,15 @@ html[data-theme="dark"] .services_blob--3 {
     right: 18px;
     bottom: 18px;
     display: inline-flex;
-    width: 40px;
-    height: 40px;
+    width: 34px;
+    height: 34px;
     align-items: center;
     justify-content: center;
     color: #fff;
     background: rgba(10, 40, 50, .28);
     border: 1px solid rgba(255, 255, 255, .42);
     border-radius: 50%;
-    font-size: 15px;
+    font-size: 13px;
     cursor: pointer;
     transition: opacity .25s ease, transform .3s ease, background-color .25s ease;
 }
@@ -543,12 +543,16 @@ html[data-theme="dark"] .services_blob--3 {
     border-color: var(--color-primario, #ce0b2b);
 }
 
-.service-expand-toggle i {
-    transition: transform .25s ease;
+.service-expand-close-icon {
+    display: none;
 }
 
-.service-expand-card.is-expanded .service-expand-toggle i {
-    transform: rotate(180deg);
+.service-expand-card.is-expanded .service-expand-open-icon {
+    display: none;
+}
+
+.service-expand-card.is-expanded .service-expand-close-icon {
+    display: inline-block;
 }
 
 .service-expand-card.is-expanded {
@@ -567,9 +571,8 @@ html[data-theme="dark"] .services_blob--3 {
 }
 
 .service-expand-card.is-expanded .service-expand-toggle {
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(.8);
+    color: #fff;
+    background: rgba(10, 40, 50, .72);
 }
 
 @media (max-width: 991px) {
@@ -578,7 +581,7 @@ html[data-theme="dark"] .services_blob--3 {
     }
 
     .service-expand-content {
-        padding: 28px 48px 78px 28px;
+        padding: 28px 66px 78px 28px;
     }
 
     .service-expand-copy {
@@ -610,11 +613,11 @@ html[data-theme="dark"] .services_blob--3 {
     }
 
     .service-expand-card.is-expanded {
-        flex-basis: 92%;
+        flex: 0 0 92%;
     }
 
     .service-expand-content {
-        padding: 24px 24px 30px;
+        padding: 24px 62px 72px 24px;
     }
 
     .service-expand-copy {
@@ -623,15 +626,6 @@ html[data-theme="dark"] .services_blob--3 {
 
     .service-expand-copy p {
         font-size: 14px;
-    }
-
-    .service-expand-card.is-expanded .service-expand-toggle {
-        top: 16px;
-        right: 16px;
-        bottom: auto;
-        opacity: 1;
-        pointer-events: auto;
-        transform: none;
     }
 
 }
@@ -660,11 +654,6 @@ html[data-theme="dark"] .services_blob--3 {
         transform: rotate(180deg) translateY(-10px);
     }
 
-    .service-expand-card:hover .service-expand-toggle {
-        opacity: 0;
-        pointer-events: none;
-        transform: scale(.8);
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {

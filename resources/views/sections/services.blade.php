@@ -46,8 +46,9 @@ $tipoServicios = $config['seccion_servicios_tipo'] ?? 'opcion_1';
                 </div>
 
                 <button type="button" class="service-expand-toggle"
-                    aria-label="Ver {{ $item->nombre }}" aria-expanded="false">
-                    <i class="fal fa-arrow-right" aria-hidden="true"></i>
+                    aria-label="Expandir {{ $item->nombre }}" aria-expanded="false">
+                    <i class="fal fa-arrow-right service-expand-open-icon" aria-hidden="true"></i>
+                    <i class="fal fa-times service-expand-close-icon" aria-hidden="true"></i>
                 </button>
             </article>
             @endforeach
@@ -111,8 +112,9 @@ document.addEventListener('click', function (event) {
         card.parentElement.querySelectorAll('.service-expand-card.is-expanded').forEach(function (otherCard) {
             if (otherCard === card) return;
             otherCard.classList.remove('is-expanded');
-            otherCard.querySelector('.service-expand-toggle').setAttribute('aria-expanded', 'false');
-            otherCard.querySelector('.service-expand-toggle').setAttribute(
+            const otherToggle = otherCard.querySelector('.service-expand-toggle');
+            otherToggle.setAttribute('aria-expanded', 'false');
+            otherToggle.setAttribute(
                 'aria-label',
                 'Expandir ' + otherCard.querySelector('.service-expand-collapsed-title').textContent.trim()
             );
