@@ -122,6 +122,13 @@
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
                                                 Formulario por marca
                                             </option>
+                                            @elseif($config->clave === 'seccion_servicios_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Tarjetas actuales
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Tarjetas expandibles al pasar el mouse
+                                            </option>
                                             @else
                                             @foreach(explode(',', $config->opciones ?? '') as $opcion)
                                             <option value="{{ $opcion }}"
