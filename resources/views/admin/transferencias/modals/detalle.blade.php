@@ -51,7 +51,7 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-sm table-striped mb-0">
+        <table class="table table-sm table-hover align-middle mb-0 trf-detalle-tabla">
             <thead>
                 <tr>
                     <th>Variante</th>
@@ -64,23 +64,36 @@
                 @php
                     $atributos = $detalle->variante->atributos
                         ->map(function ($a) {
-                            return ($a->atributo->nombre ?? '') . ': ' . $a->valor;
+                            return [
+                                'nombre' => $a->atributo->nombre ?? '',
+                                'valor' => $a->valor,
+                            ];
                         })
-                        ->implode(', ');
+                        ->values();
                 @endphp
                 <tr>
                     <td>
-                        <div class="fw-semibold">{{ $atributos ?: 'Sin variante' }}</div>
-                        <div class="small text-muted">{{ $detalle->variante->producto->nombre ?? 'Producto' }}</div>
+                        <div class="trf-detalle-producto">{{ $detalle->variante->producto->nombre ?? '—' }}</div>
+                        @if($atributos->isNotEmpty())
+                        <div class="trf-detalle-atributos">
+                            @foreach($atributos as $atributo)
+                            <span>{{ $atributo['nombre'] }}: {{ $atributo['valor'] }}</span>
+                            @endforeach
+                        </div>
+                        @endif
                     </td>
-                    <td>{{ $detalle->variante->sku ?? '—' }}</td>
-                    <td class="text-center">{{ $detalle->cantidad }}</td>
+                    <td>
+                        <span class="trf-detalle-sku">{{ $detalle->variante->sku ?? '—' }}</span>
+                    </td>
+                    <td class="text-center">
+                        <span class="trf-detalle-cantidad">{{ $detalle->cantidad }}</span>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="2" class="text-end">Total de unidades</th>
+                    <th colspan="2" class="text-end">Total</th>
                     <th class="text-center">{{ $transferencia->detalle->sum('cantidad') }}</th>
                 </tr>
             </tfoot>

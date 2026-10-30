@@ -1947,8 +1947,81 @@ html[data-theme="dark"] .kardex-sku {
     border-bottom: 1px solid rgba(0, 0, 0, .08);
 }
 
+.trf-detalle-tabla {
+    min-width: 420px;
+}
+
+.trf-detalle-tabla thead th {
+    padding: .65rem .8rem;
+    background: #f5f7fa;
+    color: #687386;
+    font-size: .72rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.trf-detalle-tabla tbody td {
+    padding: .75rem .8rem;
+}
+
+.trf-detalle-producto {
+    font-weight: 600;
+}
+
+.trf-detalle-atributos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+    margin-top: .3rem;
+}
+
+.trf-detalle-atributos span,
+.trf-detalle-sku {
+    display: inline-block;
+    padding: .2rem .45rem;
+    border: 1px solid #e1e6ed;
+    border-radius: 5px;
+    background: #f8f9fb;
+    color: #596579;
+    font-size: .75rem;
+}
+
+.trf-detalle-sku {
+    font-family: var(--bs-font-monospace);
+    white-space: nowrap;
+}
+
+.trf-detalle-cantidad {
+    display: inline-flex;
+    min-width: 2.25rem;
+    justify-content: center;
+    padding: .25rem .55rem;
+    border-radius: 6px;
+    background: rgba(13, 110, 253, .1);
+    color: var(--bs-primary);
+    font-weight: 700;
+}
+
 html[data-theme="dark"] .trf-resultados-total {
     border-bottom-color: var(--ka-border, #3a4658);
+}
+
+html[data-theme="dark"] .trf-detalle-tabla thead th {
+    background: #303d50;
+    color: #b6c0ce;
+}
+
+html[data-theme="dark"] .trf-detalle-atributos span,
+html[data-theme="dark"] .trf-detalle-sku {
+    border-color: var(--ka-border, #3a4658);
+    background: #354154;
+    color: #d5dbe5;
+}
+
+html[data-theme="dark"] .trf-detalle-cantidad {
+    background: rgba(13, 110, 253, .2);
+    color: #8db9ff;
 }
 
 html[data-theme="dark"] .trf-filtros .form-control,
