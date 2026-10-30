@@ -2132,6 +2132,17 @@ html[data-theme="dark"] .trf-filtros .input-group-text {
     margin-left: auto;
 }
 
+.inv-consulta-page-size {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+}
+
+.inv-consulta-page-size .form-select {
+    width: auto;
+    min-width: 4.5rem;
+}
+
 .inv-consulta-paginacion .pagination {
     margin-bottom: 0;
 }
@@ -2164,6 +2175,10 @@ html[data-theme="dark"] .inv-consulta-tabla thead th {
 
     .inv-consulta-paginacion nav {
         margin-left: 0;
+    }
+
+    .inv-consulta-page-size {
+        justify-content: center;
     }
 }
 /* ============ FIN CONSULTA DE STOCK ============ */

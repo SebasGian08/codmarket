@@ -136,13 +136,31 @@
                 </tbody>
             </table>
         </div>
-        @if($registros->hasPages())
+        @if($registros->total() > 0)
         <div class="card-footer inv-consulta-paginacion">
-            <span class="text-muted small">
-                Mostrando {{ number_format($registros->firstItem()) }} al {{ number_format($registros->lastItem()) }}
-                de {{ number_format($registros->total()) }} registros
-            </span>
+            <div class="d-flex flex-wrap align-items-center gap-3">
+                <span class="text-muted small">
+                    Mostrando {{ number_format($registros->firstItem()) }} al {{ number_format($registros->lastItem()) }}
+                    de {{ number_format($registros->total()) }} registros
+                </span>
+                <form method="GET" action="{{ route('admin.inventario.consulta') }}" class="inv-consulta-page-size">
+                    <input type="hidden" name="buscar" value="{{ $filtros['buscar'] }}">
+                    <input type="hidden" name="id_tienda" value="{{ $filtros['id_tienda'] }}">
+                    <input type="hidden" name="estado_stock" value="{{ $filtros['estado_stock'] }}">
+                    <label for="consultaPorPagina" class="small text-muted">Mostrar</label>
+                    <select id="consultaPorPagina" name="por_pagina" class="form-select form-select-sm"
+                        onchange="this.form.submit()">
+                        @foreach([10, 25, 50, 100] as $cantidad)
+                        <option value="{{ $cantidad }}" {{ $filtros['por_pagina'] === $cantidad ? 'selected' : '' }}>
+                            {{ $cantidad }}
+                        </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
+            @if($registros->hasPages())
             {{ $registros->links('pagination::bootstrap-5') }}
+            @endif
         </div>
         @endif
     </div>

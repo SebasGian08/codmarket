@@ -83,12 +83,14 @@ class InventarioController extends Controller
             'buscar' => 'nullable|string|max:150',
             'id_tienda' => 'nullable|integer|exists:tiendas,id_tienda',
             'estado_stock' => 'nullable|in:agotado,bajo,disponible',
+            'por_pagina' => 'nullable|integer|in:10,25,50,100',
         ]);
 
         return [
             'buscar' => trim((string) $request->query('buscar', '')),
             'id_tienda' => $request->query('id_tienda'),
             'estado_stock' => $request->query('estado_stock'),
+            'por_pagina' => (int) $request->query('por_pagina', 25),
         ];
     }
 
@@ -107,7 +109,7 @@ class InventarioController extends Controller
             ->selectRaw('COALESCE(SUM(stock), 0) as unidades')
             ->first();
 
-        $registros = $consultaFiltrada->paginate(25)->withQueryString();
+        $registros = $consultaFiltrada->paginate($filtros['por_pagina'])->withQueryString();
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre')->get();
 
         return view('admin.inventarios.consulta', compact('filtros', 'resumen', 'registros', 'tiendas'));
