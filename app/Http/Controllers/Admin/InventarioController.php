@@ -90,7 +90,7 @@ class InventarioController extends Controller
             'buscar' => trim((string) $request->query('buscar', '')),
             'id_tienda' => $request->query('id_tienda'),
             'estado_stock' => $request->query('estado_stock'),
-            'por_pagina' => (int) $request->query('por_pagina', 25),
+            'por_pagina' => (int) $request->query('por_pagina', 10),
         ];
     }
 

@@ -2120,6 +2120,12 @@ html[data-theme="dark"] .trf-filtros .input-group-text {
     font-size: .8rem;
 }
 
+.inv-consulta-tabla-controles {
+    display: flex;
+    align-items: center;
+    padding: .75rem 1rem;
+}
+
 .inv-consulta-paginacion {
     display: flex;
     flex-wrap: wrap;
@@ -2136,11 +2142,14 @@ html[data-theme="dark"] .trf-filtros .input-group-text {
     display: inline-flex;
     align-items: center;
     gap: .45rem;
+    margin: 0;
 }
 
 .inv-consulta-page-size .form-select {
     width: auto;
     min-width: 4.5rem;
+    padding-top: .25rem;
+    padding-bottom: .25rem;
 }
 
 .inv-consulta-paginacion .pagination {
@@ -2167,10 +2176,6 @@ html[data-theme="dark"] .inv-consulta-tabla thead th {
         min-width: 0;
         padding-right: .55rem;
         padding-left: .55rem;
-    }
-
-    .inv-consulta-paginacion {
-        justify-content: center;
     }
 
     .inv-consulta-paginacion nav {
