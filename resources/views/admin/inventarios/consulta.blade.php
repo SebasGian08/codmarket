@@ -155,12 +155,12 @@
         </div>
         @if($registros->total() > 0)
         <div class="card-footer inv-consulta-paginacion">
-            <span class="text-muted small">
-                Mostrando {{ number_format($registros->firstItem()) }} al {{ number_format($registros->lastItem()) }}
-                de {{ number_format($registros->total()) }} registros
-            </span>
             @if($registros->hasPages())
             {{ $registros->links('pagination::bootstrap-5') }}
+            @else
+            <span class="text-muted small">
+                Mostrando {{ number_format($registros->total()) }} registros
+            </span>
             @endif
         </div>
         @endif
