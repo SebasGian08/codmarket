@@ -23,7 +23,7 @@ return new class extends Migration
         }
 
         $datos = [
-            'categoria' => 'secciones_inicio',
+            'categoria' => 'home',
             'descripcion' => 'Diseño de presentación de Servicios',
             'tipo' => 'select',
             'opciones' => implode(',', $opciones),

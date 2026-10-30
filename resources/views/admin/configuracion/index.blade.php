@@ -129,6 +129,13 @@
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
                                                 Tarjetas expandibles al pasar el mouse
                                             </option>
+                                            @elseif($config->clave === 'seccion_nosotros_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Diseño actual
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Diseño con misión y visión
+                                            </option>
                                             @else
                                             @foreach(explode(',', $config->opciones ?? '') as $opcion)
                                             <option value="{{ $opcion }}"

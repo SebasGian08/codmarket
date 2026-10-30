@@ -10,7 +10,7 @@ return new class extends Migration
         DB::table('configuraciones')->updateOrInsert(
             ['clave' => 'seccion_steps_tipo'],
             [
-                'categoria' => 'secciones_inicio',
+                'categoria' => 'home',
                 'valor' => 'opcion_1',
                 'descripcion' => 'Diseño de presentación de Por qué elegirnos',
                 'tipo' => 'select',
