@@ -2120,6 +2120,22 @@ html[data-theme="dark"] .trf-filtros .input-group-text {
     font-size: .8rem;
 }
 
+.inv-consulta-paginacion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+}
+
+.inv-consulta-paginacion nav {
+    margin-left: auto;
+}
+
+.inv-consulta-paginacion .pagination {
+    margin-bottom: 0;
+}
+
 html[data-theme="dark"] .inv-consulta-filtros .form-control,
 html[data-theme="dark"] .inv-consulta-filtros .form-select {
     border-color: var(--ka-border, #3a4658);
@@ -2140,6 +2156,14 @@ html[data-theme="dark"] .inv-consulta-tabla thead th {
         min-width: 0;
         padding-right: .55rem;
         padding-left: .55rem;
+    }
+
+    .inv-consulta-paginacion {
+        justify-content: center;
+    }
+
+    .inv-consulta-paginacion nav {
+        margin-left: 0;
     }
 }
 /* ============ FIN CONSULTA DE STOCK ============ */

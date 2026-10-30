@@ -137,8 +137,12 @@
             </table>
         </div>
         @if($registros->hasPages())
-        <div class="card-footer d-flex justify-content-end">
-            {{ $registros->links() }}
+        <div class="card-footer inv-consulta-paginacion">
+            <span class="text-muted small">
+                Mostrando {{ number_format($registros->firstItem()) }} al {{ number_format($registros->lastItem()) }}
+                de {{ number_format($registros->total()) }} registros
+            </span>
+            {{ $registros->links('pagination::bootstrap-5') }}
         </div>
         @endif
     </div>
