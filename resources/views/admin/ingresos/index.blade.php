@@ -107,7 +107,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-hover" id="basic-datatables">
+                <table class="table table-hover" id="basic-datatables" data-initial-order='[[4, "desc"]]'>
 
                     <thead>
                         <tr>
@@ -115,7 +115,7 @@
                             <th>Tipo</th>
                             <th>Tienda</th>
                             <th>Proveedor / Venta</th>
-                            <th>Fecha</th>
+                            <th>Fecha de registro</th>
                             <th>Registrado por</th>
                             <th>Estado</th>
                             <th>Acciones</th>
@@ -152,7 +152,9 @@
                                     {{ $ingreso->proveedor->nombre ?? '—' }}
                                 @endif
                             </td>
-                            <td>{{ $ingreso->fecha->format('d/m/Y') }}</td>
+                            <td data-order="{{ optional($ingreso->created_at)->timestamp }}">
+                                {{ optional($ingreso->created_at)->format('d/m/Y H:i') }}
+                            </td>
                             <td>{{ $ingreso->usuario->nombres }} {{ $ingreso->usuario->apellidos }}</td>
                             <td>
                                 <span class="badge {{ $ingreso->estado ? 'bg-success' : 'bg-danger' }}">

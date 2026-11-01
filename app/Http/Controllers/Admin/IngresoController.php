@@ -56,14 +56,14 @@ class IngresoController extends Controller
         }
 
         if (!empty($filtros['fecha_desde'])) {
-            $query->whereDate('fecha', '>=', $filtros['fecha_desde']);
+            $query->whereDate('created_at', '>=', $filtros['fecha_desde']);
         }
 
         if (!empty($filtros['fecha_hasta'])) {
-            $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
+            $query->whereDate('created_at', '<=', $filtros['fecha_hasta']);
         }
 
-        $ingresos = $query->orderBy('id_ingreso', 'desc')->get();
+        $ingresos = $query->orderBy('created_at', 'desc')->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $proveedores = Proveedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
