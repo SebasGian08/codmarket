@@ -999,7 +999,6 @@
         document.getElementById('varianteInput').value = '';
         renderAtributosFiltros();
         renderVariantesGrid(productoActual ? productoActual.variantes : []);
-        document.getElementById('varianteInput').focus();
     }
 
     /* ============ CARRITO ============ */
