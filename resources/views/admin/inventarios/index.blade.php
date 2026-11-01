@@ -211,6 +211,12 @@
 
     /* ============ KPIs ============ */
     function actualizarKPIs() {
+        var kpiVariantes = document.getElementById('kpiVariantes');
+        var kpiConStock = document.getElementById('kpiConStock');
+        var kpiValorizado = document.getElementById('kpiValorizado');
+
+        if (!kpiVariantes || !kpiConStock || !kpiValorizado) return;
+
         var totalVariantes = 0;
         var conStock = 0;
         var valorizado = 0;
@@ -229,9 +235,9 @@
             });
         });
 
-        document.getElementById('kpiVariantes').textContent = totalVariantes;
-        document.getElementById('kpiConStock').textContent = conStock;
-        document.getElementById('kpiValorizado').textContent = 'S/ ' + valorizado.toFixed(2);
+        kpiVariantes.textContent = totalVariantes;
+        kpiConStock.textContent = conStock;
+        kpiValorizado.textContent = 'S/ ' + valorizado.toFixed(2);
     }
 
     /* ============ PRODUCTO: BUSCADOR ============ */
