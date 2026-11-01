@@ -664,10 +664,12 @@
             }).join('');
 
             var st = stockVariante(v.id);
-            var stockClass = st <= 0 ? ' sin-stock' : '';
+            var sinStock = st <= 0;
+            var stockClass = sinStock ? ' sin-stock' : '';
             var imgSrc = v.imagen || defaultImg;
 
-            return '<button type="button" class="venta-var-btn" data-variante="' + v.id + '">' +
+            return '<button type="button" class="venta-var-btn' + stockClass + '" data-variante="' + v.id + '"' +
+                (sinStock ? ' disabled aria-disabled="true" title="Sin stock disponible en esta tienda"' : '') + '>' +
                 '<div class="venta-var-img">' +
                 '<img src="' + escapeHtml(imgSrc) + '" alt="" loading="lazy" ' +
                 'onerror="this.onerror=null;this.src=\'' + defaultImg + '\'">' +
@@ -675,7 +677,8 @@
                 (attrs ? '<div class="venta-var-atributos">' + attrs + '</div>' : '') +
                 '<div class="venta-var-sku">' + escapeHtml(v.sku || 'SKU ' + v.id) + '</div>' +
                 '<div class="venta-var-precio">' + moneda(precioVariante(v)) + '</div>' +
-                '<div class="venta-var-stock' + stockClass + '">' + st + (st === 1 ? ' ud' : ' uds') + '</div>' +
+                '<div class="venta-var-stock' + stockClass + '">' +
+                (sinStock ? 'Sin stock' : st + (st === 1 ? ' ud' : ' uds')) + '</div>' +
                 '</button>';
         }).join('');
     }
@@ -816,8 +819,12 @@
             if (vExacta) {
                 renderAtributosFiltros();
                 renderVariantesGrid(productoActual.variantes);
-                varianteActual = vExacta;
                 card.classList.remove('d-none');
+                if (stockVariante(vExacta.id) <= 0) {
+                    varianteActual = null;
+                    return;
+                }
+                varianteActual = vExacta;
                 if (agregarAlCarrito()) finalizarAgregado();
                 return;
             }
@@ -828,8 +835,12 @@
             var unica = productoActual.variantes[0];
             renderAtributosFiltros();
             renderVariantesGrid(productoActual.variantes);
-            varianteActual = unica;
             card.classList.remove('d-none');
+            if (stockVariante(unica.id) <= 0) {
+                varianteActual = null;
+                return;
+            }
+            varianteActual = unica;
             if (agregarAlCarrito()) finalizarAgregado();
             return;
         }
@@ -848,6 +859,11 @@
         varianteActual = productoActual.variantes.find(function(v) { return v.id === id; }) || null;
 
         if (!varianteActual) {
+            return;
+        }
+
+        if (stockVariante(varianteActual.id) <= 0) {
+            varianteActual = null;
             return;
         }
 
@@ -924,7 +940,7 @@
         var cant = 1;
         var stock = stockVariante(varianteActual.id);
 
-        if (stock > 0 && cant > stock) {
+        if (stock <= 0 || cant > stock) {
             Swal.fire('Stock insuficiente', 'Stock disponible en tienda: ' + stock, 'warning');
             return false;
         }
@@ -935,7 +951,7 @@
         if (existente) {
             var nueva = existente.cantidad + cant;
 
-            if (stock > 0 && nueva > stock) {
+            if (stock <= 0 || nueva > stock) {
                 Swal.fire('Stock insuficiente', 'Stock disponible en tienda: ' + stock, 'warning');
                 return false;
             }
@@ -1093,7 +1109,7 @@
         if (mas) {
             var i2 = parseInt(mas.dataset.idx);
             var stock = carrito[i2].stock;
-            if (stock > 0 && carrito[i2].cantidad >= stock) {
+            if (stock <= 0 || carrito[i2].cantidad >= stock) {
                 Swal.fire('Stock insuficiente', 'Stock disponible: ' + stock, 'warning');
                 return;
             }
@@ -1111,7 +1127,7 @@
 
         if (!c || c < 1) {
             carrito[i].cantidad = 1;
-        } else if (carrito[i].stock > 0 && c > carrito[i].stock) {
+        } else if (carrito[i].stock <= 0 || c > carrito[i].stock) {
             carrito[i].cantidad = carrito[i].stock;
         } else {
             carrito[i].cantidad = c;
@@ -1129,16 +1145,34 @@
     });
 
     function revalidarCarrito() {
-        carrito.forEach(function(item) {
+        var cantidadAntes = carrito.length;
+        carrito = carrito.filter(function(item) {
             var stock = stockVariante(item.id_variante);
             item.stock = stock;
 
-            if (stock > 0 && item.cantidad > stock) {
+            if (stock <= 0) {
+                return false;
+            }
+
+            if (item.cantidad > stock) {
                 item.cantidad = stock;
             }
+
+            return true;
         });
 
         renderCarrito();
+
+        var retirados = cantidadAntes - carrito.length;
+        if (retirados > 0) {
+            Swal.fire(
+                'Productos retirados',
+                retirados === 1
+                    ? 'Se retiró un producto porque no tiene stock en la tienda seleccionada.'
+                    : 'Se retiraron ' + retirados + ' productos porque no tienen stock en la tienda seleccionada.',
+                'warning'
+            );
+        }
     }
 
     function calcularTotal() {
