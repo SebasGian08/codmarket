@@ -319,6 +319,26 @@ html[data-theme="dark"] .venta-var-btn {
     transform: translateY(-1px);
 }
 
+.venta-var-btn:disabled {
+    background: #f8f9fa;
+    cursor: not-allowed;
+    opacity: .6;
+}
+
+html[data-theme="dark"] .venta-var-btn:disabled {
+    background: var(--ka-surface);
+}
+
+.venta-var-btn:disabled:hover {
+    border-color: rgba(0, 0, 0, .1);
+    box-shadow: none;
+    transform: none;
+}
+
+html[data-theme="dark"] .venta-var-btn:disabled:hover {
+    border-color: var(--ka-border);
+}
+
 .venta-var-btn:focus-visible {
     outline: 2px solid var(--bs-primary);
     outline-offset: 1px;
