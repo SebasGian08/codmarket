@@ -993,26 +993,13 @@
     }
 
     function finalizarAgregado() {
-        productoActual = null;
         varianteActual = null;
         atributosActivos = {};
 
-        document.getElementById('productoInput').value = '';
-        document.getElementById('productoId').value = '';
-        document.getElementById('varianteCard').classList.add('d-none');
         document.getElementById('varianteInput').value = '';
-        document.getElementById('variantesGrid').innerHTML = '';
-
-        var filtros = document.getElementById('atributosFiltros');
-        filtros.innerHTML = '';
-        filtros.classList.add('d-none');
-
-        // Quitar resaltado de catálogo
-        document.querySelectorAll('#catalogoGrid .venta-prod-btn').forEach(function(b) {
-            b.classList.remove('seleccionado');
-        });
-
-        document.getElementById('productoInput').focus();
+        renderAtributosFiltros();
+        renderVariantesGrid(productoActual ? productoActual.variantes : []);
+        document.getElementById('varianteInput').focus();
     }
 
     /* ============ CARRITO ============ */
