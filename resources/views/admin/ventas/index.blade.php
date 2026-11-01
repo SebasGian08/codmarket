@@ -850,7 +850,6 @@
         renderVariantesGrid(productoActual.variantes);
         varianteActual = null;
         card.classList.remove('d-none');
-        input.focus();
     }
 
     function seleccionarVariante(id) {
