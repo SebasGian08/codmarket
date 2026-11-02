@@ -86,6 +86,18 @@ class HomeController extends Controller
                 'categorias'
             ])
             ->where('estado', 1)
+            ->orderBy('orden')
+            ->take(10)
+            ->get();
+
+        $productosDestacados = Producto::with([
+                'marca',
+                'variantes.imagenes',
+                'variantes.atributos.atributo',
+                'imagenes',
+                'categorias'
+            ])
+            ->where('estado', 1)
             ->orderByDesc('nuevo')
             ->orderByDesc('destacado')
             ->orderBy('orden')
@@ -136,6 +148,7 @@ class HomeController extends Controller
             'categorias',
             'allCategorias',
             'productos',
+            'productosDestacados',
             'categoriasProductos',
             'promociones',
             'marcas',

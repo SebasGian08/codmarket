@@ -101,7 +101,7 @@
 
 @if($mostrarProductosDestacados == 1)
     <div class="scroll-reveal reveal-left">{{-- Productos destacados: izquierda --}}
-        @include('sections.products_destacados')
+        @include('sections.products_destacados', ['productos' => $productosDestacados])
     </div>
 @endif
 
