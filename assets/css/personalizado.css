@@ -1804,7 +1804,7 @@ html[data-theme="dark"] .sidebar_mobile_menu .submenu_flat_children > li:focus-w
     height: 30px;
     align-items: center;
     justify-content: center;
-    color: #526174;
+    color: var(--color-primario, #ce0b2b);
     background: #fff;
     border: 1px solid #e6eaf0;
     border-radius: 50%;
