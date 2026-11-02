@@ -382,6 +382,7 @@ class VentaController extends Controller
 
         return response()->json([
             'venta' => $venta,
+            'fecha_formateada' => $venta->created_at->format('d/m/Y H:i'),
         ]);
     }
 

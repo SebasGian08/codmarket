@@ -193,7 +193,7 @@
                 '<div class="row g-2 mb-3">' +
                 '<div class="col-md-4"><span class="small text-muted">Cliente</span><div class="fw-semibold">' + escapeHtml(v.nombre_cliente) + '</div></div>' +
                 '<div class="col-md-4"><span class="small text-muted">Tienda</span><div class="fw-semibold">' + escapeHtml(v.tienda.nombre) + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Fecha</span><div class="fw-semibold">' + escapeHtml(v.created_at) + '</div></div>' +
+                '<div class="col-md-4"><span class="small text-muted">Fecha</span><div class="fw-semibold">' + escapeHtml(res.fecha_formateada) + '</div></div>' +
                 '<div class="col-md-4"><span class="small text-muted">Caja</span><div class="fw-semibold">' + escapeHtml(v.caja.nombre) + '</div></div>' +
                 '<div class="col-md-4"><span class="small text-muted">Pago</span><div class="fw-semibold">' + escapeHtml(v.metodo_pago ? v.metodo_pago.nombre : '—') + '</div></div>' +
                 '<div class="col-md-4"><span class="small text-muted">Vendedor</span><div class="fw-semibold">' + escapeHtml(v.vendedor ? v.vendedor.nombre : '—') + '</div></div>' +
