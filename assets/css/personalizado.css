@@ -1804,7 +1804,7 @@ html[data-theme="dark"] .sidebar_mobile_menu .submenu_flat_children > li:focus-w
     height: 30px;
     align-items: center;
     justify-content: center;
-    color: var(--color-primario, #ce0b2b);
+    color: #526174;
     background: #fff;
     border: 1px solid #e6eaf0;
     border-radius: 50%;
@@ -1812,10 +1812,6 @@ html[data-theme="dark"] .sidebar_mobile_menu .submenu_flat_children > li:focus-w
     text-decoration: none;
     transition: color .2s ease, background-color .2s ease, border-color .2s ease,
         box-shadow .2s ease, transform .2s ease;
-}
-
-.fashion_minimal_header .topbar_main .primary_social_links a i {
-    color: inherit;
 }
 
 .fashion_minimal_header .topbar_main .primary_social_links a:hover,
@@ -1856,7 +1852,7 @@ html[data-theme="dark"] .sidebar_mobile_menu .submenu_flat_children > li:focus-w
     align-items: center;
     justify-content: center;
     color: var(--color-primario, #ce0b2b);
-    background: rgba(206, 11, 43, .08);
+    background: white;
     border-radius: 50%;
     font-size: 11px;
 }
@@ -1871,11 +1867,6 @@ html[data-theme="dark"] .fashion_minimal_header .topbar_main .primary_social_lin
     color: var(--theme-text);
     background: var(--theme-surface-raised);
     border-color: var(--theme-border);
-}
-
-html[data-theme="dark"] .fashion_minimal_header .topbar_main .primary_social_links a:hover,
-html[data-theme="dark"] .fashion_minimal_header .topbar_main .primary_social_links a:focus-visible {
-    color: #fff !important;
 }
 
 html[data-theme="dark"] .fashion_minimal_header .topbar_main .contact_info > li,
