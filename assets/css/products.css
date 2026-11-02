@@ -402,22 +402,41 @@
     font-weight: 700;
 }
 
-.product-quick-view-whatsapp {
+.product-quick-view-actions {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.product-quick-view-whatsapp,
+.product-quick-view-details-link {
     display: inline-flex;
     min-height: 44px;
     align-items: center;
     justify-content: center;
     gap: 9px;
-    margin-top: auto;
     flex-shrink: 0;
     padding: 11px 17px;
-    color: #fff;
-    background: #25a85a;
     border-radius: 9px;
     font-size: 12px;
     font-weight: 700;
     text-decoration: none;
-    transition: background-color .2s ease;
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease;
+}
+
+.product-quick-view-whatsapp {
+    flex: 1;
+    color: #fff;
+    background: #25a85a;
+}
+
+.product-quick-view-details-link {
+    color: #263348;
+    background: #fff;
+    border: 1px solid #dfe4ea;
 }
 
 .product-quick-view-whatsapp:hover {
@@ -425,8 +444,25 @@
     background: #168746;
 }
 
+.product-quick-view-details-link:hover {
+    color: var(--color-primario, #ce0b2b);
+    border-color: var(--color-primario, #ce0b2b);
+    background: #fff;
+}
+
 .product-quick-view-whatsapp i {
     font-size: 17px;
+}
+
+@media (max-width: 575px) {
+    .product-quick-view-actions {
+        flex-direction: column;
+    }
+
+    .product-quick-view-whatsapp,
+    .product-quick-view-details-link {
+        width: 100%;
+    }
 }
 
 .catalogo-producto-etiqueta {

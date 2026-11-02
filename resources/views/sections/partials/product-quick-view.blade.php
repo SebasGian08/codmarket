@@ -40,7 +40,6 @@ $telefonoWhatsApp = isset($empresa)
                 </div>
 
                 <div class="product-quick-view-details">
-                    <div class="product-quick-view-category">Vista rápida</div>
                     <h2 id="productQuickViewTitle" class="product-quick-view-title"></h2>
                     <p class="product-quick-view-description"></p>
 
@@ -48,10 +47,15 @@ $telefonoWhatsApp = isset($empresa)
                         <span class="product-quick-view-price-current">Consultar</span>
                     </div>
 
-                    <a class="product-quick-view-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
-                        Consultar por WhatsApp
-                    </a>
+                    <div class="product-quick-view-actions">
+                        <a class="product-quick-view-whatsapp" href="#" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                            Consultar por WhatsApp
+                        </a>
+                        <a class="product-quick-view-details-link" href="#">
+                            Ver más detalle <i class="fal fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const badge = modal.querySelector('.product-quick-view-badge');
     const currentPrice = modal.querySelector('.product-quick-view-price-current');
     const whatsappButton = modal.querySelector('.product-quick-view-whatsapp');
+    const detailsLink = modal.querySelector('.product-quick-view-details-link');
     const gallery = modal.querySelector('.product-quick-view-gallery');
     const thumbnails = modal.querySelector('.product-quick-view-thumbnails');
     const dots = modal.querySelector('.product-quick-view-dots');
@@ -181,6 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         title.textContent = activeProduct.name;
         description.textContent = activeProduct.description;
+        detailsLink.href = activeProduct.url;
         renderGallery(activeProduct.images);
         currentPrice.textContent = activeProduct.price ? 'S/ ' + activeProduct.price : 'Consultar';
 
