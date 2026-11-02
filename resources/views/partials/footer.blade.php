@@ -366,6 +366,8 @@ $whatsapp = preg_replace('/[^0-9]/', '', $empresa->whatsapp ?? '');
 $mensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
 @endphp
 
-<a href="https://wa.me/{{ $whatsapp }}?text={{ $mensaje }}" class="whatsapp-float" target="_blank">
+<a href="https://wa.me/{{ $whatsapp }}?text={{ $mensaje }}" class="whatsapp-float" target="_blank"
+    rel="noopener noreferrer" aria-label="Contactar por WhatsApp, 2 notificaciones nuevas">
     <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-float-counter" aria-hidden="true">2</span>
 </a>

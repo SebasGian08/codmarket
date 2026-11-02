@@ -3104,9 +3104,33 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
     animation: pulse 2s infinite;
 }
 
+.whatsapp-float-counter {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    display: flex;
+    width: 23px;
+    height: 23px;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #e53935;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, .22);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
 .whatsapp-float:hover {
     transform: scale(1.08);
     color: #fff;
+}
+
+html[data-theme="dark"] .whatsapp-float-counter {
+    border-color: var(--theme-surface);
 }
 
 @keyframes pulse {
@@ -3162,6 +3186,12 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
         font-size: 28px;
         right: 18px;
         bottom: 18px;
+    }
+
+    .whatsapp-float-counter {
+        width: 21px;
+        height: 21px;
+        font-size: 10px;
     }
 
 }
