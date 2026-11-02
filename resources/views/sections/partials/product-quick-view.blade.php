@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const whatsappButton = modal.querySelector('.product-quick-view-whatsapp');
     const detailsLink = modal.querySelector('.product-quick-view-details-link');
     const gallery = modal.querySelector('.product-quick-view-gallery');
+    const stage = modal.querySelector('.product-quick-view-stage');
     const thumbnails = modal.querySelector('.product-quick-view-thumbnails');
     const dots = modal.querySelector('.product-quick-view-dots');
     const previousButton = modal.querySelector('.product-quick-view-previous');
@@ -94,6 +95,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const showImage = function (index) {
         activeImageIndex = (index + activeProduct.images.length) % activeProduct.images.length;
+        image.style.transform = '';
+        image.style.transformOrigin = '';
         image.src = activeProduct.images[activeImageIndex];
         image.alt = activeProduct.name + ' - Imagen ' + (activeImageIndex + 1);
 
@@ -207,6 +210,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     nextButton.addEventListener('click', function () {
         showImage(activeImageIndex + 1);
+    });
+
+    stage.addEventListener('mousemove', function (event) {
+        if (event.target.closest('button')) {
+            image.style.transform = '';
+            image.style.transformOrigin = '';
+            return;
+        }
+
+        const bounds = stage.getBoundingClientRect();
+        const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+        const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+
+        image.style.transformOrigin = x + '% ' + y + '%';
+        image.style.transform = 'scale(2)';
+    });
+
+    stage.addEventListener('mouseleave', function () {
+        image.style.transform = '';
+        image.style.transformOrigin = '';
     });
 
     modal.addEventListener('keydown', function (event) {

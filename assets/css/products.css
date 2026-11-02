@@ -799,10 +799,6 @@ html[data-theme="dark"] .product-quick-view-close {
     transition: transform .25s ease;
 }
 
-.product-quick-view-image:hover {
-    transform: scale(1.08);
-}
-
 .product-quick-view-media {
     overflow: hidden;
 }
