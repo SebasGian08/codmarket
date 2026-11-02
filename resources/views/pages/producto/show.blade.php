@@ -47,7 +47,8 @@ $variantesSelector = $variantes->map(function ($variante) {
                         @forelse($imagenes as $key => $img)
                         <div id="tab_{{ $key + 1 }}" class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}">
                             <div class="zoom-container">
-                                <img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}">
+                                <img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}"
+                                    role="button" tabindex="0" aria-label="Ampliar imagen del producto">
                             </div>
                         </div>
                         @empty
@@ -502,7 +503,8 @@ function updateGaleria(imagenes) {
     tabContent.innerHTML = lista.map((img, i) => `
         <div id="tabv_${i}" class="tab-pane fade ${i === 0 ? 'show active' : ''}">
             <div class="zoom-container">
-                <img src="${escAttr(img.url)}" alt="">
+                <img src="${escAttr(img.url)}" alt="" role="button" tabindex="0"
+                    aria-label="Ampliar imagen del producto">
             </div>
         </div>
     `).join('');

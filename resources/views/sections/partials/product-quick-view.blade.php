@@ -16,7 +16,8 @@ $telefonoWhatsApp = isset($empresa)
                 <div class="product-quick-view-media">
                     <span class="product-quick-view-badge" hidden></span>
                     <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                        alt="" class="product-quick-view-image">
+                        alt="" class="product-quick-view-image" role="button" tabindex="0"
+                        aria-label="Ampliar imagen del producto">
                 </div>
 
                 <div class="product-quick-view-details">
@@ -36,6 +37,14 @@ $telefonoWhatsApp = isset($empresa)
             </div>
         </div>
     </div>
+</div>
+
+<div class="producto-imagen-preview" id="productoImagenPreview" hidden role="dialog"
+    aria-modal="true" aria-label="Vista ampliada de la imagen" tabindex="-1">
+    <button type="button" class="producto-imagen-preview-cerrar" aria-label="Cerrar imagen ampliada">
+        <i class="fal fa-times" aria-hidden="true"></i>
+    </button>
+    <img class="producto-imagen-preview-img" src="" alt="">
 </div>
 
 @push('scripts')
@@ -93,6 +102,76 @@ document.addEventListener('DOMContentLoaded', function () {
         updateWhatsApp();
 
         window.jQuery(modal).modal('show');
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const preview = document.getElementById('productoImagenPreview');
+    const previewImage = preview.querySelector('.producto-imagen-preview-img');
+    const closeButton = preview.querySelector('.producto-imagen-preview-cerrar');
+    let activeTrigger = null;
+
+    function closePreview() {
+        preview.hidden = true;
+        previewImage.style.transform = '';
+        previewImage.style.transformOrigin = '';
+        document.body.classList.remove('producto-imagen-preview-activa');
+
+        if (activeTrigger && document.contains(activeTrigger)) {
+            activeTrigger.focus();
+        }
+        activeTrigger = null;
+    }
+
+    function openPreview(image) {
+        activeTrigger = image;
+        previewImage.src = image.currentSrc || image.src;
+        previewImage.alt = image.alt || '';
+        preview.hidden = false;
+        document.body.classList.add('producto-imagen-preview-activa');
+        closeButton.focus();
+    }
+
+    document.addEventListener('click', function (event) {
+        const trigger = event.target.closest('.zoom-container img, .product-quick-view-image');
+        if (trigger) {
+            event.preventDefault();
+            openPreview(trigger);
+            return;
+        }
+
+        if (event.target === preview || event.target.closest('.producto-imagen-preview-cerrar')) {
+            closePreview();
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        const trigger = event.target.closest
+            ? event.target.closest('.zoom-container img, .product-quick-view-image')
+            : null;
+
+        if (trigger && (event.key === 'Enter' || event.key === ' ')) {
+            event.preventDefault();
+            openPreview(trigger);
+        } else if (!preview.hidden && event.key === 'Escape') {
+            closePreview();
+        }
+    });
+
+    previewImage.addEventListener('mousemove', function (event) {
+        const bounds = previewImage.getBoundingClientRect();
+        const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+        const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+
+        previewImage.style.transformOrigin = x + '% ' + y + '%';
+        previewImage.style.transform = 'scale(1.35)';
+    });
+
+    previewImage.addEventListener('mouseleave', function () {
+        previewImage.style.transform = '';
+        previewImage.style.transformOrigin = '';
     });
 });
 </script>
