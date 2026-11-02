@@ -3104,6 +3104,60 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
     animation: pulse 2s infinite;
 }
 
+.whatsapp-float::before {
+    position: absolute;
+    right: calc(100% + 14px);
+    bottom: 8px;
+    width: max-content;
+    max-width: min(250px, calc(100vw - 120px));
+    padding: 12px 16px;
+    color: #263348;
+    background: #fff;
+    border: 1px solid #e8edf2;
+    border-radius: 14px 14px 4px 14px;
+    box-shadow: 0 8px 24px rgba(24, 39, 75, .16);
+    content: "Nos encantaría conversar directamente contigo, ¡escríbenos!";
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.45;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity .2s ease, visibility .2s ease, transform .2s ease;
+    pointer-events: none;
+}
+
+.whatsapp-float::after {
+    position: absolute;
+    right: calc(100% + 8px);
+    bottom: 17px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-right: 1px solid #e8edf2;
+    border-bottom: 1px solid #e8edf2;
+    content: "";
+    opacity: 0;
+    visibility: hidden;
+    transform: rotate(-45deg);
+    transition: opacity .2s ease, visibility .2s ease;
+    pointer-events: none;
+}
+
+.whatsapp-float:hover::before,
+.whatsapp-float:hover::after,
+.whatsapp-float:focus-visible::before,
+.whatsapp-float:focus-visible::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.whatsapp-float:hover::before,
+.whatsapp-float:focus-visible::before {
+    transform: translateY(0);
+}
+
 .whatsapp-float-counter {
     position: absolute;
     top: -3px;
@@ -3131,6 +3185,17 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
 
 html[data-theme="dark"] .whatsapp-float-counter {
     border-color: var(--theme-surface);
+}
+
+html[data-theme="dark"] .whatsapp-float::before {
+    color: var(--theme-text);
+    background: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+html[data-theme="dark"] .whatsapp-float::after {
+    background: var(--theme-surface);
+    border-color: var(--theme-border);
 }
 
 @keyframes pulse {
