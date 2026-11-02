@@ -3131,7 +3131,7 @@ html[data-theme="dark"] .footer_section.light_footer .footer_bottom {
 .whatsapp-float::after {
     position: absolute;
     right: calc(100% + 8px);
-    bottom: 17px;
+    bottom: 7px;
     width: 10px;
     height: 10px;
     background: #fff;
