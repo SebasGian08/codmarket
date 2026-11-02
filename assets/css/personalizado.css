@@ -1853,6 +1853,7 @@ html[data-theme="dark"] .sidebar_mobile_menu .submenu_flat_children > li:focus-w
     justify-content: center;
     color: var(--color-primario, #ce0b2b);
     background: white;
+    border-color: rgb(230, 234, 240);
     border-radius: 50%;
     font-size: 11px;
 }
