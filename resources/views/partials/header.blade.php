@@ -97,8 +97,14 @@
                     <!-- DERECHA: contacto -->
                     <div class="topbar_right">
                         <ul class="contact_info ul_li">
-                            <li><i class="fas fa-phone-alt mr-1"></i> {{ $empresa->telefono ?? '' }}</li>
-                            <li><i class="fas fa-envelope mr-1"></i> {{ $empresa->correo ?? '' }}</li>
+                            <li>
+                                <span class="topbar_contact_icon"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
+                                <span>{{ $empresa->telefono ?? '' }}</span>
+                            </li>
+                            <li>
+                                <span class="topbar_contact_icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                                <span>{{ $empresa->correo ?? '' }}</span>
+                            </li>
                         </ul>
                     </div>
 
