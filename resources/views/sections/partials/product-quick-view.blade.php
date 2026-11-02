@@ -15,9 +15,28 @@ $telefonoWhatsApp = isset($empresa)
             <div class="product-quick-view-layout">
                 <div class="product-quick-view-media">
                     <span class="product-quick-view-badge" hidden></span>
-                    <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                        alt="" class="product-quick-view-image" role="button" tabindex="0"
-                        aria-label="Ampliar imagen del producto">
+                    <div class="product-quick-view-gallery">
+                        <div class="product-quick-view-thumbnails"
+                            aria-label="Otras imágenes del producto" hidden></div>
+                        <div class="product-quick-view-stage">
+                            <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                alt="" class="product-quick-view-image" role="button" tabindex="0"
+                                aria-label="Ampliar imagen del producto">
+                            <button type="button" class="product-quick-view-zoom"
+                                aria-label="Ampliar imagen">
+                                <i class="fal fa-search-plus" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="product-quick-view-arrow product-quick-view-previous"
+                                aria-label="Imagen anterior" hidden>
+                                <i class="fal fa-arrow-left" aria-hidden="true"></i>
+                            </button>
+                            <div class="product-quick-view-dots" aria-label="Seleccionar imagen"></div>
+                            <button type="button" class="product-quick-view-arrow product-quick-view-next"
+                                aria-label="Imagen siguiente" hidden>
+                                <i class="fal fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="product-quick-view-details">
@@ -59,8 +78,72 @@ document.addEventListener('DOMContentLoaded', function () {
     const badge = modal.querySelector('.product-quick-view-badge');
     const currentPrice = modal.querySelector('.product-quick-view-price-current');
     const whatsappButton = modal.querySelector('.product-quick-view-whatsapp');
+    const gallery = modal.querySelector('.product-quick-view-gallery');
+    const thumbnails = modal.querySelector('.product-quick-view-thumbnails');
+    const dots = modal.querySelector('.product-quick-view-dots');
+    const previousButton = modal.querySelector('.product-quick-view-previous');
+    const nextButton = modal.querySelector('.product-quick-view-next');
     const fallbackImage = "{{ asset('assets/images/tienda_virtual/default.png') }}";
     let activeProduct = null;
+    let activeImageIndex = 0;
+
+    const showImage = function (index) {
+        activeImageIndex = (index + activeProduct.images.length) % activeProduct.images.length;
+        image.src = activeProduct.images[activeImageIndex];
+        image.alt = activeProduct.name + ' - Imagen ' + (activeImageIndex + 1);
+
+        thumbnails.querySelectorAll('.product-quick-view-thumbnail').forEach(function (thumbnail, i) {
+            const isActive = i === activeImageIndex;
+            thumbnail.classList.toggle('active', isActive);
+            thumbnail.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        dots.querySelectorAll('.product-quick-view-dot').forEach(function (dot, i) {
+            const isActive = i === activeImageIndex;
+            dot.classList.toggle('active', isActive);
+            dot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    };
+
+    const renderGallery = function (images) {
+        activeProduct.images = images.length ? images : [fallbackImage];
+        activeImageIndex = 0;
+        thumbnails.replaceChildren();
+        dots.replaceChildren();
+
+        activeProduct.images.forEach(function (src, index) {
+            const thumbnail = document.createElement('button');
+            thumbnail.type = 'button';
+            thumbnail.className = 'product-quick-view-thumbnail';
+            thumbnail.setAttribute('aria-label', 'Ver imagen ' + (index + 1));
+            thumbnail.addEventListener('click', function () {
+                showImage(index);
+            });
+
+            const thumbnailImage = document.createElement('img');
+            thumbnailImage.src = src;
+            thumbnailImage.alt = '';
+            thumbnail.appendChild(thumbnailImage);
+            thumbnails.appendChild(thumbnail);
+
+            const dot = document.createElement('button');
+            dot.type = 'button';
+            dot.className = 'product-quick-view-dot';
+            dot.setAttribute('aria-label', 'Ver imagen ' + (index + 1));
+            dot.addEventListener('click', function () {
+                showImage(index);
+            });
+            dots.appendChild(dot);
+        });
+
+        const hasMultipleImages = activeProduct.images.length > 1;
+        thumbnails.hidden = !hasMultipleImages;
+        previousButton.hidden = !hasMultipleImages;
+        nextButton.hidden = !hasMultipleImages;
+        dots.hidden = !hasMultipleImages;
+        gallery.classList.toggle('has-multiple-images', hasMultipleImages);
+        showImage(0);
+    };
 
     const updateWhatsApp = function () {
         const phone = modal.dataset.whatsappPhone;
@@ -85,12 +168,20 @@ document.addEventListener('DOMContentLoaded', function () {
             description: trigger.dataset.previewDescription || '',
             url: trigger.dataset.previewUrl || '',
             image: trigger.dataset.previewImage || fallbackImage,
+            images: [],
             price: trigger.dataset.previewPrice || ''
         };
+        const images = JSON.parse(trigger.dataset.previewImages || '[]');
+        activeProduct.images = Array.isArray(images)
+            ? images.filter(function (src) { return typeof src === 'string' && src !== ''; })
+            : [];
+        if (!activeProduct.images.length && activeProduct.image) {
+            activeProduct.images = [activeProduct.image];
+        }
+
         title.textContent = activeProduct.name;
         description.textContent = activeProduct.description;
-        image.src = activeProduct.image;
-        image.alt = activeProduct.name;
+        renderGallery(activeProduct.images);
         currentPrice.textContent = activeProduct.price ? 'S/ ' + activeProduct.price : 'Consultar';
 
         const badgeText = trigger.dataset.previewNew === '1'
@@ -102,6 +193,24 @@ document.addEventListener('DOMContentLoaded', function () {
         updateWhatsApp();
 
         window.jQuery(modal).modal('show');
+    });
+
+    previousButton.addEventListener('click', function () {
+        showImage(activeImageIndex - 1);
+    });
+
+    nextButton.addEventListener('click', function () {
+        showImage(activeImageIndex + 1);
+    });
+
+    modal.addEventListener('keydown', function (event) {
+        if (!activeProduct || activeProduct.images.length < 2) return;
+
+        if (event.key === 'ArrowLeft') {
+            showImage(activeImageIndex - 1);
+        } else if (event.key === 'ArrowRight') {
+            showImage(activeImageIndex + 1);
+        }
     });
 });
 </script>
@@ -126,16 +235,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function openPreview(image) {
+        const sourceImage = image.matches('img')
+            ? image
+            : image.closest('.product-quick-view-stage').querySelector('.product-quick-view-image');
         activeTrigger = image;
-        previewImage.src = image.currentSrc || image.src;
-        previewImage.alt = image.alt || '';
+        previewImage.src = sourceImage.currentSrc || sourceImage.src;
+        previewImage.alt = sourceImage.alt || '';
         preview.hidden = false;
         document.body.classList.add('producto-imagen-preview-activa');
         closeButton.focus();
     }
 
     document.addEventListener('click', function (event) {
-        const trigger = event.target.closest('.zoom-container img, .product-quick-view-image');
+        const trigger = event.target.closest(
+            '.zoom-container img, .product-quick-view-image, .product-quick-view-zoom'
+        );
         if (trigger) {
             event.preventDefault();
             openPreview(trigger);
@@ -149,13 +263,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.addEventListener('keydown', function (event) {
         const trigger = event.target.closest
-            ? event.target.closest('.zoom-container img, .product-quick-view-image')
+            ? event.target.closest(
+                '.zoom-container img, .product-quick-view-image, .product-quick-view-zoom'
+            )
             : null;
 
         if (trigger && (event.key === 'Enter' || event.key === ' ')) {
             event.preventDefault();
             openPreview(trigger);
         } else if (!preview.hidden && event.key === 'Escape') {
+            event.stopPropagation();
             closePreview();
         }
     });
