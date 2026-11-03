@@ -4,7 +4,7 @@
 
 @section('content')
 
-<section style="background: #ffffff; min-height:100vh; display:flex; align-items:center; justify-content:center; color:#fff; text-align:center; padding:40px;">
+<section style="background: #414141; min-height:100vh; display:flex; align-items:center; justify-content:center; color:#fff; text-align:center; padding:40px;">
     <div>
 
         <h1 style="font-size:42px; font-weight:700;color:white;">
