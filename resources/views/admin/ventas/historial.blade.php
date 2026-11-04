@@ -83,7 +83,7 @@
         <div class="card-body">
             <div class="table-responsive">
 
-                <table class="table table-hover" id="basic-datatables">
+                <table class="table table-hover">
 
                     <thead>
                         <tr>
@@ -156,8 +156,8 @@
 
             </div>
 
-            <div class="d-flex justify-content-end">
-                {{ $ventas->links() }}
+            <div class="d-flex justify-content-end mt-3">
+                {{ $ventas->links('pagination::bootstrap-4') }}
             </div>
 
         </div>
