@@ -34,6 +34,10 @@
                         <span class="cierre-info-label"><i class="fa fa-user-tie me-1"></i> Vendedor</span>
                         <span class="cierre-info-value" id="cierreVentaVendedor">—</span>
                     </div>
+                    <div class="cierre-info-item cierre-info-item-observaciones d-none" id="cierreVentaObservacionesWrap">
+                        <span class="cierre-info-label"><i class="fa fa-comment me-1"></i> Observaciones</span>
+                        <span class="cierre-info-value cierre-observaciones-value" id="cierreVentaObservaciones"></span>
+                    </div>
                 </div>
 
                 <!-- PASO 1: DETALLE -->

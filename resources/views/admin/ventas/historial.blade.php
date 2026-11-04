@@ -205,6 +205,7 @@
                 '<div class="col-md-4"><span class="small text-muted">Pago</span><div class="fw-semibold">' + escapeHtml(v.metodo_pago ? v.metodo_pago.nombre : '—') + '</div></div>' +
                 '<div class="col-md-4"><span class="small text-muted">Vendedor</span><div class="fw-semibold">' + escapeHtml(v.vendedor ? v.vendedor.nombre : '—') + '</div></div>' +
                 '<div class="col-md-4"><span class="small text-muted">Registrado por</span><div class="fw-semibold">' + escapeHtml(v.usuario.nombres + ' ' + v.usuario.apellidos) + '</div></div>' +
+                (v.observaciones ? '<div class="col-12"><span class="small text-muted">Observaciones</span><div>' + escapeHtml(v.observaciones).replace(/\n/g, '<br>') + '</div></div>' : '') +
                 '</div>' +
                 '<div class="table-responsive">' +
                 '<table class="table table-sm table-striped mb-0">' +

@@ -339,6 +339,16 @@
         </div>
     </div>
 
+    <div class="card border-0 shadow-sm mt-3">
+        <div class="card-body">
+            <label for="ventaObservaciones" class="form-label fw-semibold">
+                Observaciones <span class="text-muted fw-normal">(opcional)</span>
+            </label>
+            <textarea id="ventaObservaciones" class="form-control" rows="4" maxlength="5000"
+                placeholder="Escribe cualquier observación sobre esta venta..."></textarea>
+        </div>
+    </div>
+
 </div>
 
 <div class="modal fade" id="modalClienteRapido" tabindex="-1">
@@ -1479,6 +1489,7 @@
             id_caja: cajaActual.id_caja,
             id_cliente: idCliente,
             nombre_cliente: cliente,
+            observaciones: document.getElementById('ventaObservaciones').value.trim(),
             id_metodo_pago: metodoPagoActual.id,
             items: items
         };
@@ -1543,6 +1554,7 @@
         varianteActual = null;
         atributosActivos = {};
 
+        document.getElementById('ventaObservaciones').value = '';
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
         document.getElementById('varianteCard').classList.add('d-none');

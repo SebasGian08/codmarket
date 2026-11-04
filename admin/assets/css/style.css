@@ -966,6 +966,16 @@ html[data-theme="dark"] .cierre-info-grid {
     text-overflow: ellipsis;
 }
 
+.cierre-info-item-observaciones {
+    grid-column: 1 / -1;
+}
+
+.cierre-observaciones-value,
+.cierre-masivo-observaciones-value {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
 /* ---- Pasos (Detalle / Pagos) ---- */
 .cierre-step {
     border: 1px solid rgba(0, 0, 0, .08);
@@ -1253,6 +1263,10 @@ html[data-theme="dark"] .cierre-masivo-venta-total-label strong {
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(148, 163, 184, 0.16);
     box-shadow: 0 20px 40px -30px rgba(15, 23, 42, 0.9);
+}
+
+.cierre-masivo-meta-item-observaciones {
+    grid-column: 1 / -1;
 }
 
 html[data-theme="dark"] .cierre-masivo-meta-item {

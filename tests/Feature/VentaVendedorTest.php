@@ -116,6 +116,7 @@ class VentaVendedorTest extends TestCase
             'id_caja' => $caja->id_caja,
             'id_cliente' => $cliente->id_cliente,
             'nombre_cliente' => 'CLIENTES VARIOS',
+            'observaciones' => 'Entrega coordinada con el cliente.',
             'id_metodo_pago' => $metodoPago->id_metodo_pago,
             'items' => [
                 [
@@ -132,6 +133,7 @@ class VentaVendedorTest extends TestCase
 
         $this->assertNotNull($venta);
         $this->assertEquals($vendedor->id_vendedor, $venta->id_vendedor);
+        $this->assertEquals('Entrega coordinada con el cliente.', $venta->observaciones);
 
         $caja->update(['estado' => 0, 'fecha_cierre' => now()]);
         $caja->delete();

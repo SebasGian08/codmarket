@@ -252,6 +252,8 @@
         $('#cierreVentaTienda').text(ventaCierreActual.tienda ? ventaCierreActual.tienda.nombre : '—');
         $('#cierreVentaFecha').text(formatearFecha(ventaCierreActual.created_at));
         $('#cierreVentaVendedor').text(ventaCierreActual.vendedor ? ventaCierreActual.vendedor.nombre : '—');
+        $('#cierreVentaObservaciones').text(ventaCierreActual.observaciones || '');
+        $('#cierreVentaObservacionesWrap').toggleClass('d-none', !ventaCierreActual.observaciones);
 
         // Detail table
         renderDetalleCierre();

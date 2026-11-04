@@ -71,6 +71,15 @@
                                 <span class="cierre-masivo-meta-value">{{ $venta->created_at->format('d/m/Y H:i') }}</span>
                             </div>
                         </div>
+                        @if($venta->observaciones)
+                        <div class="cierre-masivo-meta-item cierre-masivo-meta-item-observaciones">
+                            <i class="fa fa-comment"></i>
+                            <div>
+                                <span class="cierre-masivo-meta-label">Observaciones</span>
+                                <span class="cierre-masivo-meta-value cierre-masivo-observaciones-value">{{ $venta->observaciones }}</span>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

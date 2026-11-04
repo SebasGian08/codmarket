@@ -17,6 +17,7 @@ class Venta extends Model
         'id_usuario',
         'id_cliente',
         'nombre_cliente',
+        'observaciones',
         'id_metodo_pago',
         'id_vendedor',
         'id_tipo_venta',
