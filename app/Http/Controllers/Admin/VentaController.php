@@ -375,6 +375,50 @@ class VentaController extends Controller
         }
     }
 
+    public function reabrir($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $venta = Venta::with(['ventaPagos'])->findOrFail($id);
+
+            if ($venta->estado == 0) {
+                throw new \Exception('No se puede reabrir una venta anulada');
+            }
+
+            if ($venta->estado_cobro !== 'cerrado') {
+                throw new \Exception('Esta venta ya está pendiente');
+            }
+
+            if ($venta->ventaPagos->isNotEmpty()) {
+                $this->movimiento->revertirPorReferencia(
+                    MovimientoDineroService::TIPO_VENTA,
+                    MovimientoDineroService::REF_VENTA_PAGO,
+                    $venta->id_venta,
+                    'Reapertura de venta ' . $venta->numero
+                );
+
+                VentaPago::where('id_venta', $venta->id_venta)->delete();
+            }
+
+            $venta->update([
+                'estado_cobro' => 'pendiente',
+                'fecha_cierre' => null,
+                'usuario_cierre' => null,
+                'id_metodo_pago' => null,
+                'monto_recibido' => null,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('admin.ventas.historial')
+                ->with('success', 'Venta reabierta correctamente. Ya puede volver a cerrarla o editarla.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
     public function detalle($id)
     {
         $venta = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'metodoPago', 'detalle.variante.producto'])

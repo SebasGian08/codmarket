@@ -128,6 +128,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::get('/historial', [VentaController::class, 'historial'])->name('admin.ventas.historial');
         Route::get('/{id}/detalle', [VentaController::class, 'detalle'])->name('admin.ventas.detalle');
         Route::post('/{id}/anular', [VentaController::class, 'anular'])->name('admin.ventas.anular');
+        Route::post('/{id}/reabrir', [VentaController::class, 'reabrir'])->name('admin.ventas.reabrir');
 
         // Cerrar Venta
         Route::get('/cerrar-venta', [VentaController::class, 'cerrarVenta'])->name('admin.ventas.cerrar');

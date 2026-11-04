@@ -134,10 +134,19 @@
                                 </button>
 
                                 @if($venta->estado)
-                                <button class="btn btn-sm btn-danger btn-round btn-anular"
-                                    data-url="{{ route('admin.ventas.anular', $venta->id_venta) }}">
-                                    <i class="fa fa-ban"></i> Anular
-                                </button>
+                                    @if($venta->estado_cobro === 'cerrado')
+                                        <form action="{{ route('admin.ventas.reabrir', $venta->id_venta) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Deseas reabrir esta venta para volver a trabajarla?');">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-warning btn-round">
+                                                <i class="fa fa-redo"></i> Reabrir
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    <button class="btn btn-sm btn-danger btn-round btn-anular"
+                                        data-url="{{ route('admin.ventas.anular', $venta->id_venta) }}">
+                                        <i class="fa fa-ban"></i> Anular
+                                    </button>
                                 @endif
 
                             </td>
