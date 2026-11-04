@@ -60,47 +60,40 @@
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        @if($ventasPendientesCierreHoy > 0)
-                        <span class="notification">{{ $ventasPendientesCierreHoy > 99 ? '99+' : $ventasPendientesCierreHoy }}</span>
+                        @if($totalNotificacionesAdmin > 0)
+                        <span class="notification">{{ $totalNotificacionesAdmin > 99 ? '99+' : $totalNotificacionesAdmin }}</span>
                         @endif
                     </a>
                     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                         <li>
                             <div class="dropdown-title">
-                                @if($ventasPendientesCierreHoy > 0)
-                                    {{ $ventasPendientesCierreHoy }} {{ $ventasPendientesCierreHoy === 1 ? 'venta pendiente' : 'ventas pendientes' }} por cerrar hoy
+                                @if($totalNotificacionesAdmin > 0)
+                                    {{ $totalNotificacionesAdmin }} {{ $totalNotificacionesAdmin === 1 ? 'notificación pendiente' : 'notificaciones pendientes' }}
                                 @else
-                                    No tienes ventas pendientes por cerrar hoy
+                                    No tienes notificaciones pendientes
                                 @endif
                             </div>
                         </li>
                         <li>
                             <div class="notif-scroll scrollbar-outer">
                                 <div class="notif-center">
-                                    @if($ventasPendientesCierreHoy > 0)
-                                    <a href="{{ route('admin.ventas.cerrar', ['fecha_desde' => $fechaCierreHoy, 'fecha_hasta' => $fechaCierreHoy]) }}">
-                                        <div class="notif-icon notif-warning">
-                                            <i class="fa fa-cash-register"></i>
+                                    @forelse($notificacionesAdmin as $notificacion)
+                                    <a href="{{ $notificacion['url'] }}">
+                                        <div class="notif-icon notif-{{ $notificacion['estilo'] }}">
+                                            <i class="fa {{ $notificacion['icono'] }}"></i>
                                         </div>
                                         <div class="notif-content">
-                                            <span class="block">
-                                                {{ $ventasPendientesCierreHoy }} {{ $ventasPendientesCierreHoy === 1 ? 'venta pendiente' : 'ventas pendientes' }} de hoy
-                                            </span>
-                                            <span class="time">Ver cierre de ventas</span>
+                                            <span class="block">{{ $notificacion['titulo'] }}</span>
+                                            <span class="time">{{ $notificacion['detalle'] }}</span>
                                         </div>
                                     </a>
-                                    @else
+                                    @empty
                                     <div class="text-center text-muted py-3">
                                         Todo al día
                                     </div>
-                                    @endif
+                                    @endforelse
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <a class="see-all" href="{{ route('admin.ventas.cerrar', ['fecha_desde' => $fechaCierreHoy, 'fecha_hasta' => $fechaCierreHoy]) }}">Ir al cierre de ventas<i
-                                    class="fa fa-angle-right"></i>
-                            </a>
                         </li>
                     </ul>
                 </li>

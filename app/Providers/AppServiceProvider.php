@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer('admin.partials.navbar', function ($view) {
-            $ventasPendientesCierreHoy = 0;
+            $notificacionesAdmin = collect();
             $fechaCierreHoy = now()->toDateString();
 
             if (auth()->check()) {
@@ -90,9 +90,24 @@ class AppServiceProvider extends ServiceProvider
                 }
 
                 $ventasPendientesCierreHoy = $query->count();
+
+                if ($ventasPendientesCierreHoy > 0) {
+                    $notificacionesAdmin->push([
+                        'cantidad' => $ventasPendientesCierreHoy,
+                        'titulo' => $ventasPendientesCierreHoy . ' ' . ($ventasPendientesCierreHoy === 1 ? 'venta pendiente' : 'ventas pendientes'),
+                        'detalle' => 'Por cerrar hoy',
+                        'url' => route('admin.ventas.cerrar', [
+                            'fecha_desde' => $fechaCierreHoy,
+                            'fecha_hasta' => $fechaCierreHoy,
+                        ]),
+                        'icono' => 'fa-cash-register',
+                        'estilo' => 'warning',
+                    ]);
+                }
             }
 
-            $view->with(compact('ventasPendientesCierreHoy', 'fechaCierreHoy'));
+            $totalNotificacionesAdmin = $notificacionesAdmin->sum('cantidad');
+            $view->with(compact('notificacionesAdmin', 'totalNotificacionesAdmin'));
         });
 
         View::composer('sections.contact-brand', function ($view) {
