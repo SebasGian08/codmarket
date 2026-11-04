@@ -283,8 +283,8 @@
                     '<div class="fw-semibold">' + escapeHtml(item.nombre) + '</div>' +
                     '<div class="small text-muted">' + escapeHtml(item.sku) + '</div>' +
                 '</td>' +
-                '<td style="width:90px">' +
-                    '<input type="number" class="form-control form-control-sm cierre-cant" data-idx="' + idx + '" value="' + item.cantidad + '" min="1">' +
+                '<td style="width:110px">' +
+                    '<input type="number" class="form-control cierre-control-tactil cierre-cant" data-idx="' + idx + '" value="' + item.cantidad + '" min="1">' +
                 '</td>' +
                 '<td class="text-end" style="width:100px">' + moneda(item.precio) + '</td>' +
                 '<td class="text-end" style="width:150px">' +
@@ -295,8 +295,8 @@
                           '</label>'
                         : '<span class="text-muted">—</span>') +
                 '</td>' +
-                '<td style="width:120px">' +
-                    '<input type="number" step="0.01" min="0" class="form-control form-control-sm text-end cierre-descuento" data-idx="' + idx + '" value="' + descuentoUnitario.toFixed(2) + '" placeholder="S/ 0.00">' +
+                '<td style="width:140px">' +
+                    '<input type="number" step="0.01" min="0" class="form-control cierre-control-tactil text-end cierre-descuento" data-idx="' + idx + '" value="' + descuentoUnitario.toFixed(2) + '" placeholder="S/ 0.00">' +
                 '</td>' +
                 '<td class="text-end fw-bold" style="width:110px">' + moneda(sf) + '</td>' +
                 '<td class="text-end" style="width:60px">' +
@@ -330,7 +330,7 @@
                 celdaCuenta = '<span class="badge bg-success-subtle text-success px-2 py-1">' +
                     '<i class="fa fa-cash-register me-1"></i> Caja</span>';
             } else {
-                celdaCuenta = '<select class="form-select form-select-sm cierre-pago-cuenta" data-idx="' + idx + '">' +
+                celdaCuenta = '<select class="form-select cierre-control-tactil cierre-pago-cuenta" data-idx="' + idx + '">' +
                     '<option value="">Selecciona cuenta</option>' +
                     CUENTAS_GLOBAL.map(function(c) {
                         return '<option value="' + c.id_cuenta_bancaria + '"' + (c.id_cuenta_bancaria == p.id_cuenta_bancaria ? ' selected' : '') +
@@ -341,7 +341,7 @@
 
             return '<tr data-pago-idx="' + idx + '">' +
                 '<td>' +
-                    '<select class="form-select form-select-sm cierre-pago-metodo" data-idx="' + idx + '">' +
+                    '<select class="form-select cierre-control-tactil cierre-pago-metodo" data-idx="' + idx + '">' +
                     METODOS_PAGO_GLOBAL.map(function(m) {
                         return '<option value="' + m.id_metodo_pago + '"' + (m.id_metodo_pago == p.id_metodo_pago ? ' selected' : '') + '>' + escapeHtml(m.nombre) + '</option>';
                     }).join('') +
@@ -349,7 +349,7 @@
                 '</td>' +
                 '<td>' + celdaCuenta + '</td>' +
                 '<td style="width:140px">' +
-                    '<input type="number" class="form-control form-control-sm cierre-pago-monto" data-idx="' + idx + '" value="' + parseFloat(p.monto).toFixed(2) + '" min="0.01" step="0.01">' +
+                    '<input type="number" class="form-control cierre-control-tactil cierre-pago-monto" data-idx="' + idx + '" value="' + parseFloat(p.monto).toFixed(2) + '" min="0.01" step="0.01">' +
                 '</td>' +
                 '<td class="text-end" style="width:60px">' +
                     '<button type="button" class="btn btn-sm btn-danger btn-border btn-round btn-quitar-pago" data-idx="' + idx + '">' +

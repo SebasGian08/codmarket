@@ -1030,6 +1030,12 @@ html[data-theme="dark"] .cierre-step {
     overflow: hidden;
 }
 
+.cierre-control-tactil {
+    min-height: 48px;
+    padding: .6rem .75rem;
+    font-size: 1rem;
+}
+
 .cierre-mayorista-control {
     display: inline-flex;
     align-items: center;

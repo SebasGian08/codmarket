@@ -102,7 +102,7 @@
                                 <thead>
                                     <tr>
                                         <th>Producto</th>
-                                        <th class="text-center" style="width:100px">Cantidad</th>
+                                        <th class="text-center" style="width:120px">Cantidad</th>
                                         <th class="text-end" style="width:110px">Precio</th>
                                         <th class="text-end" style="width:160px">Precio por mayor</th>
                                         <th class="text-end" style="width:140px">Desc. (S/)</th>
@@ -131,7 +131,7 @@
                                             <div class="small text-muted">{{ $d->variante->sku ?? '' }}</div>
                                         </td>
                                         <td>
-                                            <input type="number" class="form-control form-control-sm text-center detalle-cantidad" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" value="{{ $d->cantidad }}" min="1">
+                                            <input type="number" class="form-control text-center cierre-control-tactil detalle-cantidad" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" value="{{ $d->cantidad }}" min="1">
                                         </td>
                                         <td class="text-end detalle-precio" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">{{ number_format($precioUsar, 2) }}</td>
                                         <td class="text-end">
@@ -145,7 +145,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <input type="number" step="0.01" min="0" class="form-control form-control-sm text-end detalle-descuento" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" value="{{ number_format($descuentoUnitario, 2, '.', '') }}" placeholder="0.00">
+                                            <input type="number" step="0.01" min="0" class="form-control text-end cierre-control-tactil detalle-descuento" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" value="{{ number_format($descuentoUnitario, 2, '.', '') }}" placeholder="0.00">
                                         </td>
                                         <td class="text-end fw-bold detalle-subtotal" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">S/ {{ number_format($d->subtotal, 2) }}</td>
                                         <td class="text-center">
@@ -192,14 +192,14 @@
                                     @forelse($venta->ventaPagos as $pago)
                                     <tr class="pago-row" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">
                                         <td>
-                                            <select class="form-select form-select-sm pago-metodo" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">
+                                            <select class="form-select cierre-control-tactil pago-metodo" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">
                                                 @foreach($metodosPagos as $mp)
                                                 <option value="{{ $mp->id_metodo_pago }}" data-codigo="{{ strtolower($mp->codigo) }}" data-afecta="{{ $mp->afectaCuenta() ? '1' : '0' }}" {{ $mp->id_metodo_pago == $pago->id_metodo_pago ? 'selected' : '' }}>{{ $mp->nombre }}</option>
                                                 @endforeach
                                             </select>
                                         </td>
                                         <td>
-                                            <select class="form-select form-select-sm pago-cuenta" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">
+                                            <select class="form-select cierre-control-tactil pago-cuenta" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}">
                                                 <option value="">Sin cuenta</option>
                                                 @foreach($cuentas as $c)
                                                 <option value="{{ $c->id_cuenta_bancaria }}" {{ $pago->id_cuenta_bancaria == $c->id_cuenta_bancaria ? 'selected' : '' }}>{{ $c->nombre_banco }} - {{ $c->numero_cuenta }}</option>
@@ -207,7 +207,7 @@
                                             </select>
                                         </td>
                                         <td>
-                                            <input type="number" step="0.01" min="0.01" class="form-control form-control-sm text-end pago-monto" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" value="{{ number_format($pago->monto, 2, '.', '') }}">
+                                            <input type="number" step="0.01" min="0.01" class="form-control text-end cierre-control-tactil pago-monto" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" value="{{ number_format($pago->monto, 2, '.', '') }}">
                                         </td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-sm btn-icon btn-light-danger pago-quitar" data-venta-id="{{ $venta->id_venta }}" data-idx="{{ $loop->index }}" title="Quitar pago">
@@ -450,9 +450,9 @@
         var cuentaOptions = '<option value="">Sin cuenta</option>';
         CUENTAS.forEach(function(c){ cuentaOptions += '<option value="'+c.id_cuenta_bancaria+'">'+c.nombre_banco+' - '+(c.numero_cuenta||'')+'</option>'; });
         var html = '<tr class="pago-row" data-venta-id="'+ventaId+'" data-idx="'+idx+'">'+
-            '<td><select class="form-select form-select-sm pago-metodo" data-venta-id="'+ventaId+'" data-idx="'+idx+'">'+metodoOptions+'</select></td>'+
-            '<td><select class="form-select form-select-sm pago-cuenta" data-venta-id="'+ventaId+'" data-idx="'+idx+'">'+cuentaOptions+'</select></td>'+
-            '<td><input type="number" step="0.01" min="0.01" class="form-control form-control-sm text-end pago-monto" data-venta-id="'+ventaId+'" data-idx="'+idx+'" value="0.00"></td>'+
+            '<td><select class="form-select cierre-control-tactil pago-metodo" data-venta-id="'+ventaId+'" data-idx="'+idx+'">'+metodoOptions+'</select></td>'+
+            '<td><select class="form-select cierre-control-tactil pago-cuenta" data-venta-id="'+ventaId+'" data-idx="'+idx+'">'+cuentaOptions+'</select></td>'+
+            '<td><input type="number" step="0.01" min="0.01" class="form-control text-end cierre-control-tactil pago-monto" data-venta-id="'+ventaId+'" data-idx="'+idx+'" value="0.00"></td>'+
             '<td class="text-center"><button type="button" class="btn btn-sm btn-icon btn-light-danger pago-quitar" data-venta-id="'+ventaId+'" data-idx="'+idx+'"><i class="fa fa-trash"></i></button></td>'+
         '</tr>';
         $body.append(html);
