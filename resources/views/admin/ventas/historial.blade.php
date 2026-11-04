@@ -224,10 +224,10 @@
 
         Swal.fire({
             title: '¿Reabrir venta?',
-            text: 'Deseas reabrir esta venta para volver a trabajarla?',
+            text: '¿Deseas reabrir esta venta para volver a trabajarla?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#f59e0b',
+            confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Sí, reabrir',
             cancelButtonText: 'Cancelar'
