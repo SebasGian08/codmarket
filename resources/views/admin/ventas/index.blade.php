@@ -279,6 +279,14 @@
                         </div>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="ventaObservaciones" class="form-label small fw-semibold text-muted">
+                            Observaciones <span class="fw-normal">(opcional)</span>
+                        </label>
+                        <textarea id="ventaObservaciones" class="form-control" rows="3" maxlength="5000"
+                            placeholder="Escribe cualquier observación sobre esta venta..."></textarea>
+                    </div>
+
                     <div id="ventaError" class="alert alert-danger d-none mb-3"></div>
 
                     <button class="btn btn-success btn-lg w-100 btn-round mb-2" id="btnConfirmarVenta" type="button">
@@ -336,16 +344,6 @@
                 Aún no hay productos en la venta
             </div>
 
-        </div>
-    </div>
-
-    <div class="card border-0 shadow-sm mt-3">
-        <div class="card-body">
-            <label for="ventaObservaciones" class="form-label fw-semibold">
-                Observaciones <span class="text-muted fw-normal">(opcional)</span>
-            </label>
-            <textarea id="ventaObservaciones" class="form-control" rows="4" maxlength="5000"
-                placeholder="Escribe cualquier observación sobre esta venta..."></textarea>
         </div>
     </div>
 
