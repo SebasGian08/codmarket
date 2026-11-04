@@ -135,12 +135,10 @@
 
                                 @if($venta->estado)
                                     @if($venta->estado_cobro === 'cerrado')
-                                        <form action="{{ route('admin.ventas.reabrir', $venta->id_venta) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Deseas reabrir esta venta para volver a trabajarla?');">
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-warning btn-round">
-                                                <i class="fa fa-redo"></i> Reabrir
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-warning btn-round btn-reabrir"
+                                            data-url="{{ route('admin.ventas.reabrir', $venta->id_venta) }}">
+                                            <i class="fa fa-redo"></i> Reabrir
+                                        </button>
                                     @endif
 
                                     <button class="btn btn-sm btn-danger btn-round btn-anular"
@@ -217,6 +215,33 @@
             );
 
             bootstrap.Modal.getOrCreateInstance(document.getElementById('modalDetalleVenta')).show();
+        });
+    });
+
+    /* ============ REABRIR ============ */
+    $(document).on('click', '.btn-reabrir', function() {
+        var url = $(this).data('url');
+
+        Swal.fire({
+            title: '¿Reabrir venta?',
+            text: 'Deseas reabrir esta venta para volver a trabajarla?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#f59e0b',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, reabrir',
+            cancelButtonText: 'Cancelar'
+        }).then(function(r) {
+            if (r.isConfirmed) {
+                $.post(url, { _token: '{{ csrf_token() }}' })
+                    .done(function() {
+                        Swal.fire({ icon: 'success', title: 'Venta reabierta', timer: 1400, showConfirmButton: false });
+                        setTimeout(function() { location.reload(); }, 1000);
+                    })
+                    .fail(function(xhr) {
+                        Swal.fire('Error', (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo reabrir la venta', 'error');
+                    });
+            }
         });
     });
 
