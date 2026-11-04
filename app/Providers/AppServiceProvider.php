@@ -12,6 +12,8 @@ use App\Models\Categoria;
 use App\Models\FooterLogo;
 use App\Models\DocumentoTipo;
 use App\Models\Marca;
+use App\Models\Venta;
+use App\Models\Vendedor;
 use Illuminate\Support\Facades\Blade;
 use App\Repositories\MarcaRepository;
 use App\Repositories\MarcaRepositoryInterface;
@@ -58,6 +60,39 @@ class AppServiceProvider extends ServiceProvider
                 ->where('estado', 1)
                 ->orderBy('orden', 'asc')
                 ->get());
+        });
+
+        View::composer('admin.partials.navbar', function ($view) {
+            $ventasPendientesCierreHoy = 0;
+            $fechaCierreHoy = now()->toDateString();
+
+            if (auth()->check()) {
+                $query = Venta::where('estado', 1)
+                    ->where('estado_cobro', 'pendiente')
+                    ->whereDate('created_at', $fechaCierreHoy);
+
+                $usuario = auth()->user();
+                $vendedor = Vendedor::where('id_usuario', $usuario->id_usuario)
+                    ->where('estado', 1)
+                    ->first();
+                $nombreRol = strtolower(trim($usuario->rol->nombre ?? ''));
+                $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
+                $esAdministrador = in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+
+                if ($vendedor && !$esAdministrador) {
+                    $tiendasAsignadas = $vendedor->tiendas()
+                        ->where('tiendas.estado', 1)
+                        ->wherePivot('estado', 1)
+                        ->pluck('tiendas.id_tienda');
+
+                    $query->where('id_vendedor', $vendedor->id_vendedor)
+                        ->whereIn('id_tienda', $tiendasAsignadas);
+                }
+
+                $ventasPendientesCierreHoy = $query->count();
+            }
+
+            $view->with(compact('ventasPendientesCierreHoy', 'fechaCierreHoy'));
         });
 
         View::composer('sections.contact-brand', function ($view) {

@@ -60,62 +60,45 @@
                     <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
-                        <span class="notification">4</span>
+                        @if($ventasPendientesCierreHoy > 0)
+                        <span class="notification">{{ $ventasPendientesCierreHoy > 99 ? '99+' : $ventasPendientesCierreHoy }}</span>
+                        @endif
                     </a>
                     <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
                         <li>
                             <div class="dropdown-title">
-                                You have 4 new notification
+                                @if($ventasPendientesCierreHoy > 0)
+                                    {{ $ventasPendientesCierreHoy }} {{ $ventasPendientesCierreHoy === 1 ? 'venta pendiente' : 'ventas pendientes' }} por cerrar hoy
+                                @else
+                                    No tienes ventas pendientes por cerrar hoy
+                                @endif
                             </div>
                         </li>
                         <li>
                             <div class="notif-scroll scrollbar-outer">
                                 <div class="notif-center">
-                                    <a href="#">
-                                        <div class="notif-icon notif-primary">
-                                            <i class="fa fa-user-plus"></i>
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block"> New user registered </span>
-                                            <span class="time">5 minutes ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-icon notif-success">
-                                            <i class="fa fa-comment"></i>
+                                    @if($ventasPendientesCierreHoy > 0)
+                                    <a href="{{ route('admin.ventas.cerrar', ['fecha_desde' => $fechaCierreHoy, 'fecha_hasta' => $fechaCierreHoy]) }}">
+                                        <div class="notif-icon notif-warning">
+                                            <i class="fa fa-cash-register"></i>
                                         </div>
                                         <div class="notif-content">
                                             <span class="block">
-                                                Rahmad commented on Admin
+                                                {{ $ventasPendientesCierreHoy }} {{ $ventasPendientesCierreHoy === 1 ? 'venta pendiente' : 'ventas pendientes' }} de hoy
                                             </span>
-                                            <span class="time">12 minutes ago</span>
+                                            <span class="time">Ver cierre de ventas</span>
                                         </div>
                                     </a>
-                                    <a href="#">
-                                        <div class="notif-img">
-                                            <img src="assets/img/profile2.jpg" alt="Img Profile" />
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block">
-                                                Reza send messages to you
-                                            </span>
-                                            <span class="time">12 minutes ago</span>
-                                        </div>
-                                    </a>
-                                    <a href="#">
-                                        <div class="notif-icon notif-danger">
-                                            <i class="fa fa-heart"></i>
-                                        </div>
-                                        <div class="notif-content">
-                                            <span class="block"> Farrah liked Admin </span>
-                                            <span class="time">17 minutes ago</span>
-                                        </div>
-                                    </a>
+                                    @else
+                                    <div class="text-center text-muted py-3">
+                                        Todo al día
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <a class="see-all" href="javascript:void(0);">See all notifications<i
+                            <a class="see-all" href="{{ route('admin.ventas.cerrar', ['fecha_desde' => $fechaCierreHoy, 'fecha_hasta' => $fechaCierreHoy]) }}">Ir al cierre de ventas<i
                                     class="fa fa-angle-right"></i>
                             </a>
                         </li>
