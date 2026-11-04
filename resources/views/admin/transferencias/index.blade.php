@@ -148,7 +148,7 @@
                                 @endif
 
                                 @if($trf->estado === 'en_transito')
-                                    @if((int)$trf->id_usuario !== (int)auth()->id() && in_array((int)$trf->id_tienda_destino, $idsTiendasAsignadas, true))
+                                    @if(in_array((int)$trf->id_tienda_destino, $idsTiendasAsignadas, true))
                                     <button class="btn btn-sm btn-success btn-round btn-recibir"
                                         data-url="{{ route('admin.transferencias.recibir', $trf->id_transferencia) }}">
                                         <i class="fa fa-boxes"></i> Aprobar recepción
