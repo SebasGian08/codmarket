@@ -423,7 +423,16 @@ class VentaController extends Controller
 
     public function detalle($id)
     {
-        $venta = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'metodoPago', 'detalle.variante.producto'])
+        $venta = Venta::with([
+            'tienda',
+            'caja',
+            'usuario',
+            'cliente',
+            'vendedor',
+            'metodoPago',
+            'detalle.variante.producto',
+            'detalle.variante.atributos.atributo',
+        ])
             ->findOrFail($id);
 
         return response()->json([

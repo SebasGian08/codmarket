@@ -687,10 +687,267 @@ html[data-theme="dark"] .venta-historial-filtros .input-group-text {
     border-color: var(--ka-border, #3a4658);
 }
 
+.venta-historial-detalle {
+    display: grid;
+    gap: 18px;
+}
+
+.venta-historial-resumen,
+.venta-historial-productos {
+    overflow: hidden;
+    border: 1px solid #e8ebf0;
+    border-radius: 10px;
+    background: #fff;
+}
+
+.venta-historial-resumen-cabecera,
+.venta-historial-productos-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.venta-historial-resumen-cabecera h6,
+.venta-historial-productos-titulo h6 {
+    margin: 3px 0 0;
+    color: #273243;
+    font-size: .95rem;
+    font-weight: 700;
+}
+
+.venta-historial-eyebrow {
+    color: #8993a3;
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.venta-historial-estados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.venta-historial-estados .badge {
+    padding: 6px 9px;
+    font-size: .68rem;
+    font-weight: 600;
+}
+
+.venta-historial-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px 20px;
+    padding: 18px;
+}
+
+.venta-historial-info-item {
+    min-width: 0;
+}
+
+.venta-historial-info-item span,
+.venta-historial-observaciones > span {
+    display: block;
+    margin-bottom: 4px;
+    color: #8993a3;
+    font-size: .72rem;
+}
+
+.venta-historial-info-item strong {
+    display: block;
+    overflow-wrap: anywhere;
+    color: #303b4d;
+    font-size: .84rem;
+    font-weight: 600;
+}
+
+.venta-historial-observaciones {
+    margin: 0 18px 18px;
+    padding: 12px 14px;
+    border-radius: 7px;
+    background: #f7f8fa;
+}
+
+.venta-historial-observaciones p {
+    margin: 0;
+    color: #465166;
+    font-size: .82rem;
+    overflow-wrap: anywhere;
+}
+
+.venta-historial-items-count {
+    color: #748094;
+    font-size: .78rem;
+    white-space: nowrap;
+}
+
+.venta-historial-tabla thead th {
+    padding: 11px 16px;
+    border-bottom: 1px solid #e8ebf0;
+    background: #f8f9fb;
+    color: #748094;
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.venta-historial-tabla tbody td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #edf0f4;
+    color: #465166;
+    font-size: .82rem;
+    vertical-align: middle;
+}
+
+.venta-historial-tabla tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.venta-historial-producto {
+    color: #303b4d;
+    font-weight: 600;
+}
+
+.venta-historial-atributos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+}
+
+.venta-historial-atributo {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    padding: 3px 7px;
+    border: 1px solid #e3e8ef;
+    border-radius: 5px;
+    background: #f7f9fc;
+    color: #465166;
+    font-size: .7rem;
+}
+
+.venta-historial-atributo span {
+    color: #8993a3;
+}
+
+.venta-historial-sku {
+    margin-top: 6px;
+    color: #8993a3;
+    font-size: .7rem;
+}
+
+.venta-historial-cantidad {
+    display: inline-flex;
+    min-width: 28px;
+    justify-content: center;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #f1f3f6;
+    color: #465166;
+    font-weight: 600;
+}
+
+.venta-historial-total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 22px;
+    padding: 15px 18px;
+    border-top: 1px solid #e8ebf0;
+    background: #f8f9fb;
+    color: #596579;
+    font-size: .82rem;
+}
+
+.venta-historial-total strong {
+    color: #273243;
+    font-size: 1.08rem;
+}
+
+html[data-theme="dark"] .venta-historial-resumen,
+html[data-theme="dark"] .venta-historial-productos {
+    border-color: var(--ka-border, #3a4658);
+    background: var(--ka-surface, #273243);
+}
+
+html[data-theme="dark"] .venta-historial-resumen-cabecera,
+html[data-theme="dark"] .venta-historial-productos-titulo,
+html[data-theme="dark"] .venta-historial-tabla thead th,
+html[data-theme="dark"] .venta-historial-tabla tbody td,
+html[data-theme="dark"] .venta-historial-total {
+    border-color: var(--ka-border, #3a4658);
+}
+
+html[data-theme="dark"] .venta-historial-resumen-cabecera h6,
+html[data-theme="dark"] .venta-historial-productos-titulo h6,
+html[data-theme="dark"] .venta-historial-info-item strong,
+html[data-theme="dark"] .venta-historial-producto,
+html[data-theme="dark"] .venta-historial-total strong {
+    color: var(--ka-text, #e5e7eb);
+}
+
+html[data-theme="dark"] .venta-historial-tabla thead th,
+html[data-theme="dark"] .venta-historial-total {
+    background: #202b3a;
+}
+
+html[data-theme="dark"] .venta-historial-tabla tbody td,
+html[data-theme="dark"] .venta-historial-observaciones p,
+html[data-theme="dark"] .venta-historial-items-count {
+    color: var(--ka-text-muted, #aab4c2);
+}
+
+html[data-theme="dark"] .venta-historial-observaciones,
+html[data-theme="dark"] .venta-historial-cantidad,
+html[data-theme="dark"] .venta-historial-atributo {
+    border-color: var(--ka-border, #3a4658);
+    background: #202b3a;
+    color: var(--ka-text-muted, #aab4c2);
+}
+
 @media (max-width: 575.98px) {
     .venta-historial-filtros-actions {
         display: grid !important;
         grid-template-columns: 1fr 1fr;
+    }
+
+    .venta-historial-resumen-cabecera,
+    .venta-historial-productos-titulo {
+        align-items: flex-start;
+    }
+
+    .venta-historial-resumen-cabecera {
+        flex-direction: column;
+    }
+
+    .venta-historial-estados {
+        justify-content: flex-start;
+    }
+
+    .venta-historial-info-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 14px;
+    }
+
+    .venta-historial-tabla thead th,
+    .venta-historial-tabla tbody td {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .venta-historial-total {
+        gap: 12px;
+        padding-right: 14px;
+        padding-left: 14px;
     }
 }
 /* ============ FIN HISTORIAL DE VENTAS ============ */

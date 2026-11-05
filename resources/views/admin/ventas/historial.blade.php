@@ -186,33 +186,54 @@
         $.getJSON(url, function(res) {
             var v = res.venta;
             var itemsHtml = v.detalle.map(function(d) {
+                var variante = d.variante || {};
+                var atributos = (variante.atributos || []).map(function(atributo) {
+                    var nombre = atributo.atributo ? atributo.atributo.nombre : 'Atributo';
+                    return '<span class="venta-historial-atributo"><span>' + escapeHtml(nombre) + '</span>' +
+                        escapeHtml(atributo.valor) + '</span>';
+                }).join('');
+
                 return '<tr>' +
-                    '<td>' + escapeHtml(d.variante.producto.nombre) + '</td>' +
-                    '<td>' + escapeHtml(d.variante.sku || '—') + '</td>' +
-                    '<td class="text-center">' + d.cantidad + '</td>' +
+                    '<td><div class="venta-historial-producto">' + escapeHtml(variante.producto ? variante.producto.nombre : 'Producto no disponible') + '</div>' +
+                    (atributos ? '<div class="venta-historial-atributos">' + atributos + '</div>' : '') +
+                    '<div class="venta-historial-sku">SKU: ' + escapeHtml(variante.sku || '—') + '</div></td>' +
+                    '<td class="text-center"><span class="venta-historial-cantidad">' + escapeHtml(d.cantidad) + '</span></td>' +
                     '<td class="text-end">' + moneda(d.precio) + '</td>' +
-                    '<td class="text-end">' + moneda(d.subtotal) + '</td>' +
+                    '<td class="text-end fw-semibold">' + moneda(d.subtotal) + '</td>' +
                     '</tr>';
             }).join('');
 
             $('#detalleVentaNumero').text(v.numero);
             $('#detalleVentaBody').html(
-                '<div class="row g-2 mb-3">' +
-                '<div class="col-md-4"><span class="small text-muted">Cliente</span><div class="fw-semibold">' + escapeHtml(v.nombre_cliente) + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Tienda</span><div class="fw-semibold">' + escapeHtml(v.tienda.nombre) + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Fecha</span><div class="fw-semibold">' + escapeHtml(res.fecha_formateada) + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Caja</span><div class="fw-semibold">' + escapeHtml(v.caja.nombre) + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Pago</span><div class="fw-semibold">' + escapeHtml(v.metodo_pago ? v.metodo_pago.nombre : '—') + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Vendedor</span><div class="fw-semibold">' + escapeHtml(v.vendedor ? v.vendedor.nombre : '—') + '</div></div>' +
-                '<div class="col-md-4"><span class="small text-muted">Registrado por</span><div class="fw-semibold">' + escapeHtml(v.usuario.nombres + ' ' + v.usuario.apellidos) + '</div></div>' +
-                (v.observaciones ? '<div class="col-12"><span class="small text-muted">Observaciones</span><div>' + escapeHtml(v.observaciones).replace(/\n/g, '<br>') + '</div></div>' : '') +
-                '</div>' +
-                '<div class="table-responsive">' +
-                '<table class="table table-sm table-striped mb-0">' +
-                '<thead><tr><th>Producto</th><th>SKU</th><th class="text-center">Cant.</th><th class="text-end">Precio</th><th class="text-end">Subtotal</th></tr></thead>' +
-                '<tbody>' + itemsHtml + '</tbody>' +
-                '<tfoot><tr><th colspan="4" class="text-end">TOTAL</th><th class="text-end">' + moneda(v.total) + '</th></tr></tfoot>' +
-                '</table></div>'
+                '<div class="venta-historial-detalle">' +
+                    '<section class="venta-historial-resumen">' +
+                        '<div class="venta-historial-resumen-cabecera"><div><span class="venta-historial-eyebrow">Comprobante</span>' +
+                            '<h6>Resumen de venta</h6></div><div class="venta-historial-estados">' +
+                            '<span class="badge ' + (v.estado ? 'bg-success' : 'bg-danger') + '">' + (v.estado ? 'Registrada' : 'Anulada') + '</span>' +
+                            '<span class="badge ' + (v.estado_cobro === 'cerrado' ? 'bg-primary' : 'bg-warning text-dark') + '">' +
+                                (v.estado_cobro === 'cerrado' ? 'Cobro cerrado' : 'Cobro pendiente') + '</span></div></div>' +
+                        '<div class="venta-historial-info-grid">' +
+                            '<div class="venta-historial-info-item"><span>Cliente</span><strong>' + escapeHtml(v.nombre_cliente || '—') + '</strong></div>' +
+                            '<div class="venta-historial-info-item"><span>Tienda</span><strong>' + escapeHtml(v.tienda ? v.tienda.nombre : '—') + '</strong></div>' +
+                            '<div class="venta-historial-info-item"><span>Fecha</span><strong>' + escapeHtml(res.fecha_formateada || '—') + '</strong></div>' +
+                            '<div class="venta-historial-info-item"><span>Caja</span><strong>' + escapeHtml(v.caja ? v.caja.nombre : '—') + '</strong></div>' +
+                            '<div class="venta-historial-info-item"><span>Método de pago</span><strong>' + escapeHtml(v.metodo_pago ? v.metodo_pago.nombre : '—') + '</strong></div>' +
+                            '<div class="venta-historial-info-item"><span>Vendedor</span><strong>' + escapeHtml(v.vendedor ? v.vendedor.nombre : '—') + '</strong></div>' +
+                            '<div class="venta-historial-info-item"><span>Registrado por</span><strong>' +
+                                escapeHtml(v.usuario ? [v.usuario.nombres, v.usuario.apellidos].filter(Boolean).join(' ') : '—') + '</strong></div>' +
+                        '</div>' +
+                        (v.observaciones ? '<div class="venta-historial-observaciones"><span>Observaciones</span><p>' + escapeHtml(v.observaciones).replace(/\n/g, '<br>') + '</p></div>' : '') +
+                    '</section>' +
+                    '<section class="venta-historial-productos">' +
+                        '<div class="venta-historial-productos-titulo"><div><span class="venta-historial-eyebrow">Detalle</span><h6>Productos vendidos</h6></div>' +
+                            '<span class="venta-historial-items-count">' + v.detalle.length + (v.detalle.length === 1 ? ' producto' : ' productos') + '</span></div>' +
+                        '<div class="table-responsive"><table class="table venta-historial-tabla mb-0">' +
+                            '<thead><tr><th>Producto</th><th class="text-center">Cant.</th><th class="text-end">Precio unitario</th><th class="text-end">Subtotal</th></tr></thead>' +
+                            '<tbody>' + itemsHtml + '</tbody>' +
+                        '</table></div>' +
+                        '<div class="venta-historial-total"><span>Total de la venta</span><strong>' + moneda(v.total) + '</strong></div>' +
+                    '</section>' +
+                '</div>'
             );
 
             bootstrap.Modal.getOrCreateInstance(document.getElementById('modalDetalleVenta')).show();
