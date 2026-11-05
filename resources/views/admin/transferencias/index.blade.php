@@ -455,7 +455,7 @@
             }
 
             origen.val(data.id_tienda_origen).prop('disabled', true).trigger('change');
-            destino.val(data.id_tienda_destino).prop('disabled', true);
+            destino.val(data.id_tienda_destino).prop('disabled', false);
             $('#trfFilas').empty();
             $('#trfVacio').removeClass('d-none');
             $('#varianteInputTrf').val('');

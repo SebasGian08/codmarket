@@ -290,6 +290,7 @@ class TransferenciaController extends Controller
         $validated = $request->validate([
             'fecha' => 'required|date',
             'observacion' => 'nullable|string|max:500',
+            'id_tienda_destino' => 'required|exists:tiendas,id_tienda,estado,1',
             'items' => 'required|array|min:1',
             'items.*.id_variante' => 'required|integer|distinct|exists:productos_variantes,id_variante',
             'items.*.cantidad' => 'required|integer|min:1',
@@ -308,6 +309,10 @@ class TransferenciaController extends Controller
 
             if ($transferencia->estado !== 'en_transito') {
                 throw new \Exception('Solo se puede editar una transferencia en tránsito y pendiente de recepción');
+            }
+
+            if ((int) $validated['id_tienda_destino'] === (int) $transferencia->id_tienda_origen) {
+                throw new \Exception('La tienda destino debe ser diferente de la tienda origen');
             }
 
             $transferencia->load('detalle');
@@ -342,6 +347,7 @@ class TransferenciaController extends Controller
             $transferencia->update([
                 'fecha' => $validated['fecha'],
                 'observacion' => $validated['observacion'] ?? null,
+                'id_tienda_destino' => $validated['id_tienda_destino'],
             ]);
 
             foreach ($validated['items'] as $item) {
