@@ -83,25 +83,51 @@
 
                         <!-- BENEFICIOS -->
                         <div class="tab-pane fade" id="tab-beneficios">
+                            <div class="servicio-beneficios-intro">
+                                <div>
+                                    <h6>Beneficios del servicio</h6>
+                                    <p>Agrega título, descripción y un icono o imagen para cada beneficio.</p>
+                                </div>
+                                <button type="button" class="btn btn-primary btn-round btn-sm"
+                                    onclick="addBeneficio()">
+                                    <i class="fa fa-plus"></i> Agregar beneficio
+                                </button>
+                            </div>
 
                             <div id="beneficios-container">
-                                <div class="row mb-2 align-items-center">
+                                <div class="servicio-beneficio-card">
+                                    <div class="servicio-beneficio-card-header">
+                                        <div>
+                                            <span class="servicio-beneficio-kicker">Beneficio</span>
+                                            <span class="servicio-beneficio-hint">Completa la información que se mostrará en la página.</span>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                            onclick="this.closest('.servicio-beneficio-card').remove()"
+                                            aria-label="Quitar beneficio">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
 
-                                    <div class="col-md-3">
+                                    <div class="servicio-beneficio-card-body">
+                                        <div class="row g-3">
+                                    <div class="col-12 col-md-4">
+                                        <label class="form-label">Título</label>
                                         <input type="text" name="beneficios[0][titulo]" class="form-control"
-                                            placeholder="Título">
+                                            placeholder="Ej. Atención personalizada">
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <input type="text" name="beneficios[0][descripcion]" class="form-control"
-                                            placeholder="Descripción">
+                                    <div class="col-12 col-md-8">
+                                        <label class="form-label">Descripción</label>
+                                        <textarea name="beneficios[0][descripcion]" class="form-control" rows="2"
+                                            placeholder="Describe brevemente este beneficio"></textarea>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-12 col-lg-5">
+                                        <label class="form-label">Icono</label>
                                         <div class="input-group">
                                             <input type="text" name="beneficios[0][icono]" class="form-control"
-                                                placeholder="Icono">
-                                            <span class="input-group-text" style="cursor: pointer;"
+                                                placeholder="Ej. fa fa-check">
+                                            <span class="input-group-text servicio-beneficio-iconos"
                                                 data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
                                                 onclick="prepararIcono(this)" title="Ver guía de iconos">
                                                 <i class="fa fa-th"></i>
@@ -109,24 +135,16 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-12 col-lg-7">
+                                        <label class="form-label">Imagen (opcional)</label>
                                         <input type="file" name="beneficios[0][imagen]" class="form-control"
                                             accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio">
+                                        <small class="form-text text-muted">JPG, PNG o WebP. Si agregas una imagen, se mostrará en lugar del icono.</small>
                                     </div>
-
-                                    <div class="col-md-1 text-end">
-                                        <button type="button" class="btn btn-danger btn-sm"
-                                            onclick="this.closest('.row').remove()"><i class="fa fa-times"></i></button>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
-
-                            <button type="button" class="btn btn-primary btn-border btn-round btn-sm"
-                                onclick="addBeneficio()">
-                                + Agregar Beneficio
-                            </button>
-
                         </div>
 
                         <!-- PLANES -->
