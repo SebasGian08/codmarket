@@ -355,6 +355,9 @@ $variantesSelector = $variantes->map(function ($variante) {
                 <div class="item">
                     <article class="catalogo-producto-card product_link_card">
                         <div class="catalogo-producto-imagen slideshow_producto">
+                            <a class="catalogo-producto-imagen-link"
+                                href="{{ route('producto.show', $producto->slug) }}"
+                                aria-label="Ver producto: {{ $producto->nombre }}">
                             @if($imagenes->count())
                             @foreach($imagenes as $key => $img)
                             <img src="{{ asset($img->url) }}"
@@ -372,6 +375,7 @@ $variantesSelector = $variantes->map(function ($variante) {
                             <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
                                 class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
                             @endif
+                            </a>
 
                             @include('sections.partials.product-quick-view-button', [
                                 'producto' => $producto,
