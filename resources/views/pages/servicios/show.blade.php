@@ -169,7 +169,7 @@ BENEFICIOS
 
             <h2>{{ implode(' ', $partesTituloBeneficios) }}@if($palabraDestacadaBeneficios) <span>{{ $palabraDestacadaBeneficios }}</span>@endif</h2>
 
-            <p>{{ $config['seccion_servicio_beneficios_descripcion'] ?? 'Obtén una solución completa pensada para ofrecerte mejores resultados y una experiencia profesional.' }}</p>
+            <p>{{ limpiarTextoPlano($config['seccion_servicio_beneficios_descripcion'] ?? 'Obtén una solución completa pensada para ofrecerte mejores resultados y una experiencia profesional.') }}</p>
 
         </div>
 
