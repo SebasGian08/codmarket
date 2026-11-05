@@ -1951,6 +1951,20 @@ body.header-version-two {
     padding-top: 120px;
 }
 
+.header-version-2 .topbar_main > .container-fluid {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.header-version-2 .header_content_wrap > .container-fluid {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
 .header-version-2 .topbar_main .contact_info > li {
     border: 0;
 }
@@ -1990,7 +2004,13 @@ body.header-version-two {
 }
 
 .header-version-2 .header_content_wrap .main_menu > ul {
-    justify-content: center;
+    width: 100%;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.header-version-2 .header_content_wrap .main_menu > ul > li:not(:last-child) {
+    margin-right: 0;
 }
 
 .header-version-2 .action_btns_group {
