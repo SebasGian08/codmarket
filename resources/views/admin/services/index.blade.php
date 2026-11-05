@@ -92,6 +92,7 @@ $(document).ready(function() {
        ========================================================================== */
 
     window.addBeneficio = function() {
+        let detalleContainerId = `beneficio-detalles-create-${i}`;
         let html = `
         <div class="card p-3 mb-3 border shadow-sm animated fadeIn">
             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -110,6 +111,14 @@ $(document).ready(function() {
                     <textarea name="beneficios[${i}][descripcion]" class="form-control mb-2" rows="2" placeholder="Describe brevemente el beneficio"></textarea>
                 </div>
             </div>
+            <label class="small">Detalles</label>
+            <div id="${detalleContainerId}" class="servicio-beneficio-detalles mb-2" data-input-name="beneficios[${i}][detalles][]">
+                <div class="input-group mb-1">
+                    <input type="text" name="beneficios[${i}][detalles][]" class="form-control" maxlength="500" placeholder="Ej: Atención personalizada durante todo el proceso">
+                    <button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove()" aria-label="Eliminar detalle"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-success btn-xs mb-3" onclick="addDetalleBeneficio('${detalleContainerId}')"><i class="fa fa-plus"></i> Añadir detalle</button>
             <div class="row">
                 <div class="col-md-6">
                     <label class="small">Icono</label>
@@ -126,6 +135,33 @@ $(document).ready(function() {
         </div>`;
         $('#beneficios-container').append(html);
         i++;
+    };
+
+    window.addDetalleBeneficio = function(containerId) {
+        let container = document.getElementById(containerId);
+        if (!container) return;
+
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.name = container.dataset.inputName;
+        input.className = 'form-control';
+        input.maxLength = 500;
+        input.placeholder = 'Añade un detalle del beneficio';
+
+        let group = document.createElement('div');
+        group.className = 'input-group mb-1';
+        group.appendChild(input);
+
+        let removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'btn btn-outline-danger';
+        removeButton.setAttribute('aria-label', 'Eliminar detalle');
+        removeButton.innerHTML = '<i class="fa fa-times"></i>';
+        removeButton.addEventListener('click', function() {
+            group.remove();
+        });
+        group.appendChild(removeButton);
+        container.appendChild(group);
     };
 
     window.addPlan = function() {
@@ -184,6 +220,7 @@ $(document).ready(function() {
      */
     window.addBeneficioEdit = function(id_service) {
         let uniqueIdx = 'new_' + Date.now() + '_' + Math.floor(Math.random() * 100);
+        let detalleContainerId = `beneficio-detalles-edit-${id_service}-${uniqueIdx}`;
 
         let html = `
         <div class="card p-3 mb-3 border shadow-sm animated fadeIn">
@@ -203,6 +240,14 @@ $(document).ready(function() {
                     <textarea name="beneficios[${uniqueIdx}][descripcion]" class="form-control mb-2" rows="2" placeholder="Describe brevemente el beneficio"></textarea>
                 </div>
             </div>
+            <label class="small">Detalles</label>
+            <div id="${detalleContainerId}" class="servicio-beneficio-detalles mb-2" data-input-name="beneficios[${uniqueIdx}][detalles][]">
+                <div class="input-group mb-1">
+                    <input type="text" name="beneficios[${uniqueIdx}][detalles][]" class="form-control" maxlength="500" placeholder="Ej: Atención personalizada durante todo el proceso">
+                    <button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove()" aria-label="Eliminar detalle"><i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-outline-success btn-xs mb-3" onclick="addDetalleBeneficio('${detalleContainerId}')"><i class="fa fa-plus"></i> Añadir detalle</button>
             <div class="row">
                 <div class="col-md-6">
                     <label class="small">Icono</label>

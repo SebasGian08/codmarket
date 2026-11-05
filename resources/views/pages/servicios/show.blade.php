@@ -201,6 +201,17 @@ BENEFICIOS
                         {{ $benefit->descripcion }}
                     </p>
 
+                    @if($benefit->details->isNotEmpty())
+                    <ul class="benefit-details">
+                        @foreach($benefit->details as $detail)
+                        <li>
+                            <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                            <span>{{ $detail->descripcion }}</span>
+                        </li>
+                        @endforeach
+                    </ul>
+                    @endif
+
                 </div>
 
                 <div class="benefit-arrow">

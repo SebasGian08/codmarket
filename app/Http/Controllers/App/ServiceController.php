@@ -16,7 +16,7 @@ class ServiceController extends Controller
 
     public function show($slug)
     {
-        $service = Service::with(['plans.features', 'benefits'])
+        $service = Service::with(['plans.features', 'benefits.details'])
             ->where('slug', $slug)
             ->where('estado', 1)
             ->firstOrFail();

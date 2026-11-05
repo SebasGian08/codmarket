@@ -12,7 +12,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::with(['benefits', 'plans.features'])
+        $services = Service::with(['benefits.details', 'plans.features'])
             ->whereNull('deleted_at')
             ->orderBy('id_service', 'desc')
             ->get();
@@ -38,6 +38,8 @@ class ServiceController extends Controller
             'beneficios.*' => 'array',
             'beneficios.*.titulo' => 'nullable|string|max:255',
             'beneficios.*.descripcion' => 'nullable|string',
+            'beneficios.*.detalles' => 'nullable|array',
+            'beneficios.*.detalles.*' => 'nullable|string|max:500',
             'beneficios.*.icono' => 'nullable|string|max:255',
             'beneficios.*.imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
@@ -130,6 +132,8 @@ class ServiceController extends Controller
             'beneficios.*.id' => 'nullable|integer|distinct',
             'beneficios.*.titulo' => 'nullable|string|max:255',
             'beneficios.*.descripcion' => 'nullable|string',
+            'beneficios.*.detalles' => 'nullable|array',
+            'beneficios.*.detalles.*' => 'nullable|string|max:500',
             'beneficios.*.icono' => 'nullable|string|max:255',
             'beneficios.*.imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'beneficios.*.eliminar_imagen' => 'nullable|boolean',
@@ -292,7 +296,15 @@ class ServiceController extends Controller
             if ($beneficio) {
                 $beneficio->update($datosBeneficio);
             } else {
-                $service->benefits()->create($datosBeneficio);
+                $beneficio = $service->benefits()->create($datosBeneficio);
+            }
+
+            $beneficio->details()->delete();
+            foreach ($datos['detalles'] ?? [] as $detalle) {
+                $detalle = trim((string) $detalle);
+                if ($detalle !== '') {
+                    $beneficio->details()->create(['descripcion' => $detalle]);
+                }
             }
         }
 

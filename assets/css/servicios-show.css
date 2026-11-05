@@ -503,6 +503,29 @@
     font-size: 14px;
 }
 
+.benefit-details {
+    display: grid;
+    gap: 10px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.benefit-details li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: var(--service-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.benefit-details li i {
+    flex: 0 0 auto;
+    margin-top: 3px;
+    color: var(--service-secondary);
+}
+
 .benefit-arrow {
     position: absolute;
     right: 25px;

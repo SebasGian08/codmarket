@@ -107,6 +107,24 @@
                                         </div>
                                     </div>
 
+                                    <label class="small">Detalles</label>
+                                    <div id="beneficio-detalles-create-0" class="servicio-beneficio-detalles mb-2"
+                                        data-input-name="beneficios[0][detalles][]">
+                                        <div class="input-group mb-1">
+                                            <input type="text" name="beneficios[0][detalles][]"
+                                                class="form-control" maxlength="500"
+                                                placeholder="Ej: Atención personalizada durante todo el proceso">
+                                            <button type="button" class="btn btn-outline-danger"
+                                                onclick="this.closest('.input-group').remove()" aria-label="Eliminar detalle">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-success btn-xs mb-3"
+                                        onclick="addDetalleBeneficio('beneficio-detalles-create-0')">
+                                        <i class="fa fa-plus"></i> Añadir detalle
+                                    </button>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <label class="small">Icono</label>
