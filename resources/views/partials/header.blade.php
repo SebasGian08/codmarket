@@ -552,7 +552,6 @@
                     <li class="menu_item_has_child">
                         <a href="#!">
                             Servicios
-                            <i class="fas fa-chevron-down ml-1 arrow_icon"></i>
                         </a>
 
                         <ul class="submenu submenu_flat">
