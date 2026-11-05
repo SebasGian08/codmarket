@@ -32,7 +32,7 @@
 
 </head>
 
-<body class="@if(($config['home_mostrar_brand_ticker'] ?? 1) != 1) no-brand-ticker @endif">
+<body class="@if(($config['home_mostrar_brand_ticker'] ?? 1) != 1 || ($config['header_tipo'] ?? 'opcion_1') === 'opcion_2') no-brand-ticker @endif {{ ($config['header_tipo'] ?? 'opcion_1') === 'opcion_2' ? 'header-version-two' : '' }}">
 
     @if(!empty($config['google_tag_manager_id'] ?? null))
     <!-- Google Tag Manager (noscript) -->

@@ -4,6 +4,7 @@
     $mostrarBlogs = $config['home_mostrar_blogs'] ?? 1;
     $mostrarServicios = $config['home_mostrar_servicios'] ?? 1;
     $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
+    $headerTipo = $config['header_tipo'] ?? 'opcion_1';
     $serviciosPorGrupo = $services->groupBy(function ($service) {
         $grupo = trim($service->grupo ?? '');
 
@@ -11,15 +12,17 @@
     });
     $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
     $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
+    $numeroTelefono = $empresa->telefono ?? '';
+    $numeroTelefonoUrl = preg_replace('/[^0-9+]/', '', $numeroTelefono);
     $facebookUrl = $empresa->facebook ?? false;
     $instagramUrl = $empresa->instagram ?? false;
     $tiktokUrl = $empresa->tiktok ?? false;
     $linkedinUrl = $empresa->linkedin ?? false;
     @endphp
 
-    <header class="header_section fashion_minimal_header sticky_header clearfix"
+    <header class="header_section fashion_minimal_header sticky_header clearfix {{ $headerTipo === 'opcion_2' ? 'header-version-2' : '' }}"
         style="background-color: {{ $config['tema_color_fondo'] }}; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-        @if(($config['home_mostrar_brand_ticker'] ?? 1) == 1)
+        @if(($config['home_mostrar_brand_ticker'] ?? 1) == 1 && $headerTipo !== 'opcion_2')
         <div class="brand_ticker">
             <div class="brand_ticker_track">
                 @for($i = 0; $i < 20; $i++) <span>
@@ -97,13 +100,19 @@
                     <!-- DERECHA: contacto -->
                     <div class="topbar_right">
                         <ul class="contact_info ul_li">
+                            @if($headerTipo !== 'opcion_2')
                             <li>
                                 <span class="topbar_contact_icon"><i class="fas fa-phone-alt" aria-hidden="true"></i></span>
                                 <span>{{ $empresa->telefono ?? '' }}</span>
                             </li>
+                            @endif
                             <li>
                                 <span class="topbar_contact_icon"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                                @if($headerTipo === 'opcion_2' && $empresa->correo)
+                                <a href="mailto:{{ $empresa->correo }}">{{ $empresa->correo }}</a>
+                                @else
                                 <span>{{ $empresa->correo ?? '' }}</span>
+                                @endif
                             </li>
                         </ul>
                     </div>
@@ -269,7 +278,14 @@
                     </div>
                     <div class="col-lg-3">
                         <ul class="action_btns_group ul_li_right clearfix">
-                            @if($numeroWhatsappUrl)
+                            @if($headerTipo === 'opcion_2' && $numeroTelefonoUrl)
+                            <li class="header-call-item">
+                                <a href="tel:{{ $numeroTelefonoUrl }}" class="header-call">
+                                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
+                                    <span>{{ $numeroTelefono }}</span>
+                                </a>
+                            </li>
+                            @elseif($numeroWhatsappUrl)
                             <li class="header-whatsapp-item">
                                 <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-whatsapp" target="_blank"
                                     rel="noopener" aria-label="Contactar por WhatsApp">

@@ -125,6 +125,13 @@
                                             <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
                                                 Con porcentaje
                                             </option>
+                                            @elseif($config->clave === 'header_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Header actual
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Header con redes y botón de llamada
+                                            </option>
                                             @elseif($config->clave === 'contacto_tipo_formulario')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Formulario actual (por servicio)
