@@ -62,12 +62,30 @@ body.no-brand-ticker {
     animation: loading 1.2s infinite ease-in-out;
 }
 
+#preloader.loader-mode-opcion_3 .loader-progress {
+    width: 0;
+    animation: none;
+    transition: width .1s linear;
+}
+
+.loader-percentage {
+    margin-top: 6px;
+    color: #666;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
 /* Texto */
 .loader-text {
     margin-top: 12px;
     font-size: 13px;
     color: #666;
     letter-spacing: 0.5px;
+}
+
+html[data-theme="dark"] .loader-percentage {
+    color: var(--theme-muted, #aaa);
 }
 
 /* Animaciones */

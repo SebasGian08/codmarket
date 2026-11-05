@@ -4,99 +4,29 @@
     @include('admin.partials.head')
 </head>
 <body>
-    <!-- PRELOADER (estilo web) -->
-    <div id="adminPreloader">
+    @php
+        $loadingType = $config['sistema_loading_tipo'] ?? 'opcion_1';
+    @endphp
+    <div id="adminPreloader" class="loader-mode-{{ $loadingType }}"
+        data-loader-primary="{{ $config['tema_color_primario'] ?? '#21c36c' }}"
+        data-loader-secondary="{{ $config['tema_color_secundario'] ?? '#0ea5e9' }}">
         <div class="loader-wrapper">
+            @if($loadingType !== 'opcion_2')
             <div class="loader-logo">
                 <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
             </div>
+            @endif
 
             <div class="loader-bar">
                 <div class="loader-progress"></div>
             </div>
 
             <div class="loader-text">Cargando ...</div>
+            @if($loadingType === 'opcion_3')
+            <div class="loader-percentage" aria-live="polite">0%</div>
+            @endif
         </div>
     </div>
-
-    <style>
-        #adminPreloader {
-            position: fixed;
-            inset: 0;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-            opacity: 1;
-            transition: opacity .4s ease;
-        }
-
-        #adminPreloader.loader-hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        #adminPreloader .loader-wrapper {
-            text-align: center;
-            width: 220px;
-        }
-
-        #adminPreloader .loader-logo img {
-            width: 90px;
-            margin-bottom: 18px;
-            animation: adminFloatLogo 1.8s ease-in-out infinite;
-        }
-
-        #adminPreloader .loader-bar {
-            width: 100%;
-            height: 4px;
-            background: #eee;
-            border-radius: 50px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        #adminPreloader .loader-progress {
-            width: 40%;
-            height: 100%;
-            background: linear-gradient(90deg,
-                {{ $config['tema_color_primario'] ?? '#21c36c' }},
-                {{ $config['tema_color_secundario'] ?? '#0ea5e9' }});
-            border-radius: 50px;
-            animation: adminLoading 1.2s infinite ease-in-out;
-        }
-
-        #adminPreloader .loader-text {
-            margin-top: 12px;
-            font-size: 13px;
-            color: #666;
-            letter-spacing: .5px;
-        }
-
-        html[data-theme="dark"] #adminPreloader {
-            background: var(--ka-surface, #273243);
-        }
-
-        html[data-theme="dark"] #adminPreloader .loader-text {
-            color: var(--ka-text-muted, #9aa4b2);
-        }
-
-        html[data-theme="dark"] #adminPreloader .loader-bar {
-            background: #3a4658;
-        }
-
-        @keyframes adminLoading {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(60%); }
-            100% { transform: translateX(200%); }
-        }
-
-        @keyframes adminFloatLogo {
-            0%, 100% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-6px); opacity: .8; }
-        }
-    </style>
 
     <div class="wrapper sidebar_minimize">
         @include('admin.partials.sidebar')
@@ -123,6 +53,9 @@
         var el = document.getElementById('adminPreloader');
         if (!el) return;
 
+        el.style.setProperty('--loader-primary', el.dataset.loaderPrimary);
+        el.style.setProperty('--loader-secondary', el.dataset.loaderSecondary);
+
         window.adminLoader = {
             show: function(msg) {
                 var txt = el.querySelector('.loader-text');
@@ -134,7 +67,25 @@
             }
         };
 
+        var progress = el.querySelector('.loader-progress');
+        var percentage = el.querySelector('.loader-percentage');
+        var progressValue = 0;
+        var progressInterval;
+
+        if (el.classList.contains('loader-mode-opcion_3') && progress && percentage) {
+            progressInterval = window.setInterval(function() {
+                progressValue = Math.min(progressValue + 1, 90);
+                progress.style.width = progressValue + '%';
+                percentage.textContent = progressValue + '%';
+            }, 100);
+        }
+
         function ocultar() {
+            if (progressInterval) window.clearInterval(progressInterval);
+            if (progress && percentage && el.classList.contains('loader-mode-opcion_3')) {
+                progress.style.width = '100%';
+                percentage.textContent = '100%';
+            }
             window.adminLoader.hide();
         }
 

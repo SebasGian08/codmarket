@@ -115,7 +115,17 @@
                                         @elseif($config->tipo == 'select')
 
                                         <select name="{{ $config->clave }}" class="form-select rounded-3">
-                                            @if($config->clave === 'contacto_tipo_formulario')
+                                            @if($config->clave === 'sistema_loading_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Actual con logo
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Sin logo
+                                            </option>
+                                            <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
+                                                Con porcentaje
+                                            </option>
+                                            @elseif($config->clave === 'contacto_tipo_formulario')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Formulario actual (por servicio)
                                             </option>

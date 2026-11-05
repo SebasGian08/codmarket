@@ -154,27 +154,70 @@ gtag('config', '{{ $config['google_analytics_id'] }}');
 }
 </style>
 <script>
-window.addEventListener("load", function() {
-    const preloader = document.getElementById("preloader");
+(function() {
+    function initializePreloader() {
+        const preloader = document.getElementById('preloader');
+        if (!preloader) return;
 
-    preloader.style.opacity = "0";
-    preloader.style.transition = "0.5s ease";
+        const progress = preloader.querySelector('.loader-progress');
+        const percentage = preloader.querySelector('.loader-percentage');
+        let progressValue = 0;
+        let progressInterval;
 
-    setTimeout(() => {
-        preloader.style.display = "none";
-    }, 500);
-});
+        if (preloader.classList.contains('loader-mode-opcion_3') && progress && percentage) {
+            progressInterval = window.setInterval(function() {
+                progressValue = Math.min(progressValue + 1, 90);
+                progress.style.width = progressValue + '%';
+                percentage.textContent = progressValue + '%';
+            }, 100);
+        }
+
+        function hidePreloader() {
+            if (progressInterval) window.clearInterval(progressInterval);
+            if (progress && percentage && preloader.classList.contains('loader-mode-opcion_3')) {
+                progress.style.width = '100%';
+                percentage.textContent = '100%';
+            }
+
+            preloader.style.opacity = '0';
+            preloader.style.transition = '0.5s ease';
+            window.setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 500);
+        }
+
+        if (document.readyState === 'complete') {
+            hidePreloader();
+        } else {
+            window.addEventListener('load', hidePreloader, { once: true });
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializePreloader, { once: true });
+    } else {
+        initializePreloader();
+    }
+})();
 </script>
-<div id="preloader">
+@php
+    $loadingType = $config['sistema_loading_tipo'] ?? 'opcion_1';
+@endphp
+<div id="preloader" class="loader-mode-{{ $loadingType }}">
     <div class="loader-wrapper">
+        @if($loadingType !== 'opcion_2')
         <div class="loader-logo">
             <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
         </div>
+        @endif
 
         <div class="loader-bar">
             <div class="loader-progress"></div>
         </div>
 
         <div class="loader-text">Cargando ...</div>
+        @if($loadingType === 'opcion_3')
+        <div class="loader-percentage" aria-live="polite">0%</div>
+        @endif
     </div>
 </div>
