@@ -7,7 +7,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5>Nueva Transferencia</h5>
+                    <h5 id="tituloModalTrf">Nueva Transferencia</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -25,6 +25,7 @@
                                 </option>
                                 @endforeach
                             </select>
+                            <small class="text-muted d-block mt-1 d-none" id="tiendasFijasTrf">El origen y destino no se pueden cambiar cuando la transferencia está en tránsito.</small>
                             @if($tiendasOrigen->isEmpty())
                             <small class="text-danger d-block mt-1">No tienes tiendas asignadas disponibles.</small>
                             @else
@@ -99,7 +100,7 @@
                     </button>
 
                     <button type="submit" class="btn btn-success" id="btnGuardarTrf">
-                        <i class="fa fa-save"></i> Crear transferencia
+                        <i class="fa fa-save"></i> <span id="textoBtnGuardarTrf">Crear transferencia</span>
                     </button>
                 </div>
 

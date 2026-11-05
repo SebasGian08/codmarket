@@ -138,6 +138,13 @@
                                     <i class="fa fa-eye"></i>
                                 </button>
 
+                                @if($trf->estado === 'en_transito' && (int)$trf->id_usuario === (int)auth()->id())
+                                <button class="btn btn-sm btn-warning btn-round btn-editar-trf"
+                                    data-url="{{ route('admin.transferencias.editar', $trf->id_transferencia) }}">
+                                    <i class="fa fa-edit"></i> Editar
+                                </button>
+                                @endif
+
                                 @if($trf->estado === 'pendiente')
                                     @if((int)$trf->id_usuario !== (int)auth()->id() && in_array((int)$trf->id_tienda_origen, $idsTiendasAsignadas, true))
                                     <button class="btn btn-sm btn-primary btn-round btn-enviar"
@@ -186,6 +193,7 @@
 <script>
     var VARIANTES_TRF = @json($variantes);
     var STOCK_TRF = @json($stockPorTienda);
+    var TRF_EDIT = null;
 
     function escapeHtml(s) {
         return String(s == null ? '' : s)
@@ -205,7 +213,13 @@
         if (!tienda) return 0;
 
         var m = STOCK_TRF[idVariante];
-        return m ? (parseInt(m[tienda]) || 0) : 0;
+        var stock = m ? (parseInt(m[tienda]) || 0) : 0;
+
+        if (TRF_EDIT && String(TRF_EDIT.id_tienda_origen) === String(tienda)) {
+            stock += TRF_EDIT.cantidades[idVariante] || 0;
+        }
+
+        return stock;
     }
 
     /* ============ BÚSQUEDA ============ */
@@ -316,10 +330,12 @@
         `);
 
         filas.append(fila);
+        $('#trfVacio').toggleClass('d-none', filas.find('tr').length > 0);
     }
 
     $(document).on('click', '.btn-quitar-trf', function() {
         $(this).closest('tr').remove();
+        $('#trfVacio').toggleClass('d-none', $('#trfFilas tr').length > 0);
     });
 
     $(document).on('input', '.trf-cantidad', function() {
@@ -395,6 +411,91 @@
         }
 
         $('#btnGuardarTrf').prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Guardando...');
+    });
+
+    $(document).on('click', '.btn-editar-trf', function() {
+        var url = $(this).data('url');
+
+        $.get(url).done(function(data) {
+            TRF_EDIT = {
+                id_tienda_origen: data.id_tienda_origen,
+                cantidades: {}
+            };
+            data.detalle.forEach(function(item) {
+                TRF_EDIT.cantidades[item.id_variante] =
+                    (TRF_EDIT.cantidades[item.id_variante] || 0) + parseInt(item.cantidad, 10);
+            });
+
+            var form = $('#formTransferencia');
+            form.attr('action', data.update_url);
+            form.find('input[name="_method"]').remove();
+            form.append('<input type="hidden" name="_method" value="PUT">');
+
+            $('#tituloModalTrf').text('Editar transferencia');
+            $('#textoBtnGuardarTrf').text('Guardar cambios');
+            $('#tiendasFijasTrf').removeClass('d-none');
+            $('#btnGuardarTrf').prop('disabled', false);
+            $('input[name="fecha"]').val(data.fecha);
+            $('input[name="observacion"]').val(data.observacion || '');
+
+            var origen = $('#tiendaOrigen');
+            var destino = $('#tiendaDestino');
+            if (!origen.find('option[value="' + data.id_tienda_origen + '"]').length) {
+                origen.append($('<option>', {
+                    value: data.id_tienda_origen,
+                    text: data.tienda_origen,
+                    'data-edit-option': '1'
+                }));
+            }
+            if (!destino.find('option[value="' + data.id_tienda_destino + '"]').length) {
+                destino.append($('<option>', {
+                    value: data.id_tienda_destino,
+                    text: data.tienda_destino,
+                    'data-edit-option': '1'
+                }));
+            }
+
+            origen.val(data.id_tienda_origen).prop('disabled', true).trigger('change');
+            destino.val(data.id_tienda_destino).prop('disabled', true);
+            $('#trfFilas').empty();
+            $('#trfVacio').removeClass('d-none');
+            $('#varianteInputTrf').val('');
+
+            data.detalle.forEach(function(item) {
+                var variante = VARIANTES_TRF.find(function(v) {
+                    return String(v.id) === String(item.id_variante);
+                }) || item.variante;
+
+                agregarFilaTrf(variante);
+                var fila = $('#trfFilas tr[data-variante="' + item.id_variante + '"]');
+                fila.find('.trf-cantidad').val(item.cantidad).trigger('input');
+            });
+
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalCreate')).show();
+        }).fail(function(xhr) {
+            var msg = (xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo cargar la transferencia para editar';
+            Swal.fire('Error', msg, 'error');
+        });
+    });
+
+    $('#modalCreate').on('hidden.bs.modal', function() {
+        var form = $('#formTransferencia');
+        TRF_EDIT = null;
+        form[0].reset();
+        form.attr('action', '{{ route('admin.transferencias.store') }}');
+        form.find('input[name="_method"]').remove();
+        $('#tituloModalTrf').text('Nueva Transferencia');
+        $('#textoBtnGuardarTrf').text('Crear transferencia');
+        $('#tiendasFijasTrf').addClass('d-none');
+        $('#tiendaOrigen, #tiendaDestino').prop('disabled', false);
+        $('#tiendaOrigen option[data-edit-option="1"], #tiendaDestino option[data-edit-option="1"]').remove();
+        $('#tiendaDestino').prop('disabled', true);
+        $('#trfFilas').empty();
+        $('#trfVacio').removeClass('d-none');
+        $('#varianteInputTrf').val('');
+        $('#varianteResultadosTrf').addClass('d-none').empty();
+        $('#btnGuardarTrf').prop('disabled', false).html('<i class="fa fa-save"></i> <span id="textoBtnGuardarTrf">Crear transferencia</span>');
+        $('#tiendaOrigen').trigger('change');
     });
 
     /* ============ VER DETALLE ============ */

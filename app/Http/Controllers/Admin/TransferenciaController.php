@@ -232,12 +232,134 @@ class TransferenciaController extends Controller
         }
     }
 
+    public function editar($id)
+    {
+        $transferencia = Transferencia::with([
+            'tiendaOrigen',
+            'tiendaDestino',
+            'detalle.variante.producto',
+            'detalle.variante.atributos.atributo',
+        ])->findOrFail($id);
+
+        abort_unless(
+            (int) $transferencia->id_usuario === (int) auth()->id(),
+            403,
+            'Solo quien registró la transferencia puede editarla'
+        );
+        abort_unless(
+            $transferencia->estado === 'en_transito',
+            409,
+            'Solo se puede editar una transferencia en tránsito y pendiente de recepción'
+        );
+
+        return response()->json([
+            'id' => $transferencia->id_transferencia,
+            'fecha' => $transferencia->fecha->format('Y-m-d'),
+            'observacion' => $transferencia->observacion,
+            'id_tienda_origen' => $transferencia->id_tienda_origen,
+            'id_tienda_destino' => $transferencia->id_tienda_destino,
+            'tienda_origen' => trim(($transferencia->tiendaOrigen->codigo ?? '') . ' - ' . ($transferencia->tiendaOrigen->nombre ?? '')),
+            'tienda_destino' => trim(($transferencia->tiendaDestino->codigo ?? '') . ' - ' . ($transferencia->tiendaDestino->nombre ?? '')),
+            'detalle' => $transferencia->detalle->map(function ($detalle) {
+                $variante = $detalle->variante;
+
+                return [
+                    'id_variante' => $detalle->id_variante,
+                    'cantidad' => $detalle->cantidad,
+                    'variante' => [
+                        'id' => $variante->id_variante,
+                        'sku' => $variante->sku,
+                        'producto' => $variante->producto->nombre ?? '',
+                        'atributos' => $variante->atributos
+                            ->map(function ($atributo) {
+                                return [
+                                    'atributo' => $atributo->atributo->nombre ?? 'Atributo',
+                                    'valor' => $atributo->valor,
+                                ];
+                            })
+                            ->values(),
+                    ],
+                ];
+            })->values(),
+            'update_url' => route('admin.transferencias.actualizar', $transferencia->id_transferencia),
+        ]);
+    }
+
+    public function actualizar(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'fecha' => 'required|date',
+            'observacion' => 'nullable|string|max:500',
+            'items' => 'required|array|min:1',
+            'items.*.id_variante' => 'required|integer|distinct|exists:productos_variantes,id_variante',
+            'items.*.cantidad' => 'required|integer|min:1',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $transferencia = Transferencia::where('id_transferencia', $id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ((int) $transferencia->id_usuario !== (int) auth()->id()) {
+                throw new \Exception('Solo quien registró la transferencia puede editarla');
+            }
+
+            if ($transferencia->estado !== 'en_transito') {
+                throw new \Exception('Solo se puede editar una transferencia en tránsito y pendiente de recepción');
+            }
+
+            $transferencia->load('detalle');
+
+            foreach ($transferencia->detalle as $detalle) {
+                $this->inventario->aplicar(
+                    $detalle->id_variante,
+                    $transferencia->id_tienda_origen,
+                    'ajuste',
+                    $detalle->cantidad,
+                    $transferencia->id_transferencia,
+                    auth()->id(),
+                    'Reposición temporal para editar transferencia ' . $transferencia->numero
+                );
+            }
+
+            $transferencia->detalle()->delete();
+            $transferencia->update([
+                'fecha' => $validated['fecha'],
+                'observacion' => $validated['observacion'] ?? null,
+            ]);
+
+            foreach ($validated['items'] as $item) {
+                TransferenciaDetalle::create([
+                    'id_transferencia' => $transferencia->id_transferencia,
+                    'id_variante' => $item['id_variante'],
+                    'cantidad' => $item['cantidad'],
+                ]);
+            }
+
+            $transferencia->load('detalle.variante');
+            $this->guardarDetalleTransferencia($transferencia);
+
+            DB::commit();
+
+            return redirect()->route('admin.transferencias.index')
+                ->with('success', 'Transferencia ' . $transferencia->numero . ' actualizada correctamente');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
     public function enviar($id)
     {
         try {
             DB::beginTransaction();
 
-            $transferencia = Transferencia::with('detalle')->findOrFail($id);
+            $transferencia = Transferencia::where('id_transferencia', $id)
+                ->lockForUpdate()
+                ->firstOrFail();
+            $transferencia->load('detalle');
 
             if ($transferencia->estado !== 'pendiente') {
                 throw new \Exception('Solo se puede enviar una transferencia pendiente');
@@ -266,7 +388,10 @@ class TransferenciaController extends Controller
         try {
             DB::beginTransaction();
 
-            $transferencia = Transferencia::with('detalle')->findOrFail($id);
+            $transferencia = Transferencia::where('id_transferencia', $id)
+                ->lockForUpdate()
+                ->firstOrFail();
+            $transferencia->load('detalle');
 
             if ($transferencia->estado !== 'en_transito') {
                 throw new \Exception('Solo se puede recibir una transferencia en tránsito');
@@ -305,7 +430,10 @@ class TransferenciaController extends Controller
         try {
             DB::beginTransaction();
 
-            $transferencia = Transferencia::with('detalle')->findOrFail($id);
+            $transferencia = Transferencia::where('id_transferencia', $id)
+                ->lockForUpdate()
+                ->firstOrFail();
+            $transferencia->load('detalle');
 
             if ($transferencia->estado === 'recibida') {
                 throw new \Exception('No se puede anular una transferencia recibida');

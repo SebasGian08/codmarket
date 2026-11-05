@@ -187,6 +187,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::prefix('transferencias')->group(function () {
         Route::get('/', [TransferenciaController::class, 'index'])->name('admin.transferencias.index');
         Route::post('/guardar', [TransferenciaController::class, 'store'])->name('admin.transferencias.store');
+        Route::get('/{id}/editar', [TransferenciaController::class, 'editar'])->name('admin.transferencias.editar');
+        Route::put('/{id}/actualizar', [TransferenciaController::class, 'actualizar'])->name('admin.transferencias.actualizar');
         Route::post('/{id}/enviar', [TransferenciaController::class, 'enviar'])->name('admin.transferencias.enviar');
         Route::post('/{id}/recibir', [TransferenciaController::class, 'recibir'])->name('admin.transferencias.recibir');
         Route::post('/{id}/anular', [TransferenciaController::class, 'anular'])->name('admin.transferencias.anular');
