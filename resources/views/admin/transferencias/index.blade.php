@@ -92,7 +92,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-hover" id="basic-datatables">
+                <table class="table table-hover" id="basic-datatables" data-initial-order='[[3, "desc"]]'>
 
                     <thead>
                         <tr>
@@ -118,7 +118,7 @@
                                 <span class="badge bg-info text-dark me-1">{{ $trf->tiendaDestino->codigo }}</span>
                                 {{ $trf->tiendaDestino->nombre }}
                             </td>
-                            <td>{{ $trf->fecha->format('d/m/Y') }}</td>
+                            <td data-order="{{ $trf->fecha->format('Y-m-d') }}">{{ $trf->fecha->format('d/m/Y') }}</td>
                             <td>{{ $trf->usuario->nombres }} {{ $trf->usuario->apellidos }}</td>
                             <td>
                                 @if($trf->estado === 'pendiente')
