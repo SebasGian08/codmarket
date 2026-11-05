@@ -93,20 +93,35 @@ $(document).ready(function() {
 
     window.addBeneficio = function() {
         let html = `
-        <div class="servicio-beneficio-card animated fadeIn">
-            <div class="servicio-beneficio-card-header">
-                <div><span class="servicio-beneficio-kicker">Nuevo beneficio</span>
-                    <span class="servicio-beneficio-hint">Completa la información que se mostrará en la página.</span></div>
-                <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.servicio-beneficio-card').remove()" aria-label="Quitar beneficio">
-                    <i class="fa fa-trash"></i>
+        <div class="card p-3 mb-3 border shadow-sm animated fadeIn">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-bold text-primary">Nuevo Beneficio</h6>
+                <button type="button" class="btn btn-danger btn-xs" onclick="this.closest('.card').remove()">
+                    <i class="fa fa-trash"></i> Eliminar Beneficio
                 </button>
             </div>
-            <div class="servicio-beneficio-card-body">
-                <div class="row g-3">
-                    <div class="col-12 col-md-4"><label class="form-label">Título</label><input type="text" name="beneficios[${i}][titulo]" class="form-control" placeholder="Ej. Atención personalizada"></div>
-                    <div class="col-12 col-md-8"><label class="form-label">Descripción</label><textarea name="beneficios[${i}][descripcion]" class="form-control" rows="2" placeholder="Describe brevemente este beneficio"></textarea></div>
-                    <div class="col-12 col-lg-5"><label class="form-label">Icono</label><div class="input-group"><input type="text" name="beneficios[${i}][icono]" class="form-control" placeholder="Ej. fa fa-check"><span class="input-group-text servicio-beneficio-iconos" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-th"></i></span></div></div>
-                    <div class="col-12 col-lg-7"><label class="form-label">Imagen (opcional)</label><input type="file" name="beneficios[${i}][imagen]" class="form-control" accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio"><small class="form-text text-muted">JPG, PNG o WebP. Si agregas una imagen, se mostrará en lugar del icono.</small></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="small">Título del Beneficio</label>
+                    <input type="text" name="beneficios[${i}][titulo]" class="form-control mb-2" placeholder="Ej: Atención personalizada">
+                </div>
+                <div class="col-md-8">
+                    <label class="small">Descripción</label>
+                    <textarea name="beneficios[${i}][descripcion]" class="form-control mb-2" rows="2" placeholder="Describe brevemente el beneficio"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="small">Icono</label>
+                    <div class="input-group mb-2">
+                        <input type="text" name="beneficios[${i}][icono]" class="form-control" placeholder="Ej: fa fa-check">
+                        <span class="input-group-text servicio-beneficio-iconos" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-th"></i></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="small">Imagen (opcional)</label>
+                    <input type="file" name="beneficios[${i}][imagen]" class="form-control mb-2" accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio">
+                    <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                 </div>
             </div>
         </div>`;
@@ -172,20 +187,35 @@ $(document).ready(function() {
         let uniqueIdx = 'new_' + Date.now() + '_' + Math.floor(Math.random() * 100);
 
         let html = `
-        <div class="servicio-beneficio-card animated fadeIn">
-            <div class="servicio-beneficio-card-header">
-                <div><span class="servicio-beneficio-kicker">Nuevo beneficio</span>
-                    <span class="servicio-beneficio-hint">Completa la información que se mostrará en la página.</span></div>
-                <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.servicio-beneficio-card').remove()" aria-label="Quitar beneficio">
-                    <i class="fa fa-trash"></i>
+        <div class="card p-3 mb-3 border shadow-sm animated fadeIn">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="fw-bold text-primary">Nuevo Beneficio</h6>
+                <button type="button" class="btn btn-danger btn-xs" onclick="this.closest('.card').remove()">
+                    <i class="fa fa-trash"></i> Eliminar Beneficio
                 </button>
             </div>
-            <div class="servicio-beneficio-card-body">
-                <div class="row g-3">
-                    <div class="col-12 col-md-4"><label class="form-label">Título</label><input type="text" name="beneficios[${uniqueIdx}][titulo]" class="form-control" placeholder="Ej. Atención personalizada"></div>
-                    <div class="col-12 col-md-8"><label class="form-label">Descripción</label><textarea name="beneficios[${uniqueIdx}][descripcion]" class="form-control" rows="2" placeholder="Describe brevemente este beneficio"></textarea></div>
-                    <div class="col-12 col-lg-5"><label class="form-label">Icono</label><div class="input-group"><input type="text" name="beneficios[${uniqueIdx}][icono]" class="form-control" placeholder="Ej. fa fa-check"><span class="input-group-text servicio-beneficio-iconos" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-th"></i></span></div></div>
-                    <div class="col-12 col-lg-7"><label class="form-label">Imagen (opcional)</label><input type="file" name="beneficios[${uniqueIdx}][imagen]" class="form-control" accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio"><small class="form-text text-muted">JPG, PNG o WebP. Si agregas una imagen, se mostrará en lugar del icono.</small></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="small">Título del Beneficio</label>
+                    <input type="text" name="beneficios[${uniqueIdx}][titulo]" class="form-control mb-2" placeholder="Ej: Atención personalizada">
+                </div>
+                <div class="col-md-8">
+                    <label class="small">Descripción</label>
+                    <textarea name="beneficios[${uniqueIdx}][descripcion]" class="form-control mb-2" rows="2" placeholder="Describe brevemente el beneficio"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="small">Icono</label>
+                    <div class="input-group mb-2">
+                        <input type="text" name="beneficios[${uniqueIdx}][icono]" class="form-control" placeholder="Ej: fa fa-check">
+                        <span class="input-group-text servicio-beneficio-iconos" data-bs-toggle="modal" data-bs-target="#modalGuiaIconos" onclick="prepararIcono(this)" title="Ver guía de iconos"><i class="fa fa-th"></i></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="small">Imagen (opcional)</label>
+                    <input type="file" name="beneficios[${uniqueIdx}][imagen]" class="form-control mb-2" accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio">
+                    <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                 </div>
             </div>
         </div>`;

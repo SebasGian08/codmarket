@@ -125,82 +125,78 @@
                         </div>
 
                         <div class="tab-pane fade" id="tab-beneficios-edit-{{ $service->id_service }}">
-                            <div class="servicio-beneficios-intro">
-                                <div>
-                                    <h6>Beneficios del servicio</h6>
-                                    <p>Organiza la información y los recursos visuales de cada beneficio.</p>
-                                </div>
-                                <button type="button" class="btn btn-primary btn-round btn-sm"
-                                    onclick="addBeneficioEdit({{ $service->id_service }})">
-                                    <i class="fa fa-plus"></i> Agregar beneficio
-                                </button>
-                            </div>
                             <div id="beneficios-container-edit-{{ $service->id_service }}">
                                 @foreach($service->benefits as $index => $ben)
-                                <div class="servicio-beneficio-card">
-                                    <div class="servicio-beneficio-card-header">
-                                        <div>
-                                            <span class="servicio-beneficio-kicker">Beneficio {{ $index + 1 }}</span>
-                                            <span class="servicio-beneficio-hint">Edita el texto y la presentación de este beneficio.</span>
-                                        </div>
-                                        <button type="button" class="btn btn-outline-danger btn-sm"
-                                            onclick="this.closest('.servicio-beneficio-card').remove()"
-                                            aria-label="Quitar beneficio">
-                                            <i class="fa fa-trash"></i>
+                                <div class="card p-3 mb-3 border shadow-sm">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="fw-bold text-primary">Beneficio {{ $index + 1 }}</h6>
+                                        <button type="button" class="btn btn-danger btn-xs"
+                                            onclick="this.closest('.card').remove()">
+                                            <i class="fa fa-trash"></i> Eliminar Beneficio
                                         </button>
                                     </div>
 
-                                    <div class="servicio-beneficio-card-body">
-                                        <input type="hidden" name="beneficios[{{ $index }}][id]" value="{{ $ben->id }}">
-                                        <div class="row g-3">
-                                    <div class="col-12 col-md-4">
-                                        <label class="form-label">Título</label>
-                                        <input type="text" name="beneficios[{{ $index }}][titulo]"
-                                            value="{{ $ben->titulo }}" class="form-control"
-                                            placeholder="Ej. Atención personalizada">
-                                    </div>
-                                    <div class="col-12 col-md-8">
-                                        <label class="form-label">Descripción</label>
-                                        <textarea name="beneficios[{{ $index }}][descripcion]" class="form-control"
-                                            rows="2" placeholder="Describe brevemente este beneficio">{{ $ben->descripcion }}</textarea>
-                                    </div>
-                                    <div class="col-12 col-lg-5">
-                                        <label class="form-label">Icono</label>
-                                        <div class="input-group">
-                                            <input type="text" name="beneficios[{{ $index }}][icono]"
-                                                value="{{ $ben->icono }}" class="form-control" placeholder="Ej. fa fa-check">
-                                            <span class="input-group-text servicio-beneficio-iconos"
-                                                data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
-                                                onclick="prepararIcono(this)" title="Ver guía de iconos">
-                                                <i class="fa fa-th"></i>
-                                            </span>
+                                    <input type="hidden" name="beneficios[{{ $index }}][id]" value="{{ $ben->id }}">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label class="small">Título del Beneficio</label>
+                                            <input type="text" name="beneficios[{{ $index }}][titulo]"
+                                                value="{{ $ben->titulo }}" class="form-control mb-2"
+                                                placeholder="Ej: Atención personalizada">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="small">Descripción</label>
+                                            <textarea name="beneficios[{{ $index }}][descripcion]"
+                                                class="form-control mb-2" rows="2"
+                                                placeholder="Describe brevemente el beneficio">{{ $ben->descripcion }}</textarea>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-7">
-                                        <label class="form-label">Imagen (opcional)</label>
-                                        @if($ben->imagen)
-                                        <div class="servicio-beneficio-imagen-actual">
-                                            <img src="{{ asset($ben->imagen) }}" alt="Imagen de {{ $ben->titulo }}"
-                                                class="img-thumbnail">
-                                            <div class="form-check servicio-beneficio-quitar-imagen">
-                                                <input type="checkbox" class="form-check-input"
-                                                    id="eliminar-beneficio-imagen-{{ $ben->id }}"
-                                                    name="beneficios[{{ $index }}][eliminar_imagen]" value="1">
-                                                <label class="form-check-label small"
-                                                    for="eliminar-beneficio-imagen-{{ $ben->id }}">Eliminar imagen actual</label>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="small">Icono</label>
+                                            <div class="input-group mb-2">
+                                                <input type="text" name="beneficios[{{ $index }}][icono]"
+                                                    value="{{ $ben->icono }}" class="form-control"
+                                                    placeholder="Ej: fa fa-check">
+                                                <span class="input-group-text servicio-beneficio-iconos"
+                                                    data-bs-toggle="modal" data-bs-target="#modalGuiaIconos"
+                                                    onclick="prepararIcono(this)" title="Ver guía de iconos">
+                                                    <i class="fa fa-th"></i>
+                                                </span>
                                             </div>
                                         </div>
-                                        @endif
-                                        <input type="file" name="beneficios[{{ $index }}][imagen]" class="form-control"
-                                            accept="image/jpeg,image/png,image/webp"
-                                            aria-label="Imagen de {{ $ben->titulo }}">
-                                        <small class="form-text text-muted">JPG, PNG o WebP. Si agregas una imagen, se mostrará en lugar del icono.</small>
-                                    </div>
+
+                                        <div class="col-md-6">
+                                            <label class="small">Imagen (opcional)</label>
+                                            @if($ben->imagen)
+                                            <div class="d-flex align-items-center gap-2 mb-2">
+                                                <img src="{{ asset($ben->imagen) }}" alt="Imagen de {{ $ben->titulo }}"
+                                                    class="img-thumbnail"
+                                                    style="width:52px;height:52px;object-fit:cover;">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input"
+                                                        id="eliminar-beneficio-imagen-{{ $ben->id }}"
+                                                        name="beneficios[{{ $index }}][eliminar_imagen]" value="1">
+                                                    <label class="form-check-label small"
+                                                        for="eliminar-beneficio-imagen-{{ $ben->id }}">Eliminar imagen actual</label>
+                                                </div>
+                                            </div>
+                                            @endif
+                                            <input type="file" name="beneficios[{{ $index }}][imagen]"
+                                                class="form-control mb-2" accept="image/jpeg,image/png,image/webp"
+                                                aria-label="Imagen de {{ $ben->titulo }}">
+                                            <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                                         </div>
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
+
+                            <button type="button" class="btn btn-primary btn-border btn-round btn-sm"
+                                onclick="addBeneficioEdit({{ $service->id_service }})">
+                                <i class="fa fa-plus"></i> Agregar Beneficio
+                            </button>
                         </div>
 
                         <div class="tab-pane fade" id="tab-planes-edit-{{ $service->id_service }}">
