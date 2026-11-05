@@ -278,11 +278,12 @@
                     </div>
                     <div class="col-lg-3">
                         <ul class="action_btns_group ul_li_right clearfix">
-                            @if($headerTipo === 'opcion_2' && $numeroTelefonoUrl)
-                            <li class="header-call-item">
-                                <a href="tel:{{ $numeroTelefonoUrl }}" class="header-call">
-                                    <i class="fas fa-phone-alt" aria-hidden="true"></i>
-                                    <span>{{ $numeroTelefono }}</span>
+                            @if($headerTipo === 'opcion_2' && $numeroWhatsappUrl)
+                            <li class="header-contact-item">
+                                <a href="https://wa.me/{{ $numeroWhatsappUrl }}" class="header-contact-whatsapp"
+                                    target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+                                    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                                    <span>Contacto</span>
                                 </a>
                             </li>
                             @elseif($numeroWhatsappUrl)
