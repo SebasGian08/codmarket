@@ -272,6 +272,12 @@ class VentaController extends Controller
     {
         $fechaDesde = $request->input('fecha_desde', now()->startOfMonth()->toDateString());
         $fechaHasta = $request->input('fecha_hasta', now()->toDateString());
+        $busqueda = trim((string) $request->input('buscar', ''));
+        $opcionesPorPagina = [10, 25, 30, 50, 100];
+        $porPaginaSolicitado = (int) $request->input('por_pagina', 30);
+        $porPagina = in_array($porPaginaSolicitado, $opcionesPorPagina, true)
+            ? $porPaginaSolicitado
+            : 30;
 
         $query = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'ventaPagos.metodoPago'])
             ->orderBy('id_venta', 'desc');
@@ -309,6 +315,23 @@ class VentaController extends Controller
             $query->where('id_vendedor', $request->get('id_vendedor'));
         }
 
+        if ($busqueda !== '') {
+            $query->where(function ($q) use ($busqueda) {
+                $q->where('numero', 'like', '%' . $busqueda . '%')
+                    ->orWhere('nombre_cliente', 'like', '%' . $busqueda . '%')
+                    ->orWhereHas('tienda', function ($tiendaQuery) use ($busqueda) {
+                        $tiendaQuery->where('nombre', 'like', '%' . $busqueda . '%')
+                            ->orWhere('codigo', 'like', '%' . $busqueda . '%');
+                    })
+                    ->orWhereHas('vendedor', function ($vendedorQuery) use ($busqueda) {
+                        $vendedorQuery->where('nombre', 'like', '%' . $busqueda . '%');
+                    })
+                    ->orWhereHas('ventaPagos.metodoPago', function ($metodoQuery) use ($busqueda) {
+                        $metodoQuery->where('nombre', 'like', '%' . $busqueda . '%');
+                    });
+            });
+        }
+
         if ($fechaDesde) {
             $query->whereDate('created_at', '>=', $fechaDesde);
         }
@@ -317,7 +340,7 @@ class VentaController extends Controller
             $query->whereDate('created_at', '<=', $fechaHasta);
         }
 
-        $ventas = $query->paginate(30);
+        $ventas = $query->paginate($porPagina)->withQueryString();
 
         return view('admin.ventas.historial', compact(
             'ventas',
@@ -325,7 +348,9 @@ class VentaController extends Controller
             'vendedores',
             'vendedorUsuario',
             'fechaDesde',
-            'fechaHasta'
+            'fechaHasta',
+            'busqueda',
+            'porPagina'
         ));
     }
 

@@ -67,6 +67,23 @@
                     </div>
                 </div>
 
+                <div class="col-12 col-md-8 col-xl-6">
+                    <label class="form-label fw-semibold">Buscar venta</label>
+                    <input type="search" name="buscar" class="form-control" value="{{ $busqueda }}"
+                        placeholder="N.º, cliente, tienda, vendedor o método de pago">
+                </div>
+
+                <div class="col-12 col-md-4 col-xl-2">
+                    <label class="form-label fw-semibold">Registros por página</label>
+                    <select name="por_pagina" class="form-select">
+                        @foreach([10, 25, 30, 50, 100] as $cantidad)
+                        <option value="{{ $cantidad }}" {{ $porPagina === $cantidad ? 'selected' : '' }}>
+                            {{ $cantidad }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="col-12 d-flex flex-wrap justify-content-xl-end gap-2 venta-historial-filtros-actions">
                     <button type="submit" class="btn btn-primary btn-round">
                         <i class="fa fa-search"></i> Buscar
@@ -156,7 +173,10 @@
 
             </div>
 
-            <div class="d-flex justify-content-end mt-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mt-3">
+                <small class="text-muted">
+                    Mostrando {{ $ventas->firstItem() ?? 0 }}–{{ $ventas->lastItem() ?? 0 }} de {{ $ventas->total() }} ventas
+                </small>
                 {{ $ventas->links('pagination::bootstrap-4') }}
             </div>
 
