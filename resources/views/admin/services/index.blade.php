@@ -302,7 +302,7 @@ $(document).ready(function() {
             let $modal = $form.closest('.modal');
 
             if ($modal.length > 0) {
-                $modal.find('input[name^="beneficios"], input[name^="planes"], textarea[name^="planes"], input[name^="features_nuevas"]').each(function() {
+                $modal.find('input[name^="beneficios"], textarea[name^="beneficios"], input[name^="planes"], textarea[name^="planes"], input[name^="features_nuevas"]').each(function() {
                     if (!$.contains($form[0], this)) {
                         $('<input>').attr({
                             type: 'hidden',
