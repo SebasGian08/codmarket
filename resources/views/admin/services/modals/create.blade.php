@@ -126,7 +126,6 @@
                                             <input type="file" name="beneficios[0][imagen]" class="form-control mb-2"
                                                 accept="image/jpeg,image/png,image/webp"
                                                 aria-label="Imagen del beneficio">
-                                            <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                                         </div>
                                         </div>
                                 </div>

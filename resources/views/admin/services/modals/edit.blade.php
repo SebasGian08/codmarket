@@ -186,7 +186,6 @@
                                             <input type="file" name="beneficios[{{ $index }}][imagen]"
                                                 class="form-control mb-2" accept="image/jpeg,image/png,image/webp"
                                                 aria-label="Imagen de {{ $ben->titulo }}">
-                                            <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                                         </div>
                                     </div>
                                 </div>

@@ -121,7 +121,6 @@ $(document).ready(function() {
                 <div class="col-md-6">
                     <label class="small">Imagen (opcional)</label>
                     <input type="file" name="beneficios[${i}][imagen]" class="form-control mb-2" accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio">
-                    <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                 </div>
             </div>
         </div>`;
@@ -215,7 +214,6 @@ $(document).ready(function() {
                 <div class="col-md-6">
                     <label class="small">Imagen (opcional)</label>
                     <input type="file" name="beneficios[${uniqueIdx}][imagen]" class="form-control mb-2" accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio">
-                    <small class="form-text text-muted">Si agregas una imagen, se mostrará en lugar del icono.</small>
                 </div>
             </div>
         </div>`;
