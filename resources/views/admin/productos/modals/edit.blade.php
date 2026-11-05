@@ -1,5 +1,5 @@
 <div class="modal fade" id="edit{{ $p->id_producto }}">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
 
         <form action="{{ route('admin.productos.update', $p->id_producto) }}" method="POST" enctype="multipart/form-data">
             @csrf
