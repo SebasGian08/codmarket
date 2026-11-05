@@ -311,17 +311,31 @@ class TransferenciaController extends Controller
             }
 
             $transferencia->load('detalle');
+            $cantidadesAnteriores = $transferencia->detalle
+                ->groupBy('id_variante')
+                ->map(function ($detalles) {
+                    return $detalles->sum('cantidad');
+                });
+            $cantidadesNuevas = collect($validated['items'])
+                ->keyBy('id_variante')
+                ->map(function ($item) {
+                    return $item['cantidad'];
+                });
 
-            foreach ($transferencia->detalle as $detalle) {
-                $this->inventario->aplicar(
-                    $detalle->id_variante,
-                    $transferencia->id_tienda_origen,
-                    'ajuste',
-                    $detalle->cantidad,
-                    $transferencia->id_transferencia,
-                    auth()->id(),
-                    'Reposición temporal para editar transferencia ' . $transferencia->numero
-                );
+            foreach ($cantidadesAnteriores->keys()->merge($cantidadesNuevas->keys())->unique() as $idVariante) {
+                $diferencia = ($cantidadesAnteriores[$idVariante] ?? 0) - ($cantidadesNuevas[$idVariante] ?? 0);
+
+                if ($diferencia !== 0) {
+                    $this->inventario->aplicar(
+                        $idVariante,
+                        $transferencia->id_tienda_origen,
+                        'ajuste',
+                        $diferencia,
+                        $transferencia->id_transferencia,
+                        auth()->id(),
+                        'Ajuste por edición de transferencia ' . $transferencia->numero
+                    );
+                }
             }
 
             $transferencia->detalle()->delete();
@@ -337,9 +351,6 @@ class TransferenciaController extends Controller
                     'cantidad' => $item['cantidad'],
                 ]);
             }
-
-            $transferencia->load('detalle.variante');
-            $this->guardarDetalleTransferencia($transferencia);
 
             DB::commit();
 

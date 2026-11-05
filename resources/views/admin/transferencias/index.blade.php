@@ -435,8 +435,8 @@
             $('#textoBtnGuardarTrf').text('Guardar cambios');
             $('#tiendasFijasTrf').removeClass('d-none');
             $('#btnGuardarTrf').prop('disabled', false);
-            $('input[name="fecha"]').val(data.fecha);
-            $('input[name="observacion"]').val(data.observacion || '');
+            form.find('input[name="fecha"]').val(data.fecha);
+            form.find('input[name="observacion"]').val(data.observacion || '');
 
             var origen = $('#tiendaOrigen');
             var destino = $('#tiendaDestino');
