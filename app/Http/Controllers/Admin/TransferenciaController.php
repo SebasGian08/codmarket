@@ -127,7 +127,10 @@ class TransferenciaController extends Controller
             $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
         }
 
-        $transferencias = $query->orderBy('id_transferencia', 'desc')->get();
+        $transferencias = $query
+            ->orderBy('fecha', 'desc')
+            ->orderBy('id_transferencia', 'desc')
+            ->get();
 
         $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
         $tiendasOrigen = $tiendasAsignadas;
