@@ -25,11 +25,8 @@
                                 </option>
                                 @endforeach
                             </select>
-                            <small class="text-muted d-block mt-1 d-none" id="tiendasFijasTrf">El origen y destino no se pueden cambiar cuando la transferencia está en tránsito.</small>
                             @if($tiendasOrigen->isEmpty())
                             <small class="text-danger d-block mt-1">No tienes tiendas asignadas disponibles.</small>
-                            @else
-                            <small class="text-muted d-block mt-1">Solo tiendas asignadas a tu usuario.</small>
                             @endif
                         </div>
 
@@ -43,7 +40,6 @@
                                 </option>
                                 @endforeach
                             </select>
-                            <small class="text-muted d-block mt-1">Puedes elegir cualquier tienda activa, distinta del origen.</small>
                         </div>
 
                         <div class="col-md-3">

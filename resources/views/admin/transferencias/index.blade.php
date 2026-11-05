@@ -433,7 +433,6 @@
 
             $('#tituloModalTrf').text('Editar transferencia');
             $('#textoBtnGuardarTrf').text('Guardar cambios');
-            $('#tiendasFijasTrf').removeClass('d-none');
             $('#btnGuardarTrf').prop('disabled', false);
             form.find('input[name="fecha"]').val(data.fecha);
             form.find('input[name="observacion"]').val(data.observacion || '');
@@ -486,7 +485,6 @@
         form.find('input[name="_method"]').remove();
         $('#tituloModalTrf').text('Nueva Transferencia');
         $('#textoBtnGuardarTrf').text('Crear transferencia');
-        $('#tiendasFijasTrf').addClass('d-none');
         $('#tiendaOrigen, #tiendaDestino').prop('disabled', false);
         $('#tiendaOrigen option[data-edit-option="1"], #tiendaDestino option[data-edit-option="1"]').remove();
         $('#tiendaDestino').prop('disabled', true);
