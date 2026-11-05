@@ -102,8 +102,8 @@ class TiendaController extends Controller
             return back()->with('error', 'No se puede eliminar: la tienda tiene cajas abiertas');
         }
 
-        $tienda->delete();
+        $tienda->update(['estado' => 0]);
 
-        return back()->with('success', 'Tienda eliminada');
+        return back()->with('success', 'Tienda desactivada correctamente');
     }
 }
