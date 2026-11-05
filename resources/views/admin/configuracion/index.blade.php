@@ -40,7 +40,7 @@
                 <li class="nav-item">
                     <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
                         href="#tab-{{ $categoria }}">
-                        {{ ucfirst($categoria) }}
+                        {{ $categoria === 'seccion_servicio' ? 'Sección servicio' : ucfirst($categoria) }}
                     </a>
                 </li>
                 @endforeach
@@ -135,6 +135,10 @@
                                             </option>
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
                                                 Diseño con misión y visión
+                                            </option>
+                                            @elseif($config->clave === 'seccion_servicio_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Opción 1 — Diseño actual
                                             </option>
                                             @else
                                             @foreach(explode(',', $config->opciones ?? '') as $opcion)

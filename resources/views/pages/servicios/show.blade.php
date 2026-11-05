@@ -152,7 +152,6 @@ BENEFICIOS
 
 <section class="benefits-section">
 
-
     <div class="service-container">
 
         <div class="section-heading-center">
@@ -162,15 +161,15 @@ BENEFICIOS
                 Todo lo que necesitas
             </span>
 
-            <h2>
-                Beneficios que hacen la
-                <span>diferencia</span>
-            </h2>
+            @php
+                $tituloBeneficios = trim($config['seccion_servicio_beneficios_titulo'] ?? 'Beneficios que hacen la diferencia');
+                $partesTituloBeneficios = preg_split('/\s+/', $tituloBeneficios, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+                $palabraDestacadaBeneficios = array_pop($partesTituloBeneficios);
+            @endphp
 
-            <p>
-                Obtén una solución completa pensada para ofrecerte
-                mejores resultados y una experiencia profesional.
-            </p>
+            <h2>{{ implode(' ', $partesTituloBeneficios) }}@if($palabraDestacadaBeneficios) <span>{{ $palabraDestacadaBeneficios }}</span>@endif</h2>
+
+            <p>{{ $config['seccion_servicio_beneficios_descripcion'] ?? 'Obtén una solución completa pensada para ofrecerte mejores resultados y una experiencia profesional.' }}</p>
 
         </div>
 
