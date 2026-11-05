@@ -66,6 +66,13 @@
                                             style="max-height:120px;">
                                         <div class="small text-muted">Actual</div>
                                     </div>
+                                    <div class="form-check mb-2">
+                                        <input type="checkbox" class="form-check-input"
+                                            id="eliminar-portada-{{ $service->id_service }}" name="eliminar_portada"
+                                            value="1">
+                                        <label class="form-check-label"
+                                            for="eliminar-portada-{{ $service->id_service }}">Eliminar imagen actual</label>
+                                    </div>
                                     @endif
                                     <input type="file" name="portada" class="form-control mb-3">
 
@@ -77,6 +84,13 @@
                                             class="img-fluid rounded shadow" style="max-height:120px;">
                                         <div class="small text-muted">Actual</div>
                                     </div>
+                                    <div class="form-check mb-2">
+                                        <input type="checkbox" class="form-check-input"
+                                            id="eliminar-imagen-portada-{{ $service->id_service }}"
+                                            name="eliminar_imagen_portada" value="1">
+                                        <label class="form-check-label"
+                                            for="eliminar-imagen-portada-{{ $service->id_service }}">Eliminar imagen actual</label>
+                                    </div>
                                     @endif
                                     <input type="file" name="imagen_portada" class="form-control mb-3">
 
@@ -87,6 +101,13 @@
                                         <img src="{{ asset($service->imagen_referencial) }}"
                                             class="img-fluid rounded shadow" style="max-height:120px;">
                                         <div class="small text-muted">Actual</div>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input type="checkbox" class="form-check-input"
+                                            id="eliminar-imagen-referencial-{{ $service->id_service }}"
+                                            name="eliminar_imagen_referencial" value="1">
+                                        <label class="form-check-label"
+                                            for="eliminar-imagen-referencial-{{ $service->id_service }}">Eliminar imagen actual</label>
                                     </div>
                                     @endif
                                     <input type="file" name="imagen_referencial" class="form-control mb-2">

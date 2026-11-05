@@ -123,28 +123,21 @@ class ServiceController extends Controller
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_referencial' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'eliminar_portada' => 'nullable|boolean',
+            'eliminar_imagen_portada' => 'nullable|boolean',
+            'eliminar_imagen_referencial' => 'nullable|boolean',
         ]);
+
+        $transaccionConfirmada = false;
 
         try {
             DB::beginTransaction();
 
             $service = Service::findOrFail($id);
-
-            $portada = $service->portada;
-            $imagenPortada = $service->imagen_portada;
-            $imagenReferencial = $service->imagen_referencial;
-
-            if ($request->hasFile('portada')) {
-                $portada = $this->uploadImage($request->file('portada'), 'services', 1920, 85, 400);
-            }
-
-            if ($request->hasFile('imagen_portada')) {
-                $imagenPortada = $this->uploadImage($request->file('imagen_portada'), 'services', 1600, 85, 300);
-            }
-
-            if ($request->hasFile('imagen_referencial')) {
-                $imagenReferencial = $this->uploadImage($request->file('imagen_referencial'), 'services', 1080, 85, 300);
-            }
+            $imagenesParaEliminar = [];
+            $portada = $this->procesarImagen($request, 'portada', $service->portada, $imagenesParaEliminar, 1920, 400);
+            $imagenPortada = $this->procesarImagen($request, 'imagen_portada', $service->imagen_portada, $imagenesParaEliminar, 1600, 300);
+            $imagenReferencial = $this->procesarImagen($request, 'imagen_referencial', $service->imagen_referencial, $imagenesParaEliminar, 1080, 300);
 
             $service->update([
                 'nombre' => $request->nombre,
@@ -201,13 +194,78 @@ class ServiceController extends Controller
             }
 
             DB::commit();
+            $transaccionConfirmada = true;
+
+            foreach (array_unique($imagenesParaEliminar) as $imagen) {
+                $this->eliminarImagenServicio($imagen);
+            }
 
             return redirect()->route('admin.servicios.index')
                 ->with('success', 'Servicio actualizado correctamente');
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            if (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
+
+            $mensaje = $transaccionConfirmada
+                ? 'El servicio se actualizó, pero no se pudo eliminar una imagen anterior: ' . $e->getMessage()
+                : $e->getMessage();
+
+            return back()->with('error', $mensaje);
+        }
+    }
+
+    private function procesarImagen(
+        Request $request,
+        string $campo,
+        ?string $actual,
+        array &$imagenesParaEliminar,
+        int $width,
+        int $maxKb
+    ): ?string {
+        if ($request->boolean("eliminar_{$campo}") && $actual) {
+            $imagenesParaEliminar[] = $actual;
+            $actual = null;
+        }
+
+        if (!$request->hasFile($campo)) {
+            return $actual;
+        }
+
+        if ($actual) {
+            $imagenesParaEliminar[] = $actual;
+        }
+
+        return $this->uploadImage($request->file($campo), 'services', $width, 85, $maxKb);
+    }
+
+    private function eliminarImagenServicio(string $ruta): void
+    {
+        if (!str_starts_with($ruta, 'uploads/services/')) {
+            return;
+        }
+
+        $enUso = Service::where('portada', $ruta)
+            ->orWhere('imagen_portada', $ruta)
+            ->orWhere('imagen_referencial', $ruta)
+            ->exists();
+
+        if ($enUso) {
+            return;
+        }
+
+        $directorioServicios = realpath(base_path('uploads/services'));
+        $rutaArchivo = realpath(base_path($ruta));
+
+        if (!$directorioServicios || !$rutaArchivo
+            || !str_starts_with($rutaArchivo, $directorioServicios . DIRECTORY_SEPARATOR)
+            || !is_file($rutaArchivo)) {
+            return;
+        }
+
+        if (!unlink($rutaArchivo)) {
+            throw new \RuntimeException("No se pudo eliminar el archivo \"{$ruta}\".");
         }
     }
 
