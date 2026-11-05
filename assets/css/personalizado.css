@@ -1126,6 +1126,11 @@ html, body {
     display: block;
 }
 
+.main_menu .submenu_flat:hover > li.category-selected:not(:hover) > .submenu_flat_children,
+.main_menu .submenu_flat:focus-within > li.category-selected:not(:focus-within) > .submenu_flat_children {
+    display: none;
+}
+
 .submenu_flat_children > li > a {
     display: flex;
     align-items: center;
