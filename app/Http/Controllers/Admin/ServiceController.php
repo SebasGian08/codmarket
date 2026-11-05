@@ -34,6 +34,12 @@ class ServiceController extends Controller
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_referencial' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'beneficios' => 'nullable|array',
+            'beneficios.*' => 'array',
+            'beneficios.*.titulo' => 'nullable|string|max:255',
+            'beneficios.*.descripcion' => 'nullable|string',
+            'beneficios.*.icono' => 'nullable|string|max:255',
+            'beneficios.*.imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         try {
@@ -69,14 +75,7 @@ class ServiceController extends Controller
                 'estado' => 1,
             ]);
 
-            // BENEFICIOS
-            if ($request->has('beneficios')) {
-                foreach ($request->beneficios as $b) {
-                    if (!empty($b['titulo'])) {
-                        $service->benefits()->create($b);
-                    }
-                }
-            }
+            $this->guardarBeneficios($service, $request);
 
             // PLANES
             if ($request->has('planes')) {
@@ -126,6 +125,14 @@ class ServiceController extends Controller
             'eliminar_portada' => 'nullable|boolean',
             'eliminar_imagen_portada' => 'nullable|boolean',
             'eliminar_imagen_referencial' => 'nullable|boolean',
+            'beneficios' => 'nullable|array',
+            'beneficios.*' => 'array',
+            'beneficios.*.id' => 'nullable|integer|distinct',
+            'beneficios.*.titulo' => 'nullable|string|max:255',
+            'beneficios.*.descripcion' => 'nullable|string',
+            'beneficios.*.icono' => 'nullable|string|max:255',
+            'beneficios.*.imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'beneficios.*.eliminar_imagen' => 'nullable|boolean',
         ]);
 
         $transaccionConfirmada = false;
@@ -152,16 +159,10 @@ class ServiceController extends Controller
                 'imagen_referencial' => $imagenReferencial,
             ]);
 
-            // BENEFICIOS: Usamos forceDelete para limpiar la tabla antes de recrear los datos
-            $service->benefits()->forceDelete();
-            
-            if ($request->has('beneficios')) {
-                foreach ($request->beneficios as $b) {
-                    if (!empty($b['titulo'])) {
-                        $service->benefits()->create($b);
-                    }
-                }
-            }
+            $imagenesParaEliminar = array_merge(
+                $imagenesParaEliminar,
+                $this->guardarBeneficios($service, $request, true)
+            );
 
             // PLANES: Primero eliminamos las características hijas para evitar huérfanos
             foreach ($service->plans as $plan) {
@@ -240,6 +241,75 @@ class ServiceController extends Controller
         return $this->uploadImage($request->file($campo), 'services', $width, 85, $maxKb);
     }
 
+    private function guardarBeneficios(Service $service, Request $request, bool $actualizar = false): array
+    {
+        $imagenesParaEliminar = [];
+        $beneficiosExistentes = $actualizar
+            ? $service->benefits()->get()->keyBy('id')
+            : collect();
+        $beneficiosProcesados = [];
+
+        foreach ($request->input('beneficios', []) as $indice => $datos) {
+            if (empty(trim($datos['titulo'] ?? ''))) {
+                continue;
+            }
+
+            $beneficio = null;
+            $beneficioId = $datos['id'] ?? null;
+
+            if ($beneficioId !== null) {
+                $beneficio = $beneficiosExistentes->get($beneficioId);
+
+                if (!$beneficio) {
+                    throw new \InvalidArgumentException('Uno de los beneficios no pertenece a este servicio.');
+                }
+
+                $beneficiosProcesados[] = (int) $beneficio->id;
+            }
+
+            $imagen = $beneficio ? $beneficio->imagen : null;
+
+            if ($beneficio && $request->boolean("beneficios.{$indice}.eliminar_imagen") && $imagen) {
+                $imagenesParaEliminar[] = $imagen;
+                $imagen = null;
+            }
+
+            $archivo = $request->file("beneficios.{$indice}.imagen");
+            if ($archivo) {
+                if ($imagen) {
+                    $imagenesParaEliminar[] = $imagen;
+                }
+                $imagen = $this->uploadImage($archivo, 'services', 1000, 85, 300);
+            }
+
+            $datosBeneficio = [
+                'titulo' => trim($datos['titulo']),
+                'descripcion' => $datos['descripcion'] ?? null,
+                'icono' => $datos['icono'] ?? null,
+                'imagen' => $imagen,
+            ];
+
+            if ($beneficio) {
+                $beneficio->update($datosBeneficio);
+            } else {
+                $service->benefits()->create($datosBeneficio);
+            }
+        }
+
+        if ($actualizar) {
+            foreach ($beneficiosExistentes as $beneficio) {
+                if (!in_array((int) $beneficio->id, $beneficiosProcesados, true)) {
+                    if ($beneficio->imagen) {
+                        $imagenesParaEliminar[] = $beneficio->imagen;
+                    }
+                    $beneficio->delete();
+                }
+            }
+        }
+
+        return $imagenesParaEliminar;
+    }
+
     private function eliminarImagenServicio(string $ruta): void
     {
         if (!str_starts_with($ruta, 'uploads/services/')) {
@@ -249,7 +319,8 @@ class ServiceController extends Controller
         $enUso = Service::where('portada', $ruta)
             ->orWhere('imagen_portada', $ruta)
             ->orWhere('imagen_referencial', $ruta)
-            ->exists();
+            ->exists()
+            || \App\Models\ServiceBenefit::where('imagen', $ruta)->exists();
 
         if ($enUso) {
             return;

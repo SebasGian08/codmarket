@@ -92,12 +92,12 @@
                                             placeholder="Título">
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <input type="text" name="beneficios[0][descripcion]" class="form-control"
                                             placeholder="Descripción">
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="input-group">
                                             <input type="text" name="beneficios[0][icono]" class="form-control"
                                                 placeholder="Icono">
@@ -107,6 +107,11 @@
                                                 <i class="fa fa-th"></i>
                                             </span>
                                         </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <input type="file" name="beneficios[0][imagen]" class="form-control"
+                                            accept="image/jpeg,image/png,image/webp" aria-label="Imagen del beneficio">
                                     </div>
 
                                     <div class="col-md-1 text-end">

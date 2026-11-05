@@ -185,7 +185,11 @@ BENEFICIOS
                 </div>
 
                 <div class="benefit-icon">
+                    @if($benefit->imagen)
+                    <img src="{{ asset($benefit->imagen) }}" alt="{{ $benefit->titulo }}" loading="lazy">
+                    @else
                     <i class="{{ $benefit->icono }}"></i>
+                    @endif
                 </div>
 
                 <div class="benefit-content">

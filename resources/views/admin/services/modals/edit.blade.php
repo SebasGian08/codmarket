@@ -128,16 +128,17 @@
                             <div id="beneficios-container-edit-{{ $service->id_service }}">
                                 @foreach($service->benefits as $index => $ben)
                                 <div class="row mb-2 align-items-center">
+                                    <input type="hidden" name="beneficios[{{ $index }}][id]" value="{{ $ben->id }}">
                                     <div class="col-md-3">
                                         <input type="text" name="beneficios[{{ $index }}][titulo]"
                                             value="{{ $ben->titulo }}" class="form-control" placeholder="Título">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <input type="text" name="beneficios[{{ $index }}][descripcion]"
                                             value="{{ $ben->descripcion }}" class="form-control"
                                             placeholder="Descripción">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="input-group">
                                             <input type="text" name="beneficios[{{ $index }}][icono]"
                                                 value="{{ $ben->icono }}" class="form-control" placeholder="Icono">
@@ -147,6 +148,24 @@
                                                 <i class="fa fa-th"></i>
                                             </span>
                                         </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @if($ben->imagen)
+                                        <div class="d-flex align-items-center gap-2 mb-1">
+                                            <img src="{{ asset($ben->imagen) }}" alt="Imagen de {{ $ben->titulo }}"
+                                                class="img-thumbnail" style="width:48px;height:48px;object-fit:cover;">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input"
+                                                    id="eliminar-beneficio-imagen-{{ $ben->id }}"
+                                                    name="beneficios[{{ $index }}][eliminar_imagen]" value="1">
+                                                <label class="form-check-label small"
+                                                    for="eliminar-beneficio-imagen-{{ $ben->id }}">Quitar</label>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        <input type="file" name="beneficios[{{ $index }}][imagen]" class="form-control"
+                                            accept="image/jpeg,image/png,image/webp"
+                                            aria-label="Imagen de {{ $ben->titulo }}">
                                     </div>
                                     <div class="col-md-1 text-end">
                                         <button type="button" class="btn btn-danger btn-sm"

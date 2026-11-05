@@ -12,7 +12,8 @@ class ServiceBenefit extends Model
         'service_id',
         'titulo',
         'descripcion',
-        'icono'
+        'icono',
+        'imagen',
     ];
 
     public function service()
