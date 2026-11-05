@@ -112,9 +112,9 @@ $(document).ready(function() {
                 </div>
             </div>
             <label class="small">Detalles</label>
-            <div id="${detalleContainerId}" class="servicio-beneficio-detalles mb-2" data-input-name="beneficios[${i}][detalles][]">
+            <div id="${detalleContainerId}" class="servicio-beneficio-detalles mb-2" data-input-name="beneficios[${i}][detalles]">
                 <div class="input-group mb-1">
-                    <input type="text" name="beneficios[${i}][detalles][]" class="form-control" maxlength="500" placeholder="Ej: Atención personalizada durante todo el proceso">
+                    <input type="text" name="beneficios[${i}][detalles][0][descripcion]" class="form-control" maxlength="500" placeholder="Ej: Atención personalizada durante todo el proceso">
                     <button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove()" aria-label="Eliminar detalle"><i class="fa fa-times"></i></button>
                 </div>
             </div>
@@ -141,9 +141,10 @@ $(document).ready(function() {
         let container = document.getElementById(containerId);
         if (!container) return;
 
+        let detailIndex = `${Date.now()}_${Math.floor(Math.random() * 1000)}`;
         let input = document.createElement('input');
         input.type = 'text';
-        input.name = container.dataset.inputName;
+        input.name = `${container.dataset.inputName}[${detailIndex}][descripcion]`;
         input.className = 'form-control';
         input.maxLength = 500;
         input.placeholder = 'Añade un detalle del beneficio';
@@ -241,9 +242,9 @@ $(document).ready(function() {
                 </div>
             </div>
             <label class="small">Detalles</label>
-            <div id="${detalleContainerId}" class="servicio-beneficio-detalles mb-2" data-input-name="beneficios[${uniqueIdx}][detalles][]">
+            <div id="${detalleContainerId}" class="servicio-beneficio-detalles mb-2" data-input-name="beneficios[${uniqueIdx}][detalles]">
                 <div class="input-group mb-1">
-                    <input type="text" name="beneficios[${uniqueIdx}][detalles][]" class="form-control" maxlength="500" placeholder="Ej: Atención personalizada durante todo el proceso">
+                    <input type="text" name="beneficios[${uniqueIdx}][detalles][0][descripcion]" class="form-control" maxlength="500" placeholder="Ej: Atención personalizada durante todo el proceso">
                     <button type="button" class="btn btn-outline-danger" onclick="this.closest('.input-group').remove()" aria-label="Eliminar detalle"><i class="fa fa-times"></i></button>
                 </div>
             </div>

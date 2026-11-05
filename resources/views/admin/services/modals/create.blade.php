@@ -109,9 +109,9 @@
 
                                     <label class="small">Detalles</label>
                                     <div id="beneficio-detalles-create-0" class="servicio-beneficio-detalles mb-2"
-                                        data-input-name="beneficios[0][detalles][]">
+                                        data-input-name="beneficios[0][detalles]">
                                         <div class="input-group mb-1">
-                                            <input type="text" name="beneficios[0][detalles][]"
+                                            <input type="text" name="beneficios[0][detalles][0][descripcion]"
                                                 class="form-control" maxlength="500"
                                                 placeholder="Ej: Atención personalizada durante todo el proceso">
                                             <button type="button" class="btn btn-outline-danger"

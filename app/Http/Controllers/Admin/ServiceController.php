@@ -39,7 +39,9 @@ class ServiceController extends Controller
             'beneficios.*.titulo' => 'nullable|string|max:255',
             'beneficios.*.descripcion' => 'nullable|string',
             'beneficios.*.detalles' => 'nullable|array',
-            'beneficios.*.detalles.*' => 'nullable|string|max:500',
+            'beneficios.*.detalles.*' => 'array',
+            'beneficios.*.detalles.*.id' => 'nullable|integer|distinct',
+            'beneficios.*.detalles.*.descripcion' => 'nullable|string|max:500',
             'beneficios.*.icono' => 'nullable|string|max:255',
             'beneficios.*.imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
@@ -133,7 +135,9 @@ class ServiceController extends Controller
             'beneficios.*.titulo' => 'nullable|string|max:255',
             'beneficios.*.descripcion' => 'nullable|string',
             'beneficios.*.detalles' => 'nullable|array',
-            'beneficios.*.detalles.*' => 'nullable|string|max:500',
+            'beneficios.*.detalles.*' => 'array',
+            'beneficios.*.detalles.*.id' => 'nullable|integer|distinct',
+            'beneficios.*.detalles.*.descripcion' => 'nullable|string|max:500',
             'beneficios.*.icono' => 'nullable|string|max:255',
             'beneficios.*.imagen' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'beneficios.*.eliminar_imagen' => 'nullable|boolean',
@@ -299,11 +303,40 @@ class ServiceController extends Controller
                 $beneficio = $service->benefits()->create($datosBeneficio);
             }
 
-            $beneficio->details()->delete();
-            foreach ($datos['detalles'] ?? [] as $detalle) {
-                $detalle = trim((string) $detalle);
-                if ($detalle !== '') {
-                    $beneficio->details()->create(['descripcion' => $detalle]);
+            $detallesExistentes = $actualizar
+                ? $beneficio->details()->get()->keyBy('id')
+                : collect();
+            $detallesProcesados = [];
+
+            foreach ($datos['detalles'] ?? [] as $detalleDatos) {
+                $detalleId = is_array($detalleDatos) ? ($detalleDatos['id'] ?? null) : null;
+                $descripcionDetalle = is_array($detalleDatos)
+                    ? ($detalleDatos['descripcion'] ?? '')
+                    : $detalleDatos;
+                $descripcionDetalle = trim((string) $descripcionDetalle);
+
+                if ($descripcionDetalle === '') {
+                    continue;
+                }
+
+                if ($detalleId !== null) {
+                    $detalleExistente = $detallesExistentes->get($detalleId);
+
+                    if (!$detalleExistente) {
+                        throw new \InvalidArgumentException('Uno de los detalles no pertenece a este beneficio.');
+                    }
+
+                    $detalleExistente->update(['descripcion' => $descripcionDetalle]);
+                    $detallesProcesados[] = (int) $detalleExistente->id;
+                    continue;
+                }
+
+                $beneficio->details()->create(['descripcion' => $descripcionDetalle]);
+            }
+
+            foreach ($detallesExistentes as $detalleExistente) {
+                if (!in_array((int) $detalleExistente->id, $detallesProcesados, true)) {
+                    $detalleExistente->delete();
                 }
             }
         }

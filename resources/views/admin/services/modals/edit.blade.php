@@ -155,11 +155,14 @@
                                     <label class="small">Detalles</label>
                                     <div id="beneficio-detalles-edit-{{ $service->id_service }}-{{ $index }}"
                                         class="servicio-beneficio-detalles mb-2"
-                                        data-input-name="beneficios[{{ $index }}][detalles][]">
-                                        @forelse($ben->details as $detalle)
+                                        data-input-name="beneficios[{{ $index }}][detalles]">
+                                        @forelse($ben->details as $detalleIndex => $detalle)
                                         <div class="input-group mb-1">
+                                            <input type="hidden"
+                                                name="beneficios[{{ $index }}][detalles][{{ $detalleIndex }}][id]"
+                                                value="{{ $detalle->id }}">
                                             <input type="text"
-                                                name="beneficios[{{ $index }}][detalles][]"
+                                                name="beneficios[{{ $index }}][detalles][{{ $detalleIndex }}][descripcion]"
                                                 value="{{ $detalle->descripcion }}"
                                                 class="form-control" maxlength="500">
                                             <button type="button" class="btn btn-outline-danger"
@@ -170,7 +173,7 @@
                                         </div>
                                         @empty
                                         <div class="input-group mb-1">
-                                            <input type="text" name="beneficios[{{ $index }}][detalles][]"
+                                            <input type="text" name="beneficios[{{ $index }}][detalles][0][descripcion]"
                                                 class="form-control" maxlength="500"
                                                 placeholder="Añade un detalle del beneficio">
                                             <button type="button" class="btn btn-outline-danger"
