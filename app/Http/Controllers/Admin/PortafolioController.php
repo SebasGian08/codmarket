@@ -19,7 +19,7 @@ class PortafolioController extends Controller
             ->latest()
             ->get();
 
-        $services = Service::whereNull('deleted_at')->get();
+        $services = Service::whereNull('deleted_at')->ordenado()->get();
 
         return view('admin.portafolios.index', compact('portafolios', 'services'));
     }

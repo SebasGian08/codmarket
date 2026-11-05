@@ -12,6 +12,7 @@ class Service extends Model
     protected $fillable = [
         'nombre',
         'grupo',
+        'orden',
         'slug',
         'descripcion',
         'content',
@@ -22,6 +23,11 @@ class Service extends Model
         'imagen_referencial',
         'estado'
     ];
+
+    public function scopeOrdenado($query)
+    {
+        return $query->orderBy('orden')->orderBy('id_service');
+    }
 
     public function contacts()
     {

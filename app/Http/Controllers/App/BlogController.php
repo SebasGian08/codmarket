@@ -43,7 +43,7 @@ class BlogController extends Controller
     public function show($slug)
     {
         $blog = Blog::where('slug', $slug)->firstOrFail();
-        $services = Service::where('estado', 1)->get();
+        $services = Service::where('estado', 1)->ordenado()->get();
         $recentBlogs = Blog::where('status', 1)
             ->where('id_blog', '!=', $blog->id_blog)
             ->latest()

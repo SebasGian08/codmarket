@@ -38,7 +38,7 @@ class ContactController extends Controller
 
         $tipos = SeguimientoTipo::all();
         $sources = ContactSource::where('estado', 1)->get();
-        $services = Service::where('estado', 1)->get();
+        $services = Service::where('estado', 1)->ordenado()->get();
         $marcas = Marca::where('estado', 1)->orderBy('orden')->get();
 
         return view('admin.contacts.index', compact(

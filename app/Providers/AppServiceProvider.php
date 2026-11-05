@@ -43,8 +43,8 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             $config = Configuracion::pluck('valor', 'clave')->toArray();
-            $view->with('services', Service::where('estado', 1)->get());
-            $view->with('servicesMenu', Service::where('estado', 1)->get());
+            $view->with('services', Service::where('estado', 1)->ordenado()->get());
+            $view->with('servicesMenu', Service::where('estado', 1)->ordenado()->get());
             $view->with('empresa', Empresa::first());
             $view->with('config', $config);
             $view->with('footerLogos', \Schema::hasTable('footer_logos')

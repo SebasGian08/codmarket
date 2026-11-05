@@ -19,11 +19,13 @@
         <div class="card-body">
 
             <div class="table-responsive">
-                <table class="table table-striped table-hover" id="basic-datatables">
+                <table class="table table-striped table-hover" id="basic-datatables"
+                    data-initial-order='[[1, "asc"]]'>
 
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Orden</th>
                             <th>Nombre</th>
                             <th>Grupo</th>
                             <th>Estado</th>
@@ -36,6 +38,7 @@
                         @foreach($services as $service)
                         <tr>
                             <td>{{ $service->id_service }}</td>
+                            <td>{{ $service->orden }}</td>
                             <td>{{ $service->nombre }}</td>
                             <td>{{ $service->grupo ?: 'Otros servicios' }}</td>
                             <td>

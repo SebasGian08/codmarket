@@ -14,10 +14,14 @@ class ServiceController extends Controller
     {
         $services = Service::with(['benefits.details', 'plans.features'])
             ->whereNull('deleted_at')
-            ->orderBy('id_service', 'desc')
+            ->ordenado()
             ->get();
-            
-        return view('admin.services.index', compact('services'));
+
+        $siguienteOrden = (int) \Illuminate\Support\Facades\DB::table('services')
+            ->whereNull('deleted_at')
+            ->max('orden') + 1;
+
+        return view('admin.services.index', compact('services', 'siguienteOrden'));
     }
 
     private function uploadImage($file, $folder = 'services', $width = 1600, $quality = 85, $maxKb = 300)
@@ -30,6 +34,7 @@ class ServiceController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'grupo' => 'nullable|string|max:100',
+            'orden' => 'required|integer|min:1',
             'descripcion' => 'required|string',
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
@@ -68,6 +73,7 @@ class ServiceController extends Controller
             $service = Service::create([
                 'nombre' => $request->nombre,
                 'grupo' => $request->filled('grupo') ? trim($request->grupo) : null,
+                'orden' => $request->orden,
                 'slug' => Str::slug($request->nombre),
                 'descripcion' => $request->descripcion,
                 'descripcion_portada' => $request->descripcion_portada,
@@ -122,6 +128,7 @@ class ServiceController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'grupo' => 'nullable|string|max:100',
+            'orden' => 'required|integer|min:1',
             'descripcion' => 'required|string',
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
@@ -157,6 +164,7 @@ class ServiceController extends Controller
             $service->update([
                 'nombre' => $request->nombre,
                 'grupo' => $request->filled('grupo') ? trim($request->grupo) : null,
+                'orden' => $request->orden,
                 'slug' => Str::slug($request->nombre),
                 'descripcion' => $request->descripcion,
                 'descripcion_portada' => $request->descripcion_portada,

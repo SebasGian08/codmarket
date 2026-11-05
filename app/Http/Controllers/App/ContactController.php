@@ -19,7 +19,7 @@ class ContactController extends Controller
     public function index()
     {
         return view('pages.contacto.show', [
-            'services' => Service::where('estado', 1)->get(),
+            'services' => Service::where('estado', 1)->ordenado()->get(),
             'marcas' => Marca::where('estado', 1)->orderBy('orden')->get(),
             'sources' => ContactSource::where('estado', 1)->get(),
             'priorities' => Priority::all(),

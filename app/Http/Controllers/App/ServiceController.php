@@ -10,7 +10,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $service = Service::where('estado', 1)->get();
+        $service = Service::where('estado', 1)->ordenado()->get();
         return view('pages.servicios.show', compact('service'));
     }
 
@@ -23,6 +23,7 @@ class ServiceController extends Controller
 
         $services = Service::where('estado', 1)
             ->where('slug', '!=', $slug)
+            ->ordenado()
             ->get();
 
         $portafolios = Portafolio::where('estado', 1)

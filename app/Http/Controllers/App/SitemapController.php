@@ -25,7 +25,7 @@ class SitemapController extends Controller
         $urls[] = ['loc' => route('portafolio.index'), 'changefreq' => 'monthly', 'priority' => '0.6'];
         $urls[] = ['loc' => route('contact.index'), 'changefreq' => 'monthly', 'priority' => '0.6'];
 
-        foreach (Service::where('estado', 1)->get() as $service) {
+        foreach (Service::where('estado', 1)->ordenado()->get() as $service) {
             $urls[] = [
                 'loc' => route('services.show', $service->slug),
                 'lastmod' => optional($service->updated_at)->toAtomString(),

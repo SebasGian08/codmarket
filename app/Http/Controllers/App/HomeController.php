@@ -21,7 +21,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $services = Service::where('estado', 1)->get();
+        $services = Service::where('estado', 1)->ordenado()->get();
         $servicesByGroup = $services->groupBy(function ($service) {
             $grupo = trim($service->grupo ?? '');
 
