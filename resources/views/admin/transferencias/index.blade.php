@@ -164,7 +164,7 @@
                                 @endif
 
                                 @if($trf->estado !== 'recibida' && $trf->estado !== 'anulada')
-                                    @if((int)$trf->id_usuario !== (int)auth()->id() && in_array((int)$trf->id_tienda_origen, $idsTiendasAsignadas, true))
+                                    @if((int)$trf->id_usuario === (int)auth()->id() || in_array((int)$trf->id_tienda_origen, $idsTiendasAsignadas, true))
                                     <button class="btn btn-sm btn-danger btn-round btn-anular"
                                         data-url="{{ route('admin.transferencias.anular', $trf->id_transferencia) }}">
                                         <i class="fa fa-ban"></i>

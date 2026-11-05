@@ -456,10 +456,11 @@ class TransferenciaController extends Controller
                 throw new \Exception('No se puede anular una transferencia recibida');
             }
 
-            $this->validarUsuarioNoRegistrador($transferencia);
+            $esRegistrador = (int) $transferencia->id_usuario === (int) auth()->id();
+            $tieneTiendaOrigen = $this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen);
 
-            if (!$this->usuarioTieneTiendaAsignada($transferencia->id_tienda_origen)) {
-                throw new \Exception('No tienes asignada la tienda origen de esta transferencia');
+            if (!$esRegistrador && !$tieneTiendaOrigen) {
+                throw new \Exception('Solo quien registró la transferencia o un usuario asignado a la tienda origen puede anularla');
             }
 
             // Si estaba en tránsito, se devuelve el stock a la tienda origen
