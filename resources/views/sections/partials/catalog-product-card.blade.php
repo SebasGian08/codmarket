@@ -11,18 +11,22 @@ $descripcionProducto = trim(strip_tags((string) (
 <li class="catalogo-productos-item">
     <article class="catalogo-producto-card">
         <div class="catalogo-producto-imagen catalogo-producto-imagen-carrusel">
-            <div class="slideshow1_slider catalogo-producto-imagen-slider" data-slick='{"arrows":false}'>
-                @forelse($imagenes as $imagen)
-                <div>
-                    <img src="{{ asset($imagen->url) }}" alt="{{ $producto->nombre }}" loading="lazy">
+            <a class="catalogo-producto-imagen-link"
+                href="{{ route('producto.show', $producto->slug) }}"
+                aria-label="Ver producto: {{ $producto->nombre }}">
+                <div class="slideshow1_slider catalogo-producto-imagen-slider" data-slick='{"arrows":false}'>
+                    @forelse($imagenes as $imagen)
+                    <div>
+                        <img src="{{ asset($imagen->url) }}" alt="{{ $producto->nombre }}" loading="lazy">
+                    </div>
+                    @empty
+                    <div>
+                        <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                            alt="{{ $producto->nombre }}" loading="lazy">
+                    </div>
+                    @endforelse
                 </div>
-                @empty
-                <div>
-                    <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                        alt="{{ $producto->nombre }}" loading="lazy">
-                </div>
-                @endforelse
-            </div>
+            </a>
 
             @include('sections.partials.product-quick-view-button', [
                 'producto' => $producto,

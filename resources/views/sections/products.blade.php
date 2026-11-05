@@ -37,23 +37,27 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         <div class="item">
                             <article class="catalogo-producto-card product_link_card">
                                 <div class="catalogo-producto-imagen slideshow_producto">
-                                    @if($imagenes->count())
-                                    @foreach($imagenes as $key => $img)
-                                    <img src="{{ asset($img->url) }}"
-                                        class="img_producto {{ $key === 0 ? 'img_principal' : 'img_hover' }}"
-                                        alt="{{ $producto->nombre }}" loading="lazy">
-                                    @endforeach
+                                    <a class="catalogo-producto-imagen-link"
+                                        href="{{ route('producto.show', $producto->slug) }}"
+                                        aria-label="Ver producto: {{ $producto->nombre }}">
+                                        @if($imagenes->count())
+                                        @foreach($imagenes as $key => $img)
+                                        <img src="{{ asset($img->url) }}"
+                                            class="img_producto {{ $key === 0 ? 'img_principal' : 'img_hover' }}"
+                                            alt="{{ $producto->nombre }}" loading="lazy">
+                                        @endforeach
 
-                                    @if($imagenes->count() === 1)
-                                    <img src="{{ asset($imagenes->first()->url) }}"
-                                        class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
-                                    @endif
-                                    @else
-                                    <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                        class="img_producto img_principal" alt="{{ $producto->nombre }}" loading="lazy">
-                                    <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                        class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
-                                    @endif
+                                        @if($imagenes->count() === 1)
+                                        <img src="{{ asset($imagenes->first()->url) }}"
+                                            class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
+                                        @endif
+                                        @else
+                                        <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                            class="img_producto img_principal" alt="{{ $producto->nombre }}" loading="lazy">
+                                        <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                            class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
+                                        @endif
+                                    </a>
                                     @include('sections.partials.product-quick-view-button', [
                                         'producto' => $producto,
                                         'varianteInicial' => $variante,
