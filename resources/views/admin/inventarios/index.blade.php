@@ -201,7 +201,7 @@
         if (!m) return 0;
         if (idTienda) return parseInt(m[idTienda]) || 0;
         var total = 0;
-        Object.keys(m).forEach(function(k) { total += parseInt(m[k]) || 0; });
+        TIENDAS.forEach(function(t) { total += parseInt(m[t.id]) || 0; });
         return total;
     }
 
