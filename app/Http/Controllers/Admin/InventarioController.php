@@ -127,7 +127,7 @@ class InventarioController extends Controller
 
     public function index()
     {
-        $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        $tiendas = Tienda::orderBy('nombre', 'asc')->get();
 
         $productos = Producto::with([
             'variantes.atributos.atributo',

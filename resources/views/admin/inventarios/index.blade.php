@@ -74,7 +74,7 @@
                     <select id="tiendaSelect" class="form-select form-select-sm">
                         <option value="">Todas las tiendas</option>
                         @foreach($tiendas as $tienda)
-                        <option value="{{ $tienda->id_tienda }}">{{ $tienda->codigo }} - {{ $tienda->nombre }}</option>
+                        <option value="{{ $tienda->id_tienda }}">{{ $tienda->codigo }} - {{ $tienda->nombre }}{{ $tienda->estado ? '' : ' (Inactiva)' }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -180,7 +180,7 @@
     var PRODUCTOS = @json($productos);
     var STOCK_POR_TIENDA = @json($stockPorTienda);
     var TIENDAS = @json($tiendas->map(function ($t) {
-        return ['id' => $t->id_tienda, 'codigo' => $t->codigo, 'nombre' => $t->nombre];
+        return ['id' => $t->id_tienda, 'codigo' => $t->codigo, 'nombre' => $t->nombre, 'estado' => $t->estado];
     })->values());
 
     var productoActual = null;
@@ -649,12 +649,15 @@
                 tiendasAMostrar.forEach(function(t) {
                     var st = stockVariante(v.id, t.id);
                     totalStock += st;
+                    var estadoTienda = Number(t.estado) === 1
+                        ? ''
+                        : ' <span class="badge bg-warning text-dark ms-1">Inactiva</span>';
 
                     filas.push(
                         '<tr>' +
                         '<td data-label="Modelo" class="fw-semibold">' + escapeHtml(productoActual.nombre) + '</td>' +
                         '<td data-label="Variante">' + escapeHtml(varianteLabel) + '</td>' +
-                        '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + '</td>' +
+                        '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + estadoTienda + '</td>' +
                         '<td data-label="Stock" class="text-center">' +
                         '<span class="badge ' + (st <= 0 ? 'bg-secondary' : (st <= 5 ? 'bg-warning' : 'bg-success')) + '">' + st + '</span>' +
                         '</td>' +
@@ -670,6 +673,9 @@
                         var st = stockVariante(v.id, t.id);
                         if (st <= 0) return;
                         totalStock += st;
+                        var estadoTienda = Number(t.estado) === 1
+                            ? ''
+                            : ' <span class="badge bg-warning text-dark ms-1">Inactiva</span>';
 
                         var attrs = (v.atributos || []).map(function(a) {
                             return a.atributo + ': ' + a.valor;
@@ -681,7 +687,7 @@
                             '<tr>' +
                             '<td data-label="Modelo" class="fw-semibold">' + escapeHtml(p.nombre) + '</td>' +
                             '<td data-label="Variante">' + escapeHtml(varianteLabel) + '</td>' +
-                            '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + '</td>' +
+                            '<td data-label="Tienda"><span class="badge bg-dark me-1">' + escapeHtml(t.codigo) + '</span> ' + escapeHtml(t.nombre) + estadoTienda + '</td>' +
                             '<td data-label="Stock" class="text-center">' +
                             '<span class="badge ' + (st <= 5 ? 'bg-warning' : 'bg-success') + '">' + st + '</span>' +
                             '</td>' +
