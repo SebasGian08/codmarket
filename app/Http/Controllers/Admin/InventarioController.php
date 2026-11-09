@@ -128,6 +128,14 @@ class InventarioController extends Controller
     public function index()
     {
         $tiendas = Tienda::orderBy('nombre', 'asc')->get();
+        $tiendasParaVista = $tiendas->map(function ($tienda) {
+            return [
+                'id' => $tienda->id_tienda,
+                'codigo' => $tienda->codigo,
+                'nombre' => $tienda->nombre,
+                'estado' => $tienda->estado,
+            ];
+        })->values();
 
         $productos = Producto::with([
             'variantes.atributos.atributo',
@@ -173,6 +181,7 @@ class InventarioController extends Controller
 
         return view('admin.inventarios.index', compact(
             'tiendas',
+            'tiendasParaVista',
             'productos',
             'stockPorTienda'
         ));

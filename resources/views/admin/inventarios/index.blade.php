@@ -179,9 +179,7 @@
 <script>
     var PRODUCTOS = @json($productos);
     var STOCK_POR_TIENDA = @json($stockPorTienda);
-    var TIENDAS = @json($tiendas->map(function ($t) {
-        return ['id' => $t->id_tienda, 'codigo' => $t->codigo, 'nombre' => $t->nombre, 'estado' => $t->estado];
-    })->values());
+    var TIENDAS = @json($tiendasParaVista);
 
     var productoActual = null;
     var variantesSeleccionadas = [];
