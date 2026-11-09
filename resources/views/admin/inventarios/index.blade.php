@@ -183,7 +183,7 @@
 
     var productoActual = null;
     var variantesSeleccionadas = [];
-    var atributosActivos = {};
+    var atributosActivos = Object.create(null);
 
     function escapeHtml(s) {
         return String(s == null ? '' : s)
@@ -395,7 +395,7 @@
     /* ============ FILTRO DE ATRIBUTOS ============ */
     function renderAtributosFiltros() {
         var container = document.getElementById('atributosFiltros');
-        atributosActivos = {};
+        atributosActivos = Object.create(null);
 
         if (!productoActual || productoActual.variantes.length <= 1) {
             container.classList.add('d-none');
@@ -403,11 +403,11 @@
             return;
         }
 
-        var grupos = {};
+        var grupos = Object.create(null);
         productoActual.variantes.forEach(function(v) {
             (v.atributos || []).forEach(function(a) {
                 var key = a.atributo;
-                if (!grupos[key]) grupos[key] = {};
+                if (!grupos[key]) grupos[key] = Object.create(null);
                 grupos[key][a.valor] = true;
             });
         });
@@ -427,8 +427,7 @@
             html += '<div class="atributo-grupo">';
             html += '<span class="atributo-grupo-label">' + escapeHtml(nombre) + ':</span>';
             Object.keys(grupos[nombre]).forEach(function(valor) {
-                var key = nombre + ':' + valor;
-                html += '<button type="button" class="btn-filtro-atributo" data-attr="' + escapeHtml(key) + '">' +
+                html += '<button type="button" class="btn-filtro-atributo" data-atributo="' + escapeHtml(nombre) + '" data-valor="' + escapeHtml(valor) + '">' +
                     escapeHtml(valor) + '</button>';
             });
             html += '</div>';
@@ -442,13 +441,14 @@
         if (!productoActual) return;
 
         var t = (term || '').trim().toLowerCase();
-        var claves = Object.keys(atributosActivos);
+        var nombresAtributos = Object.keys(atributosActivos);
 
         var filtered = productoActual.variantes.filter(function(v) {
-            if (claves.length) {
-                var matchAll = claves.every(function(k) {
+            if (nombresAtributos.length) {
+                var matchAll = nombresAtributos.every(function(nombre) {
+                    var valoresSeleccionados = Object.keys(atributosActivos[nombre]);
                     return (v.atributos || []).some(function(a) {
-                        return (a.atributo + ':' + a.valor) === k;
+                        return a.atributo === nombre && valoresSeleccionados.indexOf(a.valor) > -1;
                     });
                 });
                 if (!matchAll) return false;
@@ -469,15 +469,25 @@
         renderVariantesGrid(filtered);
     }
 
-    function toggleAtributoFiltro(key) {
-        if (atributosActivos[key]) {
-            delete atributosActivos[key];
+    function toggleAtributoFiltro(nombre, valor) {
+        if (!atributosActivos[nombre]) {
+            atributosActivos[nombre] = Object.create(null);
+        }
+
+        if (atributosActivos[nombre][valor]) {
+            delete atributosActivos[nombre][valor];
         } else {
-            atributosActivos[key] = true;
+            atributosActivos[nombre][valor] = true;
+        }
+
+        if (!Object.keys(atributosActivos[nombre]).length) {
+            delete atributosActivos[nombre];
         }
 
         document.querySelectorAll('#atributosFiltros .btn-filtro-atributo').forEach(function(btn) {
-            btn.classList.toggle('active', !!atributosActivos[btn.getAttribute('data-attr')]);
+            var atributo = btn.getAttribute('data-atributo');
+            var valorBoton = btn.getAttribute('data-valor');
+            btn.classList.toggle('active', !!(atributosActivos[atributo] && atributosActivos[atributo][valorBoton]));
         });
 
         filtrarVariantes(document.getElementById('varianteInput').value);
@@ -486,7 +496,7 @@
     document.getElementById('atributosFiltros').addEventListener('click', function(e) {
         var btn = e.target.closest('.btn-filtro-atributo');
         if (!btn) return;
-        toggleAtributoFiltro(btn.getAttribute('data-attr'));
+        toggleAtributoFiltro(btn.getAttribute('data-atributo'), btn.getAttribute('data-valor'));
     });
 
     document.getElementById('varianteInput').addEventListener('input', function(e) {
@@ -574,7 +584,7 @@
     document.getElementById('btnDeseleccionarProducto').addEventListener('click', function() {
         productoActual = null;
         variantesSeleccionadas = [];
-        atributosActivos = {};
+        atributosActivos = Object.create(null);
 
         document.getElementById('productoInput').value = '';
         document.getElementById('productoId').value = '';
