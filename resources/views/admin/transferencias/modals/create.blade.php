@@ -70,7 +70,7 @@
                         <div id="varianteResultadosTrf" class="trf-resultados d-none"></div>
                     </div>
 
-                    <div class="table-responsive mt-3">
+                    <div class="table-responsive mt-3 trf-detalle-scroll">
                         <table class="table table-sm table-hover mb-0">
                             <thead>
                                 <tr>
@@ -81,16 +81,16 @@
                             </thead>
                             <tbody id="trfFilas"></tbody>
                         </table>
+                    </div>
 
-                        <div class="trf-total-transferencia" aria-live="polite">
-                            <span>Total de unidades a transferir</span>
-                            <strong id="trfTotalUnidades">0</strong>
-                        </div>
+                    <div class="trf-total-transferencia" aria-live="polite">
+                        <span>Total de unidades a transferir</span>
+                        <strong id="trfTotalUnidades">0</strong>
+                    </div>
 
-                        <div id="trfVacio" class="text-center text-muted py-4">
-                            <i class="fa fa-truck fa-2x d-block mb-2 opacity-50"></i>
-                            Agrega variantes a la transferencia
-                        </div>
+                    <div id="trfVacio" class="text-center text-muted py-4">
+                        <i class="fa fa-truck fa-2x d-block mb-2 opacity-50"></i>
+                        Agrega variantes a la transferencia
                     </div>
 
                 </div>

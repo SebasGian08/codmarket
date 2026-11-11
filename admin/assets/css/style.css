@@ -2354,6 +2354,20 @@ html[data-theme="dark"] .kardex-sku {
     margin-top: .35rem;
 }
 
+.trf-detalle-scroll {
+    max-height: 340px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.trf-detalle-scroll thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff;
+    box-shadow: 0 1px 0 #e1e6ed;
+}
+
 .trf-total-transferencia {
     display: flex;
     justify-content: flex-end;
@@ -2435,6 +2449,11 @@ html[data-theme="dark"] .trf-resultados-total {
 html[data-theme="dark"] .trf-total-transferencia {
     border-top-color: var(--ka-border, #3a4658);
     color: var(--ka-text);
+}
+
+html[data-theme="dark"] .trf-detalle-scroll thead th {
+    background: var(--ka-surface);
+    box-shadow: 0 1px 0 var(--ka-border);
 }
 
 html[data-theme="dark"] .trf-detalle-tabla thead th {
