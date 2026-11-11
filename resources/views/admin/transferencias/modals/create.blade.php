@@ -82,6 +82,11 @@
                             <tbody id="trfFilas"></tbody>
                         </table>
 
+                        <div class="trf-total-transferencia" aria-live="polite">
+                            <span>Total de unidades a transferir</span>
+                            <strong id="trfTotalUnidades">0</strong>
+                        </div>
+
                         <div id="trfVacio" class="text-center text-muted py-4">
                             <i class="fa fa-truck fa-2x d-block mb-2 opacity-50"></i>
                             Agrega variantes a la transferencia

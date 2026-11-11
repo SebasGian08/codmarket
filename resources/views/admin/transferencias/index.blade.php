@@ -222,6 +222,15 @@
         return stock;
     }
 
+    function actualizarTotalTransferencia() {
+        var total = 0;
+        $('#trfFilas .trf-cantidad').each(function() {
+            total += parseInt($(this).val(), 10) || 0;
+        });
+
+        $('#trfTotalUnidades').text(total.toLocaleString('es-PE'));
+    }
+
     /* ============ BÚSQUEDA ============ */
     $('#varianteInputTrf').on('input', function() {
         var terminos = normalizarTexto($(this).val()).trim().split(/\s+/).filter(Boolean);
@@ -331,11 +340,13 @@
 
         filas.append(fila);
         $('#trfVacio').toggleClass('d-none', filas.find('tr').length > 0);
+        actualizarTotalTransferencia();
     }
 
     $(document).on('click', '.btn-quitar-trf', function() {
         $(this).closest('tr').remove();
         $('#trfVacio').toggleClass('d-none', $('#trfFilas tr').length > 0);
+        actualizarTotalTransferencia();
     });
 
     $(document).on('input', '.trf-cantidad', function() {
@@ -350,6 +361,8 @@
             fila.find('input[name^="items["][name$="[cantidad]"]').val(stock);
             Swal.fire('Stock insuficiente', 'Stock disponible en origen: ' + stock, 'warning');
         }
+
+        actualizarTotalTransferencia();
     });
 
     $('#tiendaOrigen').on('change', function() {
@@ -378,6 +391,8 @@
                 cantInput.closest('td').find('input[name^="items["][name$="[cantidad]"]').val(stock);
             }
         });
+
+        actualizarTotalTransferencia();
     });
 
     $('#tiendaOrigen').trigger('change');
@@ -458,6 +473,7 @@
             destino.val(data.id_tienda_destino).prop('disabled', false);
             $('#trfFilas').empty();
             $('#trfVacio').removeClass('d-none');
+            actualizarTotalTransferencia();
             $('#varianteInputTrf').val('');
 
             data.detalle.forEach(function(item) {
@@ -490,6 +506,7 @@
         $('#tiendaDestino').prop('disabled', true);
         $('#trfFilas').empty();
         $('#trfVacio').removeClass('d-none');
+        actualizarTotalTransferencia();
         $('#varianteInputTrf').val('');
         $('#varianteResultadosTrf').addClass('d-none').empty();
         $('#btnGuardarTrf').prop('disabled', false).html('<i class="fa fa-save"></i> <span id="textoBtnGuardarTrf">Crear transferencia</span>');
