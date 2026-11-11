@@ -271,7 +271,7 @@
                 matches.map(function(v) {
                 var stock = stockEnOrigen(v.id);
                 var stockClass = stock <= 0 ? 'text-danger' : '';
-                return '<div class="trf-resultado" data-id="' + v.id + '">' +
+                return '<div class="trf-resultado" data-id="' + v.id + '" role="button" tabindex="0">' +
                     '<div class="fw-semibold">' + escapeHtml(v.producto) + '</div>' +
                     '<div class="small mb-1">' + badgesAtributos(v) + '</div>' +
                     '<div class="small text-muted">' + escapeHtml(v.sku || 'Sin SKU') + '</div>' +
@@ -286,7 +286,7 @@
 
     $(document).on('mousedown', '#varianteResultadosTrf .trf-resultado', function(e) {
         e.preventDefault();
-        if ($(this).hasClass('trf-resultado-agregado')) return;
+        if ($(this).hasClass('trf-resultado-agregado') || $(this).hasClass('trf-resultado-sin-stock')) return;
 
         var id = parseInt($(this).data('id'));
         var v = VARIANTES_TRF.find(function(x) { return x.id === id; });
@@ -295,6 +295,13 @@
 
         agregarFilaTrf(v);
         $('#varianteInputTrf').trigger('focus');
+    });
+
+    $(document).on('keydown', '#varianteResultadosTrf .trf-resultado', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            $(this).trigger('mousedown');
+        }
     });
 
     $(document).on('click', function(e) {
@@ -307,20 +314,31 @@
     function actualizarEstadoResultadosTrf() {
         $('#varianteResultadosTrf .trf-resultado[data-id]').each(function() {
             var resultado = $(this);
-            var agregado = $('#trfFilas tr[data-variante="' + resultado.data('id') + '"]').length > 0;
+            var idVariante = resultado.data('id');
+            var agregado = $('#trfFilas tr[data-variante="' + idVariante + '"]').length > 0;
+            var sinStock = stockEnOrigen(idVariante) <= 0;
 
             resultado.toggleClass('trf-resultado-agregado', agregado)
-                .attr('aria-disabled', agregado ? 'true' : 'false');
+                .toggleClass('trf-resultado-sin-stock', sinStock && !agregado)
+                .attr('aria-disabled', agregado || sinStock ? 'true' : 'false')
+                .attr('tabindex', agregado || sinStock ? '-1' : '0');
             resultado.find('.trf-resultado-estado').remove();
 
             if (agregado) {
                 resultado.append('<span class="badge bg-success trf-resultado-estado">Agregada</span>');
+            } else if (sinStock) {
+                resultado.append('<span class="badge bg-secondary trf-resultado-estado">Sin stock</span>');
             }
         });
     }
 
     function agregarFilaTrf(v) {
         var filas = $('#trfFilas');
+
+        if (stockEnOrigen(v.id) <= 0) {
+            Swal.fire('Sin stock', 'Esta variante no tiene stock disponible en la tienda de origen', 'warning');
+            return false;
+        }
 
         if (filas.find('input[name="items[' + v.id + '][id_variante]"]').length) {
             Swal.fire('Atención', 'Esta variante ya está en el detalle', 'warning');
@@ -381,6 +399,7 @@
         }
 
         actualizarTotalTransferencia();
+        actualizarEstadoResultadosTrf();
     });
 
     $('#tiendaOrigen').on('change', function() {

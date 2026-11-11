@@ -2339,6 +2339,12 @@ html[data-theme="dark"] .kardex-sku {
     opacity: .68;
 }
 
+.trf-resultado-sin-stock {
+    cursor: not-allowed;
+    opacity: .5;
+    pointer-events: none;
+}
+
 .trf-resultado-agregado:hover {
     background: transparent;
 }
