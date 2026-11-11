@@ -59,7 +59,7 @@ class HomeController extends Controller
                         ->where('estado', 1)
                         ->orderBy('orden')
                         ->orderByDesc('id_producto')
-                        ->take(10);
+                        ->take(12);
                 }
             ])
             ->where('estado', 1)
@@ -100,7 +100,7 @@ class HomeController extends Controller
             ->orderByDesc('destacado')
             ->orderBy('orden')
             ->orderByDesc('id_producto')
-            ->take(10)
+            ->take(12)
             ->get();
 
         $promociones = Promocion::where('estado', 1)

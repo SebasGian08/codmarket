@@ -612,6 +612,17 @@
     grid-column: 1 / -1;
 }
 
+.catalogo-mas-vendidos-acciones {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.catalogo-mas-vendidos-acciones .catalogo-producto-boton {
+    padding: 12px 20px;
+    font-size: 13px;
+}
+
 @media (max-width: 1199px) {
     .catalogo-productos-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));

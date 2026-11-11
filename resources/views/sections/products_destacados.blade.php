@@ -92,5 +92,12 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
             @endforeach
 
         </div>
+
+        <div class="catalogo-mas-vendidos-acciones">
+            <a href="{{ route('productos.index') }}" class="catalogo-producto-boton">
+                Ver todos los productos <i class="fal fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
     </div>
 </section>
