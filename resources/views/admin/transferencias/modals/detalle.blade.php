@@ -50,7 +50,7 @@
         @endif
     </div>
 
-    <div class="table-responsive">
+    <div class="table-responsive trf-detalle-scroll">
         <table class="table table-sm table-hover align-middle mb-0 trf-detalle-tabla">
             <thead>
                 <tr>
