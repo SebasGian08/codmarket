@@ -40,7 +40,7 @@
                             <td>{{ $service->id_service }}</td>
                             <td>{{ $service->orden }}</td>
                             <td>{{ $service->nombre }}</td>
-                            <td>{{ $service->grupo ?: 'Otros servicios' }}</td>
+                            <td>{{ $service->grupo }}</td>
                             <td>
                                 <span class="badge {{ $service->estado ? 'bg-success' : 'bg-danger' }}">
                                     {{ $service->estado ? 'Activo' : 'Inactivo' }}

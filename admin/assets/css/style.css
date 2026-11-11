@@ -2334,6 +2334,20 @@ html[data-theme="dark"] .kardex-sku {
     border-bottom: 1px solid rgba(0, 0, 0, .08);
 }
 
+.trf-resultado-agregado {
+    cursor: default;
+    opacity: .68;
+}
+
+.trf-resultado-agregado:hover {
+    background: transparent;
+}
+
+.trf-resultado-estado {
+    display: inline-block;
+    margin-top: .35rem;
+}
+
 .trf-total-transferencia {
     display: flex;
     justify-content: flex-end;

@@ -17,10 +17,10 @@
 
             <div class="contact-info">
 
-                <span class="contact-eyebrow">
+                <!-- <span class="contact-eyebrow">
                     <i class="bi bi-chat-dots-fill"></i>
                     Hablemos de tu proyecto
-                </span>
+                </span> -->
 
                 <h2>
                     ¿Tienes una idea?

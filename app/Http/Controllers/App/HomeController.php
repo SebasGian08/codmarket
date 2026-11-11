@@ -23,9 +23,7 @@ class HomeController extends Controller
     {
         $services = Service::where('estado', 1)->ordenado()->get();
         $servicesByGroup = $services->groupBy(function ($service) {
-            $grupo = trim($service->grupo ?? '');
-
-            return $grupo !== '' ? $grupo : 'Otros servicios';
+            return trim($service->grupo ?? '');
         });
 
         $blogs = Blog::with('category')

@@ -281,10 +281,12 @@
         }
 
         lista.removeClass('d-none');
+        actualizarEstadoResultadosTrf();
     });
 
     $(document).on('mousedown', '#varianteResultadosTrf .trf-resultado', function(e) {
         e.preventDefault();
+        if ($(this).hasClass('trf-resultado-agregado')) return;
 
         var id = parseInt($(this).data('id'));
         var v = VARIANTES_TRF.find(function(x) { return x.id === id; });
@@ -292,9 +294,7 @@
         if (!v) return;
 
         agregarFilaTrf(v);
-
-        $('#varianteInputTrf').val('');
-        $('#varianteResultadosTrf').addClass('d-none').html('');
+        $('#varianteInputTrf').trigger('focus');
     });
 
     $(document).on('click', function(e) {
@@ -304,12 +304,27 @@
     });
 
     /* ============ FILAS ============ */
+    function actualizarEstadoResultadosTrf() {
+        $('#varianteResultadosTrf .trf-resultado[data-id]').each(function() {
+            var resultado = $(this);
+            var agregado = $('#trfFilas tr[data-variante="' + resultado.data('id') + '"]').length > 0;
+
+            resultado.toggleClass('trf-resultado-agregado', agregado)
+                .attr('aria-disabled', agregado ? 'true' : 'false');
+            resultado.find('.trf-resultado-estado').remove();
+
+            if (agregado) {
+                resultado.append('<span class="badge bg-success trf-resultado-estado">Agregada</span>');
+            }
+        });
+    }
+
     function agregarFilaTrf(v) {
         var filas = $('#trfFilas');
 
         if (filas.find('input[name="items[' + v.id + '][id_variante]"]').length) {
             Swal.fire('Atención', 'Esta variante ya está en el detalle', 'warning');
-            return;
+            return false;
         }
 
         var attrs = (v.atributos || []).map(function(a) {
@@ -341,12 +356,15 @@
         filas.append(fila);
         $('#trfVacio').toggleClass('d-none', filas.find('tr').length > 0);
         actualizarTotalTransferencia();
+        actualizarEstadoResultadosTrf();
+        return true;
     }
 
     $(document).on('click', '.btn-quitar-trf', function() {
         $(this).closest('tr').remove();
         $('#trfVacio').toggleClass('d-none', $('#trfFilas tr').length > 0);
         actualizarTotalTransferencia();
+        actualizarEstadoResultadosTrf();
     });
 
     $(document).on('input', '.trf-cantidad', function() {

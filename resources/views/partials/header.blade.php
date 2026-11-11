@@ -6,9 +6,7 @@
     $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
     $headerTipo = $config['header_tipo'] ?? 'opcion_1';
     $serviciosPorGrupo = $services->groupBy(function ($service) {
-        $grupo = trim($service->grupo ?? '');
-
-        return $grupo !== '' ? $grupo : 'Otros servicios';
+        return trim($service->grupo ?? '');
     });
     $numeroWhatsapp = $empresa->whatsapp ?: $empresa->telefono;
     $numeroWhatsappUrl = preg_replace('/[^0-9]/', '', $numeroWhatsapp ?? '');
@@ -246,6 +244,7 @@
 
                                     <ul class="submenu submenu_flat">
                                         @foreach($serviciosPorGrupo as $grupo => $servicesGrupo)
+                                        @if($grupo !== '')
                                         <li
                                             class="category-has-children {{ $servicesGrupo->contains('slug', request()->route('slug')) ? 'category-selected' : '' }}">
                                             <a href="#!">{{ $grupo }}</a>
@@ -259,6 +258,15 @@
                                                 @endforeach
                                             </ul>
                                         </li>
+                                        @else
+                                        @foreach($servicesGrupo as $service)
+                                        <li class="{{ request()->route('slug') === $service->slug ? 'category-selected' : '' }}">
+                                            <a href="{{ route('services.show', $service->slug) }}">
+                                                {{ $service->nombre }}
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                        @endif
                                         @endforeach
                                     </ul>
                                 </li>
@@ -573,6 +581,7 @@
 
                         <ul class="submenu submenu_flat">
                             @foreach($serviciosPorGrupo as $grupo => $servicesGrupo)
+                            @if($grupo !== '')
                             <li
                                 class="category-has-children {{ $servicesGrupo->contains('slug', request()->route('slug')) ? 'category-selected' : '' }}">
                                 <a href="#!">{{ $grupo }}</a>
@@ -586,6 +595,15 @@
                                     @endforeach
                                 </ul>
                             </li>
+                            @else
+                            @foreach($servicesGrupo as $service)
+                            <li class="{{ request()->route('slug') === $service->slug ? 'category-selected' : '' }}">
+                                <a href="{{ route('services.show', $service->slug) }}">
+                                    {{ $service->nombre }}
+                                </a>
+                            </li>
+                            @endforeach
+                            @endif
                             @endforeach
                         </ul>
                     </li>
