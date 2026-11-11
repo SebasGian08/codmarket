@@ -59,14 +59,9 @@
                         </small>
 
                         <!-- VARIANTE -->
-                        <div class="mb-2">
-                            <label for="buscarVariante" class="form-label fw-semibold">Variante</label>
-                            <div class="input-group producto-imagenes-variante-busqueda">
-                                <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
-                                <input type="search" id="buscarVariante" class="form-control"
-                                    placeholder="Buscar por SKU o atributos..." autocomplete="off">
-                            </div>
-                            <select name="id_variante" id="id_variante" class="form-select">
+                        <div class="mb-2 producto-imagenes-variante">
+                            <label for="id_variante" class="form-label fw-semibold">Variante</label>
+                            <select name="id_variante" id="id_variante" class="form-select producto-imagenes-variante-select">
                                 @foreach($producto->variantes as $v)
                                 @php
                                     $atributos = $v->atributos
@@ -81,9 +76,6 @@
                                 </option>
                                 @endforeach
                             </select>
-                            <small id="sinVariantesCoincidentes" class="text-muted d-none" aria-live="polite">
-                                No se encontraron variantes.
-                            </small>
                         </div>
 
                         <!-- OPCIONES -->
@@ -544,6 +536,7 @@ html[data-theme="dark"] .gc-btn {
 }
 </style>
 
+<script src="{{ asset('admin/assets/js/plugin/select2/select2.full.min.js') }}"></script>
 <script>
 const input = document.getElementById('inputImagen');
 const dropzone = document.getElementById('dropzone');
@@ -556,29 +549,24 @@ const statusBox = document.getElementById('uploadStatus');
 const statusText = document.getElementById('statusText');
 const statusCount = document.getElementById('statusCount');
 const statusBar = document.getElementById('statusBar');
-const buscarVariante = document.getElementById('buscarVariante');
-const selectorVariante = document.getElementById('id_variante');
-const sinVariantesCoincidentes = document.getElementById('sinVariantesCoincidentes');
 
 const token = document.querySelector('input[name="_token"]').value;
 const url = "{{ route('admin.producto_imagen.store', $producto->id_producto) }}";
 const base = url.replace(/\/guardar$/, '');
 const productoId = {{ $producto->id_producto }};
 
-buscarVariante.addEventListener('input', function() {
-    const normalizar = function(texto) {
-        return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase();
-    };
-    const termino = normalizar(this.value.trim());
-    let coincidencias = 0;
-
-    Array.from(selectorVariante.options).forEach(function(option) {
-        const texto = normalizar(option.textContent.trim());
-        option.hidden = termino !== '' && !texto.includes(termino);
-        if (!option.hidden) coincidencias++;
-    });
-
-    sinVariantesCoincidentes.classList.toggle('d-none', coincidencias > 0);
+$('#id_variante').select2({
+    width: '100%',
+    dropdownParent: $('.producto-imagenes-variante'),
+    minimumResultsForSearch: 0,
+    language: {
+        noResults: function() {
+            return 'No se encontraron variantes';
+        },
+        searching: function() {
+            return 'Buscando...';
+        }
+    }
 });
 
 function esc(t) {
