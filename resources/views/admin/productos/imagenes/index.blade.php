@@ -536,7 +536,6 @@ html[data-theme="dark"] .gc-btn {
 }
 </style>
 
-<script src="{{ asset('admin/assets/js/plugin/select2/select2.full.min.js') }}"></script>
 <script>
 const input = document.getElementById('inputImagen');
 const dropzone = document.getElementById('dropzone');
@@ -555,18 +554,38 @@ const url = "{{ route('admin.producto_imagen.store', $producto->id_producto) }}"
 const base = url.replace(/\/guardar$/, '');
 const productoId = {{ $producto->id_producto }};
 
-$('#id_variante').select2({
-    width: '100%',
-    dropdownParent: $('.producto-imagenes-variante'),
-    minimumResultsForSearch: 0,
-    language: {
-        noResults: function() {
-            return 'No se encontraron variantes';
-        },
-        searching: function() {
-            return 'Buscando...';
-        }
+window.addEventListener('load', function() {
+    if (!window.jQuery) {
+        console.error('No se pudo inicializar la búsqueda de variantes: jQuery no está disponible.');
+        return;
     }
+
+    const select2Script = document.createElement('script');
+    select2Script.src = "{{ asset('admin/assets/js/plugin/select2/select2.full.min.js') }}";
+    select2Script.onload = function() {
+        if (!window.jQuery.fn.select2) {
+            console.error('No se pudo cargar el complemento Select2 para buscar variantes.');
+            return;
+        }
+
+        window.jQuery('#id_variante').select2({
+            width: '100%',
+            dropdownParent: window.jQuery('.producto-imagenes-variante'),
+            minimumResultsForSearch: 0,
+            language: {
+                noResults: function() {
+                    return 'No se encontraron variantes';
+                },
+                searching: function() {
+                    return 'Buscando...';
+                }
+            }
+        });
+    };
+    select2Script.onerror = function() {
+        console.error('No se pudo cargar el archivo de Select2 para buscar variantes.');
+    };
+    document.head.appendChild(select2Script);
 });
 
 function esc(t) {
