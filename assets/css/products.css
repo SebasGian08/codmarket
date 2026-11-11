@@ -619,6 +619,7 @@
 }
 
 .catalogo-mas-vendidos-acciones .catalogo-producto-boton {
+    margin-inline: auto;
     padding: 12px 20px;
     font-size: 13px;
 }

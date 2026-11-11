@@ -4054,18 +4054,6 @@ html[data-theme="dark"] .whatsapp-float::after {
     position: relative;
 }
 
-.bestseller_section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 3px;
-    background: linear-gradient(to right, transparent, var(--color-secundario), transparent);
-    border-radius: 20px;
-}
-
 /* ============ STEPS / POR QUÉ ELEGIRNOS ============ */
 .gadget_feature_section {
     background: linear-gradient(180deg, #f8f8f8 0%, #f0f0f0 100%) !important;
