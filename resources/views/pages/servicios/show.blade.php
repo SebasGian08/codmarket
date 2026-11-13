@@ -10,7 +10,7 @@
 
     <div class="service-hero-overlay"></div>
 
-    <div class="service-hero-content @if(!$service->imagen_portada) service-hero-content--no-image @endif">
+    <div class="service-hero-content @if(!$service->imagen_portada && !$service->imagen_referencial) service-hero-content--no-image @endif">
 
         <div class="service-hero-text">
 
@@ -43,13 +43,13 @@
 
         </div>
 
-        @if($service->imagen_portada)
+        @if($service->imagen_portada || $service->imagen_referencial)
         <div class="service-hero-visual">
 
             <div class="hero-image-glow"></div>
 
             <div class="hero-image-card">
-                <img src="{{ asset($service->imagen_portada) }}"
+                <img src="{{ asset($service->imagen_portada ?: $service->imagen_referencial) }}"
                     alt="{{ $service->nombre }}">
             </div>
 
