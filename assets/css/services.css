@@ -403,7 +403,7 @@ html[data-theme="dark"] .services_blob--3 {
 
 /* Tarjetas que se expanden al pasar el cursor */
 .services_section--expandable {
-    background: #f3f2ef;
+    background: #ffffff;
 }
 
 .services_section--expandable::before,
