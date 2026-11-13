@@ -153,6 +153,13 @@
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
                                                 Diseño con misión y visión
                                             </option>
+                                            @elseif($config->clave === 'seccion_preguntas_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Acordeón actual
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Acordeón en dos columnas
+                                            </option>
                                             @elseif($config->clave === 'seccion_servicio_tipo')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Opción 1 — Diseño actual

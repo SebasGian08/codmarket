@@ -131,6 +131,107 @@
     opacity: 0;
 }
 
+/* VARIANTE EN DOS COLUMNAS */
+.faq-section--columns {
+    background: #111;
+    color: #f5f5f5;
+}
+
+.faq-section--columns::before {
+    display: none;
+}
+
+.faq-section--columns .faq-container {
+    max-width: 1200px;
+}
+
+.faq-section--columns .section_heading_title small {
+    color: #f5f5f5;
+}
+
+.faq-section--columns .section_heading_description {
+    color: #a1a1aa;
+}
+
+.faq-list--columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.faq-column {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faq-list--columns .faq-item {
+    margin: 0;
+    border-color: #363636;
+    border-radius: 0;
+    background: #111;
+    box-shadow: none;
+}
+
+.faq-list--columns .faq-item:hover {
+    transform: none;
+    border-color: #545454;
+}
+
+.faq-list--columns .faq-item.active {
+    border-color: #545454;
+}
+
+.faq-list--columns .faq-question {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr) 24px;
+    gap: 10px;
+    align-items: start;
+    padding: 18px 20px;
+    color: #f5f5f5;
+    font-size: 16px;
+    text-align: left;
+}
+
+.faq-number {
+    padding-top: 3px;
+    color: #ff1675;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    white-space: nowrap;
+}
+
+.faq-question-text {
+    min-width: 0;
+}
+
+.faq-list--columns .faq-icon::before,
+.faq-list--columns .faq-icon::after {
+    background: #b7ff00;
+}
+
+.faq-list--columns .faq-item.active .faq-answer {
+    max-height: 700px;
+}
+
+.faq-list--columns .faq-answer p {
+    padding: 0 54px 18px;
+    color: #a1a1aa;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.faq-list--columns .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-list--columns .faq-item.active .faq-icon::after {
+    opacity: 1;
+}
+
 /* MOBILE */
 @media(max-width:768px) {
 
@@ -146,6 +247,14 @@
     .faq-answer p {
         font-size: 15px;
         padding: 0 16px 15px;
+    }
+
+    .faq-list--columns {
+        grid-template-columns: 1fr;
+    }
+
+    .faq-list--columns .faq-answer p {
+        padding: 0 54px 16px;
     }
 
 }
