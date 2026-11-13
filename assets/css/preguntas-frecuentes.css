@@ -139,7 +139,7 @@
     --faq-border-hover-color: color-mix(in srgb, var(--faq-text-color) 40%, transparent);
     --faq-number-color: var(--color-primario, #21c36c);
     --faq-icon-color: var(--color-secundario, #0ea5e9);
-    background: #111;
+    background: #212529;
     color: var(--faq-text-color);
 }
 
