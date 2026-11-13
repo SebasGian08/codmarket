@@ -19,6 +19,7 @@ class Contact extends Model
         'documento_numero',
         'email',
         'telefono',
+        'direccion',
         'id_service',
         'id_marca',
         'id_source',

@@ -65,6 +65,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" name="direccion" class="form-control" maxlength="255">
+                    </div>
+
+                    <div class="form-group">
                         <label>Servicio</label>
                         <select name="service_id" class="form-control">
                             <option value="">Sin servicio</option>
