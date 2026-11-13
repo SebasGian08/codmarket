@@ -175,7 +175,7 @@
 .faq-list--columns .faq-item {
     margin: 0;
     border-color: var(--faq-border-color);
-    border-radius: 0;
+    border-radius: 30px;
     background: #111;
     box-shadow: none;
 }
