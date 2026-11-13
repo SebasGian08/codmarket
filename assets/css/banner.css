@@ -188,14 +188,14 @@
 }
 
 /* ===== VARIANTE SLIDER (fondo claro / gris) ===== */
-.hero_banner_slider .con-contenido::before {
+/* .hero_banner_slider .con-contenido::before {
     background: linear-gradient(to right,
             rgba(255, 255, 255, 0.78) 0%,
             rgba(255, 255, 255, 0.68) 30%,
             rgba(255, 255, 255, 0.38) 45%,
             rgba(255, 255, 255, 0.12) 58%,
             rgba(255, 255, 255, 0) 70%);
-}
+} */
 
 .hero_banner_slider .con-contenido::after {
     /* background: radial-gradient(circle, color-mix(in srgb, var(--color-primario) 55%, transparent), transparent 70%); */

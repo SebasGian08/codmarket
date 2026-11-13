@@ -73,7 +73,7 @@
 }
 
 /* overlay */
-/* .con-contenido::before {
+.con-contenido::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -81,7 +81,7 @@
             rgba(255, 255, 255, 0.85),
             rgba(255, 255, 255, 0.4));
     z-index: 0;
-} */
+}
 
 .hero_card {
     position: relative;
