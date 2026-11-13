@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Helpers\PermisoHelper;
 use App\Models\Caja;
 use App\Models\Cliente;
 use App\Models\CuentaBancaria;
@@ -46,10 +47,36 @@ class VentaController extends Controller
 
     protected function usuarioEsAdministrador()
     {
-        $nombreRol = strtolower(trim(auth()->user()->rol->nombre ?? ''));
-        $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
+        return PermisoHelper::esAdministrador();
+    }
 
-        return in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+    protected function ventasAutorizadas()
+    {
+        $query = Venta::query();
+
+        if ($this->usuarioEsAdministrador()) {
+            return $query;
+        }
+
+        $vendedor = $this->vendedorUsuarioActual();
+        if (!$vendedor) {
+            return $query->whereRaw('1 = 0');
+        }
+
+        $tiendasAsignadas = $vendedor->tiendas()
+            ->where('tiendas.estado', 1)
+            ->wherePivot('estado', 1)
+            ->select('tiendas.id_tienda');
+
+        return $query->where('id_vendedor', $vendedor->id_vendedor)
+            ->whereIn('id_tienda', $tiendasAsignadas);
+    }
+
+    protected function ventaAutorizada($id, array $relaciones = [])
+    {
+        return $this->ventasAutorizadas()
+            ->with($relaciones)
+            ->findOrFail($id);
     }
 
     public function index()
@@ -273,16 +300,12 @@ class VentaController extends Controller
         $fechaDesde = $request->input('fecha_desde', now()->startOfMonth()->toDateString());
         $fechaHasta = $request->input('fecha_hasta', now()->toDateString());
 
-        $query = Venta::with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'ventaPagos.metodoPago'])
+        $query = $this->ventasAutorizadas()
+            ->with(['tienda', 'caja', 'usuario', 'cliente', 'vendedor', 'ventaPagos.metodoPago'])
             ->orderBy('id_venta', 'desc');
 
-        $vendedorUsuario = Vendedor::where('id_usuario', auth()->id())
-            ->where('estado', 1)
-            ->first();
-
-        $nombreRol = strtolower(trim(auth()->user()->rol->nombre ?? ''));
-        $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
-        $esAdministrador = in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+        $vendedorUsuario = $this->vendedorUsuarioActual();
+        $esAdministrador = $this->usuarioEsAdministrador();
 
         if ($vendedorUsuario && !$esAdministrador) {
             $tiendas = $vendedorUsuario->tiendas()
@@ -295,10 +318,13 @@ class VentaController extends Controller
                 ->whereIn('id_tienda', $tiendas->pluck('id_tienda'));
 
             $vendedores = collect([$vendedorUsuario]);
-        } else {
+        } elseif ($esAdministrador) {
             $vendedorUsuario = null;
             $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
             $vendedores = Vendedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        } else {
+            $tiendas = collect();
+            $vendedores = collect();
         }
 
         if ($request->get('id_tienda')) {
@@ -334,7 +360,7 @@ class VentaController extends Controller
         try {
             DB::beginTransaction();
 
-            $venta = Venta::with(['detalle', 'ventaPagos'])->findOrFail($id);
+            $venta = $this->ventaAutorizada($id, ['detalle', 'ventaPagos']);
 
             if ($venta->estado == 0) {
                 throw new \Exception('Esta venta ya está anulada');
@@ -382,7 +408,7 @@ class VentaController extends Controller
         try {
             DB::beginTransaction();
 
-            $venta = Venta::with(['ventaPagos'])->findOrFail($id);
+            $venta = $this->ventaAutorizada($id, ['ventaPagos']);
 
             if ($venta->estado == 0) {
                 throw new \Exception('No se puede reabrir una venta anulada');
@@ -423,7 +449,7 @@ class VentaController extends Controller
 
     public function detalle($id)
     {
-        $venta = Venta::with([
+        $venta = $this->ventaAutorizada($id, [
             'tienda',
             'caja',
             'usuario',
@@ -432,8 +458,7 @@ class VentaController extends Controller
             'metodoPago',
             'detalle.variante.producto',
             'detalle.variante.atributos.atributo',
-        ])
-            ->findOrFail($id);
+        ]);
 
         return response()->json([
             'venta' => $venta,
@@ -450,18 +475,14 @@ class VentaController extends Controller
         $fechaDesde = $request->input('fecha_desde', now()->startOfMonth()->toDateString());
         $fechaHasta = $request->input('fecha_hasta', now()->toDateString());
 
-        $query = Venta::with(['tienda', 'usuario', 'cliente', 'vendedor', 'detalle'])
+        $query = $this->ventasAutorizadas()
+            ->with(['tienda', 'usuario', 'cliente', 'vendedor', 'detalle'])
             ->where('estado', 1)
             ->where('estado_cobro', 'pendiente')
             ->orderBy('id_venta', 'desc');
 
-        $vendedorUsuario = Vendedor::where('id_usuario', auth()->id())
-            ->where('estado', 1)
-            ->first();
-
-        $nombreRol = strtolower(trim(auth()->user()->rol->nombre ?? ''));
-        $rolNormalizado = preg_replace('/[\s_-]+/', '', $nombreRol);
-        $esAdministrador = in_array($rolNormalizado, ['admin', 'administrador', 'superadmin'], true);
+        $vendedorUsuario = $this->vendedorUsuarioActual();
+        $esAdministrador = $this->usuarioEsAdministrador();
 
         if ($vendedorUsuario && !$esAdministrador) {
             $tiendas = $vendedorUsuario->tiendas()
@@ -474,10 +495,13 @@ class VentaController extends Controller
                 ->whereIn('id_tienda', $tiendas->pluck('id_tienda'));
 
             $vendedores = collect([$vendedorUsuario]);
-        } else {
+        } elseif ($esAdministrador) {
             $vendedorUsuario = null;
             $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
             $vendedores = Vendedor::where('estado', 1)->orderBy('nombre', 'asc')->get();
+        } else {
+            $tiendas = collect();
+            $vendedores = collect();
         }
 
         if ($request->get('id_tienda')) {
@@ -514,12 +538,12 @@ class VentaController extends Controller
 
     public function obtenerCierre($id)
     {
-        $venta = Venta::with([
+        $venta = $this->ventaAutorizada($id, [
             'tienda', 'usuario', 'cliente', 'vendedor',
             'detalle.variante.producto',
             'ventaPagos.metodoPago',
             'ventaPagos.cuentaBancaria'
-        ])->findOrFail($id);
+        ]);
 
         if ($venta->estado_cobro !== 'pendiente') {
             return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
@@ -537,7 +561,7 @@ class VentaController extends Controller
 
     public function actualizarDetalle(Request $request, $id)
     {
-        $venta = Venta::with('detalle')->findOrFail($id);
+        $venta = $this->ventaAutorizada($id, ['detalle']);
 
         if ($venta->estado_cobro !== 'pendiente') {
             return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
@@ -633,7 +657,7 @@ class VentaController extends Controller
 
     public function agregarPago(Request $request, $id)
     {
-        $venta = Venta::findOrFail($id);
+        $venta = $this->ventaAutorizada($id);
 
         if ($venta->estado_cobro !== 'pendiente') {
             return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
@@ -667,7 +691,7 @@ class VentaController extends Controller
 
     public function eliminarPago($id, $idPago)
     {
-        $venta = Venta::findOrFail($id);
+        $venta = $this->ventaAutorizada($id);
 
         if ($venta->estado_cobro !== 'pendiente') {
             return response()->json(['message' => 'Esta venta ya fue cerrada'], 422);
@@ -704,7 +728,7 @@ class VentaController extends Controller
         try {
             DB::beginTransaction();
 
-            $venta = Venta::with('ventaPagos')->findOrFail($id);
+            $venta = $this->ventaAutorizada($id, ['ventaPagos']);
 
             if ($venta->estado_cobro !== 'pendiente') {
                 throw new \Exception('Esta venta ya fue cerrada');
@@ -849,7 +873,7 @@ class VentaController extends Controller
             return redirect()->route('admin.ventas.cerrar')->with('error', 'No se seleccionaron ventas para el cierre masivo.');
         }
 
-        $ventas = Venta::with([
+        $ventas = $this->ventasAutorizadas()->with([
             'tienda', 'usuario', 'cliente', 'vendedor',
             'detalle.variante.producto',
             'ventaPagos.metodoPago',
@@ -885,7 +909,7 @@ class VentaController extends Controller
             $ventaId = (int) $ventaId;
             DB::beginTransaction();
             try {
-                $venta = Venta::with('ventaPagos')->findOrFail($ventaId);
+                $venta = $this->ventaAutorizada($ventaId, ['ventaPagos']);
 
                 if ($venta->estado_cobro !== 'pendiente') {
                     throw new \Exception('Esta venta ya fue cerrada');

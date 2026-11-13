@@ -277,22 +277,30 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     // MÓDULO: USUARIOS (Sintaxis compatible)
     Route::prefix('usuarios')->group(function () {
-        Route::get('/', [UsuarioController::class, 'index'])->name('admin.users.index');
-        Route::get('/crear', [UsuarioController::class, 'create'])->name('admin.users.create');
-        Route::post('/guardar', [UsuarioController::class, 'store'])->name('admin.users.store');
-        Route::get('/{user}/editar', [UsuarioController::class, 'edit'])->name('admin.users.edit');
-        Route::put('/{user}/actualizar', [UsuarioController::class, 'update'])->name('admin.users.update');
-        Route::delete('/{user}/eliminar', [UsuarioController::class, 'destroy'])->name('admin.users.destroy');
+        Route::middleware('admin.permission:usuarios.ver')->group(function () {
+            Route::get('/', [UsuarioController::class, 'index'])->name('admin.users.index');
+            Route::get('/crear', [UsuarioController::class, 'create'])->name('admin.users.create');
+            Route::get('/{user}/editar', [UsuarioController::class, 'edit'])->name('admin.users.edit');
+        });
+        Route::middleware('admin')->group(function () {
+            Route::post('/guardar', [UsuarioController::class, 'store'])->name('admin.users.store');
+            Route::put('/{user}/actualizar', [UsuarioController::class, 'update'])->name('admin.users.update');
+            Route::delete('/{user}/eliminar', [UsuarioController::class, 'destroy'])->name('admin.users.destroy');
+        });
     });
 
     // MÓDULO: ROLES
    Route::prefix('roles')->group(function () {
-        Route::get('/', [RolController::class, 'index'])->name('admin.roles.index');
-        Route::post('/guardar', [RolController::class, 'store'])->name('admin.roles.store');
-        Route::put('/{id}/actualizar', [RolController::class, 'update'])->name('admin.roles.update');
-        Route::delete('/{id}/eliminar', [RolController::class, 'destroy'])->name('admin.roles.destroy');
-        Route::get('/{id}/permisos', [RolController::class, 'permisos'])->name('admin.roles.permisos');
-        Route::post('/{id}/permisos/guardar', [RolController::class, 'guardarPermisos'])->name('admin.roles.permisos.guardar');
+        Route::middleware('admin.permission:roles.ver')->group(function () {
+            Route::get('/', [RolController::class, 'index'])->name('admin.roles.index');
+            Route::get('/{id}/permisos', [RolController::class, 'permisos'])->name('admin.roles.permisos');
+        });
+        Route::middleware('admin')->group(function () {
+            Route::post('/guardar', [RolController::class, 'store'])->name('admin.roles.store');
+            Route::put('/{id}/actualizar', [RolController::class, 'update'])->name('admin.roles.update');
+            Route::delete('/{id}/eliminar', [RolController::class, 'destroy'])->name('admin.roles.destroy');
+            Route::post('/{id}/permisos/guardar', [RolController::class, 'guardarPermisos'])->name('admin.roles.permisos.guardar');
+        });
     });
     
     // MÓDULO: BLOG
@@ -463,10 +471,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     });
 
     Route::prefix('permisos')->group(function () {
-        Route::get('/', [PermisoController::class, 'index'])->name('admin.permisos.index');
-        Route::post('/guardar', [PermisoController::class, 'store'])->name('admin.permisos.store');
-        Route::put('/{id}/actualizar', [PermisoController::class, 'update'])->name('admin.permisos.update');
-        Route::delete('/{id}/eliminar', [PermisoController::class, 'destroy'])->name('admin.permisos.destroy');
-        Route::get('/{id}/estado', [PermisoController::class, 'cambiarEstado'])->name('admin.permisos.estado');
+        Route::get('/', [PermisoController::class, 'index'])
+            ->middleware('admin.permission:permisos.ver')
+            ->name('admin.permisos.index');
+        Route::middleware('admin')->group(function () {
+            Route::post('/guardar', [PermisoController::class, 'store'])->name('admin.permisos.store');
+            Route::put('/{id}/actualizar', [PermisoController::class, 'update'])->name('admin.permisos.update');
+            Route::delete('/{id}/eliminar', [PermisoController::class, 'destroy'])->name('admin.permisos.destroy');
+            Route::get('/{id}/estado', [PermisoController::class, 'cambiarEstado'])->name('admin.permisos.estado');
+        });
     });
 });

@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\AlumnoMiddleware;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\AdminPermissionMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -46,6 +48,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'alumno' => AlumnoMiddleware::class,
+        'admin' => AdminMiddleware::class,
+        'admin.permission' => AdminPermissionMiddleware::class,
     ];
 
     protected $middlewarePriority = [
