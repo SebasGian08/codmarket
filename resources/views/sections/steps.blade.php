@@ -17,14 +17,17 @@
             }
         @endphp
 
-        @if($tipoSteps === 'opcion_2')
-        <div class="row steps-opcion-2 g-3">
+        @if($tipoSteps === 'opcion_2' || $tipoSteps === 'opcion_3')
+        @php
+            $claseTarjetaSteps = $tipoSteps === 'opcion_3' ? 'steps-opcion-3' : 'steps-opcion-2';
+        @endphp
+        <div class="row {{ $claseTarjetaSteps }} g-3">
             @foreach($ventajas as $ventaja)
             @if(!empty($ventaja['titulo']) || !empty($ventaja['descripcion']))
             <div class="col-lg-3 col-md-6 mb-2">
-                <article class="steps-opcion-2-card">
+                <article class="{{ $tipoSteps === 'opcion_3' ? 'steps-opcion-3-card' : 'steps-opcion-2-card' }}">
                     @if(!empty($ventaja['icono']))
-                    <div class="steps-opcion-2-icon">
+                    <div class="{{ $tipoSteps === 'opcion_3' ? 'steps-opcion-3-icon' : 'steps-opcion-2-icon' }}">
                         <i class="{{ $ventaja['icono'] }}" aria-hidden="true"></i>
                     </div>
                     @endif

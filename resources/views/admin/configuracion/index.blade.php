@@ -160,6 +160,16 @@
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
                                                 Acordeón en dos columnas
                                             </option>
+                                            @elseif($config->clave === 'seccion_steps_tipo')
+                                            <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
+                                                Tarjetas con icono flotante
+                                            </option>
+                                            <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
+                                                Tarjetas compactas
+                                            </option>
+                                            <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
+                                                Cuadrícula de ventajas
+                                            </option>
                                             @elseif($config->clave === 'seccion_servicio_tipo')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Opción 1 — Diseño actual
