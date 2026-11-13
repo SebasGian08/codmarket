@@ -346,7 +346,7 @@
     z-index: 2;
     border-radius: 28px;
     overflow: hidden;
-    box-shadow: 0 30px 70px rgba(15, 23, 42, .16);
+    /* box-shadow: 0 30px 70px rgba(15, 23, 42, .16); */
 }
 
 .service-image-frame img {
