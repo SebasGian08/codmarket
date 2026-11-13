@@ -4,12 +4,13 @@
 
 @section('content')
 
-<section class="service-hero">
+<section class="service-hero"
+    style="background-image: url('{{ asset($service->imagen_portada ?: 'assets/images/tienda_virtual/default.png') }}');">
 
 
     <div class="service-hero-overlay"></div>
 
-    <div class="service-hero-content @if(!$service->imagen_portada) service-hero-content--no-image @endif">
+    <div class="service-hero-content">
 
         <div class="service-hero-text">
 
@@ -41,19 +42,6 @@
             </div>
 
         </div>
-
-        @if($service->imagen_portada)
-        <div class="service-hero-visual">
-
-            <div class="hero-image-glow"></div>
-
-            <div class="hero-image-card">
-                <img src="{{ asset($service->imagen_portada) }}"
-                    alt="{{ $service->nombre }}" fetchpriority="high">
-            </div>
-
-        </div>
-        @endif
 
     </div>
 

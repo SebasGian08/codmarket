@@ -69,7 +69,7 @@
                                     <input type="file" name="portada" class="form-control mb-3">
 
                                     <label>Imagen Portada</label>
-                                    <small class="form-text text-muted d-block mb-1">Se muestra junto al texto al abrir el servicio.</small>
+                                    <small class="form-text text-muted d-block mb-1">Se usa como fondo del encabezado al abrir el servicio.</small>
                                     <input type="file" name="imagen_portada" class="form-control mb-3">
 
                                     <label>Imagen Referencial</label>

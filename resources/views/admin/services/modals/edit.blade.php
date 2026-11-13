@@ -82,7 +82,7 @@
                                     <input type="file" name="portada" class="form-control mb-3">
 
                                     <label>Imagen Portada</label>
-                                    <small class="form-text text-muted d-block mb-1">Se muestra junto al texto al abrir el servicio.</small>
+                                    <small class="form-text text-muted d-block mb-1">Se usa como fondo del encabezado al abrir el servicio.</small>
                                     @if($service->imagen_portada)
                                     <div class="mb-2 text-center">
                                         {{-- Eliminado 'storage/' --}}
