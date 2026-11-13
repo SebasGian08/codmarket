@@ -48,10 +48,10 @@
 
             <div class="hero-image-glow"></div>
 
-            <div class="hero-image-card">
-                <!-- <img src="{{ asset($service->imagen_portada ?: $service->imagen_referencial) }}"
-                    alt="{{ $service->nombre }}"> -->
-            </div>
+            <!-- <div class="hero-image-card">
+                <img src="{{ asset($service->imagen_portada ?: $service->imagen_referencial) }}"
+                    alt="{{ $service->nombre }}">
+            </div> -->
 
         </div>
         @endif
