@@ -215,7 +215,7 @@
     filter: blur(70px);
 }
 
-.hero-image-card {
+/* .hero-image-card {
     position: relative;
     width: min(100%, 540px);
     padding: 18px;
@@ -238,7 +238,7 @@
     display: block;
     object-fit: cover;
     border-radius: 20px;
-}
+} */
 
 .hero-scroll {
     position: absolute;
