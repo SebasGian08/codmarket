@@ -69,9 +69,9 @@
 .contact-info h2 {
     margin: 0 0 25px;
     color: #111;
-    font-size: clamp(42px, 4.5vw, 62px);
+    font-size: clamp(42px, 4.5vw, 40px);
     line-height: 1.05;
-    font-weight: 900;
+    font-weight: 700;
     letter-spacing: -2px;
 }
 
