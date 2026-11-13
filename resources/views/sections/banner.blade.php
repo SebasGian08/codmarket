@@ -38,7 +38,7 @@ $hasContentBanner = $mostrarFormularioBanner && $banners->contains(function ($ba
 
                 <div class="row align-items-center hero_card flex-column flex-lg-row">
 
-                    <div class="col-12 content_box">
+                    <div class="col-12 col-lg-6 content_box">
 
                         @if($banner->subtitulo)
                         <span class="badge_text">{{ $banner->subtitulo }}</span>

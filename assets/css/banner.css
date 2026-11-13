@@ -845,6 +845,10 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
         text-align: center;
     }
 
+    .hero_banner_slider.has-banner-contact .con-contenido .hero_card {
+        padding: 55px 64px;
+    }
+
     .hero_banner_full .hero_full_content {
         padding-left: 64px;
         padding-right: 64px;
@@ -1168,7 +1172,7 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
 
 .hero_banner_slider.has-banner-contact .con-contenido .hero_card {
     min-height: 580px;
-    padding: 70px 49% 70px 10%;
+    padding: 70px 15% 70px 10%;
 }
 
 .hero_banner_slider.has-banner-contact .hero_card .content_box {
@@ -1192,6 +1196,11 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
 }
 
 @media (max-width: 992px) {
+    .hero_banner_slider.has-banner-contact .con-contenido .hero_card {
+        min-height: auto;
+        padding: 70px 60px;
+    }
+
     .banner-contact-panel {
         position: relative;
         top: auto;
