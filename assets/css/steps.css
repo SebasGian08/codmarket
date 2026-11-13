@@ -180,6 +180,7 @@
 
 .steps-opcion-3-card {
     height: 100%;
+    min-height: 220px;
     padding: 28px 26px 24px;
     border: 1px solid color-mix(in srgb, var(--color-texto) 16%, transparent);
     border-radius: 2px;
