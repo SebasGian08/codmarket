@@ -34,7 +34,6 @@ class ContactController extends Controller
             'id_documento_tipo' => 'required|exists:documentos_tipo,id_documento_tipo',
             'email' => 'required|email|max:120',
             'telefono' => 'required|string|max:20',
-            'direccion' => 'nullable|string|max:255',
             'message' => 'required|string|max:1000',
             'tipo_consulta' => 'nullable|in:servicio,marca',
             'servicio' => [
@@ -100,7 +99,6 @@ class ContactController extends Controller
             'documento_numero' => $documentoNumero,
             'email' => $request->email,
             'telefono' => $request->telefono,
-            'direccion' => $request->direccion,
             'id_service' => $tipoConsulta === 'servicio' ? $request->servicio : null,
             'id_marca' => $tipoConsulta === 'marca' ? $request->id_marca : null,
             'id_source' => 1,

@@ -70,6 +70,10 @@
 
                 </div>
 
+                <div class="contact-service-location">
+                    @include('sections.contact-location')
+                </div>
+
                 {{-- WhatsApp --}}
                 <div class="contact-whatsapp">
 
@@ -241,24 +245,6 @@
 
                         </div>
 
-                        {{-- DIRECCIÓN --}}
-                        <div class="form-field">
-
-                            <label for="contact-direccion">
-                                Dirección
-                            </label>
-
-                            <div class="input-wrapper">
-                                <i class="bi bi-geo-alt"></i>
-
-                                <input id="contact-direccion" type="text" name="direccion"
-                                    value="{{ old('direccion') }}" placeholder="Calle, número, distrito..."
-                                    maxlength="255" autocomplete="street-address">
-                            </div>
-
-                        </div>
-
-
                         {{-- TELÉFONO --}}
                         <div class="form-field">
 
@@ -283,7 +269,7 @@
 
 
                         {{-- EMAIL --}}
-                        <div class="form-field">
+                        <div class="form-field full">
 
                             <label>
                                 Correo electrónico

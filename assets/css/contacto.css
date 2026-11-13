@@ -864,6 +864,25 @@ html[data-theme="dark"] .input-wrapper .input-counter {
     border: 0;
 }
 
+.contact-service-location {
+    margin: 24px 0;
+}
+
+.contact-service-location .contact-brand-location-heading {
+    margin-bottom: 10px;
+    color: #263244;
+}
+
+.contact-service-location .contact-brand-location-heading h3 {
+    font-size: 16px;
+}
+
+.contact-service-location .contact-brand-map,
+.contact-service-location .contact-brand-map iframe {
+    min-height: 210px;
+    height: 210px;
+}
+
 .contact-brand-location-empty {
     display: flex;
     min-height: 170px;

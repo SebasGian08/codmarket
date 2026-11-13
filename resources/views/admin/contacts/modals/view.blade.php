@@ -52,13 +52,6 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="text-muted small">Dirección</label>
-                        <div class="fw-semibold text-dark">
-                            {{ $contact->direccion ?: '-' }}
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <label class="text-muted small">Servicio</label>
                         <div class="fw-semibold text-dark">
                             {{ $contact->service->nombre ?? '-' }}
