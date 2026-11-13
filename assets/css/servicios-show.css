@@ -85,14 +85,7 @@
 .service-hero-overlay {
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(circle at 75% 50%,
-            rgba(0, 0, 0, .05),
-            rgba(0, 0, 0, .35)),
-        linear-gradient(90deg,
-            rgba(5, 10, 20, .94) 0%,
-            rgba(5, 10, 20, .84) 42%,
-            rgba(5, 10, 20, .35) 100%);
+       background: radial-gradient(circle at 75% 50%, rgba(0, 0, 0, .05), rgb(0 0 0 / 35%)), linear-gradient(90deg, rgba(5, 10, 20, .94) 0%, rgb(5 10 20 / 28%) 42%, rgb(255 255 255 / 0%) 100%);
 }
 
 .service-hero-content {
