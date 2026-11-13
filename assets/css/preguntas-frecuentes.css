@@ -139,7 +139,7 @@
     --faq-border-hover-color: color-mix(in srgb, var(--faq-text-color) 40%, transparent);
     --faq-number-color: var(--color-primario, #21c36c);
     --faq-icon-color: var(--color-secundario, #0ea5e9);
-    background: #212529;
+   /*  background: #212529; */
     color: var(--faq-text-color);
 }
 
@@ -151,13 +151,13 @@
     max-width: 1200px;
 }
 
-.faq-section--columns .section_heading_title small {
+/* .faq-section--columns .section_heading_title small {
     color: var(--faq-text-color);
 }
 
 .faq-section--columns .section_heading_description {
     color: var(--faq-muted-color);
-}
+} */
 
 .faq-list--columns {
     display: grid;
