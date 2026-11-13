@@ -133,7 +133,7 @@
 
 /* VARIANTE EN DOS COLUMNAS */
 .faq-section--columns {
-    --faq-text-color: var( #f5f5f5);
+    --faq-text-color: var( #ffffff);
     --faq-muted-color: color-mix(in srgb, var(--faq-text-color) 65%, transparent);
     --faq-border-color: color-mix(in srgb, var(--faq-text-color) 22%, transparent);
     --faq-border-hover-color: color-mix(in srgb, var(--faq-text-color) 40%, transparent);
