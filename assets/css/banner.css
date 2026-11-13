@@ -692,8 +692,8 @@
 
 @media (min-width: 993px) {
     .hero_banner_slider .hero_card .content_box {
-        max-width: 1260px;
-        margin: 0 auto;
+        max-width: 560px;
+        margin: 0;
     }
 
     .hero_banner_full .hero_full_content > .content_box {
