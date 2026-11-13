@@ -63,6 +63,7 @@
                                 <div class="col-md-6">
 
                                     <label>Portada</label>
+                                    <small class="form-text text-muted d-block mb-1">Se muestra en Inicio, en la tarjeta del servicio.</small>
                                     @if($service->portada)
                                     <div class="mb-2 text-center">
                                         {{-- Eliminado 'storage/' --}}
@@ -81,6 +82,7 @@
                                     <input type="file" name="portada" class="form-control mb-3">
 
                                     <label>Imagen Portada</label>
+                                    <small class="form-text text-muted d-block mb-1">Se muestra junto al texto al abrir el servicio.</small>
                                     @if($service->imagen_portada)
                                     <div class="mb-2 text-center">
                                         {{-- Eliminado 'storage/' --}}
@@ -99,6 +101,7 @@
                                     <input type="file" name="imagen_portada" class="form-control mb-3">
 
                                     <label>Imagen Referencial</label>
+                                    <small class="form-text text-muted d-block mb-1">Se muestra en la sección inferior del servicio.</small>
                                     @if($service->imagen_referencial)
                                     <div class="mb-2 text-center">
                                         {{-- Eliminado 'storage/' --}}
