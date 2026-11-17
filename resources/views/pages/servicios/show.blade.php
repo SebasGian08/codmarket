@@ -476,4 +476,41 @@ CONTACTO
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+@push('scripts')
+<script>
+document.querySelectorAll('.service-hero a[href="#servicio"]').forEach(function(link) {
+    link.addEventListener('click', function(event) {
+        var serviceSection = document.getElementById('servicio');
+        if (!serviceSection) return;
+
+        event.preventDefault();
+
+        var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (window.location.hash !== '#servicio') {
+            window.history.pushState(null, '', '#servicio');
+        }
+
+        serviceSection.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'start'
+        });
+
+        if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+        var observer = new IntersectionObserver(function(entries) {
+            if (!entries[0].isIntersecting) return;
+
+            serviceSection.classList.remove('service-detail-section--arriving');
+            window.requestAnimationFrame(function() {
+                serviceSection.classList.add('service-detail-section--arriving');
+            });
+            observer.disconnect();
+        }, { threshold: 0.1 });
+
+        observer.observe(serviceSection);
+    });
+});
+</script>
+@endpush
+
 @endsection
