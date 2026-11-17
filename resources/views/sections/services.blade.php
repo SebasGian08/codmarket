@@ -161,14 +161,10 @@ document.querySelectorAll('.service-expand-card[data-service-cover]').forEach(fu
                 Math.round(totalGreen / totalPixels),
                 Math.round(totalBlue / totalPixels)
             ];
-        const shadowColor = sourceColor.map(function (channel) {
-            return Math.round(channel * 0.34);
-        });
         const complementaryColor = sourceColor.map(function (channel) {
             return Math.round((255 - channel) * 0.24);
         });
 
-        card.style.setProperty('--service-gradient-rgb', shadowColor.join(', '));
         card.style.setProperty('--service-vignette-rgb', complementaryColor.join(', '));
     };
     cover.onerror = function () {

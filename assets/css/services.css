@@ -456,9 +456,9 @@ html[data-theme="dark"] .services_blob--3 {
         linear-gradient(
             180deg,
             transparent 55%,
-            rgba(var(--service-gradient-rgb, 0, 0, 0), .12) 60%,
-            rgba(var(--service-gradient-rgb, 0, 0, 0), .56) 82%,
-            rgba(var(--service-gradient-rgb, 0, 0, 0), .94) 100%
+            rgba(0, 0, 0, .24) 64%,
+            color-mix(in srgb, var(--color-primario, #21c36c) 28%, rgba(0, 0, 0, .78)) 82%,
+            color-mix(in srgb, var(--color-primario, #21c36c) 38%, rgba(0, 0, 0, .92)) 100%
         ),
         linear-gradient(
             90deg,
