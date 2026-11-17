@@ -36,6 +36,7 @@ class ServiceController extends Controller
             'grupo' => 'nullable|string|max:100',
             'orden' => 'required|integer|min:1',
             'descripcion' => 'required|string',
+            'vista_tipo' => 'required|in:opcion_1,opcion_2',
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_referencial' => 'nullable|image|mimes:jpg,jpeg,png,webp',
@@ -82,6 +83,7 @@ class ServiceController extends Controller
                 'portada' => $portada,
                 'imagen_portada' => $imagenPortada,
                 'imagen_referencial' => $imagenReferencial,
+                'vista_tipo' => $request->vista_tipo,
                 'estado' => 1,
             ]);
 
@@ -130,6 +132,7 @@ class ServiceController extends Controller
             'grupo' => 'nullable|string|max:100',
             'orden' => 'required|integer|min:1',
             'descripcion' => 'required|string',
+            'vista_tipo' => 'required|in:opcion_1,opcion_2',
             'portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_portada' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'imagen_referencial' => 'nullable|image|mimes:jpg,jpeg,png,webp',
@@ -173,6 +176,7 @@ class ServiceController extends Controller
                 'portada' => $portada,
                 'imagen_portada' => $imagenPortada,
                 'imagen_referencial' => $imagenReferencial,
+                'vista_tipo' => $request->vista_tipo,
             ]);
 
             $imagenesParaEliminar = array_merge(

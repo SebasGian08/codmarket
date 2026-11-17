@@ -58,6 +58,18 @@
                                     <input type="text" name="descripcion_breve_portada"
                                         value="{{ $service->descripcion_breve_portada }}" class="form-control mb-2">
 
+                                    <label>Vista del servicio</label>
+                                    <select name="vista_tipo" class="form-select mb-2">
+                                        <option value="opcion_1"
+                                            {{ old('vista_tipo', $service->vista_tipo ?? 'opcion_1') === 'opcion_1' ? 'selected' : '' }}>
+                                            Opción 1 - Portada actual
+                                        </option>
+                                        <option value="opcion_2"
+                                            {{ old('vista_tipo', $service->vista_tipo ?? 'opcion_1') === 'opcion_2' ? 'selected' : '' }}>
+                                            Opción 2 - Banner con imagen
+                                        </option>
+                                    </select>
+
                                 </div>
 
                                 <div class="col-md-6">
@@ -82,7 +94,7 @@
                                     <input type="file" name="portada" class="form-control mb-3">
 
                                     <label>Imagen Portada</label>
-                                    <small class="form-text text-muted d-block mb-1">Se usa como fondo del encabezado al abrir el servicio.</small>
+                                    <small class="form-text text-muted d-block mb-1">Se usa como fondo en la opción 1 y como imagen del banner en la opción 2.</small>
                                     @if($service->imagen_portada)
                                     <div class="mb-2 text-center">
                                         {{-- Eliminado 'storage/' --}}

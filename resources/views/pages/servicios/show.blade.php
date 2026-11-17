@@ -4,9 +4,49 @@
 
 @section('content')
 
+@if(($service->vista_tipo ?? 'opcion_1') === 'opcion_2')
+<section class="service-hero service-hero--option-two">
+
+    <div class="service-hero-content">
+
+        <div class="service-hero-text">
+
+            <span class="service-eyebrow">
+                <i class="bi bi-stars"></i>
+                Soluciones profesionales
+            </span>
+
+            <h1>{{ $service->descripcion_portada ?: $service->nombre }}</h1>
+
+            @if($service->descripcion_breve_portada)
+            <p>{{ $service->descripcion_breve_portada }}</p>
+            @endif
+
+            <div class="service-hero-actions">
+                <a href="#servicio" class="service-btn-primary">
+                    Conocer el servicio
+                    <i class="bi bi-arrow-down"></i>
+                </a>
+
+                <a href="#contacto" class="service-btn-secondary">
+                    Solicitar información
+                    <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="service-hero-visual">
+            <img src="{{ asset($service->imagen_portada ?: 'assets/images/tienda_virtual/default.png') }}"
+                alt="{{ $service->nombre }}" fetchpriority="high">
+        </div>
+
+    </div>
+
+</section>
+@else
 <section class="service-hero"
     style="background-image: url('{{ asset($service->imagen_portada ?: 'assets/images/tienda_virtual/default.png') }}');">
-
 
     <div class="service-hero-overlay"></div>
 
@@ -50,8 +90,8 @@
         <i class="bi bi-chevron-down"></i>
     </div>
 
-
 </section>
+@endif
 
 {{-- =========================================================
 SERVICIO

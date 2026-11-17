@@ -21,6 +21,7 @@ class Service extends Model
         'descripcion_breve_portada',
         'imagen_portada',
         'imagen_referencial',
+        'vista_tipo',
         'estado'
     ];
 

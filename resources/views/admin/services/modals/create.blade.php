@@ -59,6 +59,12 @@
                                     <input type="text" name="descripcion_breve_portada" class="form-control mb-2"
                                         placeholder="Resumen corto">
 
+                                    <label>Vista del servicio</label>
+                                    <select name="vista_tipo" class="form-select mb-2">
+                                        <option value="opcion_1">Opción 1 - Portada actual</option>
+                                        <option value="opcion_2">Opción 2 - Banner con imagen</option>
+                                    </select>
+
                                 </div>
 
                                 <!-- DERECHA -->
@@ -69,7 +75,7 @@
                                     <input type="file" name="portada" class="form-control mb-3">
 
                                     <label>Imagen Portada</label>
-                                    <small class="form-text text-muted d-block mb-1">Se usa como fondo del encabezado al abrir el servicio.</small>
+                                    <small class="form-text text-muted d-block mb-1">Se usa como fondo en la opción 1 y como imagen del banner en la opción 2.</small>
                                     <input type="file" name="imagen_portada" class="form-control mb-3">
 
                                     <label>Imagen Referencial</label>
