@@ -140,6 +140,17 @@
     line-height: 1.08;
 }
 
+.service-hero-text h1 .service-hero-title-highlight {
+    display: inline-block;
+    padding: 0 .08em .02em;
+    border-radius: 3px;
+    background: var(--service-secondary);
+    color: #fff;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    transform: rotate(-1deg);
+}
+
 .service-hero-text p {
     max-width: 680px;
     margin: 0 0 35px;

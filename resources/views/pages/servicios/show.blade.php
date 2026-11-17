@@ -4,6 +4,16 @@
 
 @section('content')
 
+@php
+    $serviceHeroTitleWords = preg_split(
+        '/\s+/',
+        trim($service->descripcion_portada ?: $service->nombre),
+        -1,
+        PREG_SPLIT_NO_EMPTY
+    ) ?: [];
+    $serviceHeroLastWord = array_pop($serviceHeroTitleWords);
+@endphp
+
 @if(($service->vista_tipo ?? 'opcion_1') === 'opcion_2')
 <section class="service-hero service-hero--option-two">
 
@@ -16,7 +26,7 @@
                 Soluciones profesionales
             </span>
 
-            <h1>{{ $service->descripcion_portada ?: $service->nombre }}</h1>
+            <h1>{{ implode(' ', $serviceHeroTitleWords) }}@if($serviceHeroLastWord) <span class="service-hero-title-highlight">{{ $serviceHeroLastWord }}</span>@endif</h1>
 
             @if($service->descripcion_breve_portada)
             <p>{{ $service->descripcion_breve_portada }}</p>
@@ -60,7 +70,7 @@
             </span>
 
             <h1>
-                {{ $service->descripcion_portada ?: $service->nombre }}
+                {{ implode(' ', $serviceHeroTitleWords) }}@if($serviceHeroLastWord) <span class="service-hero-title-highlight">{{ $serviceHeroLastWord }}</span>@endif
             </h1>
 
             @if($service->descripcion_breve_portada)
