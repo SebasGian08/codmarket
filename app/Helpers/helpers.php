@@ -106,9 +106,23 @@ if (!function_exists('generarNombreDisponible')) {
     }
 }
 
-if (!function_exists('uploadImageOptimized')) {
+if (!function_exists('generarNombreBaseImagenSeo')) {
 
-    function uploadImageOptimized($file, $folder = 'general', $width = 1200, $quality = 80, $maxKb = 100)
+    /**
+     * Convierte el nombre descriptivo de una imagen en una base segura para URL.
+     */
+    function generarNombreBaseImagenSeo($nombre)
+    {
+        return \Illuminate\Support\Str::slug((string) $nombre) ?: 'imagen';
+    }
+}
+
+if (!function_exists('uploadImageWithSeoName')) {
+
+    /**
+     * Guarda una imagen conservando su formato y usando un nombre SEO único.
+     */
+    function uploadImageWithSeoName($file, $folder = 'general', $seoName = null)
     {
         $destinationPath = base_path('uploads/' . $folder);
 
@@ -117,14 +131,29 @@ if (!function_exists('uploadImageOptimized')) {
         }
 
         $extension = strtolower($file->getClientOriginalExtension());
+        $sourceName = $seoName ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $baseName = generarNombreBaseImagenSeo($sourceName);
+        $fileName = generarNombreDisponible($destinationPath, $baseName, $extension);
 
-        // Nombre base = nombre original del archivo (sin extensión), slugificado
-        // para SEO: "Mi Imagen.png" -> "mi-imagen".
-        $nombreBase = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $baseName = \Illuminate\Support\Str::slug($nombreBase);
-        if (empty($baseName)) {
-            $baseName = 'imagen';
+        $file->move($destinationPath, $fileName);
+
+        return 'uploads/' . $folder . '/' . $fileName;
+    }
+}
+
+if (!function_exists('uploadImageOptimized')) {
+
+    function uploadImageOptimized($file, $folder = 'general', $width = 1200, $quality = 80, $maxKb = 100, $seoName = null)
+    {
+        $destinationPath = base_path('uploads/' . $folder);
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);
         }
+
+        $extension = strtolower($file->getClientOriginalExtension());
+        $sourceName = $seoName ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $baseName = generarNombreBaseImagenSeo($sourceName);
 
         // SVG: GD no puede convertirlo, se guarda tal cual
         if ($extension === 'svg') {

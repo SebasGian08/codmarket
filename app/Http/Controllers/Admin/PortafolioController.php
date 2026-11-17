@@ -24,26 +24,9 @@ class PortafolioController extends Controller
         return view('admin.portafolios.index', compact('portafolios', 'services'));
     }
 
-    private function uploadImage($file, $folder = 'portafolios')
+    private function uploadImage($file, $folder = 'portafolios', $seoName = null)
     {
-        $destinationPath = base_path('uploads/' . $folder);
-
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);
-        }
-
-        // Nombre base = nombre original del archivo (sin extensión), slugificado para SEO
-        $nombreBase = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $baseName = Str::slug($nombreBase);
-        if (empty($baseName)) {
-            $baseName = 'imagen';
-        }
-
-        $ext = strtolower($file->getClientOriginalExtension());
-        $fileName = generarNombreDisponible($destinationPath, $baseName, $ext);
-        $file->move($destinationPath, $fileName);
-
-        return 'uploads/' . $folder . '/' . $fileName;
+        return uploadImageWithSeoName($file, $folder, $seoName);
     }
 
     public function store(Request $request)
@@ -60,7 +43,7 @@ class PortafolioController extends Controller
             $imagen = null;
 
             if ($request->hasFile('imagen')) {
-                $imagen = $this->uploadImage($request->file('imagen'));
+                $imagen = $this->uploadImage($request->file('imagen'), 'portafolios', $request->input('titulo'));
             }
 
             Portafolio::create([
@@ -93,7 +76,7 @@ class PortafolioController extends Controller
         $imagen = $portafolio->imagen;
 
         if ($request->hasFile('imagen')) {
-            $imagen = $this->uploadImage($request->file('imagen'));
+            $imagen = $this->uploadImage($request->file('imagen'), 'portafolios', $request->input('titulo'));
         }
 
         $portafolio->update([

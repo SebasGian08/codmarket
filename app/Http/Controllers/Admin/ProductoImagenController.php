@@ -35,7 +35,8 @@ class ProductoImagenController extends Controller
         try {
             DB::beginTransaction();
 
-            $imagen = uploadImageOptimized($request->file('imagen'), 'productos');
+            $producto = Producto::findOrFail($request->id_producto);
+            $imagen = uploadImageOptimized($request->file('imagen'), 'productos', 1200, 80, 100, $producto->nombre);
 
             if ($request->principal == 1) {
                 ProductoImagen::where('id_producto', $request->id_producto)
@@ -111,7 +112,14 @@ class ProductoImagenController extends Controller
                     unlink(public_path($img->url));
                 }
 
-                $ruta = uploadImageOptimized($request->file('imagen'), 'productos');
+                $ruta = uploadImageOptimized(
+                    $request->file('imagen'),
+                    'productos',
+                    1200,
+                    80,
+                    100,
+                    $img->producto->nombre
+                );
             }
 
             if ($request->principal == 1) {

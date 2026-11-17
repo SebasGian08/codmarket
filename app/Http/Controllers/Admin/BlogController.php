@@ -24,27 +24,9 @@ class BlogController extends Controller
     /**
      * Subir imagen a /uploads/blog
      */
-    private function uploadImage($file, $folder = 'blog')
+    private function uploadImage($file, $folder = 'blog', $seoName = null)
     {
-        $destinationPath = base_path('uploads/' . $folder);
-
-        // Crear carpeta si no existe
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0777, true);
-        }
-
-        // Nombre base = nombre original del archivo (sin extensión), slugificado para SEO
-        $nombreBase = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $baseName = Str::slug($nombreBase);
-        if (empty($baseName)) {
-            $baseName = 'imagen';
-        }
-
-        $ext = strtolower($file->getClientOriginalExtension());
-        $fileName = generarNombreDisponible($destinationPath, $baseName, $ext);
-        $file->move($destinationPath, $fileName);
-
-        return 'uploads/' . $folder . '/' . $fileName;
+        return uploadImageWithSeoName($file, $folder, $seoName);
     }
 
     /**
@@ -81,7 +63,7 @@ class BlogController extends Controller
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $imagePath = $this->uploadImage($request->file('image'));
+            $imagePath = $this->uploadImage($request->file('image'), 'blog', $request->input('title'));
         }
 
         $blog = Blog::create([
@@ -128,7 +110,7 @@ class BlogController extends Controller
                 unlink(base_path($blog->image));
             }
 
-            $imagePath = $this->uploadImage($request->file('image'));
+            $imagePath = $this->uploadImage($request->file('image'), 'blog', $request->input('title'));
         }
 
         $blog->update([
