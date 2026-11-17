@@ -135,8 +135,8 @@
     letter-spacing: -2.5px;
 
     font-family: "Jost", sans-serif;
-    font-size: clamp(38px, 4vw, 54px);
-    font-weight: 800;
+    font-size: clamp(38px, 4vw, 74px);
+   /*  font-weight: 800; */
     line-height: 1.08;
 }
 
