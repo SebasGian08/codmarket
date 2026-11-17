@@ -384,7 +384,7 @@
 
 .service-image-frame img {
     width: 100%;
-    height: 620px;
+    /* height: 620px; */
     display: block;
     object-fit: cover;
     transition: .6s ease;
