@@ -31,6 +31,7 @@ $tipoServicios = $config['seccion_servicios_tipo'] ?? 'opcion_1';
         <div class="service-expand-list" role="list">
             @foreach($services as $item)
             <article class="service-expand-card" role="listitem"
+                data-service-cover="{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}"
                 style="--service-expand-cover: url('{{ asset($item->portada ?: 'assets/images/tienda_virtual/default.png') }}');">
                 <div class="service-expand-overlay"></div>
 
@@ -85,6 +86,97 @@ $tipoServicios = $config['seccion_servicios_tipo'] ?? 'opcion_1';
 @if($tipoServicios === 'opcion_2')
 @push('scripts')
 <script>
+document.querySelectorAll('.service-expand-card[data-service-cover]').forEach(function (card) {
+    const cover = new Image();
+    cover.crossOrigin = 'anonymous';
+    cover.onload = function () {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+
+        if (!context) {
+            console.warn('No se pudo analizar la portada del servicio para adaptar su degradado.');
+            return;
+        }
+
+        canvas.width = 48;
+        canvas.height = 64;
+        context.drawImage(cover, 0, 0, canvas.width, canvas.height);
+
+        let pixels;
+        try {
+            pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+        } catch (error) {
+            console.warn('No se pudo leer la paleta de la portada del servicio.', error);
+            return;
+        }
+
+        const colors = {};
+        let totalRed = 0;
+        let totalGreen = 0;
+        let totalBlue = 0;
+        let totalPixels = 0;
+
+        for (let index = 0; index < pixels.length; index += 4) {
+            const red = pixels[index];
+            const green = pixels[index + 1];
+            const blue = pixels[index + 2];
+            const brightness = (red + green + blue) / 3;
+            const saturation = (Math.max(red, green, blue) - Math.min(red, green, blue))
+                / Math.max(red, green, blue, 1);
+            const key = [
+                Math.floor(red / 32),
+                Math.floor(green / 32),
+                Math.floor(blue / 32)
+            ].join(',');
+
+            totalRed += red;
+            totalGreen += green;
+            totalBlue += blue;
+            totalPixels++;
+
+            if (brightness < 16 || brightness > 238) continue;
+
+            if (!colors[key]) {
+                colors[key] = { red: 0, green: 0, blue: 0, count: 0, score: 0 };
+            }
+
+            colors[key].red += red;
+            colors[key].green += green;
+            colors[key].blue += blue;
+            colors[key].count++;
+            colors[key].score += 1 + saturation * 0.6;
+        }
+
+        const dominant = Object.keys(colors).reduce(function (best, key) {
+            return !best || colors[key].score > best.score ? colors[key] : best;
+        }, null);
+        const sourceColor = dominant
+            ? [
+                Math.round(dominant.red / dominant.count),
+                Math.round(dominant.green / dominant.count),
+                Math.round(dominant.blue / dominant.count)
+            ]
+            : [
+                Math.round(totalRed / totalPixels),
+                Math.round(totalGreen / totalPixels),
+                Math.round(totalBlue / totalPixels)
+            ];
+        const shadowColor = sourceColor.map(function (channel) {
+            return Math.round(channel * 0.34);
+        });
+        const complementaryColor = sourceColor.map(function (channel) {
+            return Math.round((255 - channel) * 0.24);
+        });
+
+        card.style.setProperty('--service-gradient-rgb', shadowColor.join(', '));
+        card.style.setProperty('--service-vignette-rgb', complementaryColor.join(', '));
+    };
+    cover.onerror = function () {
+        console.warn('No se pudo cargar la portada para analizar sus tonos:', card.dataset.serviceCover);
+    };
+    cover.src = card.dataset.serviceCover;
+});
+
 document.addEventListener('click', function (event) {
     const toggle = event.target.closest('.service-expand-toggle');
     if (!toggle) {
