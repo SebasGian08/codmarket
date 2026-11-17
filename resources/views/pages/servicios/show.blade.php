@@ -5,16 +5,18 @@
 @section('content')
 
 @php
-    $serviceHeroTitleWords = preg_split(
-        '/\s+/',
-        trim($service->descripcion_portada ?: $service->nombre),
-        -1,
-        PREG_SPLIT_NO_EMPTY
-    ) ?: [];
-    $serviceHeroLastWord = array_pop($serviceHeroTitleWords);
+$serviceViewOptionTwo = ($service->vista_tipo ?? 'opcion_1') === 'opcion_2';
+$serviceHeroTitleWords = preg_split(
+'/\s+/',
+trim($service->descripcion_portada ?: $service->nombre),
+-1,
+PREG_SPLIT_NO_EMPTY
+) ?: [];
+$serviceHeroLastWord = array_pop($serviceHeroTitleWords);
 @endphp
 
-@if(($service->vista_tipo ?? 'opcion_1') === 'opcion_2')
+<div class="service-page{{ $serviceViewOptionTwo ? ' service-page--option-two' : '' }}">
+@if($serviceViewOptionTwo)
 <section class="service-hero service-hero--option-two">
 
     <div class="service-hero-content">
@@ -26,7 +28,8 @@
                 Soluciones profesionales
             </span>
 
-            <h1>{{ implode(' ', $serviceHeroTitleWords) }}@if($serviceHeroLastWord) <span class="service-hero-title-highlight">{{ $serviceHeroLastWord }}</span>@endif</h1>
+            <h1>{{ implode(' ', $serviceHeroTitleWords) }}@if($serviceHeroLastWord) <span
+                    class="service-hero-title-highlight">{{ $serviceHeroLastWord }}</span>@endif</h1>
 
             @if($service->descripcion_breve_portada)
             <p>{{ $service->descripcion_breve_portada }}</p>
@@ -70,7 +73,8 @@
             </span>
 
             <h1>
-                {{ implode(' ', $serviceHeroTitleWords) }}@if($serviceHeroLastWord) <span class="service-hero-title-highlight">{{ $serviceHeroLastWord }}</span>@endif
+                {{ implode(' ', $serviceHeroTitleWords) }}@if($serviceHeroLastWord) <span
+                    class="service-hero-title-highlight">{{ $serviceHeroLastWord }}</span>@endif
             </h1>
 
             @if($service->descripcion_breve_portada)
@@ -132,6 +136,7 @@ SERVICIO
                                 <li>') !!}
                 </div>
 
+                @if(!$serviceViewOptionTwo)
                 <div class="service-mini-features">
 
                     <div>
@@ -150,6 +155,7 @@ SERVICIO
                     </div>
 
                 </div>
+                @endif
 
             </div>
 
@@ -163,6 +169,7 @@ SERVICIO
                     <img src="{{ asset($service->imagen_referencial ?: 'assets/images/tienda_virtual/1080x1080px.png') }}"
                         alt="{{ $service->nombre }}" loading="lazy">
 
+                    @if(!$serviceViewOptionTwo)
                     <div class="image-floating-card">
                         <i class="bi bi-patch-check-fill"></i>
                         <div>
@@ -170,6 +177,7 @@ SERVICIO
                             <small>Calidad que genera resultados</small>
                         </div>
                     </div>
+                    @endif
 
                 </div>
 
@@ -199,14 +207,17 @@ BENEFICIOS
             </span>
 
             @php
-                $tituloBeneficios = trim($config['seccion_servicio_beneficios_titulo'] ?? 'Beneficios que hacen la diferencia');
-                $partesTituloBeneficios = preg_split('/\s+/', $tituloBeneficios, -1, PREG_SPLIT_NO_EMPTY) ?: [];
-                $palabraDestacadaBeneficios = array_pop($partesTituloBeneficios);
+            $tituloBeneficios = trim($config['seccion_servicio_beneficios_titulo'] ?? 'Beneficios que hacen la
+            diferencia');
+            $partesTituloBeneficios = preg_split('/\s+/', $tituloBeneficios, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+            $palabraDestacadaBeneficios = array_pop($partesTituloBeneficios);
             @endphp
 
-            <h2>{{ implode(' ', $partesTituloBeneficios) }}@if($palabraDestacadaBeneficios) <span>{{ $palabraDestacadaBeneficios }}</span>@endif</h2>
+            <h2>{{ implode(' ', $partesTituloBeneficios) }}@if($palabraDestacadaBeneficios)
+                <span>{{ $palabraDestacadaBeneficios }}</span>@endif</h2>
 
-            <p>{{ limpiarTextoPlano($config['seccion_servicio_beneficios_descripcion'] ?? 'Obtén una solución completa pensada para ofrecerte mejores resultados y una experiencia profesional.') }}</p>
+            <p>{{ limpiarTextoPlano($config['seccion_servicio_beneficios_descripcion'] ?? 'Obtén una solución completa pensada para ofrecerte mejores resultados y una experiencia profesional.') }}
+            </p>
 
         </div>
 
@@ -475,6 +486,8 @@ PORTAFOLIO
 
 @endif
 
+</div>
+
 {{-- =========================================================
 CONTACTO
 ========================================================= --}}
@@ -515,7 +528,9 @@ document.querySelectorAll('.service-hero a[href="#servicio"]').forEach(function(
                 serviceSection.classList.add('service-detail-section--arriving');
             });
             observer.disconnect();
-        }, { threshold: 0.1 });
+        }, {
+            threshold: 0.1
+        });
 
         observer.observe(serviceSection);
     });

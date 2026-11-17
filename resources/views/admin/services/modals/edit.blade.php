@@ -62,13 +62,14 @@
                                     <select name="vista_tipo" class="form-select mb-2">
                                         <option value="opcion_1"
                                             {{ old('vista_tipo', $service->vista_tipo ?? 'opcion_1') === 'opcion_1' ? 'selected' : '' }}>
-                                            Opción 1 - Portada actual
+                                            Opción 1 - Diseño actual
                                         </option>
                                         <option value="opcion_2"
                                             {{ old('vista_tipo', $service->vista_tipo ?? 'opcion_1') === 'opcion_2' ? 'selected' : '' }}>
-                                            Opción 2 - Banner con imagen
+                                            Opción 2 - Diseño alternativo completo
                                         </option>
                                     </select>
+                                    <small class="form-text text-muted d-block mb-2">La opción 2 cambia el diseño del banner, presentación, beneficios, planes y portafolio.</small>
 
                                 </div>
 
