@@ -161,8 +161,10 @@ SERVICIO
 
             <div class="service-detail-image">
 
+                @if(!$serviceViewOptionTwo)
                 <div class="image-decoration image-decoration-one"></div>
                 <div class="image-decoration image-decoration-two"></div>
+                @endif
 
                 <div class="service-image-frame">
 
@@ -535,6 +537,22 @@ document.querySelectorAll('.service-hero a[href="#servicio"]').forEach(function(
         observer.observe(serviceSection);
     });
 });
+
+var serviceDetailImage = document.querySelector('.service-page--option-two .service-detail-image');
+var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (serviceDetailImage && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    serviceDetailImage.classList.add('service-detail-image--observed');
+
+    var imageObserver = new IntersectionObserver(function(entries) {
+        if (!entries[0].isIntersecting) return;
+
+        serviceDetailImage.classList.add('service-detail-image--visible');
+        imageObserver.disconnect();
+    }, { threshold: 0.15 });
+
+    imageObserver.observe(serviceDetailImage);
+}
 </script>
 @endpush
 

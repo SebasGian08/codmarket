@@ -1177,8 +1177,19 @@
     height: auto;
 }
 
-.service-page--option-two .service-detail-image .image-decoration {
-    opacity: .08;
+.service-page--option-two .service-detail-image--observed {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .7s ease, transform .7s ease;
+}
+
+.service-page--option-two .service-detail-image--observed.service-detail-image--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.service-page--option-two .service-image-frame:hover img {
+    transform: none;
 }
 
 .service-page--option-two .benefits-section {
