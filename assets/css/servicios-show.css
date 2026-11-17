@@ -1173,13 +1173,12 @@
     letter-spacing: -.8px;
 }
 
-.service-page--option-two .service-detail-image .image-decoration {
-    opacity: .08;
+.service-page--option-two .service-image-frame img {
+    height: auto;
 }
 
-.service-page--option-two .service-image-frame {
-    border: 1px solid #e7edf4;
-    box-shadow: 0 24px 60px rgba(15, 23, 42, .08);
+.service-page--option-two .service-detail-image .image-decoration {
+    opacity: .08;
 }
 
 .service-page--option-two .benefits-section {
