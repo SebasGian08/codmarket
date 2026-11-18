@@ -369,6 +369,29 @@ html, body {
     transform: translateY(-2px);
 }
 
+.btn-product-pdf {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border: 1px solid var(--color-primario);
+    border-radius: 20px;
+    color: var(--color-primario);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: 0.3s;
+}
+
+.btn-product-pdf:hover,
+.btn-product-pdf:focus {
+    background: var(--color-primario);
+    color: #fff;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
 .product-categories {
     display: flex;
     flex-wrap: wrap;

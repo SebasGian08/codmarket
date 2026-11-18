@@ -269,15 +269,14 @@ return (int) $id;
                                 <i class="fab fa-whatsapp mr-2"></i> Solicitar Cotización
                             </a>
                         </li>
+                        @if($producto->ficha_pdf)
+                        <li>
+                            <a href="{{ asset($producto->ficha_pdf) }}" class="btn-product-pdf" download>
+                                <i class="far fa-file-pdf" aria-hidden="true"></i> Instructivo de uso (PDF)
+                            </a>
+                        </li>
+                        @endif
                     </ul>
-
-                    @if($producto->ficha_pdf)
-                    <div class="mb-4">
-                        <a href="{{ asset($producto->ficha_pdf) }}" class="btn btn-outline-secondary" download>
-                            <i class="far fa-file-pdf mr-2"></i> Instructivo de uso (PDF)
-                        </a>
-                    </div>
-                    @endif
 
                     @php
                     $ventajas = $empresa->empresa_ventajas ?: [
