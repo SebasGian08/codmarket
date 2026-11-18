@@ -10,12 +10,12 @@
 $mostrarPrecio = $config['producto_mostrar_precio'] ?? 1;
 $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
 $variantesSelector = $variantes->map(function ($variante) {
-    return [
-        'id' => (int) $variante->id_variante,
-        'valores_ids' => $variante->atributos->pluck('id_valor')->map(function ($id) {
-            return (int) $id;
-        })->values(),
-    ];
+return [
+'id' => (int) $variante->id_variante,
+'valores_ids' => $variante->atributos->pluck('id_valor')->map(function ($id) {
+return (int) $id;
+})->values(),
+];
 })->values();
 @endphp
 
@@ -47,8 +47,8 @@ $variantesSelector = $variantes->map(function ($variante) {
                         @forelse($imagenes as $key => $img)
                         <div id="tab_{{ $key + 1 }}" class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}">
                             <div class="zoom-container">
-                                <img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}"
-                                    role="button" tabindex="0" aria-label="Ampliar imagen del producto">
+                                <img src="{{ asset($img->url) }}" alt="{{ $producto->nombre }}" role="button"
+                                    tabindex="0" aria-label="Ampliar imagen del producto">
                             </div>
                         </div>
                         @empty
@@ -90,14 +90,12 @@ $variantesSelector = $variantes->map(function ($variante) {
                             {{ $producto->marca->nombre ?? 'Sin marca' }}
                         </span>
                         @endif
-
-                        <span style="font-size: 14px;" id="skuActivo">
-                            Código: {{ $varianteActiva->sku }}
-                        </span>
-
                     </div>
 
                     <h2 class="item_title">{{ $producto->nombre }}</h2>
+                    <span style="font-size: 11px;" id="skuActivo">
+                        Código: {{ $varianteActiva->sku }}
+                    </span>
 
                     @if($producto->categorias->count())
 
@@ -214,8 +212,7 @@ $variantesSelector = $variantes->map(function ($variante) {
                                 @foreach($atributo['valores'] as $idValor => $info)
                                 <button type="button"
                                     class="attribute-chip {{ $varianteActiva->atributos->contains('id_valor', $idValor) ? 'attribute-chip-selected' : '' }}"
-                                    data-atributo-id="{{ $idAtributo }}"
-                                    data-valor-id="{{ $idValor }}"
+                                    data-atributo-id="{{ $idAtributo }}" data-valor-id="{{ $idValor }}"
                                     onclick="cambiarAtributo({{ $idAtributo }}, {{ $idValor }})">
                                     {{ $info['valor'] }}
                                 </button>
@@ -258,12 +255,9 @@ $variantesSelector = $variantes->map(function ($variante) {
                         @endphp
 
                         <li>
-                            <a class="btn-whatsapp" id="btnWhatsapp" target="_blank"
-                                data-telefono="{{ $telefono }}"
-                                data-producto="{{ $producto->nombre }}"
-                                data-empresa="{{ $empresa->nombre ?? '' }}"
-                                data-mostrar-precio="{{ $mostrarPrecio ? 1 : 0 }}"
-                                onclick="enviarWhatsApp(this)">
+                            <a class="btn-whatsapp" id="btnWhatsapp" target="_blank" data-telefono="{{ $telefono }}"
+                                data-producto="{{ $producto->nombre }}" data-empresa="{{ $empresa->nombre ?? '' }}"
+                                data-mostrar-precio="{{ $mostrarPrecio ? 1 : 0 }}" onclick="enviarWhatsApp(this)">
                                 <i class="fab fa-whatsapp mr-2"></i> Solicitar Cotización
                             </a>
                         </li>
@@ -271,25 +265,28 @@ $variantesSelector = $variantes->map(function ($variante) {
 
                     @if($producto->ficha_pdf)
                     <div class="mb-4">
-                        <a href="{{ asset($producto->ficha_pdf) }}" class="btn btn-outline-secondary"
-                            download>
+                        <a href="{{ asset($producto->ficha_pdf) }}" class="btn btn-outline-secondary" download>
                             <i class="far fa-file-pdf mr-2"></i> Instructivo de uso (PDF)
                         </a>
                     </div>
                     @endif
 
                     @php
-                        $ventajas = $empresa->empresa_ventajas ?: [
-                            ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos entregas ágiles y seguras.'],
-                            ['icono' => 'fas fa-shield-alt', 'titulo' => 'Compra 100% Segura', 'descripcion' => 'Protegemos cada transacción.'],
-                            ['icono' => 'fab fa-whatsapp', 'titulo' => 'Atención Personalizada', 'descripcion' => 'Estamos listos para ayudarte.'],
-                        ];
+                    $ventajas = $empresa->empresa_ventajas ?: [
+                    ['icono' => 'fas fa-shipping-fast', 'titulo' => 'Envíos Rápidos', 'descripcion' => 'Realizamos
+                    entregas ágiles y seguras.'],
+                    ['icono' => 'fas fa-shield-alt', 'titulo' => 'Compra 100% Segura', 'descripcion' => 'Protegemos cada
+                    transacción.'],
+                    ['icono' => 'fab fa-whatsapp', 'titulo' => 'Atención Personalizada', 'descripcion' => 'Estamos
+                    listos para ayudarte.'],
+                    ];
                     @endphp
 
                     <div class="product-benefits-box mt-4">
                         @foreach($ventajas as $ventaja)
                         <div class="product-benefit-card">
-                            <div class="product-benefit-icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'fast' : 'support') }}">
+                            <div
+                                class="product-benefit-icon {{ $loop->first ? 'shipping' : ($loop->iteration === 2 ? 'fast' : 'support') }}">
                                 <i class="{{ $ventaja['icono'] ?? '' }}"></i>
                             </div>
 
@@ -315,15 +312,15 @@ $variantesSelector = $variantes->map(function ($variante) {
 
                     <ul class="nav nav-tabs product-info-tabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="{{ $descripcionTabId }}-link"
-                                data-toggle="tab" href="#{{ $descripcionTabId }}" role="tab"
-                                aria-controls="{{ $descripcionTabId }}" aria-selected="true">
+                            <a class="nav-link active" id="{{ $descripcionTabId }}-link" data-toggle="tab"
+                                href="#{{ $descripcionTabId }}" role="tab" aria-controls="{{ $descripcionTabId }}"
+                                aria-selected="true">
                                 Descripción del producto
                             </a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="{{ $especificacionesTabId }}-link"
-                                data-toggle="tab" href="#{{ $especificacionesTabId }}" role="tab"
+                            <a class="nav-link" id="{{ $especificacionesTabId }}-link" data-toggle="tab"
+                                href="#{{ $especificacionesTabId }}" role="tab"
                                 aria-controls="{{ $especificacionesTabId }}" aria-selected="false">
                                 Especificaciones
                             </a>
@@ -331,15 +328,15 @@ $variantesSelector = $variantes->map(function ($variante) {
                     </ul>
 
                     <div class="tab-content">
-                        <div class="tab-pane fade show active" id="{{ $descripcionTabId }}"
-                            role="tabpanel" aria-labelledby="{{ $descripcionTabId }}-link">
+                        <div class="tab-pane fade show active" id="{{ $descripcionTabId }}" role="tabpanel"
+                            aria-labelledby="{{ $descripcionTabId }}-link">
                             <div class="product_description_body">
                                 {!! $producto->descripcion ?? 'Sin descripción' !!}
                             </div>
                         </div>
 
-                        <div class="tab-pane fade" id="{{ $especificacionesTabId }}"
-                            role="tabpanel" aria-labelledby="{{ $especificacionesTabId }}-link">
+                        <div class="tab-pane fade" id="{{ $especificacionesTabId }}" role="tabpanel"
+                            aria-labelledby="{{ $especificacionesTabId }}-link">
                             <div class="product_description_body">
                                 <div class="table-responsive">
                                     <table class="table table-striped mb-0">
@@ -387,114 +384,115 @@ $variantesSelector = $variantes->map(function ($variante) {
                 <div class="product_carousel arrow_ycenter">
                     <div class="slideshow4_slider medical_product_group" data-slick='{"dots":false}'>
 
-                @foreach($relacionados as $producto)
+                        @foreach($relacionados as $producto)
 
-                @php
-                $variante = $producto->primera_variante_con_imagen;
-                $imagenes = $variante && $variante->imagenes->count()
-                ? $variante->imagenes->sortBy('orden')->take(2)
-                : collect();
-                $descripcionProducto = trim(strip_tags((string) (
-                    $producto->descripcion_corta ?: $producto->descripcion
-                )));
-                @endphp
+                        @php
+                        $variante = $producto->primera_variante_con_imagen;
+                        $imagenes = $variante && $variante->imagenes->count()
+                        ? $variante->imagenes->sortBy('orden')->take(2)
+                        : collect();
+                        $descripcionProducto = trim(strip_tags((string) (
+                        $producto->descripcion_corta ?: $producto->descripcion
+                        )));
+                        @endphp
 
-                <div class="item">
-                    <article class="catalogo-producto-card product_link_card">
-                        <div class="catalogo-producto-imagen slideshow_producto">
-                            <a class="catalogo-producto-imagen-link"
-                                href="{{ route('producto.show', $producto->slug) }}"
-                                aria-label="Ver producto: {{ $producto->nombre }}">
-                            @if($imagenes->count())
-                            @foreach($imagenes as $key => $img)
-                            <img src="{{ asset($img->url) }}"
-                                class="img_producto {{ $key === 0 ? 'img_principal' : 'img_hover' }}"
-                                alt="{{ $producto->nombre }}" loading="lazy">
-                            @endforeach
+                        <div class="item">
+                            <article class="catalogo-producto-card product_link_card">
+                                <div class="catalogo-producto-imagen slideshow_producto">
+                                    <a class="catalogo-producto-imagen-link"
+                                        href="{{ route('producto.show', $producto->slug) }}"
+                                        aria-label="Ver producto: {{ $producto->nombre }}">
+                                        @if($imagenes->count())
+                                        @foreach($imagenes as $key => $img)
+                                        <img src="{{ asset($img->url) }}"
+                                            class="img_producto {{ $key === 0 ? 'img_principal' : 'img_hover' }}"
+                                            alt="{{ $producto->nombre }}" loading="lazy">
+                                        @endforeach
 
-                            @if($imagenes->count() === 1)
-                            <img src="{{ asset($imagenes->first()->url) }}"
-                                class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
-                            @endif
-                            @else
-                            <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                class="img_producto img_principal" alt="{{ $producto->nombre }}" loading="lazy">
-                            <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
-                                class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
-                            @endif
-                            </a>
-
-                            @include('sections.partials.product-quick-view-button', [
-                                'producto' => $producto,
-                                'varianteInicial' => $variante,
-                            ])
-
-                            <span class="catalogo-producto-etiquetas">
-                                @if($producto->destacado)
-                                <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">
-                                    Más vendido
-                                </span>
-                                @endif
-                                @if($producto->nuevo)
-                                <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-nuevo">
-                                    Nuevo
-                                </span>
-                                @endif
-                            </span>
-                        </div>
-
-                        <div class="catalogo-producto-contenido">
-                            <div class="catalogo-producto-categoria">
-                                {{ $producto->categorias->first()->nombre ?? 'Producto' }}
-                            </div>
-
-                            <h2 class="catalogo-producto-titulo">
-                                <a href="{{ route('producto.show', $producto->slug) }}">
-                                    {{ $producto->nombre }}
-                                </a>
-                            </h2>
-
-                            @if($mostrarMarca && $producto->marca)
-                            <div class="catalogo-producto-marca">{{ $producto->marca->nombre }}</div>
-                            @endif
-
-                            <p class="catalogo-producto-descripcion">
-                                {{ $descripcionProducto !== '' ? \Illuminate\Support\Str::limit($descripcionProducto, 92) : 'Conoce más sobre este producto.' }}
-                            </p>
-
-                            <div class="catalogo-producto-pie">
-                                @if($mostrarPrecio)
-                                <div class="catalogo-producto-precio">
-                                    <span class="catalogo-producto-precio-label">Precio</span>
-                                    @if($variante)
-                                        @if($variante->precio_oferta !== null)
-                                        <span class="catalogo-producto-precio-anterior">
-                                            S/ {{ number_format($variante->precio, 2) }}
-                                        </span>
-                                        <span class="catalogo-producto-precio-actual">
-                                            S/ {{ number_format($variante->precio_oferta, 2) }}
-                                        </span>
+                                        @if($imagenes->count() === 1)
+                                        <img src="{{ asset($imagenes->first()->url) }}" class="img_producto img_hover"
+                                            alt="{{ $producto->nombre }}" loading="lazy">
+                                        @endif
                                         @else
-                                        <span class="catalogo-producto-precio-actual">
-                                            S/ {{ number_format($variante->precio, 2) }}
+                                        <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                            class="img_producto img_principal" alt="{{ $producto->nombre }}"
+                                            loading="lazy">
+                                        <img src="{{ asset('assets/images/tienda_virtual/default.png') }}"
+                                            class="img_producto img_hover" alt="{{ $producto->nombre }}" loading="lazy">
+                                        @endif
+                                    </a>
+
+                                    @include('sections.partials.product-quick-view-button', [
+                                    'producto' => $producto,
+                                    'varianteInicial' => $variante,
+                                    ])
+
+                                    <span class="catalogo-producto-etiquetas">
+                                        @if($producto->destacado)
+                                        <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-destacado">
+                                            Más vendido
                                         </span>
                                         @endif
-                                    @else
-                                    <span class="catalogo-producto-precio-actual">Consultar</span>
-                                    @endif
+                                        @if($producto->nuevo)
+                                        <span class="catalogo-producto-etiqueta catalogo-producto-etiqueta-nuevo">
+                                            Nuevo
+                                        </span>
+                                        @endif
+                                    </span>
                                 </div>
-                                @endif
 
-                                <a href="{{ route('producto.show', $producto->slug) }}"
-                                    class="catalogo-producto-boton">
-                                    Ver producto <i class="fal fa-arrow-right" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                                <div class="catalogo-producto-contenido">
+                                    <div class="catalogo-producto-categoria">
+                                        {{ $producto->categorias->first()->nombre ?? 'Producto' }}
+                                    </div>
+
+                                    <h2 class="catalogo-producto-titulo">
+                                        <a href="{{ route('producto.show', $producto->slug) }}">
+                                            {{ $producto->nombre }}
+                                        </a>
+                                    </h2>
+
+                                    @if($mostrarMarca && $producto->marca)
+                                    <div class="catalogo-producto-marca">{{ $producto->marca->nombre }}</div>
+                                    @endif
+
+                                    <p class="catalogo-producto-descripcion">
+                                        {{ $descripcionProducto !== '' ? \Illuminate\Support\Str::limit($descripcionProducto, 92) : 'Conoce más sobre este producto.' }}
+                                    </p>
+
+                                    <div class="catalogo-producto-pie">
+                                        @if($mostrarPrecio)
+                                        <div class="catalogo-producto-precio">
+                                            <span class="catalogo-producto-precio-label">Precio</span>
+                                            @if($variante)
+                                            @if($variante->precio_oferta !== null)
+                                            <span class="catalogo-producto-precio-anterior">
+                                                S/ {{ number_format($variante->precio, 2) }}
+                                            </span>
+                                            <span class="catalogo-producto-precio-actual">
+                                                S/ {{ number_format($variante->precio_oferta, 2) }}
+                                            </span>
+                                            @else
+                                            <span class="catalogo-producto-precio-actual">
+                                                S/ {{ number_format($variante->precio, 2) }}
+                                            </span>
+                                            @endif
+                                            @else
+                                            <span class="catalogo-producto-precio-actual">Consultar</span>
+                                            @endif
+                                        </div>
+                                        @endif
+
+                                        <a href="{{ route('producto.show', $producto->slug) }}"
+                                            class="catalogo-producto-boton">
+                                            Ver producto <i class="fal fa-arrow-right" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
                         </div>
-                    </article>
-                </div>
 
-                @endforeach
+                        @endforeach
 
                     </div>
 
@@ -549,7 +547,9 @@ function updateGaleria(imagenes) {
     const tabList = document.getElementById('galeriaTabList');
     if (!tabContent || !tabList) return;
 
-    const lista = imagenes && imagenes.length ? imagenes : [{ url: DEFAULT_IMG }];
+    const lista = imagenes && imagenes.length ? imagenes : [{
+        url: DEFAULT_IMG
+    }];
 
     tabContent.innerHTML = lista.map((img, i) => `
         <div id="tabv_${i}" class="tab-pane fade ${i === 0 ? 'show active' : ''}">
@@ -598,7 +598,10 @@ function escAttr(t) {
 }
 
 function formatearPrecio(n) {
-    return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return Number(n).toLocaleString('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 }
 
 function actualizarPrecios(data) {
@@ -667,7 +670,11 @@ function cambiarVariante(id) {
     const url = new URL(window.location.href);
     url.searchParams.set('variante', id);
 
-    fetch(url.pathname + '/variante/' + id, { headers: { 'Accept': 'application/json' } })
+    fetch(url.pathname + '/variante/' + id, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
         .then(r => r.json())
         .then(data => {
             if (!data || data.error) return;
@@ -689,7 +696,7 @@ function cambiarVariante(id) {
             });
 
         })
-        .catch(function() { });
+        .catch(function() {});
 }
 
 function cambiarAtributo(idAtributo, idValor) {
@@ -718,7 +725,11 @@ function cambiarAtributo(idAtributo, idValor) {
 }
 
 window.productVariantOptions = @json($variantesSelector);
-window.currentVariantId = {{ $varianteActiva->id_variante }};
+window.currentVariantId = {
+    {
+        $varianteActiva - > id_variante
+    }
+};
 initZoom();
 </script>
 
