@@ -75,6 +75,10 @@ class ProductoController extends Controller
             'sku_inicial' => 'nullable|string|max:100',
             'precio_inicial' => 'required|numeric|min:0',
             'precio_mayorista_inicial' => 'nullable|numeric|min:0',
+            'especificaciones' => 'nullable|array',
+            'especificaciones.*' => 'array',
+            'especificaciones.*.nombre' => 'nullable|string|max:150|required_with:especificaciones.*.valor',
+            'especificaciones.*.valor' => 'nullable|string|max:2000|required_with:especificaciones.*.nombre',
         ]);
 
         $rutaFicha = null;
@@ -111,6 +115,11 @@ class ProductoController extends Controller
                 'id_usuario_registro' => auth()->id(),
             ]);
 
+            $this->sincronizarEspecificaciones(
+                $producto,
+                $request->input('especificaciones', [])
+            );
+
             // categorías
             if ($request->categorias) {
                 $producto->categorias()->sync($request->categorias);
@@ -143,7 +152,13 @@ class ProductoController extends Controller
 
     public function edit($id)
     {
-        $p = Producto::with(['marca', 'proveedor', 'categorias', 'variantes'])->findOrFail($id);
+        $p = Producto::with([
+            'marca',
+            'proveedor',
+            'categorias',
+            'variantes',
+            'especificaciones',
+        ])->findOrFail($id);
         $marcas = Marca::where('estado', 1)->get();
         $proveedores = Proveedor::where('estado', 1)->get();
         $categorias = Categoria::whereNull('id_categoria_padre')
@@ -171,6 +186,10 @@ class ProductoController extends Controller
             'precio_mayorista_principal' => 'nullable|numeric|min:0',
             'ficha_pdf' => 'nullable|file|mimes:pdf|max:10240',
             'quitar_ficha_pdf' => 'nullable|boolean',
+            'especificaciones' => 'nullable|array',
+            'especificaciones.*' => 'array',
+            'especificaciones.*.nombre' => 'nullable|string|max:150|required_with:especificaciones.*.valor',
+            'especificaciones.*.valor' => 'nullable|string|max:2000|required_with:especificaciones.*.nombre',
         ]);
 
         $rutaFichaNueva = null;
@@ -208,6 +227,13 @@ class ProductoController extends Controller
 
             $producto->categorias()->sync($request->categorias ?? []);
 
+            if ($request->has('especificaciones_present')) {
+                $this->sincronizarEspecificaciones(
+                    $producto,
+                    $request->input('especificaciones', [])
+                );
+            }
+
             $primeraVariante = $producto->variantes()->first();
 
             if ($primeraVariante) {
@@ -237,6 +263,29 @@ class ProductoController extends Controller
 
             return back()->with('error', $e->getMessage());
         }
+    }
+
+    private function sincronizarEspecificaciones(Producto $producto, $items): void
+    {
+        $especificaciones = collect(is_array($items) ? $items : [])
+            ->map(function ($item) {
+                return [
+                    'nombre' => trim((string) ($item['nombre'] ?? '')),
+                    'valor' => trim((string) ($item['valor'] ?? '')),
+                ];
+            })
+            ->filter(function ($item) {
+                return $item['nombre'] !== '' && $item['valor'] !== '';
+            })
+            ->values()
+            ->map(function ($item, $index) {
+                $item['orden'] = $index + 1;
+
+                return $item;
+            });
+
+        $producto->especificaciones()->delete();
+        $producto->especificaciones()->createMany($especificaciones->all());
     }
 
     private function guardarFichaPdf(UploadedFile $archivo): string

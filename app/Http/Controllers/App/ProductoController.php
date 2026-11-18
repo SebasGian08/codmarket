@@ -17,7 +17,8 @@ class ProductoController extends Controller
             'variantes.imagenes',
             'variantes.atributos.atributo',
             'imagenes',
-            'categorias'
+            'categorias',
+            'especificaciones',
         ])->where('slug', $slug)->firstOrFail();
 
         $categorias = $producto->categorias ?? collect();

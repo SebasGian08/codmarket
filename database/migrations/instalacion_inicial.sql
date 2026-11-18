@@ -338,6 +338,17 @@ CREATE TABLE IF NOT EXISTS `metodos_pagos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS `productos_especificaciones` (
+  `id_especificacion` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_producto` bigint(20) NOT NULL,
+  `nombre` varchar(150) NOT NULL,
+  `valor` text NOT NULL,
+  `orden` int(10) UNSIGNED NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_especificacion`),
+  KEY `productos_especificaciones_producto_orden_idx` (`id_producto`, `orden`),
+  CONSTRAINT `productos_especificaciones_producto_fk`
+    FOREIGN KEY (`id_producto`) REFERENCES `productos` (`id_producto`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `atributos_valores`
   ADD PRIMARY KEY (`id_valor`),

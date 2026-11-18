@@ -151,6 +151,10 @@
                                             <textarea name="descripcion" class="form-control editor" rows="4"></textarea>
                                     </div>
 
+                                    @include('admin.productos.partials.especificaciones', [
+                                        'especificaciones' => collect(),
+                                    ])
+
                                 </div>
                             </div>
 

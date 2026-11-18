@@ -175,6 +175,10 @@
                                         <textarea name="descripcion" class="form-control editor" rows="4">{!! $p->descripcion !!}</textarea>
                                     </div>
 
+                                    @include('admin.productos.partials.especificaciones', [
+                                        'especificaciones' => $p->especificaciones,
+                                    ])
+
                                 </div>
 
                             </div>

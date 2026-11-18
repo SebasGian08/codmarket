@@ -15,7 +15,7 @@ class InstalacionInicial extends Migration
         'ingresos', 'ingresos_detalle', 'ingresos_economicos', 'inventarios', 'marcas',
         'metodos_pagos', 'motivos_descuento', 'movimientos', 'movimientos_dinero',
         'movimientos_tipo', 'permisos', 'portafolios', 'preguntas_frecuentes', 'priorities',
-        'producto_categorias', 'productos', 'productos_imagenes', 'productos_variantes',
+        'producto_categorias', 'productos', 'productos_especificaciones', 'productos_imagenes', 'productos_variantes',
         'promociones', 'proveedores', 'reglas_descuento', 'rol_permiso', 'roles', 'rubros',
         'seguimiento_tipos', 'service_benefits', 'service_plan_features', 'service_plans',
         'services', 'subscriptions', 'tiendas', 'tipo_documento', 'tipos_descuento',

@@ -264,7 +264,7 @@ $variantesSelector = $variantes->map(function ($variante) {
                                 data-empresa="{{ $empresa->nombre ?? '' }}"
                                 data-mostrar-precio="{{ $mostrarPrecio ? 1 : 0 }}"
                                 onclick="enviarWhatsApp(this)">
-                                <i class="fab fa-whatsapp mr-2"></i> Pedir directo
+                                <i class="fab fa-whatsapp mr-2"></i> Solicitar Cotización
                             </a>
                         </li>
                     </ul>
@@ -273,7 +273,7 @@ $variantesSelector = $variantes->map(function ($variante) {
                     <div class="mb-4">
                         <a href="{{ asset($producto->ficha_pdf) }}" class="btn btn-outline-secondary"
                             download>
-                            <i class="far fa-file-pdf mr-2"></i> Descargar ficha o manual
+                            <i class="far fa-file-pdf mr-2"></i> Instructivo de uso (PDF)
                         </a>
                     </div>
                     @endif
@@ -320,6 +320,31 @@ $variantesSelector = $variantes->map(function ($variante) {
 
                 </div>
             </div>
+
+            @if($producto->especificaciones->isNotEmpty())
+            <div class="col-lg-12 mt-4">
+                <div class="product_description_card">
+                    <div class="product_description_header">
+                        <h2 class="product_title">Especificaciones del producto</h2>
+                    </div>
+
+                    <div class="product_description_body">
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <tbody>
+                                    @foreach($producto->especificaciones as $especificacion)
+                                    <tr>
+                                        <th scope="row" class="w-25">{{ $especificacion->nombre }}</th>
+                                        <td>{{ $especificacion->valor }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </section>

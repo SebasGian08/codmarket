@@ -212,6 +212,24 @@
 // Este script corre antes de que cargue jQuery (el layout lo incluye al final),
 // por eso se usa JS puro. bootstrap/Swal/tinymce ya están disponibles al hacer clic.
 document.addEventListener('click', function(e) {
+    const addSpecification = e.target.closest('[data-add-product-specification]');
+    if (addSpecification) {
+        const container = addSpecification.closest('[data-product-specifications]');
+        const template = container.querySelector('[data-product-specification-template]');
+        const index = Number(container.dataset.nextIndex);
+
+        container.querySelector('[data-product-specifications-list]')
+            .insertAdjacentHTML('beforeend', template.innerHTML.replace(/__INDEX__/g, index));
+        container.dataset.nextIndex = String(index + 1);
+        return;
+    }
+
+    const removeSpecification = e.target.closest('[data-remove-product-specification]');
+    if (removeSpecification) {
+        removeSpecification.closest('[data-product-specification-row]').remove();
+        return;
+    }
+
     const btn = e.target.closest('.btn-edit-producto');
     if (!btn) return;
     e.preventDefault();

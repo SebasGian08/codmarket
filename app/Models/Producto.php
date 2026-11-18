@@ -76,6 +76,13 @@ class Producto extends Model
         return $this->hasMany(ProductoImagen::class, 'id_producto');
     }
 
+    public function especificaciones()
+    {
+        return $this->hasMany(ProductoEspecificacion::class, 'id_producto', 'id_producto')
+            ->orderBy('orden')
+            ->orderBy('id_especificacion');
+    }
+
     public function getImagenPrincipalUrlAttribute()
     {
         $img = $this->imagenes->where('principal', 1)->first() ?? $this->imagenes->first();
