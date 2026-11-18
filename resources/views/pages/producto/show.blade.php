@@ -347,11 +347,11 @@ return (int) $id;
                             aria-labelledby="{{ $especificacionesTabId }}-link">
                             <div class="product_description_body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped mb-0">
+                                    <table class="table table-striped mb-0 product-specifications-table">
                                         <tbody>
                                             @foreach($producto->especificaciones as $especificacion)
                                             <tr>
-                                                <th scope="row" class="w-25">{{ $especificacion->nombre }}</th>
+                                                <th scope="row">{{ $especificacion->nombre }}</th>
                                                 <td>{{ $especificacion->valor }}</td>
                                             </tr>
                                             @endforeach
