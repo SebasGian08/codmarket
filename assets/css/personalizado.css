@@ -377,23 +377,23 @@ html, body {
 
 .badge-category {
     display: inline-block;
-    background: var(--color-primario);
+    /* background: var(--color-primario); */
     color: var(--color-secundario);
     font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 20px;
+   /*  padding: 5px 10px; */
+   /*  border-radius: 20px; */
     transition: 0.3s;
     cursor: default;
 }
 
-.badge-category:hover,
+/* .badge-category:hover,
 .badge-category:focus {
     background: var(--color-secundario);
     color: var(--color-primario);
     text-decoration: none;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
+} */
 
 .product-price-box {
     font-size: 14px;
