@@ -344,6 +344,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                     </div>
 
                     {{-- PRECIO --}}
+                    @if($mostrarPrecio)
                     <div class="sb_widget sb_pricing_range">
 
                         <h3 class="sb_widget_title">
@@ -371,6 +372,7 @@ $mostrarMarca = $config['producto_mostrar_marca'] ?? 1;
                         </form>
 
                     </div>
+                    @endif
 
                     {{-- MARCAS --}}
                     <div class="sb_widget sb_color_checkbox">
