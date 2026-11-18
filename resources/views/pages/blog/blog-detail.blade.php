@@ -7,12 +7,14 @@
 @php
 $defaultBlogImage = asset('assets/images/tienda_virtual/default.png');
 $blogImage = imagenOrDefault($blog->image);
+$blogDetailOption = $config['blog_detalle_tipo'] ?? 'opcion_1';
+$isBlogDetailOptionTwo = $blogDetailOption === 'opcion_2';
 @endphp
 
 <section class="details_section blog_details clearfix">
     <div class="container">
 
-        <div class="blog_detail_intro">
+        <div class="blog_detail_intro {{ $isBlogDetailOptionTwo ? 'blog_detail_intro--option-two' : '' }}">
             <a class="blog_back_link" href="{{ route('blog.index') }}">
                 <i class="fal fa-long-arrow-left"></i>
                 Volver al blog
@@ -20,21 +22,31 @@ $blogImage = imagenOrDefault($blog->image);
             <!-- <span class="blog_detail_kicker">Conocimiento para tu negocio</span> -->
         </div>
 
-        <div class="row justify-content-lg-between blog_detail_layout">
+        <div class="row justify-content-lg-between blog_detail_layout {{ $isBlogDetailOptionTwo ? 'blog_detail_layout--option-two' : '' }}">
 
             {{-- =====================================================
             CONTENIDO PRINCIPAL
         ====================================================== --}}
-            <div class="col-lg-9 col-md-12">
+            <div class="{{ $isBlogDetailOptionTwo ? 'col-12 blog_detail_option_two' : 'col-lg-9 col-md-12' }}">
 
                 {{-- HERO / IMAGEN --}}
-                <div class="details_image mb_30">
+                <div class="details_image mb_30 {{ $isBlogDetailOptionTwo ? 'blog_detail_hero' : '' }}">
                     <img src="{{ $blogImage }}" alt="{{ $blog->title }}" loading="eager"
                         onerror="this.onerror=null;this.src='{{ $defaultBlogImage }}';">
+                    @if($isBlogDetailOptionTwo)
+                    <div class="blog_detail_hero_overlay">
+                        <h1 class="blog_detail_hero_title">{{ $blog->title }}</h1>
+                        <time datetime="{{ $blog->created_at->toDateString() }}">
+                            {{ $blog->created_at->format('d \d\e ') . ucfirst($blog->created_at->translatedFormat('F')) . $blog->created_at->format(' Y') }}
+                        </time>
+                    </div>
+                    @else
                     <span class="blog_image_badge">Artículo</span>
+                    @endif
                 </div>
 
                 {{-- INFORMACIÓN DEL ARTÍCULO --}}
+                @if(!$isBlogDetailOptionTwo)
                 <div class="blog_article_meta mb_20">
                     <ul class="post_meta ul_li clearfix">
 
@@ -62,29 +74,42 @@ $blogImage = imagenOrDefault($blog->image);
                     {{ html_entity_decode(strip_tags($blog->excerpt), ENT_QUOTES, 'UTF-8') }}
                 </p>
                 @endif
+                @endif
 
                 {{-- CONTENIDO --}}
+                @php
+                $blogContent = html_entity_decode($blog->content, ENT_QUOTES, 'UTF-8');
+                $allowedBlogTags = '<p><strong><b><em><i><br><ul><ol><li><h1><h2><h3><h4><h5><blockquote><a>';
+
+                if ($isBlogDetailOptionTwo) {
+                    $blogContent = preg_replace_callback('/<img\b[^>]*>/i', function ($match) {
+                        preg_match("~\\bsrc\\s*=\\s*([\"'])(.*?)\\1~i", $match[0], $srcMatch);
+                        if (empty($srcMatch[2])) {
+                            return '';
+                        }
+
+                        $src = trim(html_entity_decode($srcMatch[2], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+                        $scheme = parse_url($src, PHP_URL_SCHEME);
+                        if ($src === '' || ($scheme && !in_array(strtolower($scheme), ['http', 'https'], true))) {
+                            return '';
+                        }
+
+                        preg_match("~\\balt\\s*=\\s*([\"'])(.*?)\\1~i", $match[0], $altMatch);
+                        $alt = isset($altMatch[2])
+                            ? html_entity_decode($altMatch[2], ENT_QUOTES | ENT_HTML5, 'UTF-8')
+                            : '';
+
+                        return '<img src="' . e($src) . '" alt="' . e($alt) . '">';
+                    }, $blogContent);
+                    $allowedBlogTags .= '<img>';
+                }
+                @endphp
                 <div class="blog_content mb_40">
-                    @php
-                    $blogContent = html_entity_decode($blog->content, ENT_QUOTES, 'UTF-8');
-                    @endphp
-                    {!! strip_tags(
-                    $blogContent,
-                    '<p><strong><b><em><i><br>
-                                        <ul>
-                                            <ol>
-                                                <li>
-                                                    <h1>
-                                                        <h2>
-                                                            <h3>
-                                                                <h4>
-                                                                    <h5>
-                                                                        <blockquote><a>'
-                                                                                ) !!}
+                    {!! strip_tags($blogContent, $allowedBlogTags) !!}
                 </div>
 
                 {{-- CATEGORÍA --}}
-                @if($blog->category)
+                @if(!$isBlogDetailOptionTwo && $blog->category)
                 <div class="blog_category mb_35">
                     <a class="category_link"
                         href="{{ route('blog.index', ['category' => $blog->category->id_blogs_categories]) }}">
@@ -246,6 +271,7 @@ $blogImage = imagenOrDefault($blog->image);
             {{-- =====================================================
             SIDEBAR
         ====================================================== --}}
+            @if(!$isBlogDetailOptionTwo)
             <div class="col-lg-3 col-md-12">
 
                 <aside class="sidebar_section clearfix">
@@ -344,7 +370,7 @@ $blogImage = imagenOrDefault($blog->image);
 
 
                     {{-- CTA CORPORATIVO --}}
-                    <div class="sidebar_cta">
+                    <!-- <div class="sidebar_cta">
 
                         <span class="cta_label">
                             ¿Necesitas más información?
@@ -364,11 +390,12 @@ $blogImage = imagenOrDefault($blog->image);
                             <i class="fal fa-long-arrow-right"></i>
                         </a>
 
-                    </div>
+                    </div> -->
 
                 </aside>
 
             </div>
+            @endif
 
         </div>
 
