@@ -22,12 +22,20 @@ return (int) $id;
 <div class="container breadcrumb-wrap">
     <div class="f2_breadcrumb_nav_wrap sec_ptb_30" style="margin-top: 40px;">
         <ul class="ce_breadcrumb_nav ul_li clearfix">
-            <li><a href="{{ url('/') }}">Inicio</a></li>
+            <li>
+                <a href="{{ url('/') }}" aria-label="Inicio" title="Inicio">
+                    <i class="fas fa-home" aria-hidden="true"></i>
+                </a>
+            </li>
 
             @if($categorias->count())
-            <li>{{ $categorias->first()->nombre }}</li>
+            <li>
+                <a href="{{ route('productos.categoria', $categorias->first()->slug) }}">
+                    {{ $categorias->first()->nombre }}
+                </a>
+            </li>
             @else
-            <li>Productos</li>
+            <li><a href="{{ route('productos.index') }}">Productos</a></li>
             @endif
 
             <li>{{ $producto->nombre }}</li>
