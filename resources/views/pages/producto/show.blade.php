@@ -92,7 +92,7 @@ $variantesSelector = $variantes->map(function ($variante) {
                         @endif
 
                         <span style="font-size: 14px;" id="skuActivo">
-                            SKU: {{ $varianteActiva->sku }}
+                            Código: {{ $varianteActiva->sku }}
                         </span>
 
                     </div>
