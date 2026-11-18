@@ -307,44 +307,66 @@ $variantesSelector = $variantes->map(function ($variante) {
             <!-- DESCRIPCIÓN -->
             <div class="col-lg-12 mt-4">
                 <div class="product_description_card">
+                    @if($producto->especificaciones->isNotEmpty())
+                    @php
+                    $descripcionTabId = 'producto-descripcion-' . $producto->id_producto;
+                    $especificacionesTabId = 'producto-especificaciones-' . $producto->id_producto;
+                    @endphp
 
+                    <ul class="nav nav-tabs product-info-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="{{ $descripcionTabId }}-link"
+                                data-toggle="tab" href="#{{ $descripcionTabId }}" role="tab"
+                                aria-controls="{{ $descripcionTabId }}" aria-selected="true">
+                                Descripción del producto
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="{{ $especificacionesTabId }}-link"
+                                data-toggle="tab" href="#{{ $especificacionesTabId }}" role="tab"
+                                aria-controls="{{ $especificacionesTabId }}" aria-selected="false">
+                                Especificaciones
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="{{ $descripcionTabId }}"
+                            role="tabpanel" aria-labelledby="{{ $descripcionTabId }}-link">
+                            <div class="product_description_body">
+                                {!! $producto->descripcion ?? 'Sin descripción' !!}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="{{ $especificacionesTabId }}"
+                            role="tabpanel" aria-labelledby="{{ $especificacionesTabId }}-link">
+                            <div class="product_description_body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped mb-0">
+                                        <tbody>
+                                            @foreach($producto->especificaciones as $especificacion)
+                                            <tr>
+                                                <th scope="row" class="w-25">{{ $especificacion->nombre }}</th>
+                                                <td>{{ $especificacion->valor }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @else
                     <div class="product_description_header">
-                        <h2 class="product_title">
-                            Descripción del producto
-                        </h2>
+                        <h2 class="product_title">Descripción del producto</h2>
                     </div>
 
                     <div class="product_description_body">
                         {!! $producto->descripcion ?? 'Sin descripción' !!}
                     </div>
-
+                    @endif
                 </div>
             </div>
-
-            @if($producto->especificaciones->isNotEmpty())
-            <div class="col-lg-12 mt-4">
-                <div class="product_description_card">
-                    <div class="product_description_header">
-                        <h2 class="product_title">Especificaciones del producto</h2>
-                    </div>
-
-                    <div class="product_description_body">
-                        <div class="table-responsive">
-                            <table class="table table-striped mb-0">
-                                <tbody>
-                                    @foreach($producto->especificaciones as $especificacion)
-                                    <tr>
-                                        <th scope="row" class="w-25">{{ $especificacion->nombre }}</th>
-                                        <td>{{ $especificacion->valor }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
         </div>
     </div>
 </section>

@@ -923,6 +923,27 @@ html, body {
     margin-bottom: 20px;
 }
 
+.product-info-tabs {
+    gap: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.product-info-tabs .nav-link {
+    padding: 0 0 12px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.product-info-tabs .nav-link.active {
+    border-bottom-color: var(--color-secundario, #0ea5e9);
+    color: var(--color-secundario, #0ea5e9);
+    background: transparent;
+}
+
 .product_title {
     font-size: 18px;
     font-weight: 600;
