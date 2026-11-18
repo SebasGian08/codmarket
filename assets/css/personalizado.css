@@ -392,6 +392,22 @@ html, body {
     transform: translateY(-2px);
 }
 
+@media (max-width: 767.98px) {
+    .product-actions > li {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .product-actions .btn-whatsapp,
+    .product-actions .btn-product-pdf {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
 .product-categories {
     display: flex;
     flex-wrap: wrap;

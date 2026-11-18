@@ -271,7 +271,8 @@ return (int) $id;
                         </li>
                         @if($producto->ficha_pdf)
                         <li>
-                            <a href="{{ asset($producto->ficha_pdf) }}" class="btn-product-pdf" download>
+                            <a href="{{ asset($producto->ficha_pdf) }}" class="btn-product-pdf"
+                                target="_blank" rel="noopener">
                                 <i class="far fa-file-pdf" aria-hidden="true"></i> Instructivo de uso (PDF)
                             </a>
                         </li>
