@@ -952,9 +952,12 @@ html, body {
 
 .product_description_card .product-info-tabs .nav-link.active,
 .product_description_card .product-info-tabs .nav-link.active:hover,
-.product_description_card .product-info-tabs .nav-link.active:focus {
+.product_description_card .product-info-tabs .nav-link.active:focus,
+.product_description_card .product-info-tabs .nav-link[aria-selected="true"],
+.product_description_card .product-info-tabs .nav-link[aria-selected="true"]:hover,
+.product_description_card .product-info-tabs .nav-link[aria-selected="true"]:focus {
     border-bottom-color: #1f2937;
-    color: #1f2937;
+    color: #1f2937 !important;
     background: transparent;
 }
 
