@@ -97,7 +97,7 @@ return (int) $id;
                         Código: {{ $varianteActiva->sku }}
                     </span>
 
-                    @if($producto->categorias->count())
+                    <!-- @if($producto->categorias->count())
 
                     <div class="product-categories mb-3">
 
@@ -109,7 +109,7 @@ return (int) $id;
 
                     </div>
 
-                    @endif
+                    @endif -->
 
                     @php
                     $precioRegular = $varianteActiva->precio;
