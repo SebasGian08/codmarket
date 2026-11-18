@@ -376,8 +376,8 @@ html, body {
 }
 
 .badge-category {
-    background: var(--color-secundario);
-    color: var(--color-primario);
+    background: var(--color-primario);
+    color: var(--color-secundario);
     font-size: 12px;
     padding: 5px 10px;
     border-radius: 20px;
