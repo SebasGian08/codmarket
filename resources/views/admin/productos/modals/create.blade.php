@@ -13,8 +13,26 @@
 
                 <!-- BODY -->
                 <div class="modal-body pt-3">
+                    <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab-product-general-link"
+                                data-bs-toggle="pill" href="#tab-product-general" aria-selected="true" role="tab">
+                                General
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="tab-product-especificaciones-link"
+                                data-bs-toggle="pill" href="#tab-product-especificaciones"
+                                aria-selected="false" tabindex="-1" role="tab">
+                                Especificaciones
+                            </a>
+                        </li>
+                    </ul>
 
-                    <div class="row">
+                    <div class="tab-content pt-3">
+                        <div class="tab-pane fade show active" id="tab-product-general"
+                            aria-labelledby="tab-product-general-link" role="tabpanel">
+                            <div class="row">
 
                         <!-- LEFT -->
                         <div class="col-lg-8">
@@ -151,10 +169,6 @@
                                             <textarea name="descripcion" class="form-control editor" rows="4"></textarea>
                                     </div>
 
-                                    @include('admin.productos.partials.especificaciones', [
-                                        'especificaciones' => collect(),
-                                    ])
-
                                 </div>
                             </div>
 
@@ -277,6 +291,15 @@
 
                         </div>
 
+                    </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-product-especificaciones"
+                            aria-labelledby="tab-product-especificaciones-link" role="tabpanel">
+                            @include('admin.productos.partials.especificaciones', [
+                                'especificaciones' => collect(),
+                            ])
+                        </div>
                     </div>
 
                 </div>

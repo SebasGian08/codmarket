@@ -16,9 +16,30 @@
 
                     @php
                     $primeraVariante = $p->variantes->first();
+                    $idTabProducto = 'producto-' . $p->id_producto;
                     @endphp
 
-                    <div class="row">
+                    <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab-general-{{ $idTabProducto }}-link"
+                                data-bs-toggle="pill" href="#tab-general-{{ $idTabProducto }}"
+                                aria-selected="true" role="tab">
+                                General
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="tab-especificaciones-{{ $idTabProducto }}-link"
+                                data-bs-toggle="pill" href="#tab-especificaciones-{{ $idTabProducto }}"
+                                aria-selected="false" tabindex="-1" role="tab">
+                                Especificaciones
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content pt-3">
+                        <div class="tab-pane fade show active" id="tab-general-{{ $idTabProducto }}"
+                            aria-labelledby="tab-general-{{ $idTabProducto }}-link" role="tabpanel">
+                            <div class="row">
 
                         <!-- LEFT -->
                         <div class="col-lg-8">
@@ -174,10 +195,6 @@
                                         </label>
                                         <textarea name="descripcion" class="form-control editor" rows="4">{!! $p->descripcion !!}</textarea>
                                     </div>
-
-                                    @include('admin.productos.partials.especificaciones', [
-                                        'especificaciones' => $p->especificaciones,
-                                    ])
 
                                 </div>
 
@@ -339,6 +356,15 @@
 
                         </div>
 
+                    </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tab-especificaciones-{{ $idTabProducto }}"
+                            aria-labelledby="tab-especificaciones-{{ $idTabProducto }}-link" role="tabpanel">
+                            @include('admin.productos.partials.especificaciones', [
+                                'especificaciones' => $p->especificaciones,
+                            ])
+                        </div>
                     </div>
 
                 </div>
