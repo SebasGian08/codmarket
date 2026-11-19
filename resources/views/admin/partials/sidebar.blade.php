@@ -479,7 +479,7 @@
                             @permiso('tags.ver')
                             <li class="{{ Request::is('admin/tags*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.tags.index') }}">
-                                    <span class="sub-item">Tags</span>
+                                    <span class="sub-item">Blog Tags</span>
                                 </a>
                             </li>
                             @endpermiso
@@ -487,7 +487,7 @@
                             @permiso('blog-categorias.ver')
                             <li class="{{ Request::is('admin/blog-categorias*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.blog-categories.index') }}">
-                                    <span class="sub-item">Categorías del Blog</span>
+                                    <span class="sub-item">Blog Categorías</span>
                                 </a>
                             </li>
                             @endpermiso
