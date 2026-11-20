@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\App;
 /* WEB */
 use App\Http\Controllers\App\HomeController;
 use App\Http\Controllers\App\ContactController;
+use App\Http\Controllers\App\ReclamacionController;
 use App\Http\Controllers\App\SubscriptionController;
 use App\Http\Controllers\App\BlogController;
 use App\Http\Controllers\App\ServiceController;
@@ -73,6 +74,8 @@ App::setLocale('es');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/contacto', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contacto', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/reclamaciones', [ReclamacionController::class, 'index'])->name('reclamaciones.index');
+Route::post('/reclamaciones', [ReclamacionController::class, 'store'])->name('reclamaciones.store');
 Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('subscribe.store');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');

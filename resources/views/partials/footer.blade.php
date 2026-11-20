@@ -73,6 +73,7 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                     <h3 class="footer_widget_title">Recursos y contacto</h3>
                     <ul class="footer_links">
                         <li><a href="{{ route('contact.index') }}">Contáctanos</a></li>
+                        <li><a href="{{ route('reclamaciones.index') }}">Libro de Reclamaciones</a></li>
                         <li><a href="{{ route('blog.index') }}">Novedades</a></li>
                         @if($empresa->correo)
                         <li><a href="mailto:{{ $empresa->correo }}">Correo electrónico</a></li>
@@ -212,6 +213,7 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                             <li><a href="{{ route('blog.index') }}">Novedades</a></li>
                             @endif
                             <li><a href="{{ route('contact.index') }}">Contacto</a></li>
+                            <li><a href="{{ route('reclamaciones.index') }}">Libro de Reclamaciones</a></li>
                         </ul>
 
                     </div>
