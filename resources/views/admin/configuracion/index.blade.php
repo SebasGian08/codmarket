@@ -139,6 +139,9 @@
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
                                                 Formulario por marca
                                             </option>
+                                            <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
+                                                Diseño de contacto con tres opciones
+                                            </option>
                                             @elseif($config->clave === 'seccion_servicios_tipo')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Tarjetas actuales

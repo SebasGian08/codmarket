@@ -6,6 +6,9 @@
     @php
     $wspTelefono = preg_replace('/[^0-9]/', '', $empresa->whatsapp ?? '');
     $wspMensaje = urlencode('Hola, vengo de la web! Quisiera pedir más información.');
+    $tipoFormularioContacto = $config['contacto_tipo_formulario'] ?? 'opcion_1';
+    $telefonoTecnico = preg_replace('/[^0-9+]/', '', $empresa->telefono ?? '');
+    $numeroSoporte = preg_replace('/[^0-9+]/', '', $empresa->numero_soporte ?? '');
     @endphp
 
 
@@ -74,6 +77,56 @@
                     @include('sections.contact-location')
                 </div>
 
+                @if($tipoFormularioContacto === 'opcion_3')
+                <div class="contact-options" aria-label="Más información">
+                    <h3>Más información</h3>
+                    <div class="contact-options-grid">
+                        @if($wspTelefono)
+                        <article class="contact-option">
+                            <div class="contact-option-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </div>
+                            <h4>Escríbenos al WhatsApp</h4>
+                            <p>Consulta disponibilidad, precios y detalles de nuestros productos.</p>
+                            <a href="https://wa.me/{{ $wspTelefono }}?text={{ $wspMensaje }}"
+                                target="_blank" rel="noopener noreferrer" class="contact-option-button">
+                                contáctanos
+                            </a>
+                        </article>
+                        @endif
+
+                        @if($telefonoTecnico)
+                        <article class="contact-option">
+                            <div class="contact-option-icon">
+                                <i class="bi bi-headset"></i>
+                            </div>
+                            <h4>Soporte técnico</h4>
+                            <p>Especialistas en instalación, verificación, mantenimiento y atención en campo o remoto.</p>
+                            <a href="tel:{{ $telefonoTecnico }}" class="contact-option-button">
+                                contáctanos
+                            </a>
+                        </article>
+                        @endif
+
+                        <article class="contact-option">
+                            <div class="contact-option-icon">
+                                <i class="bi bi-telephone-fill"></i>
+                            </div>
+                            <h4>Número de soporte</h4>
+                            <p>Déjanos tus datos y nuestros asesores se pondrán en contacto.</p>
+                            @if($numeroSoporte)
+                            <a href="tel:{{ $numeroSoporte }}" class="contact-option-button">
+                                Solicitar cotización
+                            </a>
+                            @else
+                            <a href="#contacto-formulario" class="contact-option-button">
+                                Solicitar cotización
+                            </a>
+                            @endif
+                        </article>
+                    </div>
+                </div>
+                @else
                 {{-- WhatsApp --}}
                 <div class="contact-whatsapp">
 
@@ -94,6 +147,7 @@
                     </a>
 
                 </div>
+                @endif
 
             </div>
 
@@ -101,7 +155,7 @@
             {{-- =====================================================
              FORMULARIO
         ====================================================== --}}
-            <div class="contact-form-card">
+            <div class="contact-form-card" id="contacto-formulario">
 
                 <div class="form-header">
 
