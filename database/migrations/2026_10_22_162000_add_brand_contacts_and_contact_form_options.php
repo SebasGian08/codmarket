@@ -47,7 +47,7 @@ return new class extends Migration
             [
                 'categoria' => 'contacto',
                 'valor' => 'opcion_1',
-                'descripcion' => 'Formulario de contacto público',
+                'descripcion' => 'Diseño del formulario de contacto público',
                 'tipo' => 'select',
                 'opciones' => 'opcion_1,opcion_2',
                 'orden' => 0,

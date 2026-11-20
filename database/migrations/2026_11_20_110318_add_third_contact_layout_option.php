@@ -9,6 +9,7 @@ return new class extends Migration
     {
         DB::table('configuraciones')->where('clave', 'contacto_tipo_formulario')->update([
             'opciones' => 'opcion_1,opcion_2,opcion_3',
+            'descripcion' => 'Diseño del formulario de contacto público',
         ]);
     }
 

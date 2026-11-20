@@ -9,7 +9,7 @@
                     Nuestro equipo se pondrá en contacto contigo.
                 </p>
 
-                @include('sections.contact-location')
+                @include('sections.contact.contact-location')
 
                 <div class="contact-brand-company">
                     @if($empresa->telefono ?? false)

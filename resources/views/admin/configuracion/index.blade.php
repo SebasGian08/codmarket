@@ -134,13 +134,13 @@
                                             </option>
                                             @elseif($config->clave === 'contacto_tipo_formulario')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
-                                                Formulario actual (por servicio)
+                                                Opción 1
                                             </option>
                                             <option value="opcion_2" {{ $config->valor === 'opcion_2' ? 'selected' : '' }}>
-                                                Formulario por marca
+                                                Opción 2
                                             </option>
                                             <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
-                                                Diseño de contacto con tres opciones
+                                                Opción 3
                                             </option>
                                             @elseif($config->clave === 'seccion_servicios_tipo')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
