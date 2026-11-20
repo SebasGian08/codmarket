@@ -3,10 +3,22 @@
         $whatsappNumero = preg_replace('/[^0-9]/', '', $empresa->whatsapp ?? '');
         $whatsappMensaje = urlencode('Hola, vengo de la web. Quisiera solicitar más información.');
         $telefonoContacto = preg_replace('/[^0-9+]/', '', $empresa->telefono ?? '');
-        $tipoDocumentoPersona = collect($documentosTipos ?? [])
-            ->first(fn ($tipo) => stripos((string) ($tipo->codigo ?: $tipo->nombre), 'dni') !== false)
-            ?? collect($documentosTipos ?? []).first();
-        $servicioConsulta = collect($services ?? []).first();
+        $tipoDocumentoPersona = null;
+        foreach ($documentosTipos ?? [] as $tipoDocumento) {
+            if (stripos((string) ($tipoDocumento->codigo ?: $tipoDocumento->nombre), 'dni') !== false) {
+                $tipoDocumentoPersona = $tipoDocumento;
+                break;
+            }
+        }
+        if (!$tipoDocumentoPersona) {
+            $tipoDocumentoPersona = reset($documentosTipos ?? []);
+        }
+
+        $servicioConsulta = null;
+        foreach ($services ?? [] as $servicio) {
+            $servicioConsulta = $servicio;
+            break;
+        }
     @endphp
 
     <div class="container">
