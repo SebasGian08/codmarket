@@ -15,6 +15,7 @@ class Empresa extends Model
         'nombre_comercial',
         'ruc',
         'telefono',
+        'numero_soporte',
         'correo',
         'direccion',
         'ubicacion',

@@ -19,6 +19,7 @@ class EmpresaController extends Controller
     {
         $request->validate([
             'nombre' => 'required|max:200',
+            'numero_soporte' => 'nullable|string|max:30',
             'correo' => 'nullable|email',
             'ubicacion' => ['nullable', 'url', 'max:2048', 'regex:/^https:\/\/(?:www\.)?google\.[a-z.]+\/maps\/embed(?:\?|\/)/i'],
             'beneficios' => 'nullable|array|max:4',
@@ -53,6 +54,7 @@ class EmpresaController extends Controller
                 'nombre_comercial' => $request->nombre_comercial,
                 'ruc' => $request->ruc,
                 'telefono' => $request->telefono,
+                'numero_soporte' => $request->numero_soporte,
                 'correo' => $request->correo,
                 'direccion' => $request->direccion,
                 'ubicacion' => $request->ubicacion,
@@ -98,6 +100,7 @@ class EmpresaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'numero_soporte' => 'nullable|string|max:30',
             'ubicacion' => ['nullable', 'url', 'max:2048', 'regex:/^https:\/\/(?:www\.)?google\.[a-z.]+\/maps\/embed(?:\?|\/)/i'],
             'beneficios' => 'nullable|array|max:4',
             'beneficios.*.titulo' => 'nullable|string|max:150',
@@ -140,6 +143,7 @@ class EmpresaController extends Controller
                 'nombre_comercial' => $request->nombre_comercial,
                 'ruc' => $request->ruc,
                 'telefono' => $request->telefono,
+                'numero_soporte' => $request->numero_soporte,
                 'correo' => $request->correo,
                 'direccion' => $request->direccion,
                 'ubicacion' => $request->ubicacion,

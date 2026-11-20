@@ -72,6 +72,13 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>Número de soporte</label>
+                                    <input type="text" name="numero_soporte" class="form-control"
+                                        value="{{ old('numero_soporte', $empresa->numero_soporte ?? '') }}"
+                                        maxlength="30" placeholder="Ej: +51 999 999 999">
+                                </div>
+
+                                <div class="form-group">
                                     <label>Correo</label>
                                     <input type="email" name="correo" class="form-control"
                                         value="{{ $empresa->correo ?? '' }}">
