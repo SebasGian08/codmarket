@@ -14,11 +14,6 @@
             $tipoDocumentoPersona = reset($documentosTipos ?? []);
         }
 
-        $servicioConsulta = null;
-        foreach ($services ?? [] as $servicio) {
-            $servicioConsulta = $servicio;
-            break;
-        }
     @endphp
 
     <div class="container">
@@ -43,29 +38,26 @@
 
                 <form method="POST" action="{{ route('contact.store') }}" class="contact-option3-form">
                     @csrf
-                    <input type="hidden" name="tipo_consulta" value="servicio">
+                    <input type="hidden" name="tipo_consulta" value="general">
                     @if($tipoDocumentoPersona)
                     <input type="hidden" name="id_documento_tipo" value="{{ $tipoDocumentoPersona->id_documento_tipo }}">
-                    @endif
-                    @if($servicioConsulta)
-                    <input type="hidden" name="servicio" value="{{ $servicioConsulta->id_service }}">
                     @endif
                     <input type="hidden" name="apellidos" value="Consulta">
 
                     <div class="contact-option3-field">
-                        <label for="option3-nombre">Nombre*</label>
+                        <label for="option3-nombre">Nombres o Razón Social<span class="contact-option3-required">*</span></label>
                         <input id="option3-nombre" type="text" name="nombre"
-                            value="{{ old('nombre') }}" maxlength="100" placeholder="Nombre" required>
+                            value="{{ old('nombre') }}" maxlength="100" placeholder="Nombres o Razón Social" required autofocus>
                     </div>
 
                     <div class="contact-option3-field">
-                        <label for="option3-email">Correo electrónico*</label>
+                        <label for="option3-email">Correo electrónico<span class="contact-option3-required">*</span></label>
                         <input id="option3-email" type="email" name="email"
                             value="{{ old('email') }}" maxlength="120" placeholder="Correo electrónico" required>
                     </div>
 
                     <div class="contact-option3-field">
-                        <label for="option3-telefono">Teléfono*</label>
+                        <label for="option3-telefono">Teléfono<span class="contact-option3-required">*</span></label>
                         <input id="option3-telefono" type="tel" name="telefono"
                             value="{{ old('telefono') }}" maxlength="9" pattern="[0-9]{9}"
                             inputmode="numeric" placeholder="Teléfono" required>
@@ -77,9 +69,13 @@
                             placeholder="Escribe tu mensaje aquí">{{ old('message') }}</textarea>
                     </div>
 
-                    <label class="contact-option3-privacy">
+                    <p class="contact-option3-required-note">
+                        <span class="contact-option3-required">*</span> Campos obligatorios
+                    </p>
+
+                    <label class="contact-option3-consent">
                         <input type="checkbox" name="acepta_privacidad" value="1" required>
-                        <span>(* ) Campos obligatorios</span>
+                        <span>He leído y aceptado la política de privacidad y cookies</span>
                     </label>
 
                     <div class="honeypot">
@@ -149,17 +145,28 @@
                 </div>
             </div>
         </div>
-
-        @if($empresa->ubicacion ?? false)
-        <div class="contact-option3-map">
-            <iframe
-                src="{{ $empresa->ubicacion }}"
-                title="Ubicación de {{ $empresa->nombre ?? 'la empresa' }}"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                allowfullscreen>
-            </iframe>
-        </div>
-        @endif
     </div>
+
+    @if($empresa->ubicacion ?? false)
+    <div class="contact-option3-map">
+        <iframe
+            src="{{ $empresa->ubicacion }}"
+            title="Ubicación de {{ $empresa->nombre ?? 'la empresa' }}"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+        </iframe>
+    </div>
+    @endif
 </section>
+
+<script>
+    (function () {
+        const telefono = document.getElementById('option3-telefono');
+        if (!telefono) return;
+
+        telefono.addEventListener('input', function () {
+            this.value = this.value.replace(/\D/g, '').slice(0, 9);
+        });
+    })();
+</script>

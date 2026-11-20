@@ -33,9 +33,13 @@ class ContactController extends Controller
         $request->validate([
             'id_documento_tipo' => 'required|exists:documentos_tipo,id_documento_tipo',
             'email' => 'required|email|max:120',
-            'telefono' => 'required|string|max:20',
-            'message' => 'required|string|max:1000',
-            'tipo_consulta' => 'nullable|in:servicio,marca',
+            'telefono' => $tipoConsulta === 'general'
+                ? 'required|digits:9'
+                : 'required|string|regex:/^[0-9]+$/|max:20',
+            'message' => $tipoConsulta === 'general'
+                ? 'nullable|string|max:1000'
+                : 'required|string|max:1000',
+            'tipo_consulta' => 'nullable|in:servicio,marca,general',
             'servicio' => [
                 'nullable',
                 'exists:services,id_service',
@@ -104,7 +108,7 @@ class ContactController extends Controller
             'id_source' => 1,
             'id_status' => 1,
             'id_priority' => 2,
-            'mensaje' => $request->message,
+            'mensaje' => $request->input('message', ''),
             'ip' => $request->ip(),
             'user_agent' => $request->header('User-Agent'),
         ]);

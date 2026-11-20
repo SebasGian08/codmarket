@@ -20,11 +20,11 @@
     }
   });
   $(function() {
-    $(".scroll").on('click', function() {
-      $("html,body").animate({
-        scrollTop: $("#thetop").offset().top
-      }, "slow");
-      return false
+    $(".backtotop .scroll").on('click', function(event) {
+      event.preventDefault();
+      $("html, body").stop(true).animate({
+        scrollTop: 0
+      }, 700, "swing");
     })
   });
   // back to top - end

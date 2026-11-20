@@ -5,6 +5,7 @@ BLOG DETAIL - CORPORATE STYLE
 .blog_details {
     background: #fff;
     color: #202124;
+    padding-top: 50px;
 }
 
 /* =========================================================
@@ -893,10 +894,10 @@ SMALL MOBILE
    REFINAMIENTO EDITORIAL - LINEA VISUAL DEL SITIO
 ========================================================= */
 
-.blog_details {
+/* .blog_details {
     padding-top: 50px;
     background: #fbfcfb;
-}
+} */
 
 .blog_detail_intro {
     display: flex;
@@ -906,18 +907,50 @@ SMALL MOBILE
     margin-bottom: 34px;
 }
 
+.blog_breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 11px;
+}
+
+.blog_breadcrumb-home {
+    display: inline-flex;
+    align-items: center;
+    color: #6b7280;
+    text-decoration: none;
+}
+
+.blog_breadcrumb-home svg {
+    display: block;
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.blog_breadcrumb-current {
+    overflow: hidden;
+    color: #6b7280;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .blog_back_link {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
     color: var(--color-secundario, #0ea5e9);
     font-size: 13px;
     font-weight: 700;
-    transition: gap .25s ease, color .25s ease;
+    text-decoration: none;
+    transition: color .25s ease;
 }
 
 .blog_back_link:hover {
-    gap: 13px;
     color: var(--color-primario, #21c36c);
 }
 

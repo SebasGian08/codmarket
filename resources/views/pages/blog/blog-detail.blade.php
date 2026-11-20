@@ -15,10 +15,18 @@ $isBlogDetailOptionTwo = $blogDetailOption === 'opcion_2';
     <div class="container">
 
         <div class="blog_detail_intro {{ $isBlogDetailOptionTwo ? 'blog_detail_intro--option-two' : '' }}">
-            <a class="blog_back_link" href="{{ route('blog.index') }}">
-                <i class="fal fa-long-arrow-left"></i>
-                Volver al blog
-            </a>
+            <nav class="blog_breadcrumb" aria-label="breadcrumb">
+                <a class="blog_breadcrumb-home" href="{{ route('home') }}" aria-label="Inicio">
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <path d="m3 10 9-7 9 7"></path>
+                        <path d="M5 9v12h14V9M9 21v-7h6v7"></path>
+                    </svg>
+                </a>
+                <span aria-hidden="true">›</span>
+                <a class="blog_back_link" href="{{ route('blog.index') }}">Volver al blog</a>
+                <span aria-hidden="true">›</span>
+                <span class="blog_breadcrumb-current" aria-current="page">{{ $blog->title }}</span>
+            </nav>
             <!-- <span class="blog_detail_kicker">Conocimiento para tu negocio</span> -->
         </div>
 
@@ -408,9 +416,9 @@ $isBlogDetailOptionTwo = $blogDetailOption === 'opcion_2';
 CONTACTO
 ====================================================== --}}
 
-<div id="contact">
+<!-- <div id="contact">
     @include('sections.contact')
-</div>
+</div> -->
 
 @endsection
 
