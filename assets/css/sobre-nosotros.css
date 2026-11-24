@@ -869,8 +869,8 @@
     right: 2%;
     width: clamp(170px, 19vw, 250px);
     aspect-ratio: 1;
-    border: 34px solid var(--color-secundario, #08b8df);
-    border-radius: 50%;
+    /* border: 34px solid var(--color-secundario, #08b8df);
+    border-radius: 50%; */
 }
 
 .about-editorial-orbit {
@@ -879,10 +879,10 @@
     bottom: 5%;
     width: min(82%, 470px);
     aspect-ratio: 1;
-    border-radius: 50%;
+    /* border-radius: 50%;
     background: radial-gradient(circle at 45% 45%,
         color-mix(in srgb, var(--color-secundario, #08b8df) 88%, #fff),
-        color-mix(in srgb, var(--color-secundario, #08b8df) 70%, #143fc4));
+        color-mix(in srgb, var(--color-secundario, #08b8df) 70%, #143fc4)); */
 }
 
 .about-editorial-image {
