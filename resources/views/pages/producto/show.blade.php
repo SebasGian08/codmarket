@@ -741,7 +741,7 @@ document.querySelectorAll('.attribute-chip').forEach(function(chip) {
 });
 
 window.productVariantOptions = @json($variantesSelector);
-window.currentVariantId = {{ (int) $varianteActiva->id_variante }};
+window.currentVariantId = @json((int) $varianteActiva->id_variante);
 initZoom();
 </script>
 
