@@ -49,6 +49,10 @@ class ProductoShowAtributosTest extends TestCase
             $response->assertSee('cambiarAtributo(', false);
             $response->assertSee('data-atributo-id=', false);
             $response->assertSee('window.productVariantOptions', false);
+            $response->assertSee(
+                'window.currentVariantId = ' . $varianteActiva->id_variante . ';',
+                false
+            );
 
             foreach (['L', 'S', 'M'] as $valor) {
                 $response->assertSee($valor, false);

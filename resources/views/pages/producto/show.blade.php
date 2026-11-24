@@ -733,11 +733,7 @@ function cambiarAtributo(idAtributo, idValor) {
 }
 
 window.productVariantOptions = @json($variantesSelector);
-window.currentVariantId = {
-    {
-        $varianteActiva - > id_variante
-    }
-};
+window.currentVariantId = {{ (int) $varianteActiva->id_variante }};
 initZoom();
 </script>
 
