@@ -48,8 +48,8 @@ $tipoNosotros = $config['seccion_nosotros_tipo'] ?? 'opcion_1';
         </div>
 
         <div class="about-editorial-visual">
-            <div class="about-editorial-ring" aria-hidden="true"></div>
-            <div class="about-editorial-orbit" aria-hidden="true"></div>
+            <!-- <div class="about-editorial-ring" aria-hidden="true"></div>
+            <div class="about-editorial-orbit" aria-hidden="true"></div> -->
             <div class="about-editorial-image">
                 @if(!empty($empresa->imagen_empresarial))
                 <img src="{{ asset($empresa->imagen_empresarial) }}" alt="Equipo de {{ $empresa->nombre ?? 'la empresa' }}">

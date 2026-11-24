@@ -894,14 +894,14 @@
     align-items: flex-end;
     justify-content: center;
     overflow: hidden;
-    border-radius: 48% 48% 42% 42%;
+   /*  border-radius: 48% 48% 42% 42%; */
 }
 
 .about-editorial-image img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
 }
 
