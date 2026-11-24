@@ -282,8 +282,8 @@
 }
 
 .hero_banner_slider .con-contenido .badge_text {
-    color: var(--color-texto);
-    background: var(--color-secundario);
+    color: #fff;
+    background: var(--color-primario);
     padding: 8px 24px 8px 115px !important;
     margin-left: -115px;
     border-radius: 0 999px 999px 0;
@@ -751,8 +751,8 @@ html[data-theme="dark"] .hero_banner_slider .con-contenido .subtitle {
 }
 
 html[data-theme="dark"] .hero_banner_slider .con-contenido .badge_text {
-    background: var(--color-secundario);
-    color: var(--color-texto);
+    background: var(--color-primario);
+    color: #fff;
     border-color: transparent;
 }
 
