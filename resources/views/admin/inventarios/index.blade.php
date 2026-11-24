@@ -477,6 +477,7 @@
         if (atributosActivos[nombre][valor]) {
             delete atributosActivos[nombre][valor];
         } else {
+            atributosActivos[nombre] = Object.create(null);
             atributosActivos[nombre][valor] = true;
         }
 
