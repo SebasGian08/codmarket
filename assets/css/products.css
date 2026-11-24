@@ -154,6 +154,100 @@
     font-weight: 600;
 }
 
+.product-variant-gallery {
+    position: relative;
+}
+
+.product-variant-skeleton {
+    position: absolute;
+    inset: 10px;
+    z-index: 4;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    gap: 12px;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .22s ease, visibility .22s ease;
+}
+
+.product-variant-gallery.is-variant-loading .product-variant-skeleton {
+    visibility: visible;
+    opacity: 1;
+}
+
+.product-variant-gallery.is-variant-loading #galeriaTabContent,
+.product-variant-gallery.is-variant-loading #galeriaTabList {
+    opacity: .16;
+    transition: opacity .22s ease;
+}
+
+.product-variant-skeleton__image,
+.product-variant-skeleton__thumbnails span {
+    position: relative;
+    overflow: hidden;
+    background: #edf0f2;
+}
+
+.product-variant-skeleton__image {
+    min-height: 260px;
+    border-radius: 8px;
+}
+
+.product-variant-skeleton__thumbnails {
+    display: grid;
+    grid-template-columns: repeat(4, 64px);
+    gap: 8px;
+}
+
+.product-variant-skeleton__thumbnails span {
+    aspect-ratio: 1;
+    border-radius: 4px;
+}
+
+.product-variant-skeleton__image::after,
+.product-variant-skeleton__thumbnails span::after {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .72), transparent);
+    content: "";
+    transform: translateX(-100%);
+    animation: product-variant-shimmer 1.25s ease-in-out infinite;
+}
+
+.product-price-box {
+    transition: opacity .22s ease, transform .22s ease;
+}
+
+.product-price-box.is-variant-loading {
+    opacity: .48;
+    transform: translateY(2px);
+}
+
+.attribute-chip:disabled {
+    cursor: wait;
+}
+
+@keyframes product-variant-shimmer {
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-variant-skeleton,
+    .product-variant-gallery.is-variant-loading #galeriaTabContent,
+    .product-variant-gallery.is-variant-loading #galeriaTabList,
+    .product-price-box {
+        transition: none;
+    }
+
+    .product-variant-skeleton__image::after,
+    .product-variant-skeleton__thumbnails span::after {
+        animation: none;
+    }
+}
+
 /* Catálogo de búsqueda y categorías */
 .catalogo-productos-grid {
     display: grid;

@@ -49,7 +49,8 @@ return (int) $id;
 
             <!-- IMÁGENES -->
             <div class="col-lg-5 col-md-5">
-                <div class="shop_details_image" style="border: 1px solid #eee; padding: 10px;">
+                <div class="shop_details_image product-variant-gallery" style="border: 1px solid #eee; padding: 10px;"
+                    aria-busy="false">
 
                     <div class="tab-content" id="galeriaTabContent">
                         @forelse($imagenes as $key => $img)
@@ -82,6 +83,16 @@ return (int) $id;
                         </li>
                         @endforelse
                     </ul>
+
+                    <div class="product-variant-skeleton" aria-hidden="true">
+                        <div class="product-variant-skeleton__image"></div>
+                        <div class="product-variant-skeleton__thumbnails">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -670,21 +681,47 @@ function enviarWhatsApp(btn) {
     btn.href = 'https://wa.me/' + btn.getAttribute('data-telefono') + '?text=' + encodeURIComponent(base);
 }
 
+let variantLoading = false;
+
+function setVariantLoading(loading) {
+    const gallery = document.querySelector('.product-variant-gallery');
+    const priceBox = document.getElementById('precioBox');
+
+    if (gallery) {
+        gallery.classList.toggle('is-variant-loading', loading);
+        gallery.setAttribute('aria-busy', loading ? 'true' : 'false');
+    }
+
+    if (priceBox) priceBox.classList.toggle('is-variant-loading', loading);
+
+    document.querySelectorAll('.attribute-chip').forEach(function(chip) {
+        chip.disabled = loading;
+    });
+}
+
 function cambiarVariante(id) {
     id = parseInt(id, 10);
-    if (isNaN(id) || id === window.currentVariantId) return;
+    if (isNaN(id) || id === window.currentVariantId || variantLoading) return;
 
     const url = new URL(window.location.href);
     url.searchParams.set('variante', id);
+
+    variantLoading = true;
+    setVariantLoading(true);
 
     fetch(url.pathname + '/variante/' + id, {
             headers: {
                 'Accept': 'application/json'
             }
         })
-        .then(r => r.json())
+        .then(function(response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status);
+            return response.json();
+        })
         .then(data => {
-            if (!data || data.error) return;
+            if (!data || data.error) {
+                throw new Error(data && data.error ? data.error : 'Respuesta de variante inválida');
+            }
 
             window.currentVariantId = data.id;
             history.replaceState(null, '', url.toString());
@@ -703,7 +740,13 @@ function cambiarVariante(id) {
             });
 
         })
-        .catch(function() {});
+        .catch(function(error) {
+            console.error('No se pudo actualizar la variante del producto.', error);
+        })
+        .finally(function() {
+            variantLoading = false;
+            setVariantLoading(false);
+        });
 }
 
 function cambiarAtributo(idAtributo, idValor) {
