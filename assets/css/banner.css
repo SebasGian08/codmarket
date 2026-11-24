@@ -266,6 +266,8 @@
 
 /* normal */
 .hero_banner_slider .badge_text {
+    position: relative;
+    z-index: 1;
     color: var(--color-primario);
     text-transform: none !important;
     letter-spacing: 0px !important;
@@ -277,6 +279,15 @@
     box-shadow: 0 4px 14px rgba(16, 24, 40, 0.08); */
     /* backdrop-filter: blur(6px); */
     
+}
+
+.hero_banner_slider .con-contenido .badge_text {
+    color: var(--color-texto);
+    background: var(--color-secundario);
+    padding: 8px 24px 8px 115px !important;
+    margin-left: -115px;
+    border-radius: 0 999px 999px 0;
+    line-height: 1.25;
 }
 
 /* full */
@@ -740,9 +751,9 @@ html[data-theme="dark"] .hero_banner_slider .con-contenido .subtitle {
 }
 
 html[data-theme="dark"] .hero_banner_slider .con-contenido .badge_text {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.22);
+    background: var(--color-secundario);
+    color: var(--color-texto);
+    border-color: transparent;
 }
 
 html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
@@ -812,6 +823,11 @@ html[data-theme="dark"] .hero_banner_slider .hero_card .image_box picture {
     .badge_text {
         font-size: 11px;
         margin: 0 auto 12px auto;
+    }
+
+    .hero_banner_slider .con-contenido .badge_text {
+        padding-left: 79px !important;
+        margin-left: -79px;
     }
 
     .slider_wrapper {
