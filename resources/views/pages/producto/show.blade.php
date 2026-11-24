@@ -220,8 +220,7 @@ return (int) $id;
                                 @foreach($atributo['valores'] as $idValor => $info)
                                 <button type="button"
                                     class="attribute-chip {{ $varianteActiva->atributos->contains('id_valor', $idValor) ? 'attribute-chip-selected' : '' }}"
-                                    data-atributo-id="{{ $idAtributo }}" data-valor-id="{{ $idValor }}"
-                                    onclick="cambiarAtributo({{ $idAtributo }}, {{ $idValor }})">
+                                    data-atributo-id="{{ $idAtributo }}" data-valor-id="{{ $idValor }}">
                                     {{ $info['valor'] }}
                                 </button>
                                 @endforeach
@@ -731,6 +730,15 @@ function cambiarAtributo(idAtributo, idValor) {
 
     if (variante) cambiarVariante(variante.id);
 }
+
+document.querySelectorAll('.attribute-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+        cambiarAtributo(
+            chip.getAttribute('data-atributo-id'),
+            chip.getAttribute('data-valor-id')
+        );
+    });
+});
 
 window.productVariantOptions = @json($variantesSelector);
 window.currentVariantId = {{ (int) $varianteActiva->id_variante }};

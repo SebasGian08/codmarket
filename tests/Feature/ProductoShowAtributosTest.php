@@ -47,6 +47,8 @@ class ProductoShowAtributosTest extends TestCase
 
             $response->assertSee('attribute-chip-selected', false);
             $response->assertSee('cambiarAtributo(', false);
+            $response->assertSee("chip.addEventListener('click'", false);
+            $response->assertDontSee('onclick="cambiarAtributo(', false);
             $response->assertSee('data-atributo-id=', false);
             $response->assertSee('window.productVariantOptions', false);
             $response->assertSee(
