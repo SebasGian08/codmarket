@@ -858,7 +858,7 @@
 .about-editorial-visual {
     position: relative;
     display: flex;
-    min-height: 570px;
+    min-height: 650px;
     align-items: center;
     justify-content: center;
 }
@@ -889,8 +889,8 @@
     position: relative;
     z-index: 1;
     display: flex;
-    width: min(90%, 460px);
-    height: 520px;
+    width: min(100%, 560px);
+    height: 600px;
     align-items: flex-end;
     justify-content: center;
     overflow: hidden;
@@ -955,12 +955,12 @@
     }
 
     .about-editorial-visual {
-        min-height: 490px;
+        min-height: 550px;
     }
 
     .about-editorial-image {
-        width: min(82%, 420px);
-        height: 460px;
+        width: min(90%, 480px);
+        height: 520px;
     }
 
     .about-editorial-orbit {
@@ -1021,12 +1021,12 @@
     }
 
     .about-editorial-visual {
-        min-height: 380px;
+        min-height: 460px;
     }
 
     .about-editorial-image {
-        width: min(100%, 360px);
-        height: 360px;
+        width: min(100%, 400px);
+        height: 440px;
     }
 
     .about-editorial-ring {
