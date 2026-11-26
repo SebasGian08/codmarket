@@ -579,11 +579,11 @@
     position: relative;
 }
 
-.nav-collapse li a .sub-item::after {
+/* .nav-collapse li a .sub-item::after {
     content: "›";
     position: absolute;
     left: 5px;
     color: #666;
     font-size: 14px;
-}
+} */
 </style>
