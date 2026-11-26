@@ -2863,6 +2863,18 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     color: #fff !important;
 }
 
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item.active a p,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item.active a i {
+    color: #fff !important;
+}
+
+.sidebar .nav.nav-secondary > .nav-item.active > a::before,
+.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"]::before,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item.active > a::before,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[aria-expanded="true"]::before {
+    background-color: var(--admin-menu-primary-color, #177dff) !important;
+}
+
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
     color: var(--admin-menu-active-color, #ff9e27) !important;

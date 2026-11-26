@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('.logo-header').attr('data-background-color', oscuro ? 'dark' : 'white');
         if (sidebar) {
             sidebar.style.setProperty('--admin-menu-active-color', sidebar.dataset.menuActiveColor || '#ff9e27');
+            sidebar.style.setProperty('--admin-menu-primary-color', sidebar.dataset.menuPrimaryColor || '#177dff');
         }
 
         if (icon) { icon.className = oscuro ? 'fa fa-sun' : 'fa fa-moon'; }
