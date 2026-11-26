@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\DB;
 
 class EmpresaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $empresa = Empresa::first();
-        return view('admin.empresa.index', compact('empresa'));
+        $pestanaActiva = $request->query('tab');
+
+        if (!in_array($pestanaActiva, ['datos', 'contenido', 'identidad'], true)) {
+            $pestanaActiva = 'datos';
+        }
+
+        return view('admin.empresa.index', compact('empresa', 'pestanaActiva'));
     }
 
     public function store(Request $request)

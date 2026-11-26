@@ -34,9 +34,40 @@
     <div class="row">
         <div class="col-md-12">
 
-            <div class="card">
-                <div class="card-body">
+            <div class="card admin-module-tabs-card">
+                <div class="card-header">
+                    <ul class="nav nav-tabs admin-module-tabs empresa-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {{ $pestanaActiva === 'datos' ? 'active' : '' }}"
+                                id="empresa-tab-datos" data-bs-toggle="tab" href="#empresa-datos" role="tab"
+                                aria-controls="empresa-datos" aria-selected="{{ $pestanaActiva === 'datos' ? 'true' : 'false' }}"
+                                data-tab-value="datos">
+                                <i class="fas fa-building" aria-hidden="true"></i>
+                                <span>Datos generales</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {{ $pestanaActiva === 'contenido' ? 'active' : '' }}"
+                                id="empresa-tab-contenido" data-bs-toggle="tab" href="#empresa-contenido" role="tab"
+                                aria-controls="empresa-contenido" aria-selected="{{ $pestanaActiva === 'contenido' ? 'true' : 'false' }}"
+                                data-tab-value="contenido">
+                                <i class="fas fa-globe" aria-hidden="true"></i>
+                                <span>Contenido</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link {{ $pestanaActiva === 'identidad' ? 'active' : '' }}"
+                                id="empresa-tab-identidad" data-bs-toggle="tab" href="#empresa-identidad" role="tab"
+                                aria-controls="empresa-identidad" aria-selected="{{ $pestanaActiva === 'identidad' ? 'true' : 'false' }}"
+                                data-tab-value="identidad">
+                                <i class="fas fa-images" aria-hidden="true"></i>
+                                <span>Identidad visual</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
+                <div class="card-body">
                     <form method="POST"
                         action="{{ $empresa ? route('admin.empresa.update', $empresa->id_empresa) : route('admin.empresa.store') }}"
                         enctype="multipart/form-data">
@@ -46,6 +77,9 @@
                         @method('PUT')
                         @endif
 
+                        <div class="tab-content">
+                            <div class="tab-pane fade {{ $pestanaActiva === 'datos' ? 'show active' : '' }}"
+                                id="empresa-datos" role="tabpanel" aria-labelledby="empresa-tab-datos">
                         <div class="row">
 
                             {{-- IZQUIERDA --}}
@@ -148,6 +182,9 @@
 
                         </div>
 
+                            </div>
+                            <div class="tab-pane fade {{ $pestanaActiva === 'contenido' ? 'show active' : '' }}"
+                                id="empresa-contenido" role="tabpanel" aria-labelledby="empresa-tab-contenido">
                         <hr>
 
                         <h5 class="mb-3">Indicadores de Nosotros</h5>
@@ -398,6 +435,10 @@
                         </div>
                         <hr>
 
+                            </div>
+
+                            <div class="tab-pane fade {{ $pestanaActiva === 'identidad' ? 'show active' : '' }}"
+                                id="empresa-identidad" role="tabpanel" aria-labelledby="empresa-tab-identidad">
                         {{-- LOGOS --}}
                         <div class="row">
 
@@ -468,6 +509,8 @@
                             </div>
 
                         </div>
+                            </div>
+                        </div>
 
                         <hr>
 
@@ -490,6 +533,24 @@
 @include('admin.services.partials.guia-iconos')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.empresa-tabs [data-bs-toggle="tab"]').forEach(function(tab) {
+        tab.addEventListener('shown.bs.tab', function() {
+            var currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('tab', tab.dataset.tabValue);
+            window.history.replaceState({}, '', currentUrl.toString());
+
+            var pane = document.querySelector(tab.getAttribute('href'));
+            if (window.tinymce && pane) {
+                pane.querySelectorAll('.editor').forEach(function(element) {
+                    var editor = tinymce.get(element.id);
+                    if (editor) {
+                        editor.execCommand('mceRepaint');
+                    }
+                });
+            }
+        });
+    });
+
     document.querySelectorAll('.empresa-image-remove-checkbox').forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
             var control = checkbox.closest('.empresa-image-removal-control');
