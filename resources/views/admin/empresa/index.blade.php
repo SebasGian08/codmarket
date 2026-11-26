@@ -35,7 +35,7 @@
         <div class="col-md-12">
 
             <div class="card admin-module-tabs-card">
-                <div class="card-header">
+                <div class="card-header py-4">
                     <ul class="nav nav-tabs admin-module-tabs empresa-tabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <a class="nav-link {{ $pestanaActiva === 'datos' ? 'active' : '' }}"
