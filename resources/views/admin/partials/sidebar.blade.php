@@ -47,6 +47,7 @@
                 \App\Helpers\PermisoHelper::tiene('reglas-descuento.ver'))
                 @php($enVentas = Request::is('admin/ventas*') ||
                 Request::is('admin/cajas*') ||
+                Request::is('admin/descuentos*') ||
                 Request::is('admin/tipos-venta*') ||
                 Request::is('admin/motivos-descuento*') ||
                 Request::is('admin/reglas-descuento*'))
@@ -97,33 +98,11 @@
                             \App\Helpers\PermisoHelper::tiene('motivos-descuento.ver') ||
                             \App\Helpers\PermisoHelper::tiene('reglas-descuento.ver'))
                             @if($puedeDescuentosVenta)
-                            <li class="ventas-submenu-heading" role="presentation">
-                                <span>Descuentos</span>
-                            </li>
-
-                            @permiso('tipos-venta.ver')
-                            <li class="{{ Request::is('admin/tipos-venta*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.tipos-venta.index') }}">
-                                    <span class="sub-item">Tipos de Venta</span>
+                            <li class="{{ Request::is('admin/descuentos*') || Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.descuentos.index') }}">
+                                    <span class="sub-item">Descuentos</span>
                                 </a>
                             </li>
-                            @endpermiso
-
-                            @permiso('motivos-descuento.ver')
-                            <li class="{{ Request::is('admin/motivos-descuento*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.motivos-descuento.index') }}">
-                                    <span class="sub-item">Motivos de Descuento</span>
-                                </a>
-                            </li>
-                            @endpermiso
-
-                            @permiso('reglas-descuento.ver')
-                            <li class="{{ Request::is('admin/reglas-descuento*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.reglas-descuento.index') }}">
-                                    <span class="sub-item">Reglas de Descuento</span>
-                                </a>
-                            </li>
-                            @endpermiso
                             @endif
                         </ul>
                     </div>

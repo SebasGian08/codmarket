@@ -102,38 +102,40 @@ document.querySelectorAll('.editor').forEach(function(element) {
 </script>
 <script>
 $(document).ready(function() {
-    var $basicDataTable = $('#basic-datatables');
-    var dataTableOptions = {
-        "pageLength": 10,
-        "autoWidth": false,
-        "language": {
-            "sProcessing": "Procesando...",
-            "sLengthMenu": "Mostrar _MENU_ registros",
-            "sZeroRecords": "No se encontraron resultados",
-            "sEmptyTable": "Ningún dato disponible en esta tabla",
-            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-            "sSearch": "Buscar:",
-            "oPaginate": {
-                "sFirst": "Primero",
-                "sLast": "Último",
-                "sNext": "Siguiente",
-                "sPrevious": "Anterior"
+    $('.admin-data-table, #basic-datatables').each(function() {
+        var $basicDataTable = $(this);
+        var dataTableOptions = {
+            "pageLength": 10,
+            "autoWidth": false,
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                }
             }
+        };
+        var initialOrder = $basicDataTable.data('initial-order');
+        var pageLength = parseInt($basicDataTable.attr('data-page-length'), 10);
+
+        if (Array.isArray(initialOrder)) {
+            dataTableOptions.order = initialOrder;
         }
-    };
-    var initialOrder = $basicDataTable.data('initial-order');
-    var pageLength = parseInt($basicDataTable.attr('data-page-length'), 10);
+        if (!Number.isNaN(pageLength) && pageLength > 0) {
+            dataTableOptions.pageLength = pageLength;
+        }
 
-    if (Array.isArray(initialOrder)) {
-        dataTableOptions.order = initialOrder;
-    }
-    if (!Number.isNaN(pageLength) && pageLength > 0) {
-        dataTableOptions.pageLength = pageLength;
-    }
-
-    $basicDataTable.DataTable(dataTableOptions);
+        $basicDataTable.DataTable(dataTableOptions);
+    });
 
 });
 

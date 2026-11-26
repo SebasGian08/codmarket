@@ -53,6 +53,7 @@ use App\Http\Controllers\Admin\TipoGastoController;
 use App\Http\Controllers\Admin\TipoVentaController;
 use App\Http\Controllers\Admin\MotivoDescuentoController;
 use App\Http\Controllers\Admin\ReglaDescuentoController;
+use App\Http\Controllers\Admin\DescuentoController;
 use App\Http\Controllers\Admin\CuentaBancariaController;
 use App\Http\Controllers\Admin\IngresoEconomicoController;
 use App\Http\Controllers\Admin\TransferenciaDineroController;
@@ -214,6 +215,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::put('/{id}/actualizar', [TipoGastoController::class, 'update'])->name('admin.tipos-gastos.update');
         Route::delete('/{id}/eliminar', [TipoGastoController::class, 'destroy'])->name('admin.tipos-gastos.destroy');
     });
+
+    // MÓDULO: DESCUENTOS
+    Route::get('/descuentos', [DescuentoController::class, 'index'])->name('admin.descuentos.index');
 
     // MÓDULO: TIPOS DE VENTA (mantenimiento)
     Route::prefix('tipos-venta')->group(function () {

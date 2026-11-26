@@ -11,11 +11,7 @@ class TipoVentaController extends Controller
 {
     public function index()
     {
-        $tipos = TipoVenta::withCount('reglas')
-            ->orderBy('nombre', 'asc')
-            ->get();
-
-        return view('admin.tipos-venta.index', compact('tipos'));
+        return redirect()->route('admin.descuentos.index', ['tab' => 'tipos-venta']);
     }
 
     public function store(TipoVentaRequest $request)
@@ -31,7 +27,7 @@ class TipoVentaController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.tipos-venta.index')
+            return redirect()->route('admin.descuentos.index', ['tab' => 'tipos-venta'])
                 ->with('success', 'Tipo de venta creado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -54,7 +50,7 @@ class TipoVentaController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.tipos-venta.index')
+            return redirect()->route('admin.descuentos.index', ['tab' => 'tipos-venta'])
                 ->with('success', 'Tipo de venta actualizado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();

@@ -2968,17 +2968,6 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     content: none !important;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > .ventas-submenu-heading {
-    margin: 8px 0 2px;
-    padding: 7px 15px 5px 58px;
-    color: rgba(255, 255, 255, .6);
-    font-size: .7rem;
-    font-weight: 700;
-    letter-spacing: .06em;
-    line-height: 1.2;
-    text-transform: uppercase;
-}
-
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
     color: var(--admin-menu-accent) !important;
@@ -3472,14 +3461,14 @@ table.dataTable thead > tr:first-child > :last-child {
 }
 /* ============ FIN ENCABEZADOS DE PÁGINA ADMIN ============ */
 
-/* ============ PESTAÑAS DE CONFIGURACIÓN ============ */
-.configuracion-tabs-card > .card-header {
+/* ============ PESTAÑAS DE MÓDULOS ADMIN ============ */
+.admin-module-tabs-card > .card-header {
     padding: 14px 14px 0;
     border-bottom: 0;
     background: transparent;
 }
 
-.configuracion-tabs {
+.admin-module-tabs {
     display: flex;
     flex-wrap: nowrap;
     gap: 4px;
@@ -3491,11 +3480,11 @@ table.dataTable thead > tr:first-child > :last-child {
     scrollbar-width: thin;
 }
 
-.configuracion-tabs .nav-item {
+.admin-module-tabs .nav-item {
     flex: 0 0 auto;
 }
 
-.configuracion-tabs .nav-link {
+.admin-module-tabs .nav-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -3509,36 +3498,36 @@ table.dataTable thead > tr:first-child > :last-child {
     white-space: nowrap;
 }
 
-.configuracion-tabs .nav-link i {
+.admin-module-tabs .nav-link i {
     color: #7a8492;
     font-size: .72rem;
 }
 
-.configuracion-tabs .nav-link:hover,
-.configuracion-tabs .nav-link.active {
+.admin-module-tabs .nav-link:hover,
+.admin-module-tabs .nav-link.active {
     color: var(--admin-primary) !important;
 }
 
-.configuracion-tabs .nav-link.active {
+.admin-module-tabs .nav-link.active {
     border-bottom-color: var(--admin-primary) !important;
     font-weight: 600;
 }
 
-.configuracion-tabs .nav-link:hover i,
-.configuracion-tabs .nav-link.active i {
+.admin-module-tabs .nav-link:hover i,
+.admin-module-tabs .nav-link.active i {
     color: var(--admin-primary) !important;
 }
 
-html[data-theme="dark"] .configuracion-tabs {
+html[data-theme="dark"] .admin-module-tabs {
     border-color: var(--ka-border, #3a4658);
     background: var(--ka-surface, #273243);
 }
 
-html[data-theme="dark"] .configuracion-tabs .nav-link {
+html[data-theme="dark"] .admin-module-tabs .nav-link {
     color: var(--ka-text-muted, #aab4c2);
 }
 
-html[data-theme="dark"] .configuracion-tabs .nav-link i {
+html[data-theme="dark"] .admin-module-tabs .nav-link i {
     color: var(--ka-text-muted, #aab4c2);
 }
-/* ============ FIN PESTAÑAS DE CONFIGURACIÓN ============ */
+/* ============ FIN PESTAÑAS DE MÓDULOS ADMIN ============ */

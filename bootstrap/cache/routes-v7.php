@@ -82,7 +82,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::RUZogxut0IRVg2h3',
+            '_route' => 'generated::BRq8tjSYOMdi4Ig9',
           ),
           1 => NULL,
           2 => 
@@ -102,7 +102,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::Lx59TSzIQZikZz3b',
+            '_route' => 'generated::77VrCqcUW8moiMbX',
           ),
           1 => NULL,
           2 => 
@@ -945,6 +945,26 @@ app('router')->setCompiledRoutes(
           2 => 
           array (
             'POST' => 0,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/descuentos' =>
+      array (
+        0 =>
+        array (
+          0 =>
+          array (
+            '_route' => 'admin.descuentos.index',
+          ),
+          1 => NULL,
+          2 =>
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
           ),
           3 => NULL,
           4 => false,
@@ -4934,7 +4954,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::RUZogxut0IRVg2h3' => 
+    'generated::BRq8tjSYOMdi4Ig9' =>
     array (
       'methods' => 
       array (
@@ -4949,15 +4969,15 @@ app('router')->setCompiledRoutes(
           0 => 'api',
           1 => 'auth:api',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:79:"function (\\Illuminate\\Http\\Request $request) {
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:77:"function (\\Illuminate\\Http\\Request $request) {
     return $request->user();
-}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007810000000000000000";}}',
+}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003d10000000000000000";}}',
         'namespace' => NULL,
         'prefix' => 'api',
         'where' => 
         array (
         ),
-        'as' => 'generated::RUZogxut0IRVg2h3',
+        'as' => 'generated::BRq8tjSYOMdi4Ig9',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4973,7 +4993,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::Lx59TSzIQZikZz3b' => 
+    'generated::77VrCqcUW8moiMbX' =>
     array (
       'methods' => 
       array (
@@ -4994,7 +5014,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::Lx59TSzIQZikZz3b',
+        'as' => 'generated::77VrCqcUW8moiMbX',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5391,7 +5411,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 'web',
         ),
-        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:57:"function () {return \\view(\'pages.errors.mantenimiento\');}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007940000000000000000";}}',
+        'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:57:"function () {return \\view(\'pages.errors.mantenimiento\');}";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003e40000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -5872,7 +5892,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => 'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure":1:{s:12:"serializable";O:46:"Laravel\\SerializableClosure\\Serializers\\Native":5:{s:3:"use";a:0:{}s:8:"function";s:55:"function () { 
         return \\view(\'profile\');
-    }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000007a40000000000000000";}}',
+    }";s:5:"scope";s:37:"Illuminate\\Routing\\RouteFileRegistrar";s:4:"this";N;s:4:"self";s:32:"00000000000003f40000000000000000";}}',
         'namespace' => NULL,
         'prefix' => '',
         'where' => 
@@ -7870,6 +7890,44 @@ app('router')->setCompiledRoutes(
       array (
       ),
       'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.descuentos.index' =>
+    array (
+      'methods' =>
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/descuentos',
+      'action' =>
+      array (
+        'middleware' =>
+        array (
+          0 => 'web',
+          1 => 'auth',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\DescuentoController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\DescuentoController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' =>
+        array (
+        ),
+        'as' => 'admin.descuentos.index',
+      ),
+      'fallback' => false,
+      'defaults' =>
+      array (
+      ),
+      'wheres' =>
+      array (
+      ),
+      'bindingFields' =>
       array (
       ),
       'lockSeconds' => NULL,

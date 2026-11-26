@@ -11,11 +11,7 @@ class MotivoDescuentoController extends Controller
 {
     public function index()
     {
-        $motivos = MotivoDescuento::orderBy('aplica_a', 'asc')
-            ->orderBy('nombre', 'asc')
-            ->get();
-
-        return view('admin.motivos-descuento.index', compact('motivos'));
+        return redirect()->route('admin.descuentos.index', ['tab' => 'motivos-descuento']);
     }
 
     public function store(MotivoDescuentoRequest $request)
@@ -32,7 +28,7 @@ class MotivoDescuentoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.motivos-descuento.index')
+            return redirect()->route('admin.descuentos.index', ['tab' => 'motivos-descuento'])
                 ->with('success', 'Motivo de descuento creado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -56,7 +52,7 @@ class MotivoDescuentoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.motivos-descuento.index')
+            return redirect()->route('admin.descuentos.index', ['tab' => 'motivos-descuento'])
                 ->with('success', 'Motivo de descuento actualizado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();

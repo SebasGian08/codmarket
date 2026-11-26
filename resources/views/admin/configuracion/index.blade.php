@@ -28,10 +28,10 @@
     </div>
 
     {{-- TABS --}}
-    <div class="card configuracion-tabs-card">
+    <div class="card admin-module-tabs-card">
 
         <div class="card-header py-4">
-            <ul class="nav nav-tabs configuracion-tabs" role="tablist">
+            <ul class="nav nav-tabs admin-module-tabs" role="tablist">
 
                 @foreach($configs as $categoria => $items)
                 <li class="nav-item" role="presentation">

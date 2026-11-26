@@ -5,22 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReglaDescuentoRequest;
 use App\Models\ReglaDescuento;
-use App\Models\TipoDescuento;
-use App\Models\TipoVenta;
 use Illuminate\Support\Facades\DB;
 
 class ReglaDescuentoController extends Controller
 {
     public function index()
     {
-        $reglas = ReglaDescuento::with(['tipoVenta', 'tipoDescuento'])
-            ->orderBy('nombre', 'asc')
-            ->get();
-
-        $tiposVenta = TipoVenta::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $tiposDescuento = TipoDescuento::where('estado', 1)->orderBy('nombre', 'asc')->get();
-
-        return view('admin.reglas-descuento.index', compact('reglas', 'tiposVenta', 'tiposDescuento'));
+        return redirect()->route('admin.descuentos.index', ['tab' => 'reglas-descuento']);
     }
 
     public function store(ReglaDescuentoRequest $request)
@@ -41,7 +32,7 @@ class ReglaDescuentoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.reglas-descuento.index')
+            return redirect()->route('admin.descuentos.index', ['tab' => 'reglas-descuento'])
                 ->with('success', 'Regla de descuento creada correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -69,7 +60,7 @@ class ReglaDescuentoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.reglas-descuento.index')
+            return redirect()->route('admin.descuentos.index', ['tab' => 'reglas-descuento'])
                 ->with('success', 'Regla de descuento actualizada correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
