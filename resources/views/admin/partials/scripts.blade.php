@@ -28,6 +28,15 @@
 <script src="{{ asset('admin/assets/js/tinymce/tinymce.min.js') }}"></script>
 
 <script>
+document.querySelectorAll('#adminSidebarMenus .collapse').forEach(function(collapse) {
+    collapse.addEventListener('hidden.bs.collapse', function() {
+        var item = collapse.closest('.nav-item');
+        if (item) item.classList.remove('submenu');
+    });
+});
+</script>
+
+<script>
 document.querySelectorAll('.editor').forEach(function(element) {
     var editorConfig = {
         target: element,

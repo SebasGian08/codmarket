@@ -26,7 +26,7 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
 
-            <ul class="nav nav-secondary">
+            <ul class="nav nav-secondary" id="adminSidebarMenus">
                 {{-- INICIO --}}
                 @permiso('dashboard.ver')
                 <li class="nav-item {{ Route::is('admin.dashboard') ? 'active' : '' }}">
@@ -51,7 +51,7 @@
                     </a>
 
                     <div class="collapse {{ Request::is('admin/ventas*') || Request::is('admin/cajas*') ? 'show' : '' }}"
-                        id="ventas">
+                        id="ventas" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('cajas.ver')
                             <li class="{{ Request::is('admin/cajas*') ? 'active' : '' }}">
@@ -97,20 +97,24 @@
                 \App\Helpers\PermisoHelper::tiene('inventario.consulta.ver') ||
                 \App\Helpers\PermisoHelper::tiene('inventario.carga') ||
                 \App\Helpers\PermisoHelper::tiene('kardex.ver'))
+                @php($enInventario = (Request::is('admin/ingresos*') && !Request::is('admin/ingresos-economicos*')) ||
+                Request::is('admin/gastos*') ||
+                (Request::is('admin/transferencias*') && !Request::is('admin/transferencias-dinero*')) ||
+                (Request::is('admin/inventario*') && !Request::is('admin/inventario/precios*')))
                 @if($puedeInventario)
                 <li
-                    class="nav-item {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'active' : '' }}">
+                    class="nav-item {{ $enInventario ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#inventario">
                         <i class="fas fa-boxes"></i>
                         <p>Inventario</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/ingresos*') || Request::is('admin/gastos*') || Request::is('admin/transferencias*') || Request::is('admin/inventario*') ? 'show' : '' }}"
-                        id="inventario">
+                    <div class="collapse {{ $enInventario ? 'show' : '' }}"
+                        id="inventario" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('ingresos.ver')
-                            <li class="{{ Request::is('admin/ingresos*') ? 'active' : '' }}">
+                            <li class="{{ Request::is('admin/ingresos*') && !Request::is('admin/ingresos-economicos*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.ingresos.index') }}">
                                     <span class="sub-item">Ingresos / Ajuste de mercadería</span>
                                 </a>
@@ -126,7 +130,7 @@
                             @endpermiso
 
                             @permiso('transferencias.ver')
-                            <li class="{{ Request::is('admin/transferencias*') ? 'active' : '' }}">
+                            <li class="{{ Request::is('admin/transferencias*') && !Request::is('admin/transferencias-dinero*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.transferencias.index') }}">
                                     <span class="sub-item">Transferencias</span>
                                 </a>
@@ -135,7 +139,7 @@
 
                             @permiso('inventario.ver')
                             <li
-                                class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') && !Request::is('admin/inventario/consulta*') ? 'active' : '' }}">
+                                class="{{ Request::is('admin/inventario*') && !Request::is('admin/inventario/carga*') && !Request::is('admin/inventario/kardex*') && !Request::is('admin/inventario/consulta*') && !Request::is('admin/inventario/precios*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.inventario.index') }}">
                                     <span class="sub-item">Stock por Tienda</span>
                                 </a>
@@ -187,7 +191,7 @@
                     </a>
 
                     <div class="collapse {{ Request::is('admin/cuentas-bancarias*') || Request::is('admin/ingresos-economicos*') || Request::is('admin/transferencias-dinero*') || Request::is('admin/movimientos-dinero*') || Request::is('admin/tipos-gastos*') ? 'show' : '' }}"
-                        id="finanzas">
+                        id="finanzas" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('cuentas-bancarias.ver')
                             <li class="{{ Request::is('admin/cuentas-bancarias*') ? 'active' : '' }}">
@@ -247,7 +251,7 @@
                     </a>
 
                     <div class="collapse {{ Request::is('admin/tipos-venta*') || Request::is('admin/motivos-descuento*') || Request::is('admin/reglas-descuento*') ? 'show' : '' }}"
-                        id="descuentosVenta">
+                        id="descuentosVenta" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('tipos-venta.ver')
                             <li class="{{ Request::is('admin/tipos-venta*') ? 'active' : '' }}">
@@ -295,7 +299,7 @@
                     </a>
 
                     <div class="collapse {{ Request::is('admin/categorias*') || Request::is('admin/marcas*') || Request::is('admin/proveedores*') || Request::is('admin/productos*') || Request::is('admin/atributos*') || Request::is('admin/inventario/precios*') ? 'show' : '' }}"
-                        id="productos">
+                        id="productos" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('categorias.ver')
                             <li class="{{ Request::is('admin/categorias*') ? 'active' : '' }}">
@@ -376,7 +380,7 @@
                     </a>
 
                     <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'show' : '' }}"
-                        id="mantenimiento">
+                        id="mantenimiento" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('empresa.ver')
                             <li class="{{ Request::is('admin/empresa*') ? 'active' : '' }}">
@@ -468,7 +472,7 @@
                     </a>
 
                     <div class="collapse {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/blog-categorias*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}"
-                        id="tiendaVirtual">
+                        id="tiendaVirtual" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('blogs.ver')
                             <li class="{{ Request::is('admin/blogs*') ? 'active' : '' }}">
