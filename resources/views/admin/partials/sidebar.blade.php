@@ -3,7 +3,9 @@
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <img src="{{ $empresa && $empresa->logo_header ? asset($empresa->logo_header) : asset('assets/images/logo-principal-white.png') }}"
-                    alt="logo" class="navbar-brand" />
+                    alt="logo" class="navbar-brand sidebar-brand-full" />
+                <img src="{{ $empresa && $empresa->favicon ? asset($empresa->favicon) : asset('favicon.ico') }}"
+                    alt="" aria-hidden="true" class="navbar-brand sidebar-brand-compact" />
             </a>
 
             <div class="nav-toggle">

@@ -2847,6 +2847,38 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     object-fit: contain;
 }
 
+.sidebar .logo-header .logo .sidebar-brand-compact {
+    display: none;
+}
+
+@media screen and (min-width: 992px) {
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .logo-header .logo {
+        left: 8px;
+        width: 30px;
+        opacity: 1;
+        transform: none;
+    }
+
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .logo-header .logo .sidebar-brand-full {
+        display: none !important;
+    }
+
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .logo-header .logo .sidebar-brand-compact {
+        display: block !important;
+        width: 28px;
+        height: 28px;
+        padding: 2px;
+        background-color: #fff;
+        border-radius: 4px;
+    }
+
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .logo-header .nav-toggle {
+        right: 7px !important;
+        left: auto !important;
+        transform: none;
+    }
+}
+
 .sidebar {
     --admin-menu-accent: var(--admin-primary, #069fef);
 }
