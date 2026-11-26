@@ -8,7 +8,11 @@
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Transferencias de Dinero</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-exchange-alt',
+                'title' => 'Transferencias de Dinero',
+                'description' => 'Registra y consulta los movimientos de dinero entre cuentas.',
+            ])
         </div>
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateTransferenciaDinero">
             <i class="fa fa-plus"></i> Nueva Transferencia

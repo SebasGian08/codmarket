@@ -10,7 +10,11 @@
 
         <div class="d-flex align-items-center">
 
-            <h4 class="page-title">Trabajos Realizados</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-wrench',
+                'title' => 'Trabajos Realizados',
+                'description' => 'Consulta y administra los trabajos realizados para tus clientes.',
+            ])
 
         </div>
 

@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex flex-wrap align-items-center gap-2">
-            <h4 class="page-title">Productos</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-boxes',
+                'title' => 'Productos',
+                'description' => 'Consulta y administra tus productos, variantes y existencias.',
+            ])
         </div>
 
         <div class="d-grid d-sm-flex gap-2 flex-sm-wrap">

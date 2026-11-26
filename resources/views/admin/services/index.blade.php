@@ -8,7 +8,12 @@
 
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Servicios</h4>        </div>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-concierge-bell',
+                'title' => 'Gestión de Servicios',
+                'description' => 'Administra los servicios que ofreces a tus clientes.',
+            ])
+        </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
             <i class="fa fa-plus"></i> Nuevo Servicio

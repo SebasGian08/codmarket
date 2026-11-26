@@ -9,7 +9,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Categorías</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-tags',
+                'title' => 'Categorías',
+                'description' => 'Organiza los productos en categorías para facilitar su gestión.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

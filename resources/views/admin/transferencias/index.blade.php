@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Transferencias</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-exchange-alt',
+                'title' => 'Transferencias',
+                'description' => 'Registra y consulta los movimientos de productos entre tiendas.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

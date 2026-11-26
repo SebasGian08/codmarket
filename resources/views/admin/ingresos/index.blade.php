@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Ingresos / Ajuste de mercadería</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-boxes',
+                'title' => 'Ingresos / Ajuste de mercadería',
+                'description' => 'Registra ingresos y ajustes de existencias en el inventario.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

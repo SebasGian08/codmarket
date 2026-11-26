@@ -9,7 +9,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Rubros</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-layer-group',
+                'title' => 'Rubros',
+                'description' => 'Administra los rubros disponibles para clasificar tus gastos.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

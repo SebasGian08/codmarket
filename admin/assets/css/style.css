@@ -1510,19 +1510,6 @@ html[data-theme="dark"] .cierre-status-warn {
     padding-bottom: 110px;
 }
 
-.cierre-masivo-header-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #ffb800 0%, #ff9f1a 100%);
-    color: #fff;
-    box-shadow: 0 10px 24px rgba(255, 159, 26, 0.22);
-    font-size: 18px;
-}
-
 .cierre-masivo-info {
     border: none;
     border-radius: 14px;
@@ -3393,3 +3380,83 @@ table.dataTable thead > tr:first-child > :last-child {
     border-right: 0 !important;
 }
 /* ============ FIN CABECERAS TABLAS ADMIN ============ */
+
+/* ============ ENCABEZADOS DE PÁGINA ADMIN ============ */
+.page-header {
+    flex-wrap: wrap;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    row-gap: 14px;
+}
+
+.page-header > :first-child {
+    flex: 0 0 100%;
+    width: 100%;
+}
+
+.page-header > :not(:first-child) {
+    align-self: flex-start;
+}
+
+.admin-page-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+}
+
+.admin-page-heading__icon {
+    display: inline-flex;
+    flex: 0 0 56px;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border: 1px solid rgba(6, 159, 239, .2);
+    border-radius: 14px;
+    background: rgba(6, 159, 239, .12);
+    color: var(--admin-primary);
+    font-size: 1.3rem;
+}
+
+.admin-page-heading__content {
+    min-width: 0;
+}
+
+.admin-page-heading .page-title {
+    margin: 0;
+    color: var(--ka-text, #2a2f5b);
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.admin-page-heading__description {
+    margin: 4px 0 0;
+    color: var(--ka-text-muted, #727275);
+    font-size: .92rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 575.98px) {
+    .admin-page-heading {
+        gap: 12px;
+    }
+
+    .admin-page-heading__icon {
+        flex-basis: 48px;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        font-size: 1.15rem;
+    }
+
+    .admin-page-heading .page-title {
+        font-size: 1.25rem;
+    }
+
+    .admin-page-heading__description {
+        font-size: .85rem;
+    }
+}
+/* ============ FIN ENCABEZADOS DE PÁGINA ADMIN ============ */

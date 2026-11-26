@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Carga Masiva de Inventario</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-file-import',
+                'title' => 'Carga Masiva de Inventario',
+                'description' => 'Importa productos y cantidades para actualizar el inventario.',
+            ])
         </div>
 
         <a href="{{ route('admin.inventario.carga.plantilla') }}" class="btn btn-light border btn-round">

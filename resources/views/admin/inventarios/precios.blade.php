@@ -6,7 +6,11 @@
 <div class="page-inner">
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <h4 class="page-title">Actualización Masiva de Precios</h4>
+        @include('admin.partials.page_heading', [
+            'icon' => 'fas fa-tags',
+            'title' => 'Actualización Masiva de Precios',
+            'description' => 'Actualiza los precios de varios productos en una sola operación.',
+        ])
 
         <a href="{{ route('admin.inventario.precios.plantilla') }}" class="btn btn-light border btn-round">
             Descargar plantilla Excel

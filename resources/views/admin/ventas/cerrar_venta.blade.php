@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Cerrar Venta</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-money-bill-alt',
+                'title' => 'Cerrar Venta',
+                'description' => 'Revisa el resumen de la venta y registra el cierre de caja.',
+            ])
         </div>
 
         <a href="{{ route('admin.ventas.index') }}" class="btn btn-primary btn-round">

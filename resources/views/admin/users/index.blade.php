@@ -6,7 +6,12 @@
 <div class="page-inner">
     <div class="page-header d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Usuarios</h4>        </div>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-users-cog',
+                'title' => 'Gestión de Usuarios',
+                'description' => 'Administra las cuentas de usuario y su acceso al sistema.',
+            ])
+        </div>
 
         <div class="ms-md-auto py-2 py-md-0">
             <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

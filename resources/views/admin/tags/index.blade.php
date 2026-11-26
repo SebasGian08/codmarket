@@ -9,7 +9,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Tags del Blog</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-tag',
+                'title' => 'Tags del Blog',
+                'description' => 'Administra las etiquetas que ayudan a encontrar publicaciones.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

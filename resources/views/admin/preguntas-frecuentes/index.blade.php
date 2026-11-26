@@ -9,7 +9,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Preguntas Frecuentes</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-question-circle',
+                'title' => 'Preguntas Frecuentes',
+                'description' => 'Administra las preguntas y respuestas que ayudan a tus clientes.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

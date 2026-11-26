@@ -7,14 +7,13 @@
 <div class="page-inner cierre-masivo-page">
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <div class="d-flex align-items-center gap-2">
-            <div class="cierre-masivo-header-icon">
-                <i class="fa fa-layer-group"></i>
-            </div>
-            <div>
-                <h4 class="page-title mb-0">Cierre Masivo de Ventas</h4>
-                <span class="text-muted small">{{ $ventas->count() }} venta(s) seleccionada(s) para cierre</span>
-            </div>
+        <div class="d-flex flex-column align-items-start w-100">
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-calendar-check',
+                'title' => 'Cierre Masivo de Ventas',
+                'description' => 'Selecciona y procesa varias ventas pendientes de cierre.',
+            ])
+            <span class="text-muted small">{{ $ventas->count() }} venta(s) seleccionada(s) para cierre</span>
         </div>
         <a href="{{ route('admin.ventas.cerrar') }}" class="btn btn-light border btn-round">
             <i class="fa fa-arrow-left"></i> Volver a Cerrar Venta

@@ -9,7 +9,11 @@
     <!-- HEADER (IGUAL A SERVICIOS) -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Portafolio</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-briefcase',
+                'title' => 'Gestión de Portafolio',
+                'description' => 'Organiza y presenta los proyectos de tu portafolio.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

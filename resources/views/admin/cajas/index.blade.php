@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Cajas</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-money-bill-alt',
+                'title' => 'Cajas',
+                'description' => 'Consulta las cajas disponibles y administra sus aperturas y cierres.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalAbrir">

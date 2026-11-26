@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Tipos de Venta</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-receipt',
+                'title' => 'Tipos de Venta',
+                'description' => 'Define cómo se venden tus productos y qué reglas se aplican.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateTipoVenta">

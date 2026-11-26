@@ -7,7 +7,11 @@
 
     <div class="page-header d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Empresa</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-building',
+                'title' => 'Empresa',
+                'description' => 'Administra los datos y la identidad de tu empresa.',
+            ])
         </div>
     </div>
 

@@ -9,7 +9,11 @@
     <div class="page-header d-flex align-items-center justify-content-between">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Contactos</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-address-book',
+                'title' => 'Gestión de Contactos',
+                'description' => 'Consulta y administra los datos de contacto registrados.',
+            ])
         </div>
 
         <div>

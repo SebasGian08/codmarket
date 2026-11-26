@@ -10,9 +10,11 @@
 
         <div class="d-flex align-items-center">
 
-            <h4 class="page-title">
-                Asignar Permisos
-            </h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-user-lock',
+                'title' => 'Asignar Permisos',
+                'description' => 'Selecciona los permisos que tendrá este rol en el sistema.',
+            ])
 
         </div>
 

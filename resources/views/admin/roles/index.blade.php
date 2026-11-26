@@ -9,7 +9,11 @@
     <!-- HEADER -->
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Roles</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-user-shield',
+                'title' => 'Gestión de Roles',
+                'description' => 'Organiza los roles y define los permisos de cada perfil.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

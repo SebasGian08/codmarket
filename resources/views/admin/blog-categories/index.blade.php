@@ -8,7 +8,11 @@
 
     <div class="page-header d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Categorías del Blog</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-folder-open',
+                'title' => 'Categorías del Blog',
+                'description' => 'Organiza las publicaciones del blog por categorías.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

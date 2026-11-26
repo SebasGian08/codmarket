@@ -9,7 +9,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div>
-            <h4 class="page-title mb-0">Variantes - {{ $producto->nombre }}</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-puzzle-piece',
+                'title' => 'Variantes - ' . $producto->nombre,
+                'description' => 'Administra las opciones y combinaciones disponibles para este producto.',
+            ])
         </div>
 
         <div class="d-flex gap-2">

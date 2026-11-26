@@ -8,7 +8,11 @@
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Ingresos Económicos</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-money-bill-wave',
+                'title' => 'Ingresos Económicos',
+                'description' => 'Registra y consulta los ingresos económicos del negocio.',
+            ])
         </div>
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateIngresoEco">
             <i class="fa fa-plus"></i> Nuevo Ingreso

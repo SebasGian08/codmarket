@@ -9,7 +9,12 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div>
-            <h4 class="page-title">Promociones</h4>        </div>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-bullhorn',
+                'title' => 'Promociones',
+                'description' => 'Crea y administra las promociones disponibles para tus clientes.',
+            ])
+        </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
             <i class="fa fa-plus"></i> Nueva Promoción

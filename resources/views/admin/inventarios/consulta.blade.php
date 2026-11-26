@@ -6,7 +6,11 @@
 
 <div class="page-inner">
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <h4 class="page-title">Consulta de stock</h4>
+        @include('admin.partials.page_heading', [
+            'icon' => 'fas fa-search',
+            'title' => 'Consulta de stock',
+            'description' => 'Busca productos y revisa sus existencias por tienda.',
+        ])
         <a href="{{ route('admin.inventario.consulta.exportar', request()->query()) }}" class="btn btn-success btn-round">
             <i class="fa fa-file-excel"></i> Excel
         </a>

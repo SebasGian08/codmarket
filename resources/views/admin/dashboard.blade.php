@@ -6,7 +6,11 @@
 
 <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
     <div class="d-flex flex-wrap align-items-center gap-2">
-        <h4 class="page-title">Dashboard de Control</h4>
+        @include('admin.partials.page_heading', [
+            'icon' => 'fas fa-chart-line',
+            'title' => 'Dashboard de Control',
+            'description' => 'Consulta un resumen de la actividad y los indicadores de tu negocio.',
+        ])
     </div>
 
     <a href="{{ route('admin.productos.index') }}" class="btn btn-primary btn-round">

@@ -25,7 +25,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gestión de Atributos</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-sliders-h',
+                'title' => 'Gestión de Atributos',
+                'description' => 'Administra los atributos que definen las variantes de tus productos.',
+            ])
         </div>
 
          <form action="{{ route('admin.atributos.store') }}" method="POST" class="d-flex gap-2">

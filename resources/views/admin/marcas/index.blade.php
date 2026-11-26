@@ -9,7 +9,11 @@
     <div class="page-header d-flex justify-content-between align-items-center">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Marcas</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-copyright',
+                'title' => 'Marcas',
+                'description' => 'Administra las marcas asociadas a tus productos.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">

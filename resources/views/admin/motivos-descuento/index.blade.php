@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Motivos de Descuento</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-percent',
+                'title' => 'Motivos de Descuento',
+                'description' => 'Define y administra los motivos disponibles para aplicar descuentos.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateMotivoDescuento">

@@ -10,7 +10,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex flex-wrap align-items-center gap-2">
-            <h4 class="page-title">Venta</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-shopping-cart',
+                'title' => 'Venta',
+                'description' => 'Registra ventas, agrega productos al detalle y gestiona el cobro.',
+            ])
         </div>
 
         <div class="d-flex flex-wrap gap-2">

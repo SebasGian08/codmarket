@@ -9,7 +9,11 @@
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
         <div class="d-flex align-items-center">
-            <h4 class="page-title">Gastos</h4>
+            @include('admin.partials.page_heading', [
+                'icon' => 'fas fa-file-invoice-dollar',
+                'title' => 'Gastos',
+                'description' => 'Registra y consulta los gastos del negocio.',
+            ])
         </div>
 
         <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateGasto">
