@@ -2903,14 +2903,9 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     content: none !important;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li.active > a,
-.sidebar .nav.nav-secondary .nav-collapse > li:hover > a {
-    background-color: var(--admin-menu-accent) !important;
-}
-
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
-    color: #fff !important;
+    color: var(--admin-menu-accent) !important;
 }
 
 .sidebar .nav.nav-secondary .nav-collapse > li > a .sub-item::before {
@@ -2926,7 +2921,7 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item::before,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item::before {
-    background-color: #fff !important;
+    background-color: var(--admin-menu-accent) !important;
 }
 /* ============ FIN MENU LATERAL ADMIN ============ */
 
@@ -3237,7 +3232,7 @@ html[data-theme="dark"] .gallery-card .gc-img {
 }
 
 .sidebar .nav .nav-collapse > li.active > a .sub-item {
-    color: #fff !important;
+    color: var(--admin-primary) !important;
     font-weight: 600;
 }
 
