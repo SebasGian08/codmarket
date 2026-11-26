@@ -2886,10 +2886,6 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     background-color: var(--admin-menu-accent) !important;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li > a {
-    background-color: var(--admin-menu-accent) !important;
-}
-
 .sidebar .nav.nav-secondary .nav-collapse {
     position: relative;
 }
@@ -2902,16 +2898,21 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     bottom: 38px;
     left: 37px;
     width: 1px;
-    background-color: rgba(255, 255, 255, .45);
+    background-color: rgba(131, 132, 138, .55);
     pointer-events: none;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li > a::before,
-.sidebar .nav.nav-secondary .nav-collapse > li > a::after {
+.sidebar .nav.nav-secondary .nav-collapse > li > a::before {
     content: none !important;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li > a .sub-item {
+.sidebar .nav.nav-secondary .nav-collapse > li.active > a,
+.sidebar .nav.nav-secondary .nav-collapse > li:hover > a {
+    background-color: var(--admin-menu-accent) !important;
+}
+
+.sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
+.sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
     color: #fff !important;
 }
 
@@ -2923,7 +2924,7 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, .6) !important;
+    background-color: rgba(131, 132, 138, .89) !important;
 }
 
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item::before,
