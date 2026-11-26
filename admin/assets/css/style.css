@@ -2865,7 +2865,7 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 
     .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .logo-header .logo .sidebar-brand-compact {
         display: block !important;
-        width: 28px;
+        width: 50px;
         height: 50px !important;
         padding: 2px;
         background-color: #fff;
