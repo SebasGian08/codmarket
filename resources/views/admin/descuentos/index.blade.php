@@ -25,7 +25,7 @@
     </div>
     @endif
 
-    <div class="card admin-module-tabs-card">
+    <div class="card admin-module-tabs-card mt-2">
         <div class="card-header">
             <ul class="nav nav-tabs admin-module-tabs descuentos-tabs" role="tablist">
                 @if($puedeVerTiposVenta)
