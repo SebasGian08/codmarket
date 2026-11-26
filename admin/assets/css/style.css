@@ -2839,6 +2839,41 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 }
 /* ============ FIN CONTACTOS (TIPO DE DOCUMENTO) ============ */
 
+/* ============ MENU LATERAL ADMIN ============ */
+.sidebar .nav.nav-secondary > .nav-item > a:hover,
+.sidebar .nav.nav-secondary > .nav-item > a:focus,
+.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"],
+.sidebar .nav.nav-secondary > .nav-item.active > a {
+    background-color: #ff9e27 !important;
+    color: #fff !important;
+}
+
+.sidebar .nav.nav-secondary > .nav-item > a:hover p,
+.sidebar .nav.nav-secondary > .nav-item > a:focus p,
+.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"] p,
+.sidebar .nav.nav-secondary > .nav-item.active > a p,
+.sidebar .nav.nav-secondary > .nav-item > a:hover i,
+.sidebar .nav.nav-secondary > .nav-item > a:focus i,
+.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"] i,
+.sidebar .nav.nav-secondary > .nav-item.active > a i,
+.sidebar .nav.nav-secondary > .nav-item > a:hover .caret,
+.sidebar .nav.nav-secondary > .nav-item > a:focus .caret,
+.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"] .caret,
+.sidebar .nav.nav-secondary > .nav-item.active > a .caret {
+    color: #fff !important;
+}
+
+.sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
+.sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
+    color: #ff9e27 !important;
+}
+
+.sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item::before,
+.sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item::before {
+    background-color: #ff9e27 !important;
+}
+/* ============ FIN MENU LATERAL ADMIN ============ */
+
 /* ============ LOGIN ============ */
 .login-page {
     min-height: 100vh;
