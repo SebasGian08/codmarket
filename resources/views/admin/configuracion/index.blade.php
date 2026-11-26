@@ -28,16 +28,18 @@
     </div>
 
     {{-- TABS --}}
-    <div class="card">
+    <div class="card configuracion-tabs-card">
 
         <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
+            <ul class="nav nav-tabs configuracion-tabs" role="tablist">
 
                 @foreach($configs as $categoria => $items)
-                <li class="nav-item">
+                <li class="nav-item" role="presentation">
                     <a class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
-                        href="#tab-{{ $categoria }}">
-                        {{ $categoria === 'seccion_servicio' ? 'Sección servicio' : ucfirst($categoria) }}
+                        href="#tab-{{ $categoria }}" role="tab" aria-controls="tab-{{ $categoria }}"
+                        aria-selected="{{ $loop->first ? 'true' : 'false' }}">
+                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        <span>{{ $categoria === 'seccion_servicio' ? 'Sección servicio' : ucfirst($categoria) }}</span>
                     </a>
                 </li>
                 @endforeach

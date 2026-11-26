@@ -3460,3 +3460,74 @@ table.dataTable thead > tr:first-child > :last-child {
     }
 }
 /* ============ FIN ENCABEZADOS DE PÁGINA ADMIN ============ */
+
+/* ============ PESTAÑAS DE CONFIGURACIÓN ============ */
+.configuracion-tabs-card > .card-header {
+    padding: 14px 14px 0;
+    border-bottom: 0;
+    background: transparent;
+}
+
+.configuracion-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 0 8px;
+    border: 1px solid #e7eaf0;
+    border-radius: 12px;
+    background: #fff;
+    scrollbar-width: thin;
+}
+
+.configuracion-tabs .nav-item {
+    flex: 0 0 auto;
+}
+
+.configuracion-tabs .nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 14px 11px;
+    border: 0 !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #626b78;
+    font-size: .9rem;
+    white-space: nowrap;
+}
+
+.configuracion-tabs .nav-link i {
+    color: #7a8492;
+    font-size: .72rem;
+}
+
+.configuracion-tabs .nav-link:hover,
+.configuracion-tabs .nav-link.active {
+    color: var(--admin-primary) !important;
+}
+
+.configuracion-tabs .nav-link.active {
+    border-bottom-color: var(--admin-primary) !important;
+    font-weight: 600;
+}
+
+.configuracion-tabs .nav-link:hover i,
+.configuracion-tabs .nav-link.active i {
+    color: var(--admin-primary) !important;
+}
+
+html[data-theme="dark"] .configuracion-tabs {
+    border-color: var(--ka-border, #3a4658);
+    background: var(--ka-surface, #273243);
+}
+
+html[data-theme="dark"] .configuracion-tabs .nav-link {
+    color: var(--ka-text-muted, #aab4c2);
+}
+
+html[data-theme="dark"] .configuracion-tabs .nav-link i {
+    color: var(--ka-text-muted, #aab4c2);
+}
+/* ============ FIN PESTAÑAS DE CONFIGURACIÓN ============ */
