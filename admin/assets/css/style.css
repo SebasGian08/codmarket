@@ -2887,10 +2887,20 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     --admin-menu-accent: var(--admin-primary, #069fef);
 }
 
+.sidebar .nav.nav-secondary > .nav-item > a {
+    width: calc(100% - 20px);
+    margin: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 24px;
+    background-color: rgba(255, 255, 255, .12);
+}
+
 .sidebar .nav.nav-secondary > .nav-item > a:hover,
 .sidebar .nav.nav-secondary > .nav-item > a:focus-visible,
 .sidebar .nav.nav-secondary > .nav-item.active > a {
     background-color: var(--admin-menu-accent) !important;
+    border-color: rgba(255, 255, 255, .28);
     color: #fff !important;
 }
 
@@ -3265,8 +3275,9 @@ html[data-theme="dark"] .gallery-card .gc-img {
 .sidebar[data-background-color="dark"] .nav > .nav-item.active > a,
 .sidebar[data-background-color="dark2"] .nav > .nav-item.active > a {
     background: var(--admin-primary) !important;
+    border-color: rgba(255, 255, 255, .28);
     color: #fff !important;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, .10), 4px 4px 15px -5px var(--admin-primary);
+    box-shadow: none;
 }
 
 .sidebar .nav > .nav-item.active > a:before,
