@@ -3329,3 +3329,29 @@ html[data-theme="dark"] .gallery-card .gc-img {
     color: var(--admin-primary) !important;
 }
 /* ============ FIN COLOR PRIMARIO ADMIN ============ */
+
+/* ============ CABECERAS DATATABLES ADMIN ============ */
+table.dataTable thead > tr > th,
+table.dataTable thead > tr > td {
+    padding: 11px 16px !important;
+    background-color: #1c1c1c !important;
+    color: #fff !important;
+    border-bottom: 1px solid rgba(255, 255, 255, .18) !important;
+    border-right: 1px solid rgba(255, 255, 255, .18) !important;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .035em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+table.dataTable thead > tr:first-child > :first-child {
+    border-top-left-radius: 8px;
+}
+
+table.dataTable thead > tr:first-child > :last-child {
+    border-top-right-radius: 8px;
+    border-right: 0 !important;
+}
+/* ============ FIN CABECERAS DATATABLES ADMIN ============ */
