@@ -2874,6 +2874,18 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     color: #fff !important;
 }
 
+.sidebar .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"] i,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"] i {
+    color: var(--admin-menu-accent) !important;
+}
+
+.sidebar .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"]:hover i,
+.sidebar .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"]:focus-visible i,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"]:hover i,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"]:focus-visible i {
+    color: #fff !important;
+}
+
 .sidebar .nav.nav-secondary > .nav-item.active > a::before,
 .sidebar .nav.nav-secondary > .nav-item > a:hover::before,
 .sidebar .nav.nav-secondary > .nav-item > a:focus-visible::before,
