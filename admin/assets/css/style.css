@@ -2968,6 +2968,17 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     content: none !important;
 }
 
+.sidebar .nav.nav-secondary .nav-collapse > .ventas-submenu-heading {
+    margin: 8px 0 2px;
+    padding: 7px 15px 5px 58px;
+    color: rgba(255, 255, 255, .6);
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
     color: var(--admin-menu-accent) !important;
