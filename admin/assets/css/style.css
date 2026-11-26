@@ -2872,6 +2872,10 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
         border-radius: 4px;
     }
 
+    .sidebar_minimize.sidebar_minimize_hover .sidebar .logo-header .logo .sidebar-brand-compact {
+        display: none !important;
+    }
+
     .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .logo-header .nav-toggle {
         right: 7px !important;
         left: auto !important;
