@@ -30,7 +30,7 @@
     {{-- TABS --}}
     <div class="card configuracion-tabs-card">
 
-        <div class="card-header">
+        <div class="card-header py-4">
             <ul class="nav nav-tabs configuracion-tabs" role="tablist">
 
                 @foreach($configs as $categoria => $items)
