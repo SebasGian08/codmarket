@@ -2897,7 +2897,7 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 .sidebar .nav.nav-secondary .nav-collapse::before {
     content: "";
     position: absolute;
-    z-index: 1;
+    z-index: 3;
     top: 30px;
     bottom: 38px;
     left: 37px;
@@ -2906,7 +2906,8 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     pointer-events: none;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li > a::before {
+.sidebar .nav.nav-secondary .nav-collapse > li > a::before,
+.sidebar .nav.nav-secondary .nav-collapse > li > a::after {
     content: none !important;
 }
 
@@ -2915,10 +2916,10 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 }
 
 .sidebar .nav.nav-secondary .nav-collapse > li > a .sub-item::before {
-    content: "";
+    content: "" !important;
     display: block;
     position: absolute;
-    z-index: 2;
+    z-index: 4;
     width: 5px;
     height: 5px;
     border-radius: 50%;
