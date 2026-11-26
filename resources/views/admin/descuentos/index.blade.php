@@ -35,7 +35,7 @@
                         data-tab-value="tipos-venta"
                         aria-controls="descuentos-tipos-venta"
                         aria-selected="{{ $pestanaActiva === 'tipos-venta' ? 'true' : 'false' }}">
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        <i class="fas fa-receipt" aria-hidden="true"></i>
                         <span>Tipos de Venta</span>
                     </a>
                 </li>
@@ -48,7 +48,7 @@
                         data-tab-value="motivos-descuento"
                         aria-controls="descuentos-motivos"
                         aria-selected="{{ $pestanaActiva === 'motivos-descuento' ? 'true' : 'false' }}">
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        <i class="fas fa-percent" aria-hidden="true"></i>
                         <span>Motivos de Descuento</span>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                         data-tab-value="reglas-descuento"
                         aria-controls="descuentos-reglas"
                         aria-selected="{{ $pestanaActiva === 'reglas-descuento' ? 'true' : 'false' }}">
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        <i class="fas fa-sliders-h" aria-hidden="true"></i>
                         <span>Reglas de Descuento</span>
                     </a>
                 </li>
