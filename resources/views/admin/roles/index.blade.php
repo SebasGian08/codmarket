@@ -16,7 +16,7 @@
             ])
         </div>
 
-        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
+        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateRol">
             <i class="fa fa-plus"></i> Nuevo Rol
         </button>
     </div>
@@ -63,7 +63,7 @@
                                 </a>
                                 <!-- EDIT -->
                                 <button class="btn btn-sm mt-2 btn-primary btn-border btn-round" data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $rol->id_rol }}">
+                                    data-bs-target="#editRol{{ $rol->id_rol }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
 

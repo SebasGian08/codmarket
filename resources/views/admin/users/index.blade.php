@@ -14,7 +14,7 @@
         </div>
 
         <div class="ms-md-auto py-2 py-md-0">
-            <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
+            <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateUsuario">
                 <i class="fa fa-plus"></i> Nuevo Usuario
             </button>
         </div>

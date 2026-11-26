@@ -16,7 +16,7 @@
             ])
         </div>
 
-        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
+        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreatePermiso">
             <i class="fa fa-plus"></i> Nuevo Permiso
         </button>
 
@@ -67,7 +67,7 @@
                             <td>
 
                                 <button class="btn btn-sm btn-primary btn-round" data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $permiso->id_permiso }}">
+                                    data-bs-target="#editPermiso{{ $permiso->id_permiso }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
 

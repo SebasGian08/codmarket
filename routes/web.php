@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\UsuarioController;
 use App\Http\Controllers\Admin\RolController;
+use App\Http\Controllers\Admin\AccesosController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
 use App\Http\Controllers\Admin\BlogTagController;
 use App\Http\Controllers\Admin\BlogCategoryController;
@@ -125,6 +126,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/accesos', [AccesosController::class, 'index'])->name('admin.accesos.index');
 
     // MÓDULO: VENTA (punto de venta)
     Route::prefix('ventas')->group(function () {

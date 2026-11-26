@@ -338,7 +338,8 @@
                 @endif
 
                 {{-- SECCIÓN: CONFIGURACIÓN --}}
-                @php($puedeConfiguracion = \App\Helpers\PermisoHelper::tiene('empresa.ver') ||
+                @php($puedeConfiguracion = \App\Helpers\PermisoHelper::esAdministrador() ||
+                \App\Helpers\PermisoHelper::tiene('empresa.ver') ||
                 \App\Helpers\PermisoHelper::tiene('tiendas.ver') ||
                 \App\Helpers\PermisoHelper::tiene('clientes.ver') ||
                 \App\Helpers\PermisoHelper::tiene('vendedores.ver') ||
@@ -346,16 +347,20 @@
                 \App\Helpers\PermisoHelper::tiene('permisos.ver') ||
                 \App\Helpers\PermisoHelper::tiene('roles.ver') ||
                 \App\Helpers\PermisoHelper::tiene('configuracion.ver'))
+                @php($puedeAccesos = \App\Helpers\PermisoHelper::esAdministrador() ||
+                \App\Helpers\PermisoHelper::tiene('usuarios.ver') ||
+                \App\Helpers\PermisoHelper::tiene('permisos.ver') ||
+                \App\Helpers\PermisoHelper::tiene('roles.ver'))
                 @if($puedeConfiguracion)
                 <li
-                    class="nav-item {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'active' : '' }}">
+                    class="nav-item {{ Request::is('admin/empresa*') || Request::is('admin/accesos*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'active' : '' }}">
                     <a data-bs-toggle="collapse" href="#mantenimiento">
                         <i class="fas fa-cogs"></i>
                         <p>Configuración</p>
                         <span class="caret"></span>
                     </a>
 
-                    <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'show' : '' }}"
+                    <div class="collapse {{ Request::is('admin/empresa*') || Request::is('admin/accesos*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/tiendas*') || Request::is('admin/clientes*') || Request::is('admin/vendedores*') || Request::is('admin/permisos*') || Request::is('admin/configuracion*') ? 'show' : '' }}"
                         id="mantenimiento" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
                             @permiso('empresa.ver')
@@ -390,29 +395,13 @@
                             </li>
                             @endpermiso
 
-                            @permiso('usuarios.ver')
-                            <li class="{{ Request::is('admin/usuarios*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.users.index') }}">
-                                    <span class="sub-item">Usuarios</span>
+                            @if($puedeAccesos)
+                            <li class="{{ Request::is('admin/accesos*') || Request::is('admin/usuarios*') || Request::is('admin/roles*') || Request::is('admin/permisos*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.accesos.index') }}">
+                                    <span class="sub-item">Usuarios y Accesos</span>
                                 </a>
                             </li>
-                            @endpermiso
-
-                            @permiso('permisos.ver')
-                            <li class="{{ Request::is('admin/permisos*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.permisos.index') }}">
-                                    <span class="sub-item">Permisos</span>
-                                </a>
-                            </li>
-                            @endpermiso
-
-                            @permiso('roles.ver')
-                            <li class="{{ Request::is('admin/roles*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.roles.index') }}">
-                                    <span class="sub-item">Roles</span>
-                                </a>
-                            </li>
-                            @endpermiso
+                            @endif
 
                             @permiso('configuracion.ver')
                             <li class="{{ Request::is('admin/configuracion*') ? 'active' : '' }}">

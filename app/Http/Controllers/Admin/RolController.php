@@ -11,9 +11,7 @@ class RolController extends Controller
 {
     public function index()
     {
-        $roles = Rol::orderBy('id_rol', 'desc')->get();
-
-        return view('admin.roles.index', compact('roles'));
+        return redirect()->route('admin.accesos.index', ['tab' => 'roles']);
     }
 
     public function store(Request $request)
@@ -86,7 +84,7 @@ class RolController extends Controller
 
 
         return redirect()
-            ->route('admin.roles.index')
+            ->route('admin.accesos.index', ['tab' => 'roles'])
             ->with('success','Permisos asignados correctamente');
 
     }

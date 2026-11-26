@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Usuario;
-use App\Models\Rol;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -13,29 +12,15 @@ class UsuarioController extends Controller
 {
     public function index(Request $request)
     {
-        $filtros = [
-            'nombre' => $request->query('nombre'),
-            'id_rol' => $request->query('id_rol'),
-        ];
-
-        $query = Usuario::with('rol');
-
-        if (!empty($filtros['nombre'])) {
-            $query->where(function ($q) use ($filtros) {
-                $q->where('nombres', 'like', '%' . $filtros['nombre'] . '%')
-                    ->orWhere('apellidos', 'like', '%' . $filtros['nombre'] . '%')
-                    ->orWhere('email', 'like', '%' . $filtros['nombre'] . '%');
-            });
+        $query = ['tab' => 'usuarios'];
+        if ($request->filled('nombre')) {
+            $query['nombre'] = $request->query('nombre');
+        }
+        if ($request->filled('id_rol')) {
+            $query['id_rol'] = $request->query('id_rol');
         }
 
-        if (!empty($filtros['id_rol'])) {
-            $query->where('id_rol', $filtros['id_rol']);
-        }
-
-        $users = $query->orderBy('id_usuario', 'desc')->get();
-        $roles = Rol::all();
-
-        return view('admin.users.index', compact('users', 'roles', 'filtros'));
+        return redirect()->route('admin.accesos.index', $query);
     }
 
     public function store(Request $request)
@@ -59,7 +44,8 @@ class UsuarioController extends Controller
             'created_by' => Auth::id(),
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario creado correctamente.');
+        return redirect()->route('admin.accesos.index', ['tab' => 'usuarios'])
+            ->with('success', 'Usuario creado correctamente.');
     }
 
     public function update(Request $request, $id)
@@ -82,7 +68,8 @@ class UsuarioController extends Controller
         $user->updated_by = Auth::id();
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado.');
+        return redirect()->route('admin.accesos.index', ['tab' => 'usuarios'])
+            ->with('success', 'Usuario actualizado.');
     }
 
     public function destroy($id)
@@ -94,7 +81,8 @@ class UsuarioController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')->with('delete', 'Usuario inhabilitado correctamente.');
+        return redirect()->route('admin.accesos.index', ['tab' => 'usuarios'])
+            ->with('delete', 'Usuario inhabilitado correctamente.');
     }
 
 }

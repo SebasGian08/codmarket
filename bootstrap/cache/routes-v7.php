@@ -82,7 +82,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::BRq8tjSYOMdi4Ig9',
+            '_route' => 'generated::t8OSfeNzB7BNbzrS',
           ),
           1 => NULL,
           2 => 
@@ -102,7 +102,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::77VrCqcUW8moiMbX',
+            '_route' => 'generated::sX1jOBboWQrt8xHJ',
           ),
           1 => NULL,
           2 => 
@@ -492,6 +492,26 @@ app('router')->setCompiledRoutes(
           ),
           1 => NULL,
           2 => 
+          array (
+            'GET' => 0,
+            'HEAD' => 1,
+          ),
+          3 => NULL,
+          4 => false,
+          5 => false,
+          6 => NULL,
+        ),
+      ),
+      '/admin/accesos' =>
+      array (
+        0 =>
+        array (
+          0 =>
+          array (
+            '_route' => 'admin.accesos.index',
+          ),
+          1 => NULL,
+          2 =>
           array (
             'GET' => 0,
             'HEAD' => 1,
@@ -4954,7 +4974,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::BRq8tjSYOMdi4Ig9' =>
+    'generated::t8OSfeNzB7BNbzrS' =>
     array (
       'methods' => 
       array (
@@ -4977,7 +4997,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::BRq8tjSYOMdi4Ig9',
+        'as' => 'generated::t8OSfeNzB7BNbzrS',
       ),
       'fallback' => false,
       'defaults' => 
@@ -4993,7 +5013,7 @@ app('router')->setCompiledRoutes(
       'waitSeconds' => NULL,
       'withTrashed' => false,
     ),
-    'generated::77VrCqcUW8moiMbX' =>
+    'generated::sX1jOBboWQrt8xHJ' =>
     array (
       'methods' => 
       array (
@@ -5014,7 +5034,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::77VrCqcUW8moiMbX',
+        'as' => 'generated::sX1jOBboWQrt8xHJ',
       ),
       'fallback' => false,
       'defaults' => 
@@ -5946,6 +5966,44 @@ app('router')->setCompiledRoutes(
       array (
       ),
       'bindingFields' => 
+      array (
+      ),
+      'lockSeconds' => NULL,
+      'waitSeconds' => NULL,
+      'withTrashed' => false,
+    ),
+    'admin.accesos.index' =>
+    array (
+      'methods' =>
+      array (
+        0 => 'GET',
+        1 => 'HEAD',
+      ),
+      'uri' => 'admin/accesos',
+      'action' =>
+      array (
+        'middleware' =>
+        array (
+          0 => 'web',
+          1 => 'auth',
+        ),
+        'uses' => 'App\\Http\\Controllers\\Admin\\AccesosController@index',
+        'controller' => 'App\\Http\\Controllers\\Admin\\AccesosController@index',
+        'namespace' => NULL,
+        'prefix' => '/admin',
+        'where' =>
+        array (
+        ),
+        'as' => 'admin.accesos.index',
+      ),
+      'fallback' => false,
+      'defaults' =>
+      array (
+      ),
+      'wheres' =>
+      array (
+      ),
+      'bindingFields' =>
       array (
       ),
       'lockSeconds' => NULL,

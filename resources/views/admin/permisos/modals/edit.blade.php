@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit{{ $permiso->id_permiso }}">
+<div class="modal fade" id="editPermiso{{ $permiso->id_permiso }}">
 
     <div class="modal-dialog modal-lg">
 

@@ -13,8 +13,7 @@ class PermisoController extends Controller
 
     public function index()
     {
-        $permisos = Permiso::orderBy('id_permiso', 'asc')->get();
-        return view('admin.permisos.index', compact('permisos'));
+        return redirect()->route('admin.accesos.index', ['tab' => 'permisos']);
     }
 
 
@@ -39,7 +38,8 @@ class PermisoController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.permisos.index')->with('success','Permiso creado correctamente');
+            return redirect()->route('admin.accesos.index', ['tab' => 'permisos'])
+                ->with('success','Permiso creado correctamente');
         } catch(\Exception $e){
             DB::rollBack();
             return back()->with('error',$e->getMessage());
@@ -68,7 +68,8 @@ class PermisoController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.permisos.index')->with('success','Permiso actualizado correctamente');
+            return redirect()->route('admin.accesos.index', ['tab' => 'permisos'])
+                ->with('success','Permiso actualizado correctamente');
 
         }catch(\Exception $e){
             DB::rollBack();

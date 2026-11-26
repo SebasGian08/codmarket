@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit{{ $rol->id_rol }}">
+<div class="modal fade" id="editRol{{ $rol->id_rol }}">
     <div class="modal-dialog">
 
         <form method="POST" action="{{ route('admin.roles.update', $rol->id_rol) }}">
