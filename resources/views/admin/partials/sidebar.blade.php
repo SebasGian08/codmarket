@@ -3,7 +3,7 @@
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('admin.dashboard') }}" class="logo">
                 <img src="{{ $empresa && $empresa->logo_header ? asset($empresa->logo_header) : asset('assets/images/logo-principal-white.png') }}"
-                    alt="logo" class="navbar-brand" height="20" />
+                    alt="logo" class="navbar-brand" />
             </a>
 
             <div class="nav-toggle">

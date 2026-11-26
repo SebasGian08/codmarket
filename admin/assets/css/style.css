@@ -2841,6 +2841,12 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 /* ============ FIN CONTACTOS (TIPO DE DOCUMENTO) ============ */
 
 /* ============ MENU LATERAL ADMIN ============ */
+.sidebar .logo-header .logo .navbar-brand {
+    width: auto;
+    height: 34px;
+    object-fit: contain;
+}
+
 .sidebar {
     --admin-menu-accent: var(--admin-primary, #069fef);
 }
