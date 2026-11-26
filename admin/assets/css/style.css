@@ -3109,3 +3109,77 @@ html[data-theme="dark"] .gallery-card .gc-img {
     background: var(--ka-surface-2);
 }
 /* ============ FIN IMÁGENES DE PRODUCTO ============ */
+
+/* ============ COLOR PRIMARIO ADMIN ============ */
+:root {
+    --admin-primary: #21c36c;
+}
+
+.sidebar .nav > .nav-item.active > a,
+.sidebar[data-background-color="dark"] .nav > .nav-item.active > a,
+.sidebar[data-background-color="dark2"] .nav > .nav-item.active > a {
+    background: var(--admin-primary) !important;
+    color: #fff !important;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, .10), 4px 4px 15px -5px var(--admin-primary);
+}
+
+.sidebar .nav > .nav-item.active > a:before,
+.sidebar[data-background-color="dark"] .nav > .nav-item.active > a:before,
+.sidebar[data-background-color="dark2"] .nav > .nav-item.active > a:before {
+    background: var(--admin-primary) !important;
+}
+
+.sidebar .nav > .nav-item.active > a p,
+.sidebar .nav > .nav-item.active > a i,
+.sidebar .nav > .nav-item.active > a .caret,
+.sidebar .nav > .nav-item.active > a span,
+.sidebar[data-background-color="dark"] .nav > .nav-item.active > a p,
+.sidebar[data-background-color="dark"] .nav > .nav-item.active > a i,
+.sidebar[data-background-color="dark"] .nav > .nav-item.active > a .caret,
+.sidebar[data-background-color="dark"] .nav > .nav-item.active > a span {
+    color: #fff !important;
+}
+
+.sidebar .nav .nav-collapse > li.active > a {
+    color: var(--admin-primary) !important;
+}
+
+.sidebar .nav .nav-collapse > li.active > a .sub-item {
+    color: var(--admin-primary) !important;
+    font-weight: 600;
+}
+
+.sidebar .nav .nav-collapse > li.active > a:before {
+    background: var(--admin-primary) !important;
+}
+
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.show > .btn-primary.dropdown-toggle {
+    border-color: var(--admin-primary) !important;
+    background: var(--admin-primary) !important;
+}
+
+.btn-primary:hover {
+    border-color: var(--admin-primary) !important;
+    background: var(--admin-primary) !important;
+    filter: brightness(.92);
+}
+
+.btn-primary:disabled,
+.btn-primary.disabled {
+    border-color: var(--admin-primary) !important;
+    background: var(--admin-primary) !important;
+}
+
+.bg-primary,
+.badge-primary {
+    background-color: var(--admin-primary) !important;
+}
+
+.text-primary {
+    color: var(--admin-primary) !important;
+}
+/* ============ FIN COLOR PRIMARIO ADMIN ============ */

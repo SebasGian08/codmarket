@@ -3,7 +3,7 @@
 <head>
     @include('admin.partials.head')
 </head>
-<body>
+<body data-admin-primary="{{ $config['tema_color_primario'] ?? '#21c36c' }}">
     @php
         $loadingType = $config['sistema_loading_tipo'] ?? 'opcion_1';
     @endphp
