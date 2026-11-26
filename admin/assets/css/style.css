@@ -2947,6 +2947,11 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     color: #fff !important;
 }
 
+.sidebar .nav.nav-secondary > .nav-item.active > a[data-bs-toggle="collapse"][aria-expanded="true"] i,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item.active > a[data-bs-toggle="collapse"][aria-expanded="true"] i {
+    color: #fff !important;
+}
+
 .sidebar .nav.nav-secondary > .nav-item.active > a::before,
 .sidebar .nav.nav-secondary > .nav-item > a:hover::before,
 .sidebar .nav.nav-secondary > .nav-item > a:focus-visible::before,
