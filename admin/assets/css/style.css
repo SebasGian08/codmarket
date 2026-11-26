@@ -2840,11 +2840,15 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 /* ============ FIN CONTACTOS (TIPO DE DOCUMENTO) ============ */
 
 /* ============ MENU LATERAL ADMIN ============ */
+.sidebar {
+    --admin-menu-accent: #069fef;
+}
+
 .sidebar .nav.nav-secondary > .nav-item > a:hover,
 .sidebar .nav.nav-secondary > .nav-item > a:focus,
 .sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"],
 .sidebar .nav.nav-secondary > .nav-item.active > a {
-    background-color: var(--admin-menu-active-color, #ff9e27) !important;
+    background-color: var(--admin-menu-accent) !important;
     color: #fff !important;
 }
 
@@ -2872,17 +2876,22 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 .sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"]::before,
 .sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item.active > a::before,
 .sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[aria-expanded="true"]::before {
-    background-color: var(--admin-menu-primary-color, #177dff) !important;
+    background-color: var(--admin-menu-accent) !important;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
-.sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
-    color: var(--admin-menu-active-color, #ff9e27) !important;
+.sidebar .nav.nav-secondary .nav-collapse > li.active > a,
+.sidebar .nav.nav-secondary .nav-collapse > li:hover > a {
+    background-color: var(--admin-menu-accent) !important;
 }
 
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item::before,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item::before {
-    background-color: var(--admin-menu-active-color, #ff9e27) !important;
+    background-color: #fff !important;
+}
+
+.sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
+.sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
+    color: #fff !important;
 }
 /* ============ FIN MENU LATERAL ADMIN ============ */
 

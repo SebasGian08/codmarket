@@ -200,17 +200,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function aplicarTema(tema) {
         var oscuro = tema === 'dark';
-        var sidebar = document.querySelector('.sidebar');
 
         document.documentElement.setAttribute('data-theme', oscuro ? 'dark' : 'light');
 
         // sidebar y logo-header (dark / white)
         $('.sidebar').attr('data-background-color', oscuro ? 'dark' : 'white');
         $('.logo-header').attr('data-background-color', oscuro ? 'dark' : 'white');
-        if (sidebar) {
-            sidebar.style.setProperty('--admin-menu-active-color', sidebar.dataset.menuActiveColor || '#ff9e27');
-            sidebar.style.setProperty('--admin-menu-primary-color', sidebar.dataset.menuPrimaryColor || '#177dff');
-        }
 
         if (icon) { icon.className = oscuro ? 'fa fa-sun' : 'fa fa-moon'; }
     }
