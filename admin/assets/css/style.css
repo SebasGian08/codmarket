@@ -3318,6 +3318,7 @@ html[data-theme="dark"] .gallery-card .gc-img {
 .show > .btn-primary.dropdown-toggle {
     border-color: var(--admin-primary) !important;
     background: var(--admin-primary) !important;
+    color: #ffffff !important;
 }
 
 .btn-primary:hover {
