@@ -7,20 +7,7 @@
 
     @include('admin.partials.table_responsive')
 
-    <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
-
-        <div class="d-flex flex-wrap gap-2">
-            <a href="{{ route('admin.ventas.historial') }}" class="btn btn-light border btn-round">
-                <i class="fa fa-history"></i> Historial
-            </a>
-
-            <button class="btn btn-light border btn-round" id="btnLimpiarVenta">
-                <i class="fa fa-rotate-left"></i> Nueva Venta
-            </button>
-        </div>
-
-    </div>
 
     @if($cajasAbiertas->isEmpty())
     <div class="alert alert-warning d-flex align-items-center gap-2">
