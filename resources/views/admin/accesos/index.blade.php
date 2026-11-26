@@ -45,7 +45,7 @@
     @endif
 
     <div class="card admin-module-tabs-card">
-        <div class="card-header">
+        <div class="card-header py-4">
             <ul class="nav nav-tabs admin-module-tabs accesos-tabs" role="tablist">
                 @if($puedeVerUsuarios)
                 <li class="nav-item" role="presentation">
@@ -90,41 +90,6 @@
                 @if($puedeVerUsuarios)
                 <div class="tab-pane fade {{ $pestanaActiva === 'usuarios' ? 'show active' : '' }}"
                     id="accesos-usuarios" role="tabpanel">
-                    <div class="card admin-list-filters-card">
-                        <div class="card-body">
-                            <form method="GET" action="{{ route('admin.accesos.index') }}"
-                                class="row g-3 align-items-end admin-list-filters">
-                                <input type="hidden" name="tab" value="usuarios">
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <label class="form-label fw-semibold">Buscar usuario</label>
-                                    <input type="text" name="nombre" class="form-control" placeholder="Nombres, email"
-                                        value="{{ $filtros['nombre'] ?? '' }}">
-                                </div>
-                                <div class="col-12 col-md-6 col-xl-4">
-                                    <label class="form-label fw-semibold">Rol</label>
-                                    <select name="id_rol" class="form-select">
-                                        <option value="">Todos</option>
-                                        @foreach($roles as $rol)
-                                        <option value="{{ $rol->id_rol }}"
-                                            {{ (string)($filtros['id_rol'] ?? '') === (string)$rol->id_rol ? 'selected' : '' }}>
-                                            {{ $rol->nombre }}
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-12 col-xl-4 d-flex flex-wrap justify-content-xl-end gap-2 admin-list-filter-actions">
-                                    <button type="submit" class="btn btn-primary btn-round">
-                                        <i class="fa fa-search"></i> Buscar
-                                    </button>
-                                    <a href="{{ route('admin.accesos.index', ['tab' => 'usuarios']) }}"
-                                        class="btn btn-light border btn-round">
-                                        <i class="fa fa-eraser"></i> Limpiar
-                                    </a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
                     <div class="d-flex justify-content-end mb-3">
                         <button class="btn btn-primary btn-round" data-bs-toggle="modal"
                             data-bs-target="#modalCreateUsuario">
