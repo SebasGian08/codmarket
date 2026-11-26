@@ -28,16 +28,6 @@
 <script src="{{ asset('admin/assets/js/tinymce/tinymce.min.js') }}"></script>
 
 <script>
-(function() {
-    var primary = document.body ? document.body.dataset.adminPrimary : null;
-    if (!primary) return;
-
-    document.documentElement.style.setProperty('--admin-primary', primary);
-    document.documentElement.style.setProperty('--bs-primary', primary);
-})();
-</script>
-
-<script>
 document.querySelectorAll('.editor').forEach(function(element) {
     var editorConfig = {
         target: element,

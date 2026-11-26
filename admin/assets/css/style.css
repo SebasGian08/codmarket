@@ -2841,7 +2841,7 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 
 /* ============ MENU LATERAL ADMIN ============ */
 .sidebar {
-    --admin-menu-accent: #069fef;
+    --admin-menu-accent: var(--admin-primary, #069fef);
 }
 
 .sidebar .nav.nav-secondary > .nav-item > a:hover,
@@ -2885,19 +2885,24 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     background-color: var(--admin-menu-accent) !important;
 }
 
-.sidebar .nav.nav-secondary .nav-collapse > li.active > a,
-.sidebar .nav.nav-secondary .nav-collapse > li:hover > a {
+.sidebar .nav.nav-secondary .nav-collapse > li > a {
     background-color: var(--admin-menu-accent) !important;
+}
+
+.sidebar .nav.nav-secondary .nav-collapse > li > a .sub-item {
+    color: #fff !important;
+}
+
+.sidebar .nav.nav-secondary .nav-collapse > li > a .sub-item::before {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .6) !important;
 }
 
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item::before,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item::before {
     background-color: #fff !important;
-}
-
-.sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
-.sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
-    color: #fff !important;
 }
 /* ============ FIN MENU LATERAL ADMIN ============ */
 
@@ -3174,7 +3179,8 @@ html[data-theme="dark"] .gallery-card .gc-img {
 
 /* ============ COLOR PRIMARIO ADMIN ============ */
 :root {
-    --admin-primary: #21c36c;
+    --admin-primary: #069fef;
+    --bs-primary: #069fef;
 }
 
 .sidebar .nav > .nav-item.active > a,
@@ -3207,7 +3213,7 @@ html[data-theme="dark"] .gallery-card .gc-img {
 }
 
 .sidebar .nav .nav-collapse > li.active > a .sub-item {
-    color: var(--admin-primary) !important;
+    color: #fff !important;
     font-weight: 600;
 }
 
