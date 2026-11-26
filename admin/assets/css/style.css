@@ -2844,7 +2844,7 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 .sidebar .nav.nav-secondary > .nav-item > a:focus,
 .sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"],
 .sidebar .nav.nav-secondary > .nav-item.active > a {
-    background-color: #ff9e27 !important;
+    background-color: var(--admin-menu-active-color, #ff9e27) !important;
     color: #fff !important;
 }
 
@@ -2865,12 +2865,12 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item {
-    color: #ff9e27 !important;
+    color: var(--admin-menu-active-color, #ff9e27) !important;
 }
 
 .sidebar .nav.nav-secondary .nav-collapse > li.active > a .sub-item::before,
 .sidebar .nav.nav-secondary .nav-collapse > li:hover > a .sub-item::before {
-    background-color: #ff9e27 !important;
+    background-color: var(--admin-menu-active-color, #ff9e27) !important;
 }
 /* ============ FIN MENU LATERAL ADMIN ============ */
 

@@ -1,4 +1,5 @@
-<div class="sidebar" data-background-color="dark">
+<div class="sidebar" data-background-color="dark"
+    data-menu-active-color="{{ $config['tema_color_fondo'] ?? '#ff9e27' }}">
     <div class="sidebar-logo">
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('admin.dashboard') }}" class="logo">
