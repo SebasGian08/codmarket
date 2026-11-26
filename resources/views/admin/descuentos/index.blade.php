@@ -26,7 +26,7 @@
     @endif
 
     <div class="card admin-module-tabs-card mt-2">
-        <div class="card-header">
+        <div class="card-header py-4">
             <ul class="nav nav-tabs admin-module-tabs descuentos-tabs" role="tablist">
                 @if($puedeVerTiposVenta)
                 <li class="nav-item" role="presentation">
