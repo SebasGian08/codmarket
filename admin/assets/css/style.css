@@ -2881,6 +2881,10 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
         left: auto !important;
         transform: none;
     }
+
+    .sidebar_minimize:not(.sidebar_minimize_hover) .sidebar .nav.nav-secondary > .nav-item > a {
+        transform: translateX(8px);
+    }
 }
 
 .sidebar {
@@ -3346,9 +3350,11 @@ html[data-theme="dark"] .gallery-card .gc-img {
 }
 /* ============ FIN COLOR PRIMARIO ADMIN ============ */
 
-/* ============ CABECERAS DATATABLES ADMIN ============ */
+/* ============ CABECERAS TABLAS ADMIN ============ */
 table.dataTable thead > tr > th,
-table.dataTable thead > tr > td {
+table.dataTable thead > tr > td,
+.cajas-abiertas-tabla thead > tr > th,
+.venta-detalle-tabla thead > tr > th {
     padding: 11px 16px !important;
     background-color: #1c1c1c !important;
     color: #fff !important;
@@ -3370,4 +3376,15 @@ table.dataTable thead > tr:first-child > :last-child {
     border-top-right-radius: 8px;
     border-right: 0 !important;
 }
-/* ============ FIN CABECERAS DATATABLES ADMIN ============ */
+
+.cajas-abiertas-tabla thead > tr:first-child > :first-child,
+.venta-detalle-tabla thead > tr:first-child > :first-child {
+    border-top-left-radius: 8px;
+}
+
+.cajas-abiertas-tabla thead > tr:first-child > :last-child,
+.venta-detalle-tabla thead > tr:first-child > :last-child {
+    border-top-right-radius: 8px;
+    border-right: 0 !important;
+}
+/* ============ FIN CABECERAS TABLAS ADMIN ============ */
