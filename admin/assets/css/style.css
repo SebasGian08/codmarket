@@ -2846,24 +2846,20 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
 }
 
 .sidebar .nav.nav-secondary > .nav-item > a:hover,
-.sidebar .nav.nav-secondary > .nav-item > a:focus,
-.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"],
+.sidebar .nav.nav-secondary > .nav-item > a:focus-visible,
 .sidebar .nav.nav-secondary > .nav-item.active > a {
     background-color: var(--admin-menu-accent) !important;
     color: #fff !important;
 }
 
 .sidebar .nav.nav-secondary > .nav-item > a:hover p,
-.sidebar .nav.nav-secondary > .nav-item > a:focus p,
-.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"] p,
+.sidebar .nav.nav-secondary > .nav-item > a:focus-visible p,
 .sidebar .nav.nav-secondary > .nav-item.active > a p,
 .sidebar .nav.nav-secondary > .nav-item > a:hover i,
-.sidebar .nav.nav-secondary > .nav-item > a:focus i,
-.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"] i,
+.sidebar .nav.nav-secondary > .nav-item > a:focus-visible i,
 .sidebar .nav.nav-secondary > .nav-item.active > a i,
 .sidebar .nav.nav-secondary > .nav-item > a:hover .caret,
-.sidebar .nav.nav-secondary > .nav-item > a:focus .caret,
-.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"] .caret,
+.sidebar .nav.nav-secondary > .nav-item > a:focus-visible .caret,
 .sidebar .nav.nav-secondary > .nav-item.active > a .caret {
     color: #fff !important;
 }
@@ -2873,16 +2869,17 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     color: #fff !important;
 }
 
-.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item a:focus i,
 .sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item a:hover i,
-.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item a[aria-expanded="true"] i {
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item a:focus-visible i {
     color: #fff !important;
 }
 
 .sidebar .nav.nav-secondary > .nav-item.active > a::before,
-.sidebar .nav.nav-secondary > .nav-item > a[aria-expanded="true"]::before,
+.sidebar .nav.nav-secondary > .nav-item > a:hover::before,
+.sidebar .nav.nav-secondary > .nav-item > a:focus-visible::before,
 .sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item.active > a::before,
-.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[aria-expanded="true"]::before {
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a:hover::before,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a:focus-visible::before {
     background-color: var(--admin-menu-accent) !important;
 }
 
