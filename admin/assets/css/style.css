@@ -2916,6 +2916,11 @@ html[data-theme="dark"] .contacto-counter-wrap .input-counter {
     color: #fff !important;
 }
 
+.sidebar .nav.nav-secondary > .nav-item:not(.active) > a:focus:not(:focus-visible):not(:hover) i,
+.sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item:not(.active) > a:focus:not(:focus-visible):not(:hover) i {
+    color: var(--admin-menu-accent) !important;
+}
+
 .sidebar .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"] i,
 .sidebar[data-background-color="white"] .nav.nav-secondary > .nav-item > a[data-bs-toggle="collapse"][aria-expanded="true"] i {
     color: var(--admin-menu-accent) !important;
