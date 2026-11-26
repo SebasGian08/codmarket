@@ -9,13 +9,6 @@
 
     <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2">
 
-        <div class="d-flex flex-wrap align-items-center gap-2">
-            @include('admin.partials.page_heading', [
-                'icon' => 'fas fa-shopping-cart',
-                'title' => 'Venta',
-                'description' => 'Registra ventas, agrega productos al detalle y gestiona el cobro.',
-            ])
-        </div>
 
         <div class="d-flex flex-wrap gap-2">
             <a href="{{ route('admin.ventas.historial') }}" class="btn btn-light border btn-round">
