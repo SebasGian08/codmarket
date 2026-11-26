@@ -7,18 +7,15 @@
 <div class="page-inner">
 
     {{-- HEADER --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
-
-        <div>
-            <h3 class="mb-0">Configuraciones</h3>
-            <small class="text-muted">Gestiona los ajustes del sistema</small>
-        </div>
-
+    <div class="page-header d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+        @include('admin.partials.page_heading', [
+            'icon' => 'fas fa-cog',
+            'title' => 'Configuraciones',
+            'description' => 'Gestiona los ajustes del sistema.',
+        ])
         <button class="btn btn-primary btn-round shadow-sm" data-bs-toggle="modal" data-bs-target="#modalConfig">
-
             <i class="fa fa-plus"></i> Nueva Configuración
         </button>
-
     </div>
 
     {{-- BUSCADOR --}}
