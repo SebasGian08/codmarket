@@ -141,6 +141,9 @@
                                             <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
                                                 Opción 3
                                             </option>
+                                            <option value="opcion_4" {{ $config->valor === 'opcion_4' ? 'selected' : '' }}>
+                                                Opción 4 - Formulario interactivo
+                                            </option>
                                             @elseif($config->clave === 'seccion_servicios_tipo')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Tarjetas actuales

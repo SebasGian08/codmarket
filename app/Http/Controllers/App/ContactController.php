@@ -29,32 +29,50 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         $tipoConsulta = $request->input('tipo_consulta', 'servicio');
+        $esFormularioWizard = $request->input('formulario_contacto') === 'opcion_4';
 
         $request->validate([
-            'id_documento_tipo' => 'required|exists:documentos_tipo,id_documento_tipo',
+            'id_documento_tipo' => $esFormularioWizard
+                ? 'nullable|exists:documentos_tipo,id_documento_tipo'
+                : 'required|exists:documentos_tipo,id_documento_tipo',
             'acepta_privacidad' => 'required|accepted',
+            'formulario_contacto' => 'nullable|in:opcion_4',
             'email' => 'required|email|max:120',
-            'telefono' => $tipoConsulta === 'general'
-                ? 'required|digits:9'
-                : 'required|string|regex:/^[0-9]+$/|max:20',
+            'telefono' => $esFormularioWizard
+                ? 'required|regex:/^9[0-9]{8}$/'
+                : ($tipoConsulta === 'general'
+                    ? 'required|digits:9'
+                    : 'required|string|regex:/^[0-9]+$/|max:20'),
             'message' => $tipoConsulta === 'general'
                 ? 'nullable|string|max:1000'
                 : 'required|string|max:1000',
             'tipo_consulta' => 'nullable|in:servicio,marca,general',
-            'servicio' => [
-                'nullable',
-                'exists:services,id_service',
-                Rule::requiredIf($tipoConsulta === 'servicio'),
-            ],
+            'servicio' => $esFormularioWizard
+                ? [
+                    'nullable',
+                    Rule::exists('services', 'id_service')
+                        ->where('estado', 1)
+                        ->whereNull('deleted_at'),
+                    Rule::requiredIf($tipoConsulta === 'servicio'),
+                ]
+                : [
+                    'nullable',
+                    'exists:services,id_service',
+                    Rule::requiredIf($tipoConsulta === 'servicio'),
+                ],
             'id_marca' => [
                 'nullable',
                 'exists:marcas,id_marca',
                 Rule::requiredIf($tipoConsulta === 'marca'),
             ],
-            'cf-turnstile-response' => 'required'
+            'cf-turnstile-response' => $esFormularioWizard && !config('services.turnstile.site_key')
+                ? 'nullable'
+                : 'required'
         ]);
 
-        $documentoTipo = DocumentoTipo::find($request->id_documento_tipo);
+        $documentoTipo = $esFormularioWizard
+            ? null
+            : DocumentoTipo::find($request->id_documento_tipo);
         $esEmpresa = $documentoTipo && strtoupper((string) $documentoTipo->codigo) === 'RUC';
 
         if ($esEmpresa) {
@@ -83,23 +101,31 @@ class ContactController extends Controller
             return back()->withErrors(['error' => 'Bot detectado']);
         }
 
-        $response = Http::asForm()
-            ->timeout(10)
-            ->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
-                'secret' => config('services.turnstile.secret_key'),
-                'response' => $request->input('cf-turnstile-response'),
-                'remoteip' => $request->ip(),
-            ])
-            ->json();
+        if (!$esFormularioWizard || config('services.turnstile.site_key')) {
+            $response = Http::asForm()
+                ->timeout(10)
+                ->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
+                    'secret' => config('services.turnstile.secret_key'),
+                    'response' => $request->input('cf-turnstile-response'),
+                    'remoteip' => $request->ip(),
+                ])
+                ->json();
 
-        if (!($response['success'] ?? false)) {
-            return back()->withErrors(['error' => 'Verificación anti-robot fallida']);
+            if (!($response['success'] ?? false)) {
+                if ($esFormularioWizard) {
+                    return back()
+                        ->withErrors(['cf-turnstile-response' => 'No se pudo completar la verificación anti-robot.'])
+                        ->withInput($request->except('cf-turnstile-response'));
+                }
+
+                return back()->withErrors(['error' => 'Verificación anti-robot fallida']);
+            }
         }
 
         Contact::create([
             'nombres' => $nombres,
             'apellidos' => $apellidos,
-            'id_documento_tipo' => $request->id_documento_tipo,
+            'id_documento_tipo' => $esFormularioWizard ? null : $request->id_documento_tipo,
             'razon_social' => $razonSocial,
             'documento_numero' => $documentoNumero,
             'email' => $request->email,
@@ -113,6 +139,15 @@ class ContactController extends Controller
             'ip' => $request->ip(),
             'user_agent' => $request->header('User-Agent'),
         ]);
+
+        if ($esFormularioWizard) {
+            $servicio = Service::findOrFail($request->input('servicio'));
+
+            return redirect()->back()->with('contact_wizard_success', [
+                'name' => $nombres,
+                'service' => $servicio->nombre,
+            ]);
+        }
 
         return redirect()->back()->with('success', 'Mensaje enviado correctamente');
     }
