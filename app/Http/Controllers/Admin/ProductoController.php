@@ -183,7 +183,10 @@ class ProductoController extends Controller
             'nombre' => 'required|max:200',
             'sku_principal' => 'required|max:100',
             'precio_principal' => 'required|numeric|min:0',
+            'precio_oferta_principal' => 'nullable|numeric|min:0',
             'precio_mayorista_principal' => 'nullable|numeric|min:0',
+            'costo_principal' => 'nullable|numeric|min:0',
+            'afectar_todas_variantes' => 'nullable|boolean',
             'ficha_pdf' => 'nullable|file|mimes:pdf|max:10240',
             'quitar_ficha_pdf' => 'nullable|boolean',
             'especificaciones' => 'nullable|array',
@@ -237,15 +240,23 @@ class ProductoController extends Controller
             $primeraVariante = $producto->variantes()->first();
 
             if ($primeraVariante) {
-
                 $primeraVariante->update([
                     'sku' => $request->sku_principal,
                     'codigo_barras' => $request->codigo_barras,
+                ]);
+
+                $precios = [
                     'precio' => $request->precio_principal,
                     'precio_oferta' => $request->precio_oferta_principal,
                     'precio_mayorista' => $request->precio_mayorista_principal,
                     'costo' => $request->costo_principal,
-                ]);
+                ];
+
+                if ($request->boolean('afectar_todas_variantes')) {
+                    $producto->variantes()->update($precios);
+                } else {
+                    $primeraVariante->update($precios);
+                }
             }
 
             DB::commit();

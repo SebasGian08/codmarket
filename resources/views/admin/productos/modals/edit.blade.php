@@ -268,6 +268,7 @@
                                     </div>
 
                                     <div class="mb-3">
+
                                         <label class="form-label small">
                                             Costo
                                         </label>
@@ -275,6 +276,19 @@
                                         <input type="number" step="0.01" name="costo_principal" class="form-control"
                                             value="{{ $primeraVariante->costo ?? '' }}">
 
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input"
+                                            id="afectarTodasVariantes{{ $p->id_producto }}"
+                                            name="afectar_todas_variantes" value="1">
+                                        <label class="form-check-label small"
+                                            for="afectarTodasVariantes{{ $p->id_producto }}">
+                                            Afectar a todas las variantes
+                                        </label>
+                                        <small class="form-text text-muted d-block">
+                                            Aplicar precio, oferta, precio por mayor y costo a todas las variantes.
+                                        </small>
                                     </div>
 
                                 </div>
