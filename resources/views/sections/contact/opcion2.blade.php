@@ -120,6 +120,10 @@
                         </div>
 
                         <div class="contact-brand-field full">
+                            @include('partials.privacy-consent')
+                        </div>
+
+                        <div class="contact-brand-field full">
                             @if(config('services.turnstile.site_key'))
                             <div class="cf-turnstile"
                                 data-sitekey="{{ config('services.turnstile.site_key') }}"

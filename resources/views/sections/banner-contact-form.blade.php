@@ -94,6 +94,10 @@
                     <input type="text" name="website" tabindex="-1" autocomplete="off">
                 </div>
 
+                <div class="form-field full">
+                    @include('partials.privacy-consent')
+                </div>
+
                 <div class="form-field full banner-contact-captcha">
                     @if(config('services.turnstile.site_key'))
                     <div class="cf-turnstile"

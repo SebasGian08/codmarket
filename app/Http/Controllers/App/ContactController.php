@@ -32,6 +32,7 @@ class ContactController extends Controller
 
         $request->validate([
             'id_documento_tipo' => 'required|exists:documentos_tipo,id_documento_tipo',
+            'acepta_privacidad' => 'required|accepted',
             'email' => 'required|email|max:120',
             'telefono' => $tipoConsulta === 'general'
                 ? 'required|digits:9'

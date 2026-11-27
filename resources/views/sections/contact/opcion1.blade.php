@@ -313,6 +313,10 @@
 
                         {{-- RECAPTCHA --}}
                         <div class="form-field full">
+                            @include('partials.privacy-consent')
+                        </div>
+
+                        <div class="form-field full">
                             <div class="recaptcha-container">
                                 @if(config('services.turnstile.site_key'))
                                 <div class="cf-turnstile"

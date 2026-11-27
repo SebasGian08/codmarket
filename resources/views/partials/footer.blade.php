@@ -313,6 +313,11 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                     Todos los derechos reservados.
                 </p>
 
+                <div class="privacy-footer-links">
+                    <a href="{{ url('/politica-privacidad') }}">Política de privacidad</a>
+                    <button type="button" data-cookie-settings-open>Preferencias de cookies</button>
+                </div>
+
                 <div class="footer_light_socials" aria-label="Redes sociales">
                     @if($config['youtube_url'] ?? false)
                     <a href="{{ $config['youtube_url'] }}" target="_blank" rel="noopener noreferrer"
@@ -355,6 +360,10 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                     <strong>{{ $empresa->nombre ?? 'falta-nombre' }}</strong>.
                     Todos los derechos reservados.
                 </p>
+                <div class="privacy-footer-links">
+                    <a href="{{ url('/politica-privacidad') }}">Política de privacidad</a>
+                    <button type="button" data-cookie-settings-open>Preferencias de cookies</button>
+                </div>
             </div>
             @endif
 

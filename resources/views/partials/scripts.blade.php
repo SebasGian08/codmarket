@@ -37,6 +37,7 @@
 <!-- Custom -->
 <script src="{{ asset('assets/js/custom.js') }}?v={{ filemtime(base_path('assets/js/custom.js')) }}"></script>
 <script src="{{ asset('assets/js/theme.js') }}"></script>
+<script src="{{ asset('assets/js/cookie-consent.js') }}?v={{ filemtime(base_path('assets/js/cookie-consent.js')) }}"></script>
 
 <!-- Extras -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -152,7 +152,7 @@
             <label class="reclamaciones-consent">
                 <input type="checkbox" name="acepta_datos" value="1" required
                     {{ old('acepta_datos') ? 'checked' : '' }}>
-                <span>Declaro que los datos proporcionados son verdaderos y autorizo su tratamiento para atender esta reclamación. <span>*</span></span>
+                <span>Declaro que los datos proporcionados son verdaderos y autorizo su tratamiento para atender esta reclamación. <a href="{{ url('/politica-privacidad') }}">Ver política de privacidad</a> <span>*</span></span>
             </label>
 
             <button type="submit" class="reclamaciones-submit">Enviar reclamación</button>

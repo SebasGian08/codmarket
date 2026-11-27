@@ -12,6 +12,7 @@ class SubscriptionController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:subscriptions,email',
+            'acepta_suscripcion' => 'required|accepted',
             'cf-turnstile-response' => 'required'
         ]);
 

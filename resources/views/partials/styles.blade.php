@@ -2,23 +2,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@if(!empty($config['google_tag_manager_id'] ?? null))
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','{{ $config['google_tag_manager_id'] }}');</script>
-<!-- End Google Tag Manager -->
-@endif
-
-@if(!empty($config['google_analytics_id'] ?? null))
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ $config['google_analytics_id'] }}"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '{{ $config['google_analytics_id'] }}');
-</script>
-@endif
-
 <title>{!! $config['seo_title'] ?? 'Mi tienda online' !!}</title>
 <meta name="description" content="{!! $config['seo_description'] ?? '' !!}">
 <meta name="keywords" content="{{ $config['seo_keywords'] ?? '' }}">

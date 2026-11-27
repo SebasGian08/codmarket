@@ -91,6 +91,7 @@ Route::get('/producto/{slug}/variante/{variante}', [ProductoController::class, '
 Route::get('/buscar-productos', [ProductoController::class, 'buscar'])->name('productos.buscar');
 Route::get('/productos/categoria/{slug}', [ProductoController::class, 'categoria'])->name('productos.categoria');
 Route::get('/nosotros', [HomeController::class, 'nosotros'])->name('nosotros');
+Route::view('/politica-privacidad', 'pages.politica-privacidad')->name('privacy.policy');
 
 /*
 |--------------------------------------------------------------------------

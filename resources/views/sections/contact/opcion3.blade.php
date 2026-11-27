@@ -73,10 +73,7 @@
                         <span class="contact-option3-required">*</span> Campos obligatorios
                     </p>
 
-                    <label class="contact-option3-consent">
-                        <input type="checkbox" name="acepta_privacidad" value="1" required>
-                        <span>He leído y aceptado la política de privacidad y cookies</span>
-                    </label>
+                    @include('partials.privacy-consent')
 
                     <div class="honeypot">
                         <input type="text" name="website" tabindex="-1" autocomplete="off">

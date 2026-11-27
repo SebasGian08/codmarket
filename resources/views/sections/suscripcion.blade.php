@@ -32,8 +32,12 @@
                     <button type="submit" class="bg_black">
                         Suscribirme
                     </button>
-
                 </div>
+
+                @include('partials.privacy-consent', [
+                    'consentName' => 'acepta_suscripcion',
+                    'consentText' => 'Autorizo el uso de mi correo para recibir novedades y promociones.'
+                ])
 
                 <!-- Cloudflare Turnstile -->
                 <div class="recaptcha_wrapper">
@@ -45,10 +49,6 @@
                     </div>
                     @endif
                 </div>
-
-                <small>
-                    No compartimos tu información con terceros.
-                </small>
 
             </form>
 
