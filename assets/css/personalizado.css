@@ -4958,9 +4958,9 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
 .cookie-consent {
     position: fixed;
     z-index: 1090;
-    right: 20px;
+    right: auto;
+    left: 20px;
     bottom: 20px;
-    left: auto;
     width: 360px;
     max-width: calc(100vw - 24px);
     margin: 0;
@@ -5267,9 +5267,9 @@ html[data-theme="dark"] .privacy-consent a {
     }
 
     .cookie-consent {
-        right: 12px;
+        right: auto;
+        left: 12px;
         bottom: 12px;
-        left: auto;
         width: calc(100vw - 24px);
         padding: 14px;
     }

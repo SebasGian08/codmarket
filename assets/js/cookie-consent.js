@@ -75,8 +75,10 @@
     function setPanelVisible(visible, showSettings) {
         panel.hidden = !visible;
         settings.hidden = !showSettings;
-        panel.querySelector('[data-cookie-configure]')
-            .setAttribute('aria-expanded', showSettings ? 'true' : 'false');
+        var configureButton = panel.querySelector('[data-cookie-configure]');
+        if (configureButton) {
+            configureButton.setAttribute('aria-expanded', showSettings ? 'true' : 'false');
+        }
     }
 
     function saveConsent(analyticsAndMarketing) {
@@ -133,10 +135,13 @@
         saveConsent(false);
     });
 
-    panel.querySelector('[data-cookie-configure]').addEventListener('click', function () {
-        settings.hidden = !settings.hidden;
-        this.setAttribute('aria-expanded', settings.hidden ? 'false' : 'true');
-    });
+    var configureButton = panel.querySelector('[data-cookie-configure]');
+    if (configureButton) {
+        configureButton.addEventListener('click', function () {
+            settings.hidden = !settings.hidden;
+            this.setAttribute('aria-expanded', settings.hidden ? 'false' : 'true');
+        });
+    }
 
     panel.querySelector('[data-cookie-save]').addEventListener('click', function () {
         saveConsent(trackingToggle.checked);
