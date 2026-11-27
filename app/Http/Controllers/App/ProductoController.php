@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\App;
 
 use App\Http\Controllers\Controller;
+use App\Models\Configuracion;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 use App\Models\Marca;
@@ -117,6 +118,13 @@ class ProductoController extends Controller
 
     public function index(Request $request)
     {
+        $mostrarProductosEnInicio = Configuracion::where('clave', 'home_mostrar_productos')
+            ->value('valor');
+
+        if ((string) $mostrarProductosEnInicio === '0') {
+            return redirect()->route('home');
+        }
+
         $query = Producto::with([
             'marca',
             'categorias',
