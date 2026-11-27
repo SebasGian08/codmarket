@@ -286,9 +286,7 @@
                                             for="afectarTodasVariantes{{ $p->id_producto }}">
                                             Afectar a todas las variantes
                                         </label>
-                                        <small class="form-text text-muted d-block">
-                                            Aplicar precio, oferta, precio por mayor y costo a todas las variantes.
-                                        </small>
+                                        
                                     </div>
 
                                 </div>
