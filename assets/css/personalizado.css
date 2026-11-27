@@ -5321,8 +5321,8 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     padding: clamp(22px, 5vw, 42px);
     border: 1px solid #e1e8f0;
     border-radius: 18px;
-    background: var(--color-fondo, #fff);
-    color: var(--color-texto, #263244);
+    background: #fff;
+    color: #263244;
     box-shadow: 0 14px 42px rgba(24, 43, 69, .08);
 }
 
@@ -5332,7 +5332,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 }
 
 .contact-wizard__eyebrow {
-    color: var(--color-secundario, #0ea5e9);
+    color: var(--color-primario, #21c36c);
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 1.8px;
@@ -5341,7 +5341,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 .contact-wizard__heading h1,
 .contact-wizard__success h1 {
     margin: 8px 0;
-    color: var(--color-texto, #263244);
+    color: #263244;
     font-size: clamp(26px, 4vw, 34px);
     font-weight: 800;
 }
@@ -5406,7 +5406,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     justify-content: center;
     border: 2px solid #dce3eb;
     border-radius: 50%;
-    background: var(--color-fondo, #fff);
+    background: #fff;
     color: #788496;
     font-size: 13px;
     font-weight: 700;
@@ -5436,7 +5436,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 
 .contact-wizard__step-heading h2 {
     margin: 0 0 5px;
-    color: var(--color-texto, #263244);
+    color: #263244;
     font-size: 21px;
     font-weight: 750;
 }
@@ -5455,8 +5455,8 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     padding: 16px;
     border: 1px solid #dfe6ee;
     border-radius: 12px;
-    background: var(--color-fondo, #fff);
-    color: var(--color-texto, #263244);
+    background: #fff;
+    color: #263244;
     text-align: left;
     cursor: pointer;
     transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
@@ -5481,7 +5481,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     align-items: center;
     justify-content: center;
     border-radius: 11px;
-    background: color-mix(in srgb, var(--color-primario, #21c36c) 11%, #fff);
+    background: #f1f5f9;
     color: var(--color-primario, #21c36c);
     font-size: 19px;
 }
@@ -5493,7 +5493,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 }
 
 .contact-wizard__service-copy strong {
-    color: var(--color-texto, #263244);
+    color: #263244;
     font-size: 14px;
     font-weight: 700;
 }
@@ -5564,7 +5564,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     border-radius: 2px;
     background: #fff;
     box-shadow: none;
-    accent-color: #245cff;
+    accent-color: var(--color-primario, #245cff);
 }
 
 .contact-wizard__field label span {
@@ -5580,8 +5580,8 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     border: 1px solid #dce3eb;
     border-radius: 9px;
     outline: none;
-    background: var(--color-fondo, #fff);
-    color: var(--color-texto, #263244);
+    background: #fff;
+    color: #263244;
     font: inherit;
     font-size: 14px;
     transition: border-color .2s ease, box-shadow .2s ease;
@@ -5594,8 +5594,8 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 
 .contact-wizard__field input:focus,
 .contact-wizard__field textarea:focus {
-    border-color: var(--color-secundario, #0ea5e9);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secundario, #0ea5e9) 14%, transparent);
+    border-color: var(--color-primario, #21c36c);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primario, #21c36c) 14%, transparent);
 }
 
 .contact-wizard__field input::placeholder,
@@ -5609,12 +5609,12 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
     overflow: hidden;
     border: 1px solid #dce3eb;
     border-radius: 9px;
-    background: var(--color-fondo, #fff);
+    background: #fff;
 }
 
 .contact-wizard__phone:focus-within {
-    border-color: var(--color-secundario, #0ea5e9);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-secundario, #0ea5e9) 14%, transparent);
+    border-color: var(--color-primario, #21c36c);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primario, #21c36c) 14%, transparent);
 }
 
 .contact-wizard__phone > span {
@@ -5654,7 +5654,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 }
 
 .contact-wizard__service-summary strong {
-    color: var(--color-texto, #263244);
+    color: #263244;
     font-size: 14px;
 }
 
@@ -5770,7 +5770,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 
 .contact-wizard__button:focus-visible,
 .contact-wizard__service-card:focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--color-secundario, #0ea5e9) 55%, transparent);
+    outline: 3px solid color-mix(in srgb, var(--color-primario, #21c36c) 55%, transparent);
     outline-offset: 3px;
 }
 
@@ -5795,7 +5795,7 @@ html[data-theme="dark"] .cookie-consent__button--secondary {
 }
 
 .contact-wizard__success > p strong {
-    color: var(--color-texto, #263244);
+    color: #263244;
 }
 
 .contact-wizard__success .contact-wizard__trust {
