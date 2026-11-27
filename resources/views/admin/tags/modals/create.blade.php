@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalCreate">
+<div class="modal fade" id="modalCreateBlogTag">
     <div class="modal-dialog modal-lg">
 
         <form action="{{ route('admin.tags.store') }}" method="POST">

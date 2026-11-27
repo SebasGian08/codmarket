@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit{{ $tag->id_blogs_tags }}">
+<div class="modal fade" id="editBlogTag{{ $tag->id_blogs_tags }}">
     <div class="modal-dialog modal-lg">
 
         <form action="{{ route('admin.tags.update', $tag->id_blogs_tags) }}" method="POST">

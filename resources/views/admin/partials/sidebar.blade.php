@@ -439,29 +439,15 @@
                     <div class="collapse {{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/blog-categorias*') || Request::is('admin/servicios*') || Request::is('admin/portafolios*') || Request::is('admin/contacts*') || Request::is('admin/banners-principales*') || Request::is('admin/promociones*') || Request::is('admin/trabajos-realizados*') || Request::is('admin/rubros*') || Request::is('admin/preguntas-frecuentes*') ? 'show' : '' }}"
                         id="tiendaVirtual" data-bs-parent="#adminSidebarMenus">
                         <ul class="nav nav-collapse">
-                            @permiso('blogs.ver')
-                            <li class="{{ Request::is('admin/blogs*') ? 'active' : '' }}">
+                            @if(\App\Helpers\PermisoHelper::tiene('blogs.ver') ||
+                                \App\Helpers\PermisoHelper::tiene('tags.ver') ||
+                                \App\Helpers\PermisoHelper::tiene('blog-categorias.ver'))
+                            <li class="{{ Request::is('admin/blogs*') || Request::is('admin/tags*') || Request::is('admin/blog-categorias*') ? 'active' : '' }}">
                                 <a href="{{ route('admin.blogs.index') }}">
                                     <span class="sub-item">Blog</span>
                                 </a>
                             </li>
-                            @endpermiso
-
-                            @permiso('tags.ver')
-                            <li class="{{ Request::is('admin/tags*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.tags.index') }}">
-                                    <span class="sub-item">Blog Tags</span>
-                                </a>
-                            </li>
-                            @endpermiso
-
-                            @permiso('blog-categorias.ver')
-                            <li class="{{ Request::is('admin/blog-categorias*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.blog-categories.index') }}">
-                                    <span class="sub-item">Blog Categorías</span>
-                                </a>
-                            </li>
-                            @endpermiso
+                            @endif
 
                             @permiso('servicios.ver')
                             <li class="{{ Request::is('admin/servicios*') ? 'active' : '' }}">

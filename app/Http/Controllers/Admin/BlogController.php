@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\PermisoHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Blog;
@@ -12,13 +13,49 @@ use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $blogs = Blog::with('category', 'tags')->latest()->get();
-        $categories = BlogsCategory::all();
-        $tags = BlogTag::all();
+        $puedeVerBlogs = PermisoHelper::tiene('blogs.ver');
+        $puedeVerTags = PermisoHelper::tiene('tags.ver');
+        $puedeVerCategorias = PermisoHelper::tiene('blog-categorias.ver');
 
-        return view('admin.blog.index', compact('blogs', 'categories', 'tags'));
+        abort_unless($puedeVerBlogs || $puedeVerTags || $puedeVerCategorias, 403);
+
+        $pestanasDisponibles = [];
+        if ($puedeVerBlogs) {
+            $pestanasDisponibles[] = 'blogs';
+        }
+        if ($puedeVerCategorias) {
+            $pestanasDisponibles[] = 'categorias';
+        }
+        if ($puedeVerTags) {
+            $pestanasDisponibles[] = 'tags';
+        }
+
+        $pestanaActiva = $request->query('tab');
+        if (!in_array($pestanaActiva, $pestanasDisponibles, true)) {
+            $pestanaActiva = $pestanasDisponibles[0];
+        }
+
+        $blogs = $puedeVerBlogs
+            ? Blog::with('category', 'tags')->latest()->get()
+            : collect();
+        $categories = ($puedeVerBlogs || $puedeVerCategorias)
+            ? BlogsCategory::withCount('blogs')->orderBy('name')->get()
+            : collect();
+        $tags = ($puedeVerBlogs || $puedeVerTags)
+            ? BlogTag::withCount('blogs')->orderBy('name')->get()
+            : collect();
+
+        return view('admin.blog.index', compact(
+            'blogs',
+            'categories',
+            'tags',
+            'puedeVerBlogs',
+            'puedeVerCategorias',
+            'puedeVerTags',
+            'pestanaActiva'
+        ));
     }
 
     /**

@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalCreate" tabindex="-1">
+<div class="modal fade" id="modalCreateBlog" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <form method="POST" action="{{ route('admin.blogs.store') }}" enctype="multipart/form-data">
             @csrf

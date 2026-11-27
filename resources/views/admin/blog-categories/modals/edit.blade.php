@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit{{ $category->id_blogs_categories }}">
+<div class="modal fade" id="editBlogCategory{{ $category->id_blogs_categories }}">
     <div class="modal-dialog modal-lg">
         <form action="{{ route('admin.blog-categories.update', $category->id_blogs_categories) }}" method="POST">
             @csrf

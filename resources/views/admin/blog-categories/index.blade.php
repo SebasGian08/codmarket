@@ -15,7 +15,7 @@
             ])
         </div>
 
-        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
+        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateBlogCategory">
             <i class="fa fa-plus"></i> Nueva Categoría
         </button>
     </div>
@@ -45,7 +45,7 @@
                             <td>
                                 <button class="btn btn-sm btn-primary btn-round"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $category->id_blogs_categories }}">
+                                    data-bs-target="#editBlogCategory{{ $category->id_blogs_categories }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
 

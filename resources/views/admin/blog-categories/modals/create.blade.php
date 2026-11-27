@@ -1,4 +1,4 @@
-<div class="modal fade" id="modalCreate">
+<div class="modal fade" id="modalCreateBlogCategory">
     <div class="modal-dialog modal-lg">
         <form action="{{ route('admin.blog-categories.store') }}" method="POST">
             @csrf

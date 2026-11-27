@@ -12,11 +12,7 @@ class BlogTagController extends Controller
 {
     public function index()
     {
-        $tags = BlogTag::withCount('blogs')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return view('admin.tags.index', compact('tags'));
+        return redirect()->route('admin.blogs.index', ['tab' => 'tags']);
     }
 
     public function store(Request $request)
@@ -37,7 +33,7 @@ class BlogTagController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.tags.index')
+            return redirect()->route('admin.blogs.index', ['tab' => 'tags'])
                 ->with('success', 'Tag creado correctamente');
 
         } catch (\Exception $e) {
@@ -65,7 +61,7 @@ class BlogTagController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.tags.index')
+            return redirect()->route('admin.blogs.index', ['tab' => 'tags'])
                 ->with('success', 'Tag actualizado correctamente');
 
         } catch (\Exception $e) {

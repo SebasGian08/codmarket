@@ -12,11 +12,7 @@ class BlogCategoryController extends Controller
 {
     public function index()
     {
-        $categories = BlogsCategory::withCount('blogs')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return view('admin.blog-categories.index', compact('categories'));
+        return redirect()->route('admin.blogs.index', ['tab' => 'categorias']);
     }
 
     public function store(Request $request)
@@ -35,7 +31,7 @@ class BlogCategoryController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.blog-categories.index')
+            return redirect()->route('admin.blogs.index', ['tab' => 'categorias'])
                 ->with('success', 'Categoría creada correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -60,7 +56,7 @@ class BlogCategoryController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.blog-categories.index')
+            return redirect()->route('admin.blogs.index', ['tab' => 'categorias'])
                 ->with('success', 'Categoría actualizada correctamente');
         } catch (\Exception $e) {
             DB::rollBack();

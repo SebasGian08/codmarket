@@ -1,94 +1,149 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Gestión de Blog')
+@section('title', 'Blog')
 
 @section('content')
 
 <div class="page-inner">
-    <div class="page-header d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center">
-            @include('admin.partials.page_heading', [
-                'icon' => 'fas fa-newspaper',
-                'title' => 'Gestión de Blogs',
-                'description' => 'Crea, edita y organiza las publicaciones de tu blog.',
-            ])
-        </div>
+    @include('admin.partials.page_heading', [
+        'icon' => 'fas fa-newspaper',
+        'title' => 'Blog',
+        'description' => 'Administra publicaciones, categorías y etiquetas desde un solo módulo.',
+    ])
 
-        <div class="ms-md-auto py-2 py-md-0">
-            <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
-                <i class="fa fa-plus"></i> Nuevo Blog
-            </button>
-        </div>
+    @if(session('success') || session('delete'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') ?? session('delete') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
-    <div class="card">
-        <div class="card-body">
+    @endif
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover" id="basic-datatables">
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    @endif
 
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Categoría</th>
-                            <th>Estado</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
+    @if($errors->any())
+    <div class="alert alert-danger" role="alert">
+        <ul class="mb-0">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
-                    <tbody>
-                        @foreach($blogs as $blog)
-                        <tr>
-                            <td>{{ $blog->id_blog }}</td>
-                            <td>{{ $blog->title }}</td>
-                            <td>{{ $blog->category->name ?? '-' }}</td>
-                            <td>
-                                <span class="badge {{ $blog->status ? 'bg-success' : 'bg-danger' }}">
-                                    {{ $blog->status ? 'Activo' : 'Inactivo' }}
-                                </span>
-                            </td>
-                            <td>{{ $blog->created_at->format('d/m/Y') }}</td>
+    <div class="card admin-module-tabs-card mt-2">
+        <div class="card-header py-4">
+            <ul class="nav nav-tabs admin-module-tabs blog-admin-tabs" role="tablist">
+                @if($puedeVerBlogs)
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {{ $pestanaActiva === 'blogs' ? 'active' : '' }}"
+                        data-bs-toggle="tab" href="#blog-panel-publicaciones" role="tab"
+                        data-tab-value="blogs" aria-controls="blog-panel-publicaciones"
+                        aria-selected="{{ $pestanaActiva === 'blogs' ? 'true' : 'false' }}">
+                        <i class="fas fa-newspaper" aria-hidden="true"></i>
+                        <span>Blogs</span>
+                    </a>
+                </li>
+                @endif
 
-                            <td>
-                                <button class="btn btn-sm mt-2 btn-primary btn-border btn-round" data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $blog->id_blog }}">
-                                    <i class="fa fa-edit"></i>
-                                </button>
+                @if($puedeVerCategorias)
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {{ $pestanaActiva === 'categorias' ? 'active' : '' }}"
+                        data-bs-toggle="tab" href="#blog-panel-categorias" role="tab"
+                        data-tab-value="categorias" aria-controls="blog-panel-categorias"
+                        aria-selected="{{ $pestanaActiva === 'categorias' ? 'true' : 'false' }}">
+                        <i class="fas fa-folder-open" aria-hidden="true"></i>
+                        <span>Categorías</span>
+                    </a>
+                </li>
+                @endif
 
-                                <form action="{{ route('admin.blogs.destroy', $blog->id_blog) }}" method="POST"
-                                    id="delete-form-{{ $blog->id_blog }}" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
+                @if($puedeVerTags)
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link {{ $pestanaActiva === 'tags' ? 'active' : '' }}"
+                        data-bs-toggle="tab" href="#blog-panel-tags" role="tab"
+                        data-tab-value="tags" aria-controls="blog-panel-tags"
+                        aria-selected="{{ $pestanaActiva === 'tags' ? 'true' : 'false' }}">
+                        <i class="fas fa-tags" aria-hidden="true"></i>
+                        <span>Tags</span>
+                    </a>
+                </li>
+                @endif
+            </ul>
+        </div>
 
-                                    <button type="button" class="btn btn-sm mt-2 btn-danger btn-border btn-round btn-delete"
-                                        data-id="{{ $blog->id_blog }}" data-name="{{ $blog->title }}">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
+        <div class="card-body p-4">
+            <div class="tab-content">
+                @if($puedeVerBlogs)
+                <div class="tab-pane fade {{ $pestanaActiva === 'blogs' ? 'show active' : '' }}"
+                    id="blog-panel-publicaciones" role="tabpanel">
+                    <div class="d-flex justify-content-end mb-3">
+                        <button type="button" class="btn btn-primary btn-round"
+                            data-bs-toggle="modal" data-bs-target="#modalCreateBlog">
+                            <i class="fa fa-plus"></i> Nuevo Blog
+                        </button>
+                    </div>
+                    @include('admin.blog.partials.table', ['dataTableId' => 'tabla-blogs'])
+                </div>
+                @endif
 
-                        @include('admin.blog.modals.edit')
+                @if($puedeVerCategorias)
+                <div class="tab-pane fade {{ $pestanaActiva === 'categorias' ? 'show active' : '' }}"
+                    id="blog-panel-categorias" role="tabpanel">
+                    <div class="d-flex justify-content-end mb-3">
+                        <button type="button" class="btn btn-primary btn-round"
+                            data-bs-toggle="modal" data-bs-target="#modalCreateBlogCategory">
+                            <i class="fa fa-plus"></i> Nueva Categoría
+                        </button>
+                    </div>
+                    @include('admin.blog-categories.partials.table', ['dataTableId' => 'tabla-categorias-blog'])
+                </div>
+                @endif
 
-                        @endforeach
-                    </tbody>
-
-                </table>
+                @if($puedeVerTags)
+                <div class="tab-pane fade {{ $pestanaActiva === 'tags' ? 'show active' : '' }}"
+                    id="blog-panel-tags" role="tabpanel">
+                    <div class="d-flex justify-content-end mb-3">
+                        <button type="button" class="btn btn-primary btn-round"
+                            data-bs-toggle="modal" data-bs-target="#modalCreateBlogTag">
+                            <i class="fa fa-plus"></i> Nuevo Tag
+                        </button>
+                    </div>
+                    @include('admin.tags.partials.table', ['dataTableId' => 'tabla-tags-blog'])
+                </div>
+                @endif
             </div>
 
         </div>
     </div>
-
 </div>
 
+@if($puedeVerBlogs)
 @include('admin.blog.modals.create')
+@foreach($blogs as $blog)
+    @include('admin.blog.modals.edit')
+@endforeach
+@endif
 
-@endsection
+@if($puedeVerCategorias)
+@include('admin.blog-categories.modals.create')
+@foreach($categories as $category)
+    @include('admin.blog-categories.modals.edit')
+@endforeach
+@endif
 
+@if($puedeVerTags)
+@include('admin.tags.modals.create')
+@foreach($tags as $tag)
+    @include('admin.tags.modals.edit')
+@endforeach
+@endif
 
 @push('scripts')
-
 <script>
 function previewCreate(event) {
     updateBlogImagePreview(event, 'previewCreateImg');
@@ -113,6 +168,22 @@ function updateBlogImagePreview(event, previewId) {
     };
     reader.readAsDataURL(file);
 }
-</script>
 
+$(document).on('shown.bs.tab', '.blog-admin-tabs [data-bs-toggle="tab"]', function(event) {
+    var $tab = $(event.target);
+    var target = $tab.attr('href');
+    var currentUrl = new URL(window.location.href);
+
+    currentUrl.searchParams.set('tab', $tab.data('tab-value'));
+    window.history.replaceState({}, '', currentUrl.toString());
+
+    $(target).find('.admin-data-table').each(function() {
+        if ($.fn.DataTable.isDataTable(this)) {
+            $(this).DataTable().columns.adjust();
+        }
+    });
+});
+</script>
 @endpush
+
+@endsection

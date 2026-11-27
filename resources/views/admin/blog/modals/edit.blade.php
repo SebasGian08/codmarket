@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit{{ $blog->id_blog }}" tabindex="-1">
+<div class="modal fade" id="editBlog{{ $blog->id_blog }}" tabindex="-1">
     <div class="modal-dialog modal-xl">
 
         <form method="POST" action="{{ route('admin.blogs.update', $blog->id_blog) }}" enctype="multipart/form-data">

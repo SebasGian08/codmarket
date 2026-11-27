@@ -16,7 +16,7 @@
             ])
         </div>
 
-        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreate">
+        <button class="btn btn-primary btn-round" data-bs-toggle="modal" data-bs-target="#modalCreateBlogTag">
             <i class="fa fa-plus"></i> Nuevo Tag
         </button>
 
@@ -54,7 +54,7 @@
 
                                 <button class="btn btn-sm btn-primary btn-round"
                                     data-bs-toggle="modal"
-                                    data-bs-target="#edit{{ $tag->id_blogs_tags }}">
+                                    data-bs-target="#editBlogTag{{ $tag->id_blogs_tags }}">
                                     <i class="fa fa-edit"></i>
                                 </button>
 
