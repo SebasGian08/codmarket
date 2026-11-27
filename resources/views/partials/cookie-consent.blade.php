@@ -4,12 +4,10 @@
     role="region" aria-label="Preferencias de cookies">
     <div class="cookie-consent__content">
         <div class="cookie-consent__copy">
-            <h2>Tu privacidad importa</h2>
+            <h2>Usamos cookies</h2>
             <p>
-                Usamos cookies necesarias para que el sitio funcione. Con tu permiso, también usaremos
-                Google Analytics y Google Tag Manager para medir el uso del sitio y gestionar etiquetas.
-                Puedes cambiar tu elección cuando quieras.
-                <a href="{{ url('/politica-privacidad') }}">Lee la política de privacidad y cookies</a>.
+                Podemos usar cookies opcionales para mejorar tu experiencia.
+                <a href="{{ url('/politica-privacidad') }}">Más información</a>
             </p>
             <p class="cookie-consent__status" data-cookie-status role="status" aria-live="polite"></p>
         </div>

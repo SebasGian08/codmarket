@@ -4960,10 +4960,11 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
     z-index: 1090;
     right: 20px;
     bottom: 20px;
-    left: 20px;
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 22px;
+    left: auto;
+    width: 360px;
+    max-width: calc(100vw - 24px);
+    margin: 0;
+    padding: 16px;
     border: 1px solid rgba(0, 0, 0, .12);
     border-radius: 14px;
     background: #f6f6f6;
@@ -4973,21 +4974,21 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
 
 .cookie-consent__content {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: 1fr;
     align-items: center;
-    gap: 18px 24px;
+    gap: 12px;
 }
 
 .cookie-consent__copy h2 {
-    margin: 0 0 7px;
+    margin: 0 0 4px;
     color: var(--color-texto, #333);
-    font-size: 19px;
+    font-size: 16px;
     font-weight: 700;
 }
 
 .cookie-consent__copy p {
     margin: 0;
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.55;
 }
 
@@ -5266,10 +5267,11 @@ html[data-theme="dark"] .privacy-consent a {
     }
 
     .cookie-consent {
-        right: 10px;
-        bottom: 10px;
-        left: 10px;
-        padding: 16px;
+        right: 12px;
+        bottom: 12px;
+        left: auto;
+        width: calc(100vw - 24px);
+        padding: 14px;
     }
 
     .cookie-consent__content {
