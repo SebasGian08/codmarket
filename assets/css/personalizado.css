@@ -4966,7 +4966,7 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
     padding: 22px;
     border: 1px solid rgba(0, 0, 0, .12);
     border-radius: 14px;
-    background: var(#f6f6f6);
+    background: #f6f6f6;
     color: var(--color-texto, #333);
     box-shadow: 0 12px 40px rgba(0, 0, 0, .2);
 }
