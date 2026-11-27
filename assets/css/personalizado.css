@@ -5088,6 +5088,21 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
     cursor: pointer;
 }
 
+.form-field .privacy-consent,
+.contact-brand-field .privacy-consent,
+.contact-option3-form .privacy-consent {
+    display: flex;
+    align-items: flex-start;
+    font-weight: 400;
+}
+
+.form-field .privacy-consent > span,
+.contact-brand-field .privacy-consent > span,
+.contact-option3-form .privacy-consent > span {
+    color: #294467;
+    font-weight: 400;
+}
+
 .privacy-consent input {
     flex: 0 0 auto;
     width: 21px;
