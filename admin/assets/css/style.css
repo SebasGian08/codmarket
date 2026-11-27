@@ -79,6 +79,138 @@
     animation: adminFloatLogo 1.8s ease-in-out infinite;
 }
 
+#adminPreloader .loader-shimmer-logo {
+    position: relative;
+    width: 210px;
+    margin: 0 auto;
+}
+
+#adminPreloader .loader-shimmer-logo img {
+    display: block;
+    width: 100%;
+    max-height: 90px;
+    object-fit: contain;
+}
+
+#adminPreloader .loader-shimmer-logo img:first-child {
+    opacity: .18;
+}
+
+#adminPreloader .loader-shimmer-logo img:last-child {
+    position: absolute;
+    inset: 0;
+    -webkit-mask: linear-gradient(100deg, transparent 35%, #000 50%, transparent 65%) 100% 0 / 300% 100% no-repeat;
+    mask: linear-gradient(100deg, transparent 35%, #000 50%, transparent 65%) 100% 0 / 300% 100% no-repeat;
+    animation: adminLoaderShimmer 1.8s linear infinite;
+}
+
+@keyframes adminLoaderShimmer {
+    to {
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
+    }
+}
+
+#adminPreloader .loader-flip-logo {
+    width: 84px;
+    max-width: 84px;
+    max-height: 84px;
+    object-fit: contain;
+    animation: adminLoaderFlip 2s ease-in-out infinite;
+}
+
+@keyframes adminLoaderFlip {
+    0% {
+        transform: perspective(400px) rotateY(0);
+    }
+    60%, 100% {
+        transform: perspective(400px) rotateY(360deg);
+    }
+}
+
+#adminPreloader .loader-ripple {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: grid;
+    place-items: center;
+}
+
+#adminPreloader .loader-ripple::before,
+#adminPreloader .loader-ripple::after {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--loader-primary, #1e90e8);
+    animation: adminLoaderRipple 1.8s ease-out infinite;
+}
+
+#adminPreloader .loader-ripple::after {
+    animation-delay: .9s;
+}
+
+#adminPreloader .loader-ripple img {
+    position: relative;
+    z-index: 1;
+    width: 60px;
+    max-height: 60px;
+    object-fit: contain;
+}
+
+@keyframes adminLoaderRipple {
+    from {
+        transform: scale(.6);
+        opacity: .8;
+    }
+    to {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+#adminPreloader .loader-orbit {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    display: grid;
+    place-items: center;
+}
+
+#adminPreloader .loader-orbit img {
+    width: 58px;
+    max-height: 58px;
+    object-fit: contain;
+}
+
+#adminPreloader .loader-orbit::before,
+#adminPreloader .loader-orbit::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 45px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform-origin: 5px 55px;
+    animation: adminLoaderOrbit 1.4s linear infinite;
+}
+
+#adminPreloader .loader-orbit::before {
+    background: var(--loader-primary, #1e90e8);
+}
+
+#adminPreloader .loader-orbit::after {
+    background: var(--loader-secondary, #19c3c9);
+    animation-delay: -.7s;
+}
+
+@keyframes adminLoaderOrbit {
+    to {
+        transform: rotate(1turn);
+    }
+}
+
 #adminPreloader .loader-bar {
     position: relative;
     width: 100%;

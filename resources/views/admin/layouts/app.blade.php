@@ -11,12 +11,28 @@
         data-loader-primary="{{ $config['tema_color_primario'] ?? '#21c36c' }}"
         data-loader-secondary="{{ $config['tema_color_secundario'] ?? '#0ea5e9' }}">
         <div class="loader-wrapper">
-            @if($loadingType !== 'opcion_2')
+            @if($loadingType === 'opcion_4')
+            <div class="loader-shimmer-logo" aria-label="Cargando">
+                <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="" aria-hidden="true">
+                <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
+            </div>
+            @elseif($loadingType === 'opcion_5')
+            <img class="loader-flip-logo" src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
+            @elseif($loadingType === 'opcion_6')
+            <div class="loader-ripple" aria-label="Cargando">
+                <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
+            </div>
+            @elseif($loadingType === 'opcion_7')
+            <div class="loader-orbit" aria-label="Cargando">
+                <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
+            </div>
+            @elseif($loadingType !== 'opcion_2')
             <div class="loader-logo">
                 <img src="{{ asset($config['empresa_logo_loading'] ?? 'assets/images/logo-principal.png') }}" alt="Cargando...">
             </div>
             @endif
 
+            @if(!in_array($loadingType, ['opcion_4', 'opcion_5', 'opcion_6', 'opcion_7']))
             <div class="loader-bar">
                 <div class="loader-progress"></div>
             </div>
@@ -24,6 +40,7 @@
             <div class="loader-text">Cargando ...</div>
             @if($loadingType === 'opcion_3')
             <div class="loader-percentage" aria-live="polite">0%</div>
+            @endif
             @endif
         </div>
     </div>

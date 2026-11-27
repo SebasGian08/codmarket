@@ -124,6 +124,18 @@
                                             <option value="opcion_3" {{ $config->valor === 'opcion_3' ? 'selected' : '' }}>
                                                 Con porcentaje
                                             </option>
+                                            <option value="opcion_4" {{ $config->valor === 'opcion_4' ? 'selected' : '' }}>
+                                                Logo con brillo animado
+                                            </option>
+                                            <option value="opcion_5" {{ $config->valor === 'opcion_5' ? 'selected' : '' }}>
+                                                Logo volteado
+                                            </option>
+                                            <option value="opcion_6" {{ $config->valor === 'opcion_6' ? 'selected' : '' }}>
+                                                Ondas alrededor del logo
+                                            </option>
+                                            <option value="opcion_7" {{ $config->valor === 'opcion_7' ? 'selected' : '' }}>
+                                                Logo con puntos orbitando
+                                            </option>
                                             @elseif($config->clave === 'header_tipo')
                                             <option value="opcion_1" {{ $config->valor === 'opcion_1' ? 'selected' : '' }}>
                                                 Header actual
