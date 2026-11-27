@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\PermisoHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Caja;
 use App\Models\CuentaBancaria;
@@ -23,6 +24,24 @@ class GastoController extends Controller
 
     public function index(Request $request)
     {
+        $puedeVerGastos = PermisoHelper::tiene('gastos.ver');
+        $puedeVerTiposGasto = PermisoHelper::tiene('tipos-gastos.ver');
+
+        abort_unless($puedeVerGastos || $puedeVerTiposGasto, 403);
+
+        $pestanasDisponibles = [];
+        if ($puedeVerGastos) {
+            $pestanasDisponibles[] = 'gastos';
+        }
+        if ($puedeVerTiposGasto) {
+            $pestanasDisponibles[] = 'tipos-gastos';
+        }
+
+        $pestanaActiva = $request->query('tab');
+        if (!in_array($pestanaActiva, $pestanasDisponibles, true)) {
+            $pestanaActiva = $pestanasDisponibles[0];
+        }
+
         $filtros = [
             'numero' => $request->query('numero'),
             'id_tienda' => $request->query('id_tienda'),
@@ -58,18 +77,38 @@ class GastoController extends Controller
             $query->whereDate('fecha', '<=', $filtros['fecha_hasta']);
         }
 
-        $gastos = $query->orderBy('id_gasto', 'desc')->get();
+        $gastos = $puedeVerGastos
+            ? $query->orderBy('id_gasto', 'desc')->get()
+            : collect();
 
-        $tiendas = Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $tiposGasto = TipoGasto::where('estado', 1)->orderBy('nombre', 'asc')->get();
-        $cuentasBancarias = CuentaBancaria::where('estado', 1)->orderBy('nombre_banco', 'asc')->get();
+        $tiendas = $puedeVerGastos
+            ? Tienda::where('estado', 1)->orderBy('nombre', 'asc')->get()
+            : collect();
+        $tipos = ($puedeVerGastos || $puedeVerTiposGasto)
+            ? TipoGasto::withCount('gastos')->orderBy('nombre', 'asc')->get()
+            : collect();
+        $tiposGasto = $puedeVerGastos
+            ? $tipos->where('estado', 1)->values()
+            : collect();
+        $cuentasBancarias = $puedeVerGastos
+            ? CuentaBancaria::where('estado', 1)->orderBy('nombre_banco', 'asc')->get()
+            : collect();
 
-        $cajasAbiertas = Caja::where('estado', 1)
-            ->with('tienda')
-            ->get();
+        $cajasAbiertas = $puedeVerGastos
+            ? Caja::where('estado', 1)->with('tienda')->get()
+            : collect();
 
         return view('admin.gastos.index', compact(
-            'gastos', 'tiendas', 'tiposGasto', 'cuentasBancarias', 'cajasAbiertas', 'filtros'
+            'gastos',
+            'tiendas',
+            'tipos',
+            'tiposGasto',
+            'cuentasBancarias',
+            'cajasAbiertas',
+            'filtros',
+            'puedeVerGastos',
+            'puedeVerTiposGasto',
+            'pestanaActiva'
         ));
     }
 
@@ -123,7 +162,7 @@ class GastoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.gastos.index')
+            return redirect()->route('admin.gastos.index', ['tab' => 'gastos'])
                 ->with('success', 'Gasto ' . $gasto->numero . ' registrado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -154,7 +193,7 @@ class GastoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.gastos.index')
+            return redirect()->route('admin.gastos.index', ['tab' => 'gastos'])
                 ->with('success', 'Gasto anulado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();

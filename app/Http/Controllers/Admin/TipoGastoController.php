@@ -11,11 +11,7 @@ class TipoGastoController extends Controller
 {
     public function index()
     {
-        $tipos = TipoGasto::withCount('gastos')
-            ->orderBy('nombre', 'asc')
-            ->get();
-
-        return view('admin.tipos-gastos.index', compact('tipos'));
+        return redirect()->route('admin.gastos.index', ['tab' => 'tipos-gastos']);
     }
 
     public function store(Request $request)
@@ -35,7 +31,7 @@ class TipoGastoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.tipos-gastos.index')
+            return redirect()->route('admin.gastos.index', ['tab' => 'tipos-gastos'])
                 ->with('success', 'Tipo de gasto creado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -62,7 +58,7 @@ class TipoGastoController extends Controller
 
             DB::commit();
 
-            return redirect()->route('admin.tipos-gastos.index')
+            return redirect()->route('admin.gastos.index', ['tab' => 'tipos-gastos'])
                 ->with('success', 'Tipo de gasto actualizado correctamente');
         } catch (\Exception $e) {
             DB::rollBack();
