@@ -43,7 +43,7 @@ class ContactController extends Controller
                 : ($tipoConsulta === 'general'
                     ? 'required|digits:9'
                     : 'required|string|regex:/^[0-9]+$/|max:20'),
-            'message' => $tipoConsulta === 'general'
+            'message' => $esFormularioWizard || $tipoConsulta === 'general'
                 ? 'nullable|string|max:1000'
                 : 'required|string|max:1000',
             'tipo_consulta' => 'nullable|in:servicio,marca,general',

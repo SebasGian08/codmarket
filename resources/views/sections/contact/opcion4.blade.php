@@ -62,7 +62,7 @@
                     </li>
                     <li data-wizard-step-label="3">
                         <span class="contact-wizard__step-number">3</span>
-                        <span class="contact-wizard__step-name">Mensaje</span>
+                        <span class="contact-wizard__step-name">Detalles</span>
                     </li>
                 </ol>
             </div>
@@ -190,8 +190,8 @@
 
                 <section class="contact-wizard__panel" data-wizard-panel="3" hidden>
                     <div class="contact-wizard__step-heading">
-                        <h2 tabindex="-1" data-wizard-heading>Cuéntanos un poco más</h2>
-                        <p>Agrega los detalles para que podamos ayudarte mejor.</p>
+                        <h2 tabindex="-1" data-wizard-heading>¿Deseas agregar detalles?</h2>
+                        <p>Este campo es opcional.</p>
                     </div>
 
                     <div class="contact-wizard__service-summary">
@@ -200,9 +200,9 @@
                     </div>
 
                     <div class="contact-wizard__field" data-wizard-field="message">
-                        <label for="contact-wizard-message">Mensaje <span>*</span></label>
+                        <label for="contact-wizard-message">Detalles <small>(opcional)</small></label>
                         <textarea id="contact-wizard-message" name="message" rows="5" maxlength="1000"
-                            placeholder="Escribe tu consulta aquí" data-validate-on-input
+                            placeholder="Puedes escribir tu consulta si deseas..." data-validate-on-input
                             @error('message') aria-invalid="true" @enderror>{{ old('message') }}</textarea>
                         <small class="contact-wizard__field-error" data-wizard-error>
                             @error('message'){{ $message }}@enderror

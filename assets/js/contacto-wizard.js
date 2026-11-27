@@ -138,10 +138,7 @@
         var message = form.elements.message.value.trim();
         var consent = form.elements.acepta_privacidad;
 
-        if (!message) {
-            setError('message', 'Escribe un mensaje para continuar.');
-            valid = false;
-        } else if (message.length > 1000) {
+        if (message.length > 1000) {
             setError('message', 'El mensaje no puede superar los 1000 caracteres.');
             valid = false;
         } else {
