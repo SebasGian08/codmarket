@@ -4966,7 +4966,7 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
     padding: 22px;
     border: 1px solid rgba(0, 0, 0, .12);
     border-radius: 14px;
-    background: var(--color-fondo, #fff);
+    background: var(#f6f6f6);
     color: var(--color-texto, #333);
     box-shadow: 0 12px 40px rgba(0, 0, 0, .2);
 }
@@ -5109,7 +5109,7 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
     padding: clamp(22px, 5vw, 48px);
     border: 1px solid rgba(0, 0, 0, .08);
     border-radius: 14px;
-    background: var( #f5f5f5);
+    background: var( #f6f6f6);
     box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
 }
 
