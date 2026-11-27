@@ -1,6 +1,6 @@
 @php
     $consentName = $consentName ?? 'acepta_privacidad';
-    $consentText = $consentText ?? 'He leído y acepto el tratamiento de mis datos para atender esta solicitud.';
+    $consentText = $consentText ?? 'He leído y acepto el tratamiento de mis datos personales para atender esta solicitud. Consulta nuestra';
 @endphp
 
 <label class="privacy-consent">

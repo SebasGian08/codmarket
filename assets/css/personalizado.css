@@ -5074,20 +5074,57 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
 .privacy-consent {
     display: flex;
     align-items: flex-start;
-    gap: 9px;
+    gap: 16px;
+    box-sizing: border-box;
+    width: 100%;
     margin: 12px 0;
-    color: inherit;
-    font-size: 13px;
-    line-height: 1.5;
+    padding: 16px 19px;
+    border: 1px solid #d5e0ef;
+    border-radius: 12px;
+    background: #fff;
+    color: #294467;
+    font-size: 14px;
+    line-height: 1.6;
     cursor: pointer;
 }
 
 .privacy-consent input {
     flex: 0 0 auto;
-    width: 16px;
-    height: 16px;
-    margin-top: 2px;
-    accent-color: var(--color-primario, #21c36c);
+    width: 21px;
+    height: 21px;
+    margin: 3px 0 0;
+    accent-color: #245cff;
+}
+
+.contact-brand-field .privacy-consent input {
+    min-width: 21px;
+    min-height: 21px;
+    padding: 0;
+    border: 1px solid #8a8a8a;
+    background: #fff;
+    box-shadow: none;
+}
+
+.privacy-consent span {
+    display: block;
+    padding-top: 6px;
+}
+
+.privacy-consent a {
+    color: #164bff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+html[data-theme="dark"] .privacy-consent {
+    border-color: #42516a;
+    background: #1f1f1f;
+    color: #dce5f2;
+}
+
+html[data-theme="dark"] .privacy-consent a {
+    color: #8eacff;
 }
 
 .privacy-page {
@@ -5156,7 +5193,63 @@ html[data-theme="dark"] .clientes_carousel_wrap::after {
     cursor: pointer;
 }
 
+.footer_bottom_content--legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    text-align: left;
+}
+
+.footer_bottom_content--legal .copyright_text {
+    text-align: left;
+}
+
+.footer_bottom_content--legal .privacy-footer-links {
+    justify-content: flex-end;
+    margin-left: auto;
+    color: #d7e8f7;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.footer_bottom .privacy-footer-links a,
+.footer_bottom .privacy-footer-links button {
+    color: #bfe0ff;
+    text-decoration: none;
+}
+
+.footer_bottom .privacy-footer-links button::before {
+    content: "|";
+    margin: 0 16px;
+    color: rgba(215, 232, 247, .55);
+}
+
+.light_footer .footer_bottom_content--legal .privacy-footer-links {
+    color: #566578;
+}
+
+.light_footer .footer_bottom .privacy-footer-links a,
+.light_footer .footer_bottom .privacy-footer-links button {
+    color: #245cff;
+}
+
 @media (max-width: 767px) {
+    .footer_bottom_content--legal {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer_bottom_content--legal .privacy-footer-links {
+        justify-content: flex-start;
+        margin: 0;
+        white-space: normal;
+    }
+
+    .footer_bottom .privacy-footer-links button::before {
+        margin: 0 10px;
+    }
+
     .cookie-consent {
         right: 10px;
         bottom: 10px;

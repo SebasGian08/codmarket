@@ -306,7 +306,7 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
         <div class="container">
 
             @if($footerTheme === 'light')
-            <div class="footer_bottom_content footer_light_bottom">
+            <div class="footer_bottom_content footer_bottom_content--legal footer_light_bottom">
                 <p class="copyright_text">
                     © {{ date('Y') }}
                     <strong>{{ $empresa->nombre ?? 'falta-nombre' }}</strong>.
@@ -354,7 +354,7 @@ $mostrarProductos = $config['web_mostrar_productos'] ?? 1;
                 </div>
             </div>
             @else
-            <div class="footer_bottom_content">
+            <div class="footer_bottom_content footer_bottom_content--legal">
                 <p class="copyright_text">
                     © {{ date('Y') }}
                     <strong>{{ $empresa->nombre ?? 'falta-nombre' }}</strong>.
